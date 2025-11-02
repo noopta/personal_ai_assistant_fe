@@ -69,7 +69,14 @@ The project is configured for deployment using Replit's autoscale deployment:
     - Added visual "Coming Soon" badge to Notion feature card on Landing page
     - Added "Coming Soon" badge to Notion integration header on Integrations page
     - Changed task example from "Created Notion documentation" to "Organized calendar events"
-  - **Animated Scroll Path (In Progress):** Started implementation of sophisticated scroll animation component that creates an SVG path weaving through page elements. Component structure is in place but has visibility/rendering issues to be resolved.
+  - **Animated Scroll Path:** Implemented sophisticated scroll animation component with SVG path flowing along the left edge whitespace. Path features:
+    - Stays in left margin (60px from edge) without crossing through content
+    - Creates gentle S-curve wave pattern with ±30px variation
+    - Positioned with z-index: 1 to appear UNDER all content
+    - All content sections elevated to z-index: 10 for proper layering
+    - Scroll-based reveal animation with animated dot indicator
+    - Responsive and updates on window resize
+    - Hidden on mobile/tablet (< 1024px) for cleaner mobile experience
 
 - 2025-11-02: Complete Stripe-inspired UI Redesign (All Pages)
   - **Global Design System:**

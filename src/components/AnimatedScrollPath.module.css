@@ -4,9 +4,8 @@
   left: 0;
   width: 100vw;
   pointer-events: none;
-  z-index: 50;
-  opacity: 0;
-  animation: fadeIn 1s ease-out 0.5s forwards;
+  z-index: 1; /* Low z-index so path appears UNDER content, not over it */
+  opacity: 1; /* Visible immediately */
   overflow: visible;
 }
 
