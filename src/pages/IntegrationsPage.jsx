@@ -57,7 +57,8 @@ function IntegrationsPage() {
       id: 'notion',
       icon: '📝',
       name: 'Notion',
-      description: 'Create notes, manage projects, and organize knowledge seamlessly',
+      comingSoon: true,
+      description: 'Create notes, manage projects, and organize knowledge seamlessly (Coming Soon)',
       steps: [
         {
           title: 'Create Integration',
@@ -98,7 +99,10 @@ function IntegrationsPage() {
                   <span className={styles.icon}>{integration.icon}</span>
                 </div>
                 <div className={styles.headerContent}>
-                  <h2>{integration.name}</h2>
+                  <h2>
+                    {integration.name}
+                    {integration.comingSoon && <span className={styles.comingSoonBadge}>Coming Soon</span>}
+                  </h2>
                   <p>{integration.description}</p>
                 </div>
               </div>

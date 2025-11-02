@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import { useEffect, useRef, useState } from 'react';
 import styles from './LandingPage.module.css';
+import ScrollProgress from '../components/ScrollProgress';
 
 function LandingPage() {
   const [isVisible, setIsVisible] = useState({});
@@ -37,15 +38,16 @@ function LandingPage() {
 
   return (
     <div className={styles.landingPage}>
+      <ScrollProgress />
       <section className={styles.hero} id="hero" ref={el => sectionRefs.current.hero = el}>
         <div className={styles.container}>
           <div className={`${styles.heroContent} ${isVisible.hero ? styles.fadeInUp : ''}`}>
             <h1 className={styles.heroTitle}>
-              Financial infrastructure<br/>
+              AI-powered assistant<br/>
               to grow <span className={styles.highlight}>your productivity</span>
             </h1>
             <p className={styles.heroDescription}>
-              Join thousands of users managing Gmail, Google Calendar, and Notion through intelligent AI assistance. 
+              Join thousands of users managing Gmail and Google Calendar through intelligent AI assistance. 
               Streamline your workflow, automate repetitive tasks, and build a more productive day.
             </p>
             <div className={styles.heroActions}>
@@ -156,7 +158,7 @@ function LandingPage() {
                   <path d="M11 11h10M11 17h10M11 23h6" stroke="var(--accent-primary)" strokeWidth="2" strokeLinecap="round"/>
                 </svg>
               </div>
-              <h3>Notion</h3>
+              <h3>Notion <span className={styles.comingSoonBadge}>Coming Soon</span></h3>
               <p>Create notes, manage projects, and organize your knowledge base directly from our chat interface.</p>
               <Link to="/integrations" className={styles.featureLink}>
                 Learn more →
@@ -240,7 +242,7 @@ function LandingPage() {
                   <div className={styles.taskItem}>
                     <div className={styles.taskIcon}>✓</div>
                     <div className={styles.taskContent}>
-                      <div className={styles.taskTitle}>Created Notion documentation</div>
+                      <div className={styles.taskTitle}>Organized calendar events</div>
                       <div className={styles.taskTime}>12 minutes ago</div>
                     </div>
                   </div>

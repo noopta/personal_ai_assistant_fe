@@ -1,0 +1,78 @@
+.scrollProgress {
+  position: fixed;
+  right: 40px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 100;
+  opacity: 0;
+  animation: fadeIn 0.5s ease-out 1s forwards;
+}
+
+@keyframes fadeIn {
+  to {
+    opacity: 1;
+  }
+}
+
+.rail {
+  position: relative;
+  width: 2px;
+  height: 200px;
+  background: var(--border-color);
+  border-radius: 2px;
+}
+
+.progressLine {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background: linear-gradient(180deg, var(--accent-primary) 0%, var(--accent-secondary) 100%);
+  border-radius: 2px;
+  transition: height 0.1s ease-out;
+}
+
+.indicator {
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 12px;
+  height: 12px;
+  background: var(--accent-primary);
+  border: 2px solid var(--bg-primary);
+  border-radius: 50%;
+  box-shadow: 0 2px 8px rgba(99, 91, 255, 0.4);
+  transition: top 0.1s ease-out;
+}
+
+.indicator::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 20px;
+  height: 20px;
+  background: var(--accent-primary);
+  border-radius: 50%;
+  opacity: 0.2;
+  animation: pulse 2s ease-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 0.2;
+  }
+  50% {
+    transform: translate(-50%, -50%) scale(1.5);
+    opacity: 0;
+  }
+}
+
+/* Hide on mobile and tablet */
+@media (max-width: 1024px) {
+  .scrollProgress {
+    display: none;
+  }
+}
