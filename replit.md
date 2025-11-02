@@ -1,7 +1,7 @@
 # Lucius AI Assistant - Replit Environment
 
 ## Project Overview
-Lucius AI Assistant is a React-based frontend for an AI-powered multi-app task manager. The application provides a chat interface for managing tasks and integrating with productivity tools like Gmail, Google Calendar, and Notion.
+Lucius AI Assistant is a cross-platform AI-powered productivity assistant available as both a React web application and a native iOS app. The application provides a chat interface for managing tasks and integrating with productivity tools like Gmail, Google Calendar, and Notion (coming soon).
 
 ## Technical Stack
 - **Frontend Framework**: React 19.1.0 (Create React App)
@@ -60,6 +60,39 @@ The project is configured for deployment using Replit's autoscale deployment:
 - **Build Command**: `npm run build` - Creates optimized production build
 - **Run Command**: `npx serve -s build -l 5000` - Serves the static build on port 5000
 - **Dependencies**: The `serve` package is included for production serving
+
+## iOS App
+
+### Location
+`ios-app/LuciusAI/` - Native iOS application built with SwiftUI
+
+### Overview
+A complete recreation of the web interface as a native iOS app, featuring:
+- **SwiftUI Architecture**: Modern declarative UI framework
+- **Full Feature Parity**: Landing, Product (Chat), Integrations, and About pages
+- **Stripe-Inspired Design**: Matching navy (#0A2540) and purple (#635BFF) color scheme
+- **Theme Support**: Complete dark/light mode with toggle
+- **Responsive Layout**: Adapts to all iOS device sizes
+
+### Structure
+- `LuciusAIApp.swift` - Main app entry point
+- `ContentView.swift` - Navigation and tab bar system
+- `Theme/` - Color palette and theme management
+- `Views/` - Four main pages (Landing, Product, Integrations, About)
+- `Components/` - Reusable UI components (buttons, cards)
+
+### Running the iOS App
+1. Open `ios-app` directory in Xcode 14+
+2. Select an iPhone simulator (iOS 16.0+)
+3. Press ⌘+R to build and run
+
+### Current Status
+- ✅ Complete UI implementation
+- ✅ All pages functional with placeholder content
+- ⏳ Backend API integration (coming soon)
+- ⏳ OAuth flows for integrations (coming soon)
+
+See `ios-app/README.md` for detailed documentation.
 
 ## Recent Changes
 - 2025-11-02: Content and Feature Updates
