@@ -14,48 +14,42 @@ function AnimatedScrollPath({ targetRefs }) {
     if (!targetRefs || targetRefs.length === 0) return;
 
     const points = [];
-    const margin = 60; // Distance from edge of viewport for the path
-    const viewportWidth = window.innerWidth;
-    
-    // Determine which side to use (left for now, stays on one edge)
-    const side = 'left';
-    const xPos = side === 'left' ? margin : viewportWidth - margin;
+    const margin = 60; // Distance from edge of viewport for the path in margin
     
     targetRefs.forEach((ref) => {
       if (ref && ref.current) {
         const rect = ref.current.getBoundingClientRect();
         const scrollY = window.scrollY;
         
-        // Keep all points on the SAME edge (left side)
-        // Position vertically at the element's vertical center
+        // Get CENTER position of each component
+        const x = rect.left + rect.width / 2;
         const y = rect.top + scrollY + rect.height / 2;
         
-        points.push({ x: xPos, y });
+        points.push({ x, y });
       }
     });
 
     if (points.length < 2) return;
 
-    // Generate smooth curved path that flows along the LEFT edge only
-    let path = `M ${points[0].x} ${points[0].y}`;
+    // Generate path using ONLY straight lines and 90-degree angles (Manhattan routing)
+    let path = `M ${margin} ${points[0].y}`; // Start in left margin at first element's height
     
-    for (let i = 0; i < points.length - 1; i++) {
-      const current = points[i];
-      const next = points[i + 1];
+    for (let i = 0; i < points.length; i++) {
+      const point = points[i];
       
-      const dy = next.y - current.y;
+      // Move horizontally to the component's center
+      path += ` L ${point.x} ${point.y}`;
       
-      // Create S-curves that stay within the left margin
-      // Offset alternates to create a gentle wave along the edge
-      const offset = (i % 2 === 0 ? 30 : -30);
-      
-      // Control points create curves that stay on the left side
-      const cp1x = current.x + offset;
-      const cp1y = current.y + dy * 0.4;
-      const cp2x = next.x - offset;
-      const cp2y = next.y - dy * 0.4;
-      
-      path += ` C ${cp1x} ${cp1y}, ${cp2x} ${cp2y}, ${next.x} ${next.y}`;
+      // If not the last point, move back to margin and down to next element
+      if (i < points.length - 1) {
+        const nextPoint = points[i + 1];
+        
+        // Move horizontally back to margin
+        path += ` L ${margin} ${point.y}`;
+        
+        // Move vertically down to next element's height
+        path += ` L ${margin} ${nextPoint.y}`;
+      }
     }
 
     setPathData(path);
@@ -162,8 +156,8 @@ function AnimatedScrollPath({ targetRefs }) {
         d={pathData}
         fill="none"
         stroke="#635BFF"
-        strokeWidth="3"
-        opacity="0.15"
+        strokeWidth="2"
+        opacity="0.2"
       />
       
       {/* Animated path (reveals as you scroll) */}
@@ -172,10 +166,10 @@ function AnimatedScrollPath({ targetRefs }) {
         d={pathData}
         fill="none"
         stroke="#635BFF"
-        strokeWidth="4"
-        strokeLinecap="round"
+        strokeWidth="3"
+        strokeLinecap="square"
         filter="url(#glow)"
-        opacity="0.8"
+        opacity="0.6"
         style={{
           strokeDasharray: pathLength,
           strokeDashoffset: pathLength - (scrollProgress / 100) * pathLength,
