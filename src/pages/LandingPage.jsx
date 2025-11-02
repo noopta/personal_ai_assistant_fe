@@ -1,10 +1,21 @@
 import { Link } from 'react-router-dom';
 import { useEffect, useRef, useState } from 'react';
 import styles from './LandingPage.module.css';
+import AnimatedScrollPath from '../components/AnimatedScrollPath';
 
 function LandingPage() {
   const [isVisible, setIsVisible] = useState({});
   const sectionRefs = useRef({});
+  
+  // Refs for animated path waypoints
+  const pathWaypoints = useRef([]);
+  const heroTitleRef = useRef(null);
+  const heroCardRef = useRef(null);
+  const featureCard1Ref = useRef(null);
+  const featureCard2Ref = useRef(null);
+  const featureCard3Ref = useRef(null);
+  const benefitsCardRef = useRef(null);
+  const ctaRef = useRef(null);
 
   useEffect(() => {
     // Set hero as visible immediately since it's above the fold
@@ -34,13 +45,25 @@ function LandingPage() {
     'OpenAI', 'Amazon', 'Google', 'Anthropic', 'Shopify', 'Airbnb',
     'OpenAI', 'Amazon', 'Google', 'Anthropic', 'Shopify', 'Airbnb'
   ];
+  
+  // Update path waypoints array when refs are available
+  useEffect(() => {
+    pathWaypoints.current = [
+      heroTitleRef,
+      heroCardRef,
+      featureCard2Ref,
+      benefitsCardRef,
+      ctaRef
+    ];
+  }, []);
 
   return (
     <div className={styles.landingPage}>
+      <AnimatedScrollPath targetRefs={pathWaypoints.current} />
       <section className={styles.hero} id="hero" ref={el => sectionRefs.current.hero = el}>
         <div className={styles.container}>
           <div className={`${styles.heroContent} ${isVisible.hero ? styles.fadeInUp : ''}`}>
-            <h1 className={styles.heroTitle}>
+            <h1 className={styles.heroTitle} ref={heroTitleRef}>
               AI-powered assistant<br/>
               to grow <span className={styles.highlight}>your productivity</span>
             </h1>
@@ -61,7 +84,7 @@ function LandingPage() {
             </div>
           </div>
           <div className={`${styles.heroVisual} ${isVisible.hero ? styles.fadeInUp : ''}`}>
-            <div className={styles.dashboardCard}>
+            <div className={styles.dashboardCard} ref={heroCardRef}>
               <div className={styles.cardHeader}>
                 <div className={styles.cardTitle}>Today</div>
                 <div className={styles.cardBadge}>Live</div>
@@ -120,7 +143,7 @@ function LandingPage() {
           </div>
           
           <div className={`${styles.featuresGrid} ${isVisible.features ? styles.fadeInUp : ''}`}>
-            <div className={styles.featureCard}>
+            <div className={styles.featureCard} ref={featureCard1Ref}>
               <div className={styles.featureIcon}>
                 <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
                   <path d="M4 8h24M4 16h24M4 24h16" stroke="var(--accent-primary)" strokeWidth="2" strokeLinecap="round"/>
@@ -133,7 +156,7 @@ function LandingPage() {
               </Link>
             </div>
 
-            <div className={styles.featureCard}>
+            <div className={styles.featureCard} ref={featureCard2Ref}>
               <div className={styles.featureIcon}>
                 <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
                   <rect x="4" y="6" width="24" height="20" rx="2" stroke="var(--accent-primary)" strokeWidth="2"/>
@@ -149,7 +172,7 @@ function LandingPage() {
               </Link>
             </div>
 
-            <div className={styles.featureCard}>
+            <div className={styles.featureCard} ref={featureCard3Ref}>
               <div className={styles.featureIcon}>
                 <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
                   <path d="M8 4h16a2 2 0 012 2v20a2 2 0 01-2 2H8a2 2 0 01-2-2V6a2 2 0 012-2z" stroke="var(--accent-primary)" strokeWidth="2"/>
@@ -220,7 +243,7 @@ function LandingPage() {
             </div>
 
             <div className={`${styles.benefitsVisual} ${isVisible.benefits ? styles.fadeInUp : ''}`}>
-              <div className={styles.benefitsCard}>
+              <div className={styles.benefitsCard} ref={benefitsCardRef}>
                 <div className={styles.taskPreview}>
                   <div className={styles.taskHeader}>Recent Activity</div>
                   <div className={styles.taskItem}>
@@ -253,7 +276,7 @@ function LandingPage() {
 
       <section className={styles.cta}>
         <div className={styles.container}>
-          <div className={styles.ctaContent}>
+          <div className={styles.ctaContent} ref={ctaRef}>
             <h2>Ready to transform your workflow?</h2>
             <p>Get started with Lucius AI today and experience the future of productivity management.</p>
             <Link to="/product" className={styles.ctaButton}>

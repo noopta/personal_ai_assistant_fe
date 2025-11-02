@@ -69,6 +69,7 @@ The project is configured for deployment using Replit's autoscale deployment:
     - Added visual "Coming Soon" badge to Notion feature card on Landing page
     - Added "Coming Soon" badge to Notion integration header on Integrations page
     - Changed task example from "Created Notion documentation" to "Organized calendar events"
+  - **Animated Scroll Path (In Progress):** Started implementation of sophisticated scroll animation component that creates an SVG path weaving through page elements. Component structure is in place but has visibility/rendering issues to be resolved.
 
 - 2025-11-02: Complete Stripe-inspired UI Redesign (All Pages)
   - **Global Design System:**
