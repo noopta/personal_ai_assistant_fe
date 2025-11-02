@@ -14,40 +14,46 @@ function AnimatedScrollPath({ targetRefs }) {
     if (!targetRefs || targetRefs.length === 0) return;
 
     const points = [];
+    const margin = 60; // Distance from edge of viewport for the path
+    const viewportWidth = window.innerWidth;
     
-    targetRefs.forEach(ref => {
+    // Determine which side to use (left for now, stays on one edge)
+    const side = 'left';
+    const xPos = side === 'left' ? margin : viewportWidth - margin;
+    
+    targetRefs.forEach((ref) => {
       if (ref && ref.current) {
         const rect = ref.current.getBoundingClientRect();
         const scrollY = window.scrollY;
         
-        // Get center point of each element
-        points.push({
-          x: rect.left + rect.width / 2,
-          y: rect.top + scrollY + rect.height / 2
-        });
+        // Keep all points on the SAME edge (left side)
+        // Position vertically at the element's vertical center
+        const y = rect.top + scrollY + rect.height / 2;
+        
+        points.push({ x: xPos, y });
       }
     });
 
     if (points.length < 2) return;
 
-    // Generate smooth curved path through points
+    // Generate smooth curved path that flows along the LEFT edge only
     let path = `M ${points[0].x} ${points[0].y}`;
     
     for (let i = 0; i < points.length - 1; i++) {
       const current = points[i];
       const next = points[i + 1];
       
-      // Calculate control points for smooth curves
-      const dx = next.x - current.x;
       const dy = next.y - current.y;
       
-      // Create an S-curve that weaves left/right
-      const offset = i % 2 === 0 ? 100 : -100;
+      // Create S-curves that stay within the left margin
+      // Offset alternates to create a gentle wave along the edge
+      const offset = (i % 2 === 0 ? 30 : -30);
       
-      const cp1x = current.x + dx * 0.3 + offset;
-      const cp1y = current.y + dy * 0.3;
-      const cp2x = current.x + dx * 0.7 - offset;
-      const cp2y = current.y + dy * 0.7;
+      // Control points create curves that stay on the left side
+      const cp1x = current.x + offset;
+      const cp1y = current.y + dy * 0.4;
+      const cp2x = next.x - offset;
+      const cp2y = next.y - dy * 0.4;
       
       path += ` C ${cp1x} ${cp1y}, ${cp2x} ${cp2y}, ${next.x} ${next.y}`;
     }
