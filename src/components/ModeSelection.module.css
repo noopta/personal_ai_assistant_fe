@@ -1,0 +1,211 @@
+.modeSelection {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, var(--bg-secondary) 0%, var(--bg-tertiary) 100%);
+  padding: 2rem;
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+.modeSelection::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(circle at 30% 20%, var(--shadow-accent) 0%, transparent 50%),
+              radial-gradient(circle at 70% 80%, var(--shadow-accent) 0%, transparent 50%);
+  pointer-events: none;
+}
+
+.container {
+  max-width: 900px;
+  width: 100%;
+  text-align: center;
+}
+
+.header {
+  margin-bottom: 3rem;
+  color: var(--text-primary);
+  position: relative;
+  z-index: 1;
+}
+
+.header h2 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  background: linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-secondary) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-shadow: 0 0 30px var(--shadow-accent);
+}
+
+.header p {
+  font-size: 1.2rem;
+  color: var(--text-secondary);
+  max-width: 600px;
+  margin: 0 auto;
+  font-weight: 300;
+}
+
+.modeOptions {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: 2rem;
+  margin-bottom: 2rem;
+  position: relative;
+  z-index: 1;
+}
+
+.modeCard {
+  background: linear-gradient(135deg, var(--bg-tertiary) 0%, var(--bg-quaternary) 100%);
+  backdrop-filter: blur(20px);
+  border-radius: 20px;
+  padding: 2.5rem;
+  box-shadow: 0 8px 25px var(--shadow-color), 0 0 20px var(--shadow-accent);
+  transition: all 0.3s ease;
+  cursor: pointer;
+  border: 1px solid var(--border-color);
+  position: relative;
+  overflow: hidden;
+}
+
+.modeCard:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 15px 35px var(--shadow-color), 0 0 30px var(--shadow-accent);
+  border-color: var(--border-hover);
+}
+
+.modeCard::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, var(--shadow-accent), transparent);
+  transition: left 0.5s;
+}
+
+.modeCard:hover::before {
+  left: 100%;
+}
+
+.modeIcon {
+  font-size: 4rem;
+  margin-bottom: 1.5rem;
+  display: block;
+}
+
+.modeCard h3 {
+  font-size: 1.8rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  color: var(--accent-primary);
+}
+
+.modeCard p {
+  font-size: 1.1rem;
+  color: var(--text-secondary);
+  margin-bottom: 2rem;
+  line-height: 1.6;
+}
+
+.features {
+  margin-bottom: 2rem;
+  text-align: left;
+}
+
+.feature {
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.75rem;
+  font-size: 0.95rem;
+  color: var(--text-primary);
+  font-weight: 500;
+}
+
+.selectButton {
+  background: linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-secondary) 100%);
+  color: #fff !important;
+  border: none;
+  padding: 1rem 2rem;
+  border-radius: 50px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 0 20px var(--shadow-accent);
+}
+
+.selectButton:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 30px var(--shadow-accent);
+}
+
+.selectButton::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.5s;
+}
+
+.selectButton:hover::before {
+  left: 100%;
+}
+
+.selectButton:active {
+  transform: translateY(0);
+}
+
+.footer {
+  color: var(--text-muted);
+  font-size: 0.95rem;
+  margin-top: 2rem;
+  position: relative;
+  z-index: 1;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .modeSelection {
+    padding: 1rem;
+  }
+  
+  .header h2 {
+    font-size: 2rem;
+  }
+  
+  .header p {
+    font-size: 1rem;
+  }
+  
+  .modeOptions {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+  
+  .modeCard {
+    padding: 2rem;
+  }
+  
+  .modeIcon {
+    font-size: 3rem;
+  }
+  
+  .modeCard h3 {
+    font-size: 1.5rem;
+  }
+}

@@ -1,0 +1,374 @@
+.pipelineContainer {
+  position: relative;
+  width: 100%;
+  height: 500px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 4rem 0;
+  overflow: hidden;
+}
+
+/* Horizontal layout */
+.pipelineContainer.horizontal {
+  height: 300px;
+}
+
+.pipelineTrack {
+  position: relative;
+  width: 200px;
+  height: 400px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Horizontal track */
+.pipelineTrack.horizontalTrack {
+  width: 600px;
+  height: 200px;
+}
+
+.pipelineSvg {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+
+.pipelinePath {
+  stroke-dasharray: 400;
+  stroke-dashoffset: 400;
+  animation: drawPath 2s ease-out forwards;
+  filter: drop-shadow(0 0 8px var(--accent-primary));
+}
+
+/* Horizontal path animation */
+.horizontal .pipelinePath {
+  stroke-dasharray: 400;
+  stroke-dashoffset: 400;
+  animation: drawPathHorizontal 2s ease-out forwards;
+}
+
+@keyframes drawPath {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes drawPathHorizontal {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+.connectionNode {
+  animation: pulse 2s ease-in-out infinite;
+  filter: drop-shadow(0 0 6px var(--accent-primary));
+}
+
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 0.8;
+  }
+  50% {
+    transform: scale(1.2);
+    opacity: 1;
+  }
+}
+
+.dataPacket {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+  transition: transform 0.1s ease-out, opacity 0.3s ease;
+}
+
+/* Horizontal data packet */
+.horizontal .dataPacket {
+  top: 50%;
+  left: 0;
+  transform: translateY(-50%);
+}
+
+.packetIcon {
+  font-size: 1.5rem;
+  background: linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-secondary) 100%);
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 20px var(--accent-primary);
+  animation: packetGlow 2s ease-in-out infinite alternate;
+}
+
+@keyframes packetGlow {
+  from {
+    box-shadow: 0 0 20px var(--accent-primary);
+  }
+  to {
+    box-shadow: 0 0 30px var(--accent-primary), 0 0 40px var(--accent-secondary);
+  }
+}
+
+.packetTrail {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 2px;
+  height: 20px;
+  background: linear-gradient(to bottom, var(--accent-primary), transparent);
+  transform: translateX(-50%);
+  animation: trailFade 1s ease-in-out infinite;
+}
+
+/* Horizontal trail */
+.horizontalTrail {
+  width: 20px;
+  height: 2px;
+  background: linear-gradient(to right, var(--accent-primary), transparent);
+  transform: translateY(-50%);
+  animation: trailFadeHorizontal 1s ease-in-out infinite;
+}
+
+@keyframes trailFade {
+  0%, 100% {
+    opacity: 0.3;
+    height: 20px;
+  }
+  50% {
+    opacity: 0.8;
+    height: 30px;
+  }
+}
+
+@keyframes trailFadeHorizontal {
+  0%, 100% {
+    opacity: 0.3;
+    width: 20px;
+  }
+  50% {
+    opacity: 0.8;
+    width: 30px;
+  }
+}
+
+.integrationIcons {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: 5;
+}
+
+.integrationIcon {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  transition: all 0.5s ease;
+}
+
+.gmailIcon {
+  top: 60px;
+}
+
+.calendarIcon {
+  top: 180px;
+}
+
+.notionIcon {
+  top: 300px;
+}
+
+/* Horizontal icon positioning */
+.horizontalIcons .integrationIcon {
+  top: 50%;
+  transform: translateY(-50%);
+  flex-direction: row;
+  gap: 1rem;
+}
+
+.horizontalGmail {
+  left: 60px;
+}
+
+.horizontalCalendar {
+  left: 300px;
+}
+
+.horizontalNotion {
+  left: 540px;
+}
+
+.iconBackground {
+  width: 60px;
+  height: 60px;
+  background: linear-gradient(135deg, var(--bg-tertiary) 0%, var(--bg-quaternary) 100%);
+  border: 2px solid var(--accent-primary);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.8rem;
+  box-shadow: 0 0 15px var(--shadow-accent);
+  transition: all 0.3s ease;
+}
+
+.integrationIcon:hover .iconBackground {
+  border-color: var(--accent-secondary);
+  box-shadow: 0 0 25px var(--accent-secondary);
+  transform: scale(1.1);
+}
+
+.iconLabel {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--accent-primary);
+  text-align: center;
+  background: var(--bg-secondary);
+  padding: 0.3rem 0.8rem;
+  border-radius: 6px;
+  border: 1px solid var(--border-color);
+  white-space: nowrap;
+  transition: all 0.3s ease;
+}
+
+.integrationIcon:hover .iconLabel {
+  color: var(--accent-secondary);
+  border-color: var(--accent-secondary);
+  box-shadow: 0 0 10px var(--shadow-accent);
+}
+
+.dataFlow {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+}
+
+.flowParticle {
+  position: absolute;
+  left: 50%;
+  width: 4px;
+  height: 4px;
+  background: var(--accent-primary);
+  border-radius: 50%;
+  transform: translateX(-50%);
+  animation: flowDown 3s linear infinite;
+  box-shadow: 0 0 8px var(--accent-primary);
+}
+
+/* Horizontal particles */
+.horizontalParticle {
+  top: 50%;
+  left: 0;
+  transform: translateY(-50%);
+  animation: flowRight 3s linear infinite;
+}
+
+@keyframes flowDown {
+  0% {
+    top: 0;
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    top: 100%;
+    opacity: 0;
+  }
+}
+
+@keyframes flowRight {
+  0% {
+    left: 0;
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    left: 100%;
+    opacity: 0;
+  }
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .pipelineContainer {
+    height: 400px;
+    margin: 2rem 0;
+  }
+  
+  .pipelineContainer.horizontal {
+    height: 250px;
+  }
+  
+  .pipelineTrack {
+    width: 150px;
+    height: 300px;
+  }
+  
+  .pipelineTrack.horizontalTrack {
+    width: 400px;
+    height: 150px;
+  }
+  
+  .horizontalGmail {
+    left: 40px;
+  }
+  
+  .horizontalCalendar {
+    left: 200px;
+  }
+  
+  .horizontalNotion {
+    left: 360px;
+  }
+  
+  .iconBackground {
+    width: 50px;
+    height: 50px;
+    font-size: 1.5rem;
+  }
+  
+  .iconLabel {
+    font-size: 0.8rem;
+    padding: 0.2rem 0.6rem;
+  }
+  
+  .packetIcon {
+    width: 35px;
+    height: 35px;
+    font-size: 1.3rem;
+  }
+}
+
+/* Dark mode specific adjustments */
+@media (prefers-color-scheme: dark) {
+  .iconBackground {
+    background: linear-gradient(135deg, var(--bg-secondary) 0%, var(--bg-tertiary) 100%);
+  }
+}
+
+/* Light mode specific adjustments */
+@media (prefers-color-scheme: light) {
+  .iconBackground {
+    background: linear-gradient(135deg, var(--bg-secondary) 0%, var(--bg-tertiary) 100%);
+    border-color: var(--accent-primary);
+  }
+} 

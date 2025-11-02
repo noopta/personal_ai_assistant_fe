@@ -1,0 +1,281 @@
+.callbackPage {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+}
+
+.container {
+  width: 100%;
+  max-width: 600px;
+}
+
+.card {
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+  padding: 3rem;
+  text-align: center;
+}
+
+/* Processing State */
+.processing {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.spinner {
+  width: 50px;
+  height: 50px;
+  border: 4px solid #f3f3f3;
+  border-top: 4px solid #1a73e8;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.processing h2 {
+  color: #333;
+  font-size: 1.8rem;
+  font-weight: 600;
+  margin: 0;
+}
+
+.processing p {
+  color: #666;
+  font-size: 1.1rem;
+  margin: 0;
+}
+
+/* Success State */
+.success {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.successIcon {
+  font-size: 4rem;
+  margin-bottom: 1rem;
+}
+
+.success h2 {
+  color: #2e7d32;
+  font-size: 2rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+.success > p {
+  color: #666;
+  font-size: 1.2rem;
+  margin: 0;
+  line-height: 1.5;
+}
+
+/* Error State */
+.error {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.errorIcon {
+  font-size: 4rem;
+  margin-bottom: 1rem;
+}
+
+.error h2 {
+  color: #d32f2f;
+  font-size: 2rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+.error > p {
+  color: #666;
+  font-size: 1.2rem;
+  margin: 0;
+  line-height: 1.5;
+}
+
+/* Auth Details */
+.authDetails {
+  background: #f8f9fa;
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin: 1.5rem 0;
+  text-align: left;
+  border: 1px solid #e9ecef;
+}
+
+.authDetails h3 {
+  color: #333;
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin: 0 0 1rem 0;
+}
+
+.detailItem {
+  margin-bottom: 0.75rem;
+  font-size: 0.95rem;
+  word-break: break-all;
+}
+
+.detailItem strong {
+  color: #1a73e8;
+  font-weight: 600;
+  margin-right: 0.5rem;
+}
+
+/* Error Details */
+.errorDetails {
+  background: #ffebee;
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin: 1.5rem 0;
+  text-align: left;
+  border: 1px solid #ffcdd2;
+}
+
+.errorDetails h3 {
+  color: #d32f2f;
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin: 0 0 1rem 0;
+}
+
+.errorMessage {
+  color: #d32f2f;
+  font-weight: 500;
+  background: white;
+  padding: 1rem;
+  border-radius: 8px;
+  border: 1px solid #ffcdd2;
+  margin-bottom: 1rem;
+}
+
+.debugInfo {
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid #ffcdd2;
+}
+
+.debugInfo h4 {
+  color: #666;
+  font-size: 1rem;
+  font-weight: 600;
+  margin: 0 0 0.75rem 0;
+}
+
+/* Actions */
+.actions {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-top: 2rem;
+}
+
+.primaryButton {
+  background: #1a73e8;
+  color: white;
+  border: none;
+  padding: 1rem 2rem;
+  border-radius: 8px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  display: inline-block;
+}
+
+.primaryButton:hover {
+  background: #1557b0;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(26, 115, 232, 0.3);
+}
+
+.secondaryButton {
+  background: transparent;
+  color: #1a73e8;
+  border: 2px solid #1a73e8;
+  padding: 1rem 2rem;
+  border-radius: 8px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  display: inline-block;
+}
+
+.secondaryButton:hover {
+  background: #1a73e8;
+  color: white;
+}
+
+/* Footer */
+.footer {
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid #e9ecef;
+}
+
+.homeLink {
+  color: #666;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.2s ease;
+}
+
+.homeLink:hover {
+  color: #1a73e8;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .callbackPage {
+    padding: 1rem;
+  }
+  
+  .card {
+    padding: 2rem;
+  }
+  
+  .success h2,
+  .error h2 {
+    font-size: 1.5rem;
+  }
+  
+  .actions {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .primaryButton,
+  .secondaryButton {
+    width: 100%;
+    max-width: 250px;
+  }
+  
+  .authDetails,
+  .errorDetails {
+    padding: 1rem;
+  }
+  
+  .detailItem {
+    font-size: 0.9rem;
+  }
+} 

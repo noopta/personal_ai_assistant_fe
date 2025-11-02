@@ -1,0 +1,46 @@
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+# dependencies
+/node_modules
+/.pnp
+.pnp.js
+
+# testing
+/coverage
+
+# production
+/build
+
+# misc
+.DS_Store
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Exclude non-frontend subprojects
+/google-calendar-mcp/
+/python-client-mcp/
+/photography-portfolio/
+
+# Cookie/test artifacts (do not commit)
+calendar_cookies.txt
+cookies.txt
+gmail_cookies.txt
+logout_cookies.txt
+logout_test.txt
+test_cookies.txt
+
+# IDE
+.vscode/
+.idea/
+
+# Token files and credentials
+.gcp-saved-tokens.json
+*-gcp-saved-tokens.json
+gcp-oauth.keys.json

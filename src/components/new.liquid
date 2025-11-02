@@ -1,0 +1,434 @@
+{{ 'customer.css' | asset_url | stylesheet_tag }}
+
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+  
+  .customer-type-field {
+    margin: 1.5rem 0;
+  }
+  
+  .customer-type-field > label {
+    display: block;
+    margin-bottom: 1rem;
+    font-weight: normal;
+  }
+  
+  .field-radio {
+    margin-bottom: 1rem;
+    padding: 1rem;
+    background: #f8f8f8;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+  
+  .field-radio:hover {
+    background: #f0f0f0;
+    border-color: #999;
+  }
+  
+  .field-radio input[type="radio"] {
+    margin-right: 0.75rem;
+    vertical-align: middle;
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+  }
+  
+  .field-radio label {
+    display: inline;
+    margin-left: 0;
+    font-size: 16px;
+    vertical-align: middle;
+    cursor: pointer;
+    color: #333;
+  }
+  
+  #business-fields {
+    display: none;
+    margin-top: 1rem;
+    padding: 1.5rem;
+    background: #f9f9f9;
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+  }
+  
+  #business-fields.show {
+    display: block;
+  }
+  
+  .business-note {
+    font-size: 14px;
+    color: #666;
+    line-height: 1.5;
+    margin-top: 1rem;
+    padding: 1rem;
+    background: #fff8dc;
+    border-radius: 4px;
+  }
+  
+  .file-upload-area {
+    border: 2px dashed #ddd;
+    border-radius: 6px;
+    padding: 2rem;
+    text-align: center;
+    background: #fafafa;
+    transition: border-color 0.2s ease;
+    cursor: pointer;
+    margin: 1rem 0;
+  }
+
+  .file-upload-area:hover {
+    border-color: #999;
+    background: #f5f5f5;
+  }
+
+  .upload-text {
+    margin-bottom: 0.5rem;
+    color: #333;
+  }
+
+  .upload-subtext {
+    font-size: 13px;
+    color: #666;
+  }
+
+  .file-upload-area input[type="file"] {
+    display: none;
+  }
+
+  .file-preview {
+    margin-top: 1rem;
+    padding: 1rem;
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    display: none;
+  }
+
+  .file-preview.show {
+    display: block;
+  }
+
+  .upload-status {
+    margin-top: 0.5rem;
+    padding: 0.5rem;
+    border-radius: 4px;
+    font-size: 13px;
+    display: none;
+  }
+
+  .upload-status.success {
+    background: #e8f5e8;
+    color: #2e7d32;
+    display: block;
+  }
+
+  .upload-status.error {
+    background: #ffebee;
+    color: #c62828;
+    display: block;
+  }
+{%- endstyle -%}
+
+<div class="customer register section-{{ section.id }}-padding">
+  <h1>{{ 'customer.register.title' | t }}</h1>
+  
+  {%- form 'create_customer', novalidate: 'novalidate' -%}
+    {%- if form.errors -%}
+      <h2 class="form__message" tabindex="-1" autofocus>
+        <span class="svg-wrapper">{{- 'icon-error.svg' | inline_asset_content -}}</span>
+        {{ 'templates.contact.form.error_heading' | t }}
+      </h2>
+      <ul>
+        {%- for field in form.errors -%}
+          <li>
+            {%- if field == 'form' -%}
+              {{ form.errors.messages[field] }}
+            {%- else -%}
+              <a href="#RegisterForm-{{ field }}">
+                {{ form.errors.translated_fields[field] | capitalize }}
+                {{ form.errors.messages[field] }}
+              </a>
+            {%- endif -%}
+          </li>
+        {%- endfor -%}
+      </ul>
+    {%- endif -%}
+
+    <div class="field">
+      <input type="text" name="customer[first_name]" id="RegisterForm-FirstName"
+        {% if form.first_name %}value="{{ form.first_name }}"{% endif %}
+        autocomplete="given-name" placeholder="{{ 'customer.register.first_name' | t }}">
+      <label for="RegisterForm-FirstName">{{ 'customer.register.first_name' | t }}</label>
+    </div>
+
+    <div class="field">
+      <input type="text" name="customer[last_name]" id="RegisterForm-LastName"
+        {% if form.last_name %}value="{{ form.last_name }}"{% endif %}
+        autocomplete="family-name" placeholder="{{ 'customer.register.last_name' | t }}">
+      <label for="RegisterForm-LastName">{{ 'customer.register.last_name' | t }}</label>
+    </div>
+
+    <div class="field">
+      <input type="email" name="customer[email]" id="RegisterForm-email"
+        {% if form.email %}value="{{ form.email }}"{% endif %}
+        spellcheck="false" autocapitalize="off" autocomplete="email" aria-required="true"
+        {% if form.errors contains 'email' %}aria-invalid="true" aria-describedby="RegisterForm-email-error"{% endif %}
+        placeholder="{{ 'customer.register.email' | t }}">
+      <label for="RegisterForm-email">{{ 'customer.register.email' | t }}</label>
+    </div>
+
+    {%- if form.errors contains 'email' -%}
+      <span id="RegisterForm-email-error" class="form__message">
+        <span class="svg-wrapper">{{- 'icon-error.svg' | inline_asset_content -}}</span>
+        {{ form.errors.translated_fields.email | capitalize }} {{ form.errors.messages.email }}.
+      </span>
+    {%- endif -%}
+
+    <div class="field">
+      <input type="password" name="customer[password]" id="RegisterForm-password" aria-required="true"
+        {% if form.errors contains 'password' %}aria-invalid="true" aria-describedby="RegisterForm-password-error"{% endif %}
+        placeholder="{{ 'customer.register.password' | t }}">
+      <label for="RegisterForm-password">{{ 'customer.register.password' | t }}</label>
+    </div>
+
+    {%- if form.errors contains 'password' -%}
+      <span id="RegisterForm-password-error" class="form__message">
+        <span class="svg-wrapper">{{- 'icon-error.svg' | inline_asset_content -}}</span>
+        {{ form.errors.translated_fields.password | capitalize }} {{ form.errors.messages.password }}.
+      </span>
+    {%- endif -%}
+    
+    <!-- Customer Type Selection -->
+    <div class="customer-type-field">
+      <label>Are you shopping for personal or business use?</label>
+      <div class="field-radio">
+        <input type="radio" name="customer_type" id="type-retail" value="retail" checked>
+        <label for="type-retail">Retail Customer (Personal Shopping)</label>
+      </div>
+      <div class="field-radio">
+        <input type="radio" name="customer_type" id="type-business" value="business">
+        <label for="type-business">Business Customer (Wholesale Pricing)</label>
+      </div>
+    </div>
+    
+    <!-- Business Fields -->
+    <div id="business-fields">
+      <div class="field">
+        <input type="text" name="customer[metafields][custom][company_name]" id="company-name" placeholder="Company Name">
+        <label for="company-name">Company Name</label>
+      </div>
+      
+      <div class="field">
+        <input type="text" name="customer[metafields][custom][business_phone]" id="business-phone" placeholder="Business Phone Number">
+        <label for="business-phone">Business Phone Number</label>
+      </div>
+      
+      <div class="field">
+        <input type="text" name="customer[metafields][custom][business_registration]" id="business-registration" placeholder="Business Registration Number">
+        <label for="business-registration">Business Registration Number</label>
+      </div>
+
+      <!-- PDF Upload -->
+      <label>Business Registration Document (PDF)</label>
+      <div class="file-upload-area" id="upload-area">
+        <div class="upload-text">Click to upload or drag and drop</div>
+        <div class="upload-subtext">PDF files only, max 10MB</div>
+        <input type="file" id="pdf-upload" accept=".pdf">
+      </div>
+      
+      <div class="file-preview" id="file-preview">
+        <div>📄 <span id="file-name"></span></div>
+        <button type="button" id="remove-file">Remove</button>
+      </div>
+      
+      <div class="upload-status" id="upload-status"></div>
+      
+      <!-- Hidden metafield for PDF data -->
+      <input type="hidden" name="customer[metafields][custom][business_document]" id="business-document" value="">
+      
+      <!-- Hidden metafield for customer type -->
+      <input type="hidden" name="customer[metafields][custom][customer_type]" id="customer-type-meta" value="">
+      
+      <p class="business-note">
+        📋 Business accounts are reviewed within 24-48 hours for wholesale pricing approval.
+      </p>
+    </div>
+    
+    <!-- Hidden field for comprehensive business data -->
+    <input type="hidden" name="customer[note]" id="business-data" value="Customer Type: Retail">
+    
+    <button type="submit">{{ 'customer.register.submit' | t }}</button>
+  {%- endform -%}
+</div>
+
+{%- javascript -%}
+document.addEventListener('DOMContentLoaded', function() {
+  const retailRadio = document.getElementById('type-retail');
+  const businessRadio = document.getElementById('type-business');
+  const businessFields = document.getElementById('business-fields');
+  const businessDataField = document.getElementById('business-data');
+  
+  // PDF upload elements
+  const uploadArea = document.getElementById('upload-area');
+  const fileInput = document.getElementById('pdf-upload');
+  const filePreview = document.getElementById('file-preview');
+  const fileName = document.getElementById('file-name');
+  const removeButton = document.getElementById('remove-file');
+  const uploadStatus = document.getElementById('upload-status');
+  const businessDocument = document.getElementById('business-document');
+  
+  // Simple toggle function
+  function toggleBusinessFields() {
+    if (businessRadio.checked) {
+      businessFields.style.display = 'block';
+      businessFields.classList.add('show');
+    } else {
+      businessFields.style.display = 'none';
+      businessFields.classList.remove('show');
+    }
+    updateBusinessNote();
+  }
+  
+  // Update business note in real-time
+  function updateBusinessNote() {
+    const customerTypeMeta = document.querySelector('input[name="customer[metafields][custom][customer_type]"]');
+    
+    if (businessRadio.checked) {
+      const companyName = document.getElementById('company-name').value || '';
+      const businessPhone = document.getElementById('business-phone').value || '';
+      const businessReg = document.getElementById('business-registration').value || '';
+      const hasDocument = document.getElementById('business-document').value || '';
+      
+      // Update customer type metafield
+      if (customerTypeMeta) customerTypeMeta.value = 'business';
+      
+      let businessNote = 'Customer Type: Business';
+      if (companyName.trim()) businessNote += ' | Company: ' + companyName.trim();
+      if (businessPhone.trim()) businessNote += ' | Phone: ' + businessPhone.trim();
+      if (businessReg.trim()) businessNote += ' | Registration: ' + businessReg.trim();
+      if (hasDocument) businessNote += ' | Document: Yes';
+      
+      businessDataField.value = businessNote;
+    } else {
+      // Update customer type metafield
+      if (customerTypeMeta) customerTypeMeta.value = 'retail';
+      businessDataField.value = 'Customer Type: Retail';
+    }
+  }
+  
+  // Event listeners for radio buttons
+  retailRadio.addEventListener('change', toggleBusinessFields);
+  businessRadio.addEventListener('change', toggleBusinessFields);
+  
+  // Make radio button divs clickable
+  document.querySelectorAll('.field-radio').forEach(function(radioDiv, index) {
+    radioDiv.addEventListener('click', function() {
+      if (index === 0) {
+        retailRadio.checked = true;
+        businessRadio.checked = false;
+      } else {
+        retailRadio.checked = false;
+        businessRadio.checked = true;
+      }
+      toggleBusinessFields();
+    });
+  });
+  
+  // Event listeners for business fields - update note as user types  
+  setTimeout(function() {
+    const companyField = document.getElementById('company-name');
+    const phoneField = document.getElementById('business-phone'); 
+    const regField = document.getElementById('business-registration');
+    
+    if (companyField) companyField.addEventListener('input', updateBusinessNote);
+    if (phoneField) phoneField.addEventListener('input', updateBusinessNote);
+    if (regField) regField.addEventListener('input', updateBusinessNote);
+  }, 100);
+  
+  // PDF upload functionality
+  uploadArea.addEventListener('click', () => fileInput.click());
+  
+  fileInput.addEventListener('change', function(e) {
+    const file = e.target.files[0];
+    if (file) {
+      if (file.type === 'application/pdf' && file.size <= 10 * 1024 * 1024) {
+        fileName.textContent = file.name;
+        filePreview.classList.add('show');
+        
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          businessDocument.value = JSON.stringify({
+            fileName: file.name,
+            fileSize: file.size,
+            fileData: e.target.result.split(',')[1]
+          });
+          uploadStatus.className = 'upload-status success';
+          uploadStatus.textContent = 'Document ready for submission';
+          updateBusinessNote();
+        };
+        reader.readAsDataURL(file);
+      } else {
+        uploadStatus.className = 'upload-status error';
+        uploadStatus.textContent = 'Please select a PDF file under 10MB';
+      }
+    }
+  });
+  
+  removeButton.addEventListener('click', function() {
+    fileInput.value = '';
+    filePreview.classList.remove('show');
+    businessDocument.value = '';
+    uploadStatus.className = 'upload-status';
+    uploadStatus.textContent = '';
+    updateBusinessNote();
+  });
+  
+  // Initialize
+  toggleBusinessFields();
+});
+{%- endjavascript -%}
+
+{% schema %}
+{
+  "name": "t:sections.main-register.name",
+  "settings": [
+    {
+      "type": "header",
+      "content": "t:sections.all.padding.section_padding_heading"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_top",
+      "default": 36
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_bottom",
+      "default": 36
+    }
+  ]
+}
+{% endschema %}                                                                                                                                   
