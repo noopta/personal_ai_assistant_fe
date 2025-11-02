@@ -4,68 +4,65 @@
   box-sizing: border-box;
 }
 
-/* CSS Custom Properties for theming */
+/* CSS Custom Properties for theming - Stripe Inspired */
 :root {
-  /* Vapi.ai inspired - Professional black theme (default) */
-  --bg-primary: #09090B;
-  --bg-secondary: #0E0E13;
-  --bg-tertiary: #18181B;
-  --bg-quaternary: #27272A;
-  --bg-card: #0E0E13;
-  --text-primary: #FAFAFA;
-  --text-secondary: #A1A1AA;
-  --text-muted: #71717A;
-  --accent-primary: #6366F1;
-  --accent-secondary: #8B5CF6;
-  --border-color: rgba(82, 82, 91, 0.3);
-  --border-hover: rgba(99, 102, 241, 0.4);
-  --shadow-color: rgba(0, 0, 0, 0.5);
-  --shadow-accent: rgba(99, 102, 241, 0.15);
-  --code-bg: rgba(99, 102, 241, 0.08);
-  --code-border: rgba(82, 82, 91, 0.4);
-  --success: #22C55E;
-  --info: #0EA5E9;
+  /* Stripe Dark Theme */
+  --bg-primary: #0A2540;
+  --bg-secondary: #0d2d52;
+  --bg-tertiary: #103657;
+  --bg-quaternary: #15456e;
+  --bg-card: #0d2d52;
+  --text-primary: #FFFFFF;
+  --text-secondary: #C7D0DD;
+  --text-muted: #8A99AA;
+  --accent-primary: #635BFF;
+  --accent-secondary: #7A73FF;
+  --accent-tertiary: #00D4FF;
+  --border-color: rgba(199, 208, 221, 0.1);
+  --border-hover: rgba(99, 91, 255, 0.3);
+  --shadow-color: rgba(0, 0, 0, 0.3);
+  --shadow-accent: rgba(99, 91, 255, 0.2);
+  --code-bg: rgba(99, 91, 255, 0.08);
+  --code-border: rgba(199, 208, 221, 0.15);
+  --success: #00D4AA;
+  --info: #0073E6;
+  --gradient-1: #fff;
+  --gradient-2: #7038ff;
+  --gradient-3: #00d4ff;
+  --gradient-4: #ffba27;
 }
 
 [data-theme="light"] {
-  /* Professional light theme - cleaner contrast */
+  /* Stripe Light Theme */
   --bg-primary: #FFFFFF;
-  --bg-secondary: #F8F9FA;
-  --bg-tertiary: #F1F3F4;
-  --bg-quaternary: #E8EAED;
-  --bg-card: #F8F9FA;
-  --text-primary: #202124;
-  --text-secondary: #5F6368;
-  --text-muted: #9AA0A6;
-  --accent-primary: #6366F1;
-  --accent-secondary: #8B5CF6;
-  --border-color: #DADCE0;
-  --border-hover: #6366F1;
-  --shadow-color: rgba(0, 0, 0, 0.1);
-  --shadow-accent: rgba(99, 102, 241, 0.15);
-  --code-bg: #F1F3F4;
-  --code-border: #DADCE0;
-  --success: #22C55E;
-  --info: #0EA5E9;
+  --bg-secondary: #F6F9FC;
+  --bg-tertiary: #F0F4F8;
+  --bg-quaternary: #E3E8EF;
+  --bg-card: #FFFFFF;
+  --text-primary: #0A2540;
+  --text-secondary: #425466;
+  --text-muted: #697386;
+  --accent-primary: #635BFF;
+  --accent-secondary: #7A73FF;
+  --accent-tertiary: #0073E6;
+  --border-color: #E3E8EF;
+  --border-hover: #635BFF;
+  --shadow-color: rgba(10, 37, 64, 0.06);
+  --shadow-accent: rgba(99, 91, 255, 0.15);
+  --code-bg: #F6F9FC;
+  --code-border: #E3E8EF;
+  --success: #00D4AA;
+  --info: #0073E6;
+  --gradient-1: #fff;
+  --gradient-2: #7038ff;
+  --gradient-3: #00d4ff;
+  --gradient-4: #ffba27;
 }
 
-/* Ensure text on accent backgrounds is always white */
-[data-theme="light"] .primaryCta,
-[data-theme="light"] .ctaButton,
-[data-theme="light"] .userMessage,
-[data-theme="light"] .sendButton,
-[data-theme="light"] .logoText,
-[data-theme="light"] .featureCard h3,
-[data-theme="light"] .benefitItem h4,
-[data-theme="light"] .integrationHeader h2,
-[data-theme="light"] .authButton:hover:not(:disabled),
-[data-theme="light"] .navLink.active,
-[data-theme="light"] .ctaButton {
-  color: #fff !important;
-}
-
-[data-theme="light"] .navLink {
-  color: var(--text-secondary) !important;
+/* Ensure proper contrast on accent backgrounds */
+.primaryCta,
+.ctaButton {
+  color: #fff;
 }
 
 body {
