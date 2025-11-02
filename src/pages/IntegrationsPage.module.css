@@ -1,41 +1,51 @@
 /* Container & Base Styles */
 .integrationsPage {
   min-height: 100vh;
-  background: linear-gradient(135deg, var(--bg-secondary) 0%, var(--bg-tertiary) 100%);
-  padding: 3rem 0 5rem;
+  background: var(--bg-primary);
+  padding: 100px 0 80px;
   color: var(--text-primary);
+  position: relative;
 }
 
 .container {
-  max-width: 1400px;
+  max-width: 1200px;
   margin: 0 auto;
-  padding: 0 2rem;
+  padding: 0 32px;
 }
 
 /* Header */
 .header {
-  text-align: left;
-  margin-bottom: 3rem;
-  padding-bottom: 1.5rem;
+  text-align: center;
+  margin-bottom: 80px;
+  opacity: 0;
+  animation: fadeInUp 0.8s ease-out forwards;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .header h1 {
-  font-size: 3.5rem;
+  font-size: 56px;
   font-weight: 700;
-  background: linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-secondary) 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  margin-bottom: 1rem;
-  letter-spacing: -0.02em;
+  color: var(--text-primary);
+  margin-bottom: 20px;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
 }
 
 .header p {
-  font-size: 1.2rem;
+  font-size: 20px;
   color: var(--text-secondary);
   max-width: 700px;
-  margin: 0;
-  font-weight: 300;
+  margin: 0 auto;
   line-height: 1.6;
 }
 
@@ -49,31 +59,32 @@
 
 /* Integration Card */
 .integrationCard {
-  background: rgba(255, 255, 255, 0.03);
-  backdrop-filter: blur(20px);
-  border-radius: 24px;
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: var(--bg-card);
+  border-radius: 16px;
+  border: 1px solid var(--border-color);
   overflow: hidden;
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 2px 8px var(--shadow-color);
 }
 
 .integrationCard:hover {
   transform: translateY(-4px);
-  border-color: rgba(255, 255, 255, 0.15);
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  border-color: var(--border-hover);
+  box-shadow: 0 12px 32px var(--shadow-color), 0 0 0 1px var(--border-hover);
+  background: var(--bg-card);
 }
 
 /* Card Header */
 .cardHeader {
   position: relative;
-  padding: 2.5rem 2.5rem 2rem;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  padding: 32px 32px 24px;
+  border-bottom: 1px solid var(--border-color);
 }
 
 .iconWrapper {
   position: absolute;
-  top: 2rem;
-  right: 2rem;
+  top: 32px;
+  right: 32px;
 }
 
 .icon {
@@ -81,19 +92,18 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 60px;
-  height: 60px;
-  background: linear-gradient(135deg, rgba(99, 102, 241, 0.15) 0%, rgba(168, 85, 247, 0.15) 100%);
-  border-radius: 16px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  width: 56px;
+  height: 56px;
+  background: rgba(99, 91, 255, 0.1);
+  border-radius: 12px;
+  border: 1px solid rgba(99, 91, 255, 0.2);
   transition: all 0.3s ease;
-  opacity: 0.8;
 }
 
 .integrationCard:hover .icon {
   transform: scale(1.05);
-  background: linear-gradient(135deg, rgba(99, 102, 241, 0.25) 0%, rgba(168, 85, 247, 0.25) 100%);
-  opacity: 1;
+  background: rgba(99, 91, 255, 0.15);
+  border-color: rgba(99, 91, 255, 0.3);
 }
 
 .headerContent {
@@ -144,17 +154,17 @@
 /* Step Card */
 .stepCard {
   display: flex;
-  gap: 1rem;
-  padding: 1.5rem;
-  background: rgba(255, 255, 255, 0.02);
-  border-radius: 16px;
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  gap: 16px;
+  padding: 20px;
+  background: var(--bg-secondary);
+  border-radius: 12px;
+  border: 1px solid var(--border-color);
   transition: all 0.3s ease;
 }
 
 .stepCard:hover {
-  background: rgba(255, 255, 255, 0.04);
-  border-color: rgba(255, 255, 255, 0.1);
+  background: var(--bg-tertiary);
+  border-color: rgba(99, 91, 255, 0.2);
   transform: translateX(4px);
 }
 
@@ -197,9 +207,9 @@
 
 .scopesBox {
   padding: 1.5rem;
-  background: rgba(255, 255, 255, 0.02);
+  background: var(--bg-secondary);
   border-radius: 16px;
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--border-color);
 }
 
 .scopesBox h4 {
@@ -289,33 +299,33 @@
 
 /* Help Section */
 .helpSection {
-  margin-top: 4rem;
-  padding: 3rem;
-  background: rgba(255, 255, 255, 0.02);
-  backdrop-filter: blur(20px);
-  border-radius: 24px;
-  border: 1px solid rgba(255, 255, 255, 0.06);
+  margin-top: 80px;
+  padding: 48px;
+  background: var(--bg-secondary);
+  border-radius: 16px;
+  border: 1px solid var(--border-color);
 }
 
 .helpGrid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 2rem;
+  gap: 32px;
 }
 
 .helpCard {
   text-align: center;
-  padding: 2rem;
-  border-radius: 16px;
-  background: rgba(255, 255, 255, 0.02);
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  padding: 32px;
+  border-radius: 12px;
+  background: var(--bg-primary);
+  border: 1px solid var(--border-color);
   transition: all 0.3s ease;
 }
 
 .helpCard:hover {
-  background: rgba(255, 255, 255, 0.04);
-  border-color: rgba(255, 255, 255, 0.1);
+  background: var(--bg-card);
+  border-color: rgba(99, 91, 255, 0.2);
   transform: translateY(-4px);
+  box-shadow: 0 8px 24px var(--shadow-color);
 }
 
 .helpIcon {
