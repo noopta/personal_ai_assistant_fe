@@ -69,12 +69,6 @@ The project is configured for deployment using Replit's autoscale deployment:
     - Added visual "Coming Soon" badge to Notion feature card on Landing page
     - Added "Coming Soon" badge to Notion integration header on Integrations page
     - Changed task example from "Created Notion documentation" to "Organized calendar events"
-  - **Scroll Progress Indicator:** Created new ScrollProgress component that displays on the right side of the Landing page
-    - Animated circular indicator that follows scroll position with gradient progress line
-    - Includes pulsing animation effect on the indicator
-    - Positioned 40px from right edge with smooth transitions
-    - Auto-hides on mobile/tablet devices (max-width: 1024px)
-    - Fixed division-by-zero bug for pages shorter than viewport height
 
 - 2025-11-02: Complete Stripe-inspired UI Redesign (All Pages)
   - **Global Design System:**

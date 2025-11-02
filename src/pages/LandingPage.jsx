@@ -1,7 +1,6 @@
 import { Link } from 'react-router-dom';
 import { useEffect, useRef, useState } from 'react';
 import styles from './LandingPage.module.css';
-import ScrollProgress from '../components/ScrollProgress';
 
 function LandingPage() {
   const [isVisible, setIsVisible] = useState({});
@@ -38,7 +37,6 @@ function LandingPage() {
 
   return (
     <div className={styles.landingPage}>
-      <ScrollProgress />
       <section className={styles.hero} id="hero" ref={el => sectionRefs.current.hero = el}>
         <div className={styles.container}>
           <div className={`${styles.heroContent} ${isVisible.hero ? styles.fadeInUp : ''}`}>
