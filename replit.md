@@ -69,12 +69,13 @@ The project is configured for deployment using Replit's autoscale deployment:
     - Added visual "Coming Soon" badge to Notion feature card on Landing page
     - Added "Coming Soon" badge to Notion integration header on Integrations page
     - Changed task example from "Created Notion documentation" to "Organized calendar events"
-  - **Animated Scroll Path:** Implemented sophisticated scroll animation component with SVG path flowing along the left edge whitespace. Path features:
-    - Stays in left margin (60px from edge) without crossing through content
-    - Creates gentle S-curve wave pattern with ±30px variation
-    - Positioned with z-index: 1 to appear UNDER all content
-    - All content sections elevated to z-index: 10 for proper layering
-    - Scroll-based reveal animation with animated dot indicator
+  - **Animated Scroll Path:** Implemented sophisticated scroll animation using Manhattan routing (straight lines + 90° angles). Path features:
+    - Uses only straight horizontal and vertical lines (no curves)
+    - Connects to components at their CENTER positions for clean routing
+    - Flows from left margin → component center → back to margin → down
+    - Positioned with z-index: 0 to appear UNDER all content (non-disruptive)
+    - All content sections have z-index: 10 + background colors for proper layering
+    - Scroll-based progressive reveal animation with animated dot indicator
     - Responsive and updates on window resize
     - Hidden on mobile/tablet (< 1024px) for cleaner mobile experience
 
