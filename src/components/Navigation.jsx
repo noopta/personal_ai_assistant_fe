@@ -9,7 +9,7 @@ function Navigation() {
     <nav className={styles.navbar}>
       <div className={styles.container}>
         <Link to="/" className={styles.logo}>
-          <span className={styles.logoText}>Lucius AI</span>
+          <span className={styles.logoText}>AirThreads</span>
         </Link>
         
         <div className={styles.navLinks}>

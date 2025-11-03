@@ -1,10 +1,10 @@
-# Lucius AI - iOS App
+# AirThreads - iOS App
 
-A native iOS application for Lucius AI Assistant, recreating the web interface with SwiftUI.
+A native iOS application for AirThreads, recreating the web interface with SwiftUI.
 
 ## Overview
 
-This iOS app provides a mobile-native experience for the Lucius AI productivity assistant, featuring:
+This iOS app provides a mobile-native experience for the AirThreads productivity assistant, featuring:
 - **Landing Page**: Hero section, features showcase, benefits, and CTA
 - **Product Page**: Interactive chat interface for AI assistance
 - **Integrations Page**: Gmail, Google Calendar, and Notion (Coming Soon) integrations
@@ -29,7 +29,7 @@ This iOS app provides a mobile-native experience for the Lucius AI productivity 
 ```
 ios-app/
 └── LuciusAI/
-    ├── LuciusAIApp.swift              # Main app entry point
+    ├── AirThreadsApp.swift            # Main app entry point
     ├── ContentView.swift              # Navigation and tab bar
     ├── Theme/
     │   ├── Colors.swift               # Color palette
@@ -97,12 +97,12 @@ ios-app/
 cd ios-app
 
 # Build the project
-xcodebuild -scheme LuciusAI -destination 'platform=iOS Simulator,name=iPhone 15' build
+xcodebuild -scheme AirThreads -destination 'platform=iOS Simulator,name=iPhone 15' build
 
 # Run the app (after building)
 open -a Simulator
 xcrun simctl install booted <path-to-built-app>
-xcrun simctl launch booted com.luciusai.app
+xcrun simctl launch booted com.airthreads.app
 ```
 
 ## Development Notes
@@ -160,7 +160,7 @@ When the backend is ready:
 
 ## License
 
-Same as the web application - proprietary to Lucius AI.
+Same as the web application - proprietary to AirThreads.
 
 ## Support
 

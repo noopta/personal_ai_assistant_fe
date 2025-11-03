@@ -6,7 +6,7 @@ function AboutPage() {
       <div className={styles.container}>
         {/* Hero Section */}
         <section className={styles.hero}>
-          <h1>About Lucius AI</h1>
+          <h1>About AirThreads</h1>
           <p className={styles.heroSubtitle}>
             Revolutionizing productivity through intelligent task management and seamless integrations
           </p>
@@ -17,14 +17,14 @@ function AboutPage() {
           <div className={styles.content}>
             <h2>Our Story</h2>
             <p>
-              Lucius AI was founded in 2024 with a simple yet powerful vision: to transform how people 
+              AirThreads was founded in 2024 with a simple yet powerful vision: to transform how people 
               manage their daily tasks and workflows. Our founders, experienced software engineers and 
               productivity enthusiasts, recognized the growing complexity of modern work environments and 
               the need for intelligent solutions.
             </p>
             <p>
               After years of switching between multiple apps, struggling with disconnected tools, and 
-              losing valuable time on repetitive tasks, we decided to build something better. Lucius AI 
+              losing valuable time on repetitive tasks, we decided to build something better. AirThreads 
               represents our commitment to creating a unified, intelligent workspace that adapts to your 
               needs and grows with your workflow.
             </p>
@@ -146,7 +146,7 @@ function AboutPage() {
           <h2>Our Technology</h2>
           <div className={styles.technologyContent}>
             <p>
-              Lucius AI is built on cutting-edge technology stack designed for scalability, 
+              AirThreads is built on cutting-edge technology stack designed for scalability, 
               security, and performance. Our platform leverages advanced natural language processing, 
               machine learning algorithms, and robust API integrations to deliver seamless experiences.
             </p>

@@ -1,7 +1,7 @@
-# Lucius AI Assistant - Replit Environment
+# AirThreads - Replit Environment
 
 ## Project Overview
-Lucius AI Assistant is a cross-platform AI-powered productivity assistant available as both a React web application and a native iOS app. The application provides a chat interface for managing tasks and integrating with productivity tools like Gmail, Google Calendar, and Notion (coming soon).
+AirThreads is a cross-platform AI-powered productivity assistant available as both a React web application and a native iOS app. The application provides a chat interface for managing tasks and integrating with productivity tools like Gmail, Google Calendar, and Notion (coming soon).
 
 ## Technical Stack
 - **Frontend Framework**: React 19.1.0 (Create React App)
@@ -75,7 +75,7 @@ A complete recreation of the web interface as a native iOS app, featuring:
 - **Responsive Layout**: Adapts to all iOS device sizes
 
 ### Structure
-- `LuciusAIApp.swift` - Main app entry point
+- `AirThreadsApp.swift` - Main app entry point (formerly LuciusAIApp.swift)
 - `ContentView.swift` - Navigation and tab bar system
 - `Theme/` - Color palette and theme management
 - `Views/` - Four main pages (Landing, Product, Integrations, About)

@@ -1,12 +1,12 @@
-# Lucius AI Assistant
+# AirThreads
 
-Lucius AI Assistant is a modern, AI-powered multi-app task manager that helps users manage tasks, connect productivity tools, and automate workflows through a beautiful, interactive chat interface.
+AirThreads is a modern, AI-powered multi-app task manager that helps users manage tasks, connect productivity tools, and automate workflows through a beautiful, interactive chat interface.
 
 ## 🎯 What Problem Does It Solve?
 
 **The Pain Point**: Managing multiple productivity tools (Gmail, Google Calendar, Notion) requires constant context switching and manual coordination. Users waste time jumping between applications to schedule meetings, check emails, and update tasks.
 
-**The Solution**: Lucius AI provides a unified chat interface where users can interact with all their productivity tools through natural language. Instead of opening multiple apps, you simply chat with the AI to manage your entire workflow.
+**The Solution**: AirThreads provides a unified chat interface where users can interact with all their productivity tools through natural language. Instead of opening multiple apps, you simply chat with the AI to manage your entire workflow.
 
 ## ✨ Key Benefits
 
@@ -185,4 +185,4 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ---
 
-**Lucius AI Assistant** - Transforming productivity through intelligent automation! 🚀
+**AirThreads** - Transforming productivity through intelligent automation! 🚀
