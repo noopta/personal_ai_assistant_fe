@@ -1,7 +1,7 @@
 import SwiftUI
 
 @main
-struct LuciusAIApp: App {
+struct AirThreadsApp: App {
     @StateObject private var themeManager = ThemeManager()
     
     var body: some Scene {

@@ -10,7 +10,7 @@ struct ContentView: View {
             VStack(spacing: 0) {
                 // Custom Navigation Bar
                 HStack {
-                    Text("Lucius AI")
+                    Text("AirThreads")
                         .font(.system(size: 24, weight: .bold))
                         .foregroundColor(Color.textPrimary(for: colorScheme))
                     

@@ -8,7 +8,7 @@ struct AboutView: View {
             VStack(spacing: 48) {
                 // Hero
                 VStack(spacing: 16) {
-                    Text("About Lucius AI")
+                    Text("About AirThreads")
                         .font(.system(size: 48, weight: .bold))
                         .foregroundColor(Color.textPrimary(for: colorScheme))
                     

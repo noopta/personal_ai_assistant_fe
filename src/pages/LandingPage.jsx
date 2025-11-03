@@ -176,7 +176,7 @@ function LandingPage() {
             <div className={`${styles.benefitsContent} ${isVisible.benefits ? styles.fadeInUp : ''}`}>
               <h2 className={styles.sectionTitle}>Built for productivity</h2>
               <p className={styles.benefitsDescription}>
-                Lucius AI helps you focus on what matters most by automating repetitive tasks and 
+                AirThreads helps you focus on what matters most by automating repetitive tasks and 
                 providing intelligent assistance across all your productivity tools.
               </p>
               
@@ -255,7 +255,7 @@ function LandingPage() {
         <div className={styles.container}>
           <div className={styles.ctaContent}>
             <h2>Ready to transform your workflow?</h2>
-            <p>Get started with Lucius AI today and experience the future of productivity management.</p>
+            <p>Get started with AirThreads today and experience the future of productivity management.</p>
             <Link to="/product" className={styles.ctaButton}>
               <span>Get started</span>
               <svg width="16" height="16" viewBox="0 0 16 16" fill="none">

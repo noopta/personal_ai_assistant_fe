@@ -56,7 +56,7 @@ struct IntegrationsView: View {
                     
                     VStack(spacing: 20) {
                         StepCard(number: 1, title: "Select Integration", description: "Choose the service you want to connect")
-                        StepCard(number: 2, title: "Authorize Access", description: "Grant Lucius AI permission to access your account")
+                        StepCard(number: 2, title: "Authorize Access", description: "Grant AirThreads permission to access your account")
                         StepCard(number: 3, title: "Start Using", description: "Begin automating your workflow with AI assistance")
                     }
                 }

@@ -62,7 +62,7 @@ function IntegrationsPage() {
       steps: [
         {
           title: 'Create Integration',
-          description: 'Go to Notion Integrations, create a new integration, and name it (e.g., "Lucius AI")'
+          description: 'Go to Notion Integrations, create a new integration, and name it (e.g., "AirThreads")'
         },
         {
           title: 'Get Integration Token',
