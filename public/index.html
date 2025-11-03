@@ -28,6 +28,21 @@
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
     <title>AirThreads - Your Intelligent Task Manager</title>
+    <script>
+      (function() {
+        function getInitialTheme() {
+          const savedTheme = localStorage.getItem('theme');
+          if (savedTheme) {
+            return savedTheme;
+          }
+          if (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches) {
+            return 'light';
+          }
+          return 'dark';
+        }
+        document.documentElement.setAttribute('data-theme', getInitialTheme());
+      })();
+    </script>
   </head>
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
