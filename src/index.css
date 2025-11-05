@@ -65,6 +65,11 @@
   color: #fff;
 }
 
+html {
+  scroll-behavior: smooth;
+  overflow-x: hidden;
+}
+
 body {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
     Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
@@ -74,6 +79,8 @@ body {
   transition: background-color 0.3s ease, color 0.3s ease;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
 }
 
 code {
@@ -106,10 +113,10 @@ code {
 /* Theme toggle styles */
 .theme-toggle {
   position: relative;
-  width: 48px;
-  height: 24px;
+  width: 88px;
+  height: 44px;
   background: var(--bg-tertiary);
-  border-radius: 12px;
+  border-radius: 22px;
   cursor: pointer;
   border: 1px solid var(--border-color);
   transition: all 0.3s ease;
@@ -124,8 +131,8 @@ code {
 }
 
 .theme-toggle-slider {
-  width: 20px;
-  height: 20px;
+  width: 40px;
+  height: 40px;
   background: var(--accent-primary);
   border-radius: 50%;
   transition: all 0.3s ease;
@@ -133,29 +140,29 @@ code {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 12px;
+  font-size: 18px;
   color: var(--text-primary);
 }
 
 [data-theme="light"] .theme-toggle-slider {
-  transform: translateX(24px);
+  transform: translateX(44px);
 }
 
 .theme-toggle-icon {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  font-size: 10px;
+  font-size: 13px;
   transition: opacity 0.3s ease;
 }
 
 .theme-toggle-icon.sun {
-  left: 6px;
+  left: 10px;
   opacity: 1;
 }
 
 .theme-toggle-icon.moon {
-  right: 6px;
+  right: 10px;
   opacity: 0.5;
 }
 

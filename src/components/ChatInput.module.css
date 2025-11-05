@@ -155,7 +155,7 @@
 }
 
 .hintText {
-  font-size: 0.8rem;
+  font-size: 13px;
   color: var(--text-muted);
   opacity: 0.7;
   font-weight: 400;
@@ -220,7 +220,7 @@
   }
 
   .hintText {
-    font-size: 0.75rem;
+    font-size: 13px;
   }
 }
 

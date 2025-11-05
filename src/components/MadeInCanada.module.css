@@ -68,7 +68,10 @@
   text-decoration: none;
   transition: color 0.2s ease;
   cursor: pointer;
-  display: block;
+  display: flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 8px 0;
 }
 
 .footerLink:hover {
@@ -109,34 +112,137 @@ a.footerLink:hover {
   font-size: 16px;
 }
 
-@media (max-width: 968px) {
+@media (max-width: 1024px) {
+  .footerContent {
+    padding: 56px 32px 36px;
+  }
+
+  .footerMain {
+    gap: 48px;
+    margin-bottom: 44px;
+  }
+
+  .footerLinks {
+    gap: 32px;
+  }
+}
+
+@media (max-width: 768px) {
+  .footerContent {
+    padding: 48px 24px 32px;
+  }
+
   .footerMain {
     grid-template-columns: 1fr;
     gap: 40px;
+    margin-bottom: 36px;
+  }
+
+  .brandName {
+    font-size: 22px;
+  }
+
+  .brandTagline {
+    font-size: 14px;
   }
   
   .footerLinks {
     grid-template-columns: repeat(2, 1fr);
+    gap: 32px;
+  }
+
+  .columnTitle {
+    font-size: 13px;
+  }
+
+  .footerLink {
+    font-size: 14px;
+    min-height: 44px;
+    padding: 10px 0;
+  }
+
+  .footerBottom {
+    padding-top: 24px;
+  }
+
+  .copyrightText,
+  .footerMade {
+    font-size: 13px;
   }
 }
 
-@media (max-width: 640px) {
+@media (max-width: 480px) {
   .footerContent {
-    padding: 40px 20px 30px;
+    padding: 40px 20px 28px;
   }
-  
+
   .footerMain {
-    margin-bottom: 30px;
+    gap: 32px;
+    margin-bottom: 32px;
   }
-  
+
+  .brandName {
+    font-size: 20px;
+  }
+
+  .brandTagline {
+    font-size: 13px;
+    line-height: 1.5;
+  }
+
   .footerLinks {
     grid-template-columns: 1fr;
-    gap: 30px;
+    gap: 28px;
   }
-  
+
+  .footerColumn {
+    gap: 12px;
+  }
+
+  .columnTitle {
+    font-size: 13px;
+    margin-bottom: 6px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+  }
+
+  .footerLink {
+    font-size: 13px;
+    min-height: 48px;
+    padding: 12px 0;
+  }
+
   .footerBottom {
     flex-direction: column;
-    gap: 20px;
+    gap: 16px;
     align-items: flex-start;
+    padding-top: 20px;
+  }
+
+  .copyrightText,
+  .footerMade {
+    font-size: 13px;
+  }
+
+  .footerMade span[role="img"] {
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 390px) {
+  .footerContent {
+    padding: 36px 16px 24px;
+  }
+
+  .brandName {
+    font-size: 18px;
+  }
+
+  .brandTagline {
+    font-size: 13px;
+  }
+
+  .footerLinks {
+    gap: 24px;
   }
 } 

@@ -320,54 +320,245 @@
 }
 
 /* Responsive Design */
+@media (max-width: 1024px) {
+  .container {
+    padding: 0 24px;
+  }
+
+  .hero h1 {
+    font-size: 48px;
+  }
+
+  .section h2 {
+    font-size: 36px;
+  }
+}
+
 @media (max-width: 768px) {
   .container {
-    padding: 0 16px;
+    padding: 0 20px;
   }
   
   .aboutPage {
-    padding: 80px 0 60px;
+    padding: 60px 0 60px;
   }
   
   .hero {
     padding: 40px 0 60px;
-    margin-bottom: 60px;
+    margin-bottom: 48px;
   }
   
   .hero h1 {
-    font-size: 40px;
+    font-size: 36px;
+    line-height: 1.2;
   }
   
   .heroSubtitle {
-    font-size: 18px;
+    font-size: 17px;
+    line-height: 1.5;
   }
   
   .section {
-    margin-bottom: 60px;
+    margin-bottom: 48px;
   }
   
   .section h2 {
-    font-size: 32px;
+    font-size: 28px;
+    line-height: 1.2;
+    margin-bottom: 24px;
   }
   
   .missionVision {
     grid-template-columns: 1fr;
-    gap: 24px;
+    gap: 20px;
+  }
+
+  .missionCard,
+  .visionCard {
+    padding: 28px 24px;
+  }
+
+  .missionCard h3,
+  .visionCard h3 {
+    font-size: 20px;
+  }
+
+  .missionCard p,
+  .visionCard p {
+    font-size: 15px;
   }
   
   .valuesGrid {
     grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .valueCard {
+    padding: 28px 24px;
+  }
+
+  .valueCard h3 {
+    font-size: 18px;
+  }
+
+  .valueCard p {
+    font-size: 14px;
   }
   
   .teamGrid {
     grid-template-columns: 1fr;
+    gap: 24px;
+  }
+
+  .teamMember {
+    padding: 24px;
+  }
+
+  .memberName {
+    font-size: 18px;
+  }
+
+  .memberRole {
+    font-size: 14px;
+  }
+
+  .memberBio {
+    font-size: 14px;
   }
   
   .contactInfo {
     grid-template-columns: 1fr;
+    gap: 16px;
   }
   
   .contactSection {
-    padding: 32px 24px;
+    padding: 48px 24px;
+  }
+
+  .contactSection h2 {
+    font-size: 28px;
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    padding: 0 16px;
+  }
+
+  .aboutPage {
+    padding: 48px 0 48px;
+  }
+
+  .hero {
+    padding: 32px 0 48px;
+    margin-bottom: 40px;
+  }
+
+  .hero h1 {
+    font-size: 32px;
+  }
+
+  .heroSubtitle {
+    font-size: 16px;
+  }
+
+  .section {
+    margin-bottom: 40px;
+  }
+
+  .section h2 {
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
+
+  .missionVision {
+    gap: 16px;
+  }
+
+  .missionCard,
+  .visionCard {
+    padding: 24px 20px;
+  }
+
+  .missionCard h3,
+  .visionCard h3 {
+    font-size: 18px;
+  }
+
+  .missionCard p,
+  .visionCard p {
+    font-size: 14px;
+  }
+
+  .valuesGrid {
+    gap: 16px;
+  }
+
+  .valueCard {
+    padding: 24px 20px;
+  }
+
+  .valueCard h3 {
+    font-size: 17px;
+  }
+
+  .valueCard p {
+    font-size: 13px;
+  }
+
+  .teamGrid {
+    gap: 20px;
+  }
+
+  .teamMember {
+    padding: 20px;
+  }
+
+  .avatar {
+    width: 60px;
+    height: 60px;
+    font-size: 24px;
+  }
+
+  .memberName {
+    font-size: 17px;
+  }
+
+  .memberRole {
+    font-size: 13px;
+  }
+
+  .memberBio {
+    font-size: 13px;
+  }
+
+  .contactSection {
+    padding: 40px 20px;
+  }
+
+  .contactSection h2 {
+    font-size: 24px;
+  }
+
+  .contactInfo {
+    gap: 12px;
+  }
+
+  .contactItem {
+    padding: 16px;
+  }
+}
+
+@media (max-width: 390px) {
+  .hero h1 {
+    font-size: 28px;
+  }
+
+  .section h2 {
+    font-size: 22px;
+  }
+
+  .contactSection h2 {
+    font-size: 22px;
   }
 }

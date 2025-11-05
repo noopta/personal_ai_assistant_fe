@@ -51,6 +51,9 @@
   border-radius: 6px;
   transition: all 0.2s ease;
   position: relative;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
 }
 
 .navLink:hover {
@@ -80,6 +83,9 @@
   border: none;
   cursor: pointer;
   box-shadow: 0 4px 12px rgba(99, 91, 255, 0.3);
+  min-height: 44px;
+  display: flex;
+  align-items: center;
 }
 
 .ctaButton:hover {
@@ -89,23 +95,79 @@
 }
 
 @media (max-width: 768px) {
+  .navbar {
+    padding: 0.75rem 0;
+  }
+
   .container {
-    padding: 0 1rem;
+    padding: 0 20px;
   }
   
   .navLinks {
-    gap: 1rem;
+    gap: 0.5rem;
   }
   
   .navLink {
-    padding: 0.5rem;
+    padding: 0.625rem 0.875rem;
+    font-size: 13px;
+    min-height: 44px;
+    display: flex;
+    align-items: center;
   }
   
   .logoText {
-    font-size: 1.2rem;
+    font-size: 1.25rem;
   }
   
   .ctaSection {
-    gap: 0.5rem;
+    gap: 0.625rem;
+  }
+
+  .ctaButton {
+    padding: 0.75rem 1.125rem;
+    font-size: 13px;
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    padding: 0 16px;
+  }
+
+  .navLinks {
+    gap: 0.25rem;
+  }
+
+  .navLink {
+    padding: 0.625rem 0.625rem;
+    font-size: 13px;
+  }
+
+  .logoText {
+    font-size: 1.125rem;
+  }
+
+  .ctaButton {
+    padding: 0.75rem 1rem;
+    font-size: 13px;
+  }
+}
+
+@media (max-width: 390px) {
+  .navLinks {
+    gap: 0;
+  }
+
+  .navLink {
+    padding: 0.5rem 0.5rem;
+    font-size: 13px;
+  }
+
+  .ctaButton {
+    padding: 0.625rem 0.875rem;
+    font-size: 13px;
   }
 } 
