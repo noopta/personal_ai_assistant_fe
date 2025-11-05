@@ -95,6 +95,23 @@ A complete recreation of the web interface as a native iOS app, featuring:
 See `ios-app/README.md` for detailed documentation.
 
 ## Recent Changes
+- 2025-11-05: Environment Variables & Footer Redesign
+  - **Environment Variables:** Configured all API keys and endpoints as encrypted Replit Secrets
+    - `REACT_APP_VAPI_API_KEY` - Vapi voice integration API key
+    - `REACT_APP_VAPI_ASSISTANT_ID` - Vapi assistant identifier
+    - `REACT_APP_GMAIL_API_URL` - Backend Gmail API endpoint
+    - `REACT_APP_CALENDAR_API_URL` - Backend Calendar API endpoint
+    - `REACT_APP_AGENT_API_URL` - Backend AI agent endpoint
+    - `REACT_APP_OAUTH_CALLBACK_URL` - OAuth callback URL (set to https://airthreads.ai/oauth2/exchange)
+  - **Theme Flash Fix:** Added blocking script in index.html that sets theme before React loads, eliminating dark mode flash on page load
+  - **Footer Redesign:** Complete redesign of footer component (MadeInCanada) with Stripe-inspired layout
+    - Removed grey background box that appeared in dark mode
+    - Added proper footer sections: Brand, Product, Company, Integrations
+    - Improved typography and spacing with hover effects
+    - Fixed tagline alignment issue with flex-start positioning
+    - Fully responsive design for mobile/tablet
+  - **Final Branding Updates:** Changed remaining "Lucius AI" references to "AirThreads" in IntegrationsPage, ProductPage, ModeSelection, OAuth2CallbackPage, and VoiceMode components
+
 - 2025-11-02: Content and Feature Updates
   - **Landing Page Hero Text:** Changed hero title from "Financial infrastructure" to "AI-powered assistant to grow your productivity" to better reflect the app's purpose
   - **Notion Integration Status:** Added "Coming Soon" badges to Notion integration across Landing and Integrations pages since the feature is not yet available
