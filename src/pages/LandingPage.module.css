@@ -165,7 +165,7 @@
   color: var(--success);
   padding: 4px 12px;
   border-radius: 12px;
-  font-size: 12px;
+  font-size: 13px;
   font-weight: 600;
 }
 
@@ -356,7 +356,7 @@
   background: rgba(99, 91, 255, 0.1);
   border: 1px solid rgba(99, 91, 255, 0.3);
   border-radius: 12px;
-  font-size: 11px;
+  font-size: 13px;
   font-weight: 600;
   color: var(--accent-primary);
   text-transform: uppercase;
@@ -524,7 +524,7 @@
 }
 
 .taskTime {
-  font-size: 12px;
+  font-size: 13px;
   color: var(--text-muted);
 }
 
@@ -590,60 +590,388 @@
 }
 
 /* Responsive Design */
+
+/* Tablets & iPad */
 @media (max-width: 1024px) {
+  .container {
+    padding: 0 24px;
+  }
+
   .benefitsLayout {
     grid-template-columns: 1fr;
     gap: 60px;
   }
+
+  .heroTitle {
+    font-size: 56px;
+  }
+
+  .sectionTitle {
+    font-size: 42px;
+  }
 }
 
+/* Mobile landscape and larger phones */
 @media (max-width: 768px) {
   .container {
     padding: 0 20px;
   }
 
   .hero {
-    padding: 80px 0 100px;
+    padding: 60px 0 80px;
   }
 
   .heroTitle {
-    font-size: 48px;
+    font-size: 40px;
+    line-height: 1.15;
+    margin-bottom: 20px;
   }
 
   .heroDescription {
-    font-size: 18px;
+    font-size: 17px;
+    margin-bottom: 32px;
   }
 
   .heroActions {
     flex-direction: column;
     width: 100%;
+    gap: 12px;
   }
 
   .primaryCta,
   .secondaryCta {
     width: 100%;
     justify-content: center;
+    padding: 16px 28px;
+    min-height: 52px;
+  }
+
+  .dashboardCard {
+    padding: 24px;
+  }
+
+  .statsGrid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .statItem {
+    padding: 16px;
+  }
+
+  .statValue {
+    font-size: 24px;
+  }
+
+  .logosSection {
+    padding: 48px 0;
+  }
+
+  .logosTitle {
+    margin-bottom: 32px;
+  }
+
+  .logosTrack {
+    gap: 60px;
   }
 
   .sectionTitle {
-    font-size: 36px;
+    font-size: 32px;
+    line-height: 1.2;
   }
 
-  .featuresGrid {
-    grid-template-columns: 1fr;
+  .sectionSubtitle {
+    font-size: 16px;
   }
 
   .features,
   .benefits,
   .cta {
-    padding: 80px 0;
+    padding: 60px 0;
+  }
+
+  .sectionHeader {
+    margin-bottom: 48px;
+  }
+
+  .featuresGrid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .featureCard {
+    padding: 32px 24px;
+  }
+
+  .featureIcon {
+    width: 44px;
+    height: 44px;
+    margin-bottom: 20px;
+  }
+
+  .featureCard h3 {
+    font-size: 18px;
+  }
+
+  .featureCard p {
+    font-size: 14px;
+  }
+
+  .benefitsCard {
+    padding: 24px;
+  }
+
+  .benefitsDescription {
+    font-size: 16px;
+    margin-bottom: 32px;
+  }
+
+  .benefitsList {
+    gap: 20px;
+  }
+
+  .benefitItem h4 {
+    font-size: 15px;
+  }
+
+  .benefitItem p {
+    font-size: 13px;
+  }
+
+  .taskItem {
+    padding: 14px;
   }
 
   .ctaContent h2 {
+    font-size: 32px;
+    line-height: 1.2;
+  }
+
+  .ctaContent p {
+    font-size: 16px;
+  }
+
+  .ctaButton {
+    width: 100%;
+    justify-content: center;
+    min-height: 52px;
+  }
+}
+
+/* iPhone 13/14/15 & similar (390px-414px) */
+@media (max-width: 480px) {
+  .container {
+    padding: 0 16px;
+  }
+
+  .hero {
+    padding: 48px 0 60px;
+  }
+
+  .heroTitle {
     font-size: 36px;
+    line-height: 1.15;
+    margin-bottom: 16px;
+  }
+
+  .heroDescription {
+    font-size: 16px;
+    line-height: 1.5;
+    margin-bottom: 28px;
+  }
+
+  .primaryCta,
+  .secondaryCta {
+    font-size: 15px;
+    padding: 14px 24px;
+    min-height: 48px;
+  }
+
+  .dashboardCard {
+    padding: 20px;
+  }
+
+  .cardHeader {
+    margin-bottom: 20px;
   }
 
   .statsGrid {
-    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .statItem {
+    padding: 14px;
+  }
+
+  .statValue {
+    font-size: 22px;
+  }
+
+  .statLabel {
+    font-size: 13px;
+  }
+
+  .chartPlaceholder {
+    height: 100px;
+    padding: 16px;
+  }
+
+  .logosSection {
+    padding: 40px 0;
+  }
+
+  .logosTitle {
+    font-size: 13px;
+    margin-bottom: 28px;
+  }
+
+  .logosTrack {
+    gap: 50px;
+  }
+
+  .logoItem {
+    font-size: 16px;
+  }
+
+  .sectionTitle {
+    font-size: 28px;
+    line-height: 1.2;
+    margin-bottom: 12px;
+  }
+
+  .sectionSubtitle {
+    font-size: 15px;
+    line-height: 1.5;
+  }
+
+  .features,
+  .benefits,
+  .cta {
+    padding: 48px 0;
+  }
+
+  .sectionHeader {
+    margin-bottom: 40px;
+  }
+
+  .featuresGrid {
+    gap: 16px;
+  }
+
+  .featureCard {
+    padding: 28px 20px;
+  }
+
+  .featureIcon {
+    width: 40px;
+    height: 40px;
+    margin-bottom: 16px;
+  }
+
+  .featureCard h3 {
+    font-size: 17px;
+    margin-bottom: 10px;
+  }
+
+  .featureCard p {
+    font-size: 14px;
+    line-height: 1.5;
+    margin-bottom: 16px;
+  }
+
+  .comingSoonBadge {
+    font-size: 13px;
+    padding: 3px 8px;
+  }
+
+  .benefitsCard {
+    padding: 20px;
+  }
+
+  .benefitsDescription {
+    font-size: 15px;
+    line-height: 1.5;
+    margin-bottom: 28px;
+  }
+
+  .benefitsList {
+    gap: 16px;
+  }
+
+  .benefitItem {
+    gap: 12px;
+  }
+
+  .benefitIconWrapper {
+    width: 20px;
+    height: 20px;
+  }
+
+  .benefitItem h4 {
+    font-size: 14px;
+  }
+
+  .benefitItem p {
+    font-size: 13px;
+    line-height: 1.4;
+  }
+
+  .taskPreview {
+    gap: 12px;
+  }
+
+  .taskHeader {
+    font-size: 13px;
+    margin-bottom: 6px;
+  }
+
+  .taskItem {
+    padding: 12px;
+    gap: 12px;
+  }
+
+  .taskTitle {
+    font-size: 13px;
+  }
+
+  .taskTime {
+    font-size: 13px;
+  }
+
+  .ctaContent h2 {
+    font-size: 28px;
+    line-height: 1.2;
+    margin-bottom: 12px;
+  }
+
+  .ctaContent p {
+    font-size: 15px;
+    line-height: 1.5;
+    margin-bottom: 32px;
+  }
+
+  .ctaButton {
+    font-size: 15px;
+    padding: 14px 28px;
+    min-height: 48px;
+  }
+}
+
+/* Small phones (360px-389px) */
+@media (max-width: 390px) {
+  .heroTitle {
+    font-size: 32px;
+  }
+
+  .sectionTitle {
+    font-size: 26px;
+  }
+
+  .featureCard {
+    padding: 24px 16px;
+  }
+
+  .ctaContent h2 {
+    font-size: 26px;
   }
 }

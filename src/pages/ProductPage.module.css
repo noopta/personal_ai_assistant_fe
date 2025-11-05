@@ -48,6 +48,9 @@
   transition: all 0.3s ease;
   backdrop-filter: blur(10px);
   white-space: nowrap;
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
 }
 
 .switchModeButton:hover {
@@ -386,38 +389,107 @@
   100% { transform: rotate(360deg); }
 }
 
+@media (max-width: 1024px) {
+  .productPage {
+    padding: 1.5rem;
+  }
+}
+
 @media (max-width: 768px) {
   .productPage {
-    padding: 1rem;
+    padding: 20px;
   }
   
   .header {
     flex-direction: column;
-    gap: 1rem;
+    gap: 16px;
     text-align: center;
+    padding: 20px 0;
   }
   
   .header h1 {
-    font-size: 2rem;
+    font-size: 28px;
+    line-height: 1.2;
   }
   
   .header p {
-    font-size: 1.1rem;
+    font-size: 16px;
+    line-height: 1.5;
   }
   
   .switchModeButton {
     align-self: center;
+    min-height: 44px;
+    padding: 12px 24px;
   }
   
   .chatContainer {
-    margin: 0 1rem;
+    margin: 20px 0;
+  }
+  
+  .messageList {
+    padding: 16px;
+  }
+  
+  .centeredContainer {
+    padding: 16px;
   }
   
   .authButtons {
     flex-direction: column;
+    gap: 12px;
   }
   
   .authButton {
     min-width: unset;
+    width: 100%;
+    min-height: 48px;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .productPage {
+    padding: 16px;
+  }
+
+  .header {
+    gap: 12px;
+    padding: 16px 0;
+  }
+
+  .header h1 {
+    font-size: 24px;
+  }
+
+  .header p {
+    font-size: 15px;
+  }
+
+  .switchModeButton {
+    font-size: 14px;
+    padding: 10px 20px;
+  }
+
+  .chatContainer {
+    margin: 16px 0;
+  }
+
+  .messageList {
+    padding: 12px;
+  }
+
+  .centeredContainer {
+    padding: 12px;
+  }
+}
+
+@media (max-width: 390px) {
+  .header h1 {
+    font-size: 22px;
+  }
+
+  .header p {
+    font-size: 14px;
   }
 } 
