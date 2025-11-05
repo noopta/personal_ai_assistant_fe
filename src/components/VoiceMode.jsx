@@ -110,7 +110,7 @@ function VoiceMode({ onSwitchMode, vapiRef, messages, setMessages, isLoading, se
   return (
     <div className={styles.voiceMode}>
       <div className={styles.header}>
-        <h1>Lucius AI - Voice Mode</h1>
+        <h1>AirThreads - Voice Mode</h1>
         <p>Speak naturally with your AI assistant</p>
         <button 
           className={styles.switchModeButton}

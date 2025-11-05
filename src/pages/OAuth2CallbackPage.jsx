@@ -154,7 +154,7 @@ function OAuth2CallbackPage() {
             <div className={styles.success}>
               <div className={styles.successIcon}>✅</div>
               <h2>Authentication Successful!</h2>
-              <p>Your {authInfo.service || 'Google service'} has been successfully connected to Lucius AI.</p>
+              <p>Your {authInfo.service || 'Google service'} has been successfully connected to AirThreads.</p>
               
               <div className={styles.authDetails}>
                 <h3>Authentication Details:</h3>
@@ -174,7 +174,7 @@ function OAuth2CallbackPage() {
 
               <div className={styles.actions}>
                 <button onClick={handleContinue} className={styles.primaryButton}>
-                  Continue to Lucius AI
+                  Continue to AirThreads
                 </button>
                 <Link to="/integrations" className={styles.secondaryButton}>
                   View All Integrations

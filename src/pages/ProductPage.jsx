@@ -789,7 +789,7 @@ function ProductPage() {
     <div className={`${styles.productPage} ${styles.fadeIn}`}>
       <div className={styles.header}>
         <div className={styles.headerContent}>
-          <h1>Lucius AI Assistant</h1>
+          <h1>AirThreads Assistant</h1>
           <p>Try our AI-powered task manager. Connect your tools and let AI handle the rest.</p>
         </div>
         <button
