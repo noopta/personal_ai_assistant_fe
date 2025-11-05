@@ -88,7 +88,7 @@ function IntegrationsPage() {
       <div className={styles.container}>
         <header className={styles.header}>
           <h1>Integrations</h1>
-          <p>Connect Lucius AI with your favorite tools to maximize productivity</p>
+          <p>Connect AirThreads with your favorite tools to maximize productivity</p>
         </header>
 
         <div className={styles.integrationsGrid}>

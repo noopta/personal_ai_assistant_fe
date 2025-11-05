@@ -6,7 +6,7 @@ function ModeSelection({ onModeSelect }) {
       <div className={styles.container}>
         <div className={styles.header}>
           <h2>Choose Your Interaction Mode</h2>
-          <p>How would you like to interact with Lucius AI today?</p>
+          <p>How would you like to interact with AirThreads today?</p>
         </div>
         
         <div className={styles.modeOptions}>

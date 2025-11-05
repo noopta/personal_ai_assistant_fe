@@ -1,25 +1,140 @@
-.madeInCanada {
+.footer {
+  margin-top: 120px;
+  border-top: 1px solid var(--border-color);
+  background: transparent;
+}
+
+.footerContent {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 60px 40px 40px;
+}
+
+.footerMain {
+  display: grid;
+  grid-template-columns: 2fr 3fr;
+  gap: 60px;
+  margin-bottom: 50px;
+}
+
+.footerBrand {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.brandName {
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0;
+  letter-spacing: -0.02em;
+}
+
+.brandTagline {
+  font-size: 15px;
+  color: var(--text-muted);
+  line-height: 1.6;
+  margin: 0;
+  max-width: 280px;
+}
+
+.footerLinks {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 40px;
+}
+
+.footerColumn {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.columnTitle {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin: 0 0 8px 0;
+}
+
+.footerLink {
+  font-size: 15px;
+  color: var(--text-muted);
+  text-decoration: none;
+  transition: color 0.2s ease;
+  cursor: pointer;
+  display: block;
+}
+
+.footerLink:hover {
+  color: var(--accent-primary);
+}
+
+a.footerLink:hover {
+  color: var(--accent-primary);
+}
+
+.footerBottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 30px;
+  border-top: 1px solid var(--border-color);
+}
+
+.footerCopyright {
+  display: flex;
+  gap: 20px;
+}
+
+.copyrightText {
+  font-size: 14px;
+  color: var(--text-muted);
+}
+
+.footerMade {
   display: flex;
   align-items: center;
-  justify-content: center;
-  gap: 0.5rem;
-  font-size: 1.1rem;
+  gap: 8px;
+  font-size: 14px;
   color: var(--text-muted);
-  background: var(--bg-secondary);
-  padding: 1.8rem 0 2.2rem 0;
-  margin-top: 2.5rem;
-  letter-spacing: 0.01em;
-  font-weight: 500;
-  transition: background 0.3s, color 0.3s;
 }
 
-.madeInCanada span[role="img"] {
-  font-size: 1.3em;
-  vertical-align: middle;
+.footerMade span[role="img"] {
+  font-size: 16px;
 }
 
-.madeInCanada .text {
-  font-size: 1.1em;
-  font-weight: 600;
-  color: var(--accent-primary);
+@media (max-width: 968px) {
+  .footerMain {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+  
+  .footerLinks {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 640px) {
+  .footerContent {
+    padding: 40px 20px 30px;
+  }
+  
+  .footerMain {
+    margin-bottom: 30px;
+  }
+  
+  .footerLinks {
+    grid-template-columns: 1fr;
+    gap: 30px;
+  }
+  
+  .footerBottom {
+    flex-direction: column;
+    gap: 20px;
+    align-items: flex-start;
+  }
 } 
