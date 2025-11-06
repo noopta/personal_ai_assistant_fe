@@ -17,16 +17,27 @@ function AboutPage() {
           <div className={styles.content}>
             <h2>Our Story</h2>
             <p>
-              AirThreads was founded in 2024 with a simple yet powerful vision: to transform how people 
-              manage their daily tasks and workflows. Our founders, experienced software engineers and 
-              productivity enthusiasts, recognized the growing complexity of modern work environments and 
-              the need for intelligent solutions.
+              AirThreads was founded in 2025 with a simple yet powerful vision: to transform how people 
+              engage with their productivity tools. As an engineer balancing work, multiple projects, and 
+              self-care, I naturally gravitated toward apps to manage my routines—Calendar for event 
+              planning, Gmail for business communications, and Notion for note-taking and thought dumps.
             </p>
             <p>
-              After years of switching between multiple apps, struggling with disconnected tools, and 
-              losing valuable time on repetitive tasks, we decided to build something better. AirThreads 
-              represents our commitment to creating a unified, intelligent workspace that adapts to your 
-              needs and grows with your workflow.
+              However, in a world with countless productivity tools, I found myself spread thin across 
+              different platforms. Notes scattered between iPhone Notes and Notion, duplicate calendar 
+              entries across Google Calendar and my phone—it became overwhelming. The most frustrating 
+              part? These apps had zero cross-sync capabilities, and interacting with them required 
+              constant manual effort.
+            </p>
+            <p>
+              In our increasingly competitive world, I needed a way to use my platforms asynchronously 
+              and share data between them seamlessly. Imagine sifting through Gmail for job opportunities 
+              and instantly blocking calendar time to prepare, while the postings are saved to Notion for 
+              later review. Or creating a to-do list and allocating calendar blocks with a single sentence. 
+              Picture being on a business trip with an unexpected layover—traditionally, you'd manually 
+              email every team member and update your calendar. But what if an app could read that email, 
+              notify your team automatically, and find the next available time slots to reschedule your 
+              meetings? That's the game changer we envisioned.
             </p>
           </div>
         </section>
