@@ -42,8 +42,8 @@ function LandingPage() {
         <div className={styles.container}>
           <div className={`${styles.heroContent} ${isVisible.hero ? styles.fadeInUp : ''}`}>
             <h1 className={styles.heroTitle}>
-              <AnimatedHighlight delay={200}>AI-powered assistant</AnimatedHighlight><br/>
-              to grow <AnimatedHighlight delay={400}><span className={styles.highlight}>your productivity</span></AnimatedHighlight>
+              AI-powered assistant<br/>
+              to grow <span className={styles.highlight}>your productivity</span>
             </h1>
             <p className={styles.heroDescription}>
               Join thousands of users managing Gmail and Google Calendar through intelligent AI assistance. 
@@ -114,7 +114,9 @@ function LandingPage() {
       >
         <div className={styles.container}>
           <div className={styles.sectionHeader}>
-            <h2 className={styles.sectionTitle}>Unified platform for your productivity</h2>
+            <h2 className={styles.sectionTitle}>
+              <AnimatedHighlight delay={0}>Unified platform</AnimatedHighlight> for <AnimatedHighlight delay={300}>your productivity</AnimatedHighlight>
+            </h2>
             <p className={styles.sectionSubtitle}>
               Handle all of your task management needs, manage workflows, and automate processes with AI-powered assistance.
             </p>
