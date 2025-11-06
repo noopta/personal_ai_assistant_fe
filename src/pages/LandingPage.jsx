@@ -115,7 +115,7 @@ function LandingPage() {
         <div className={styles.container}>
           <div className={styles.sectionHeader}>
             <h2 className={styles.sectionTitle}>
-              <AnimatedHighlight delay={0}>Unified platform</AnimatedHighlight> for <AnimatedHighlight delay={300}>your productivity</AnimatedHighlight>
+              <AnimatedHighlight delay={0}>Unified platform</AnimatedHighlight> <AnimatedHighlight delay={300}>for your productivity</AnimatedHighlight>
             </h2>
             <p className={styles.sectionSubtitle}>
               Handle all of your task management needs, manage workflows, and automate processes with AI-powered assistance.
