@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import { useEffect, useRef, useState } from 'react';
 import styles from './LandingPage.module.css';
+import AnimatedHighlight from '../components/AnimatedHighlight';
 
 function LandingPage() {
   const [isVisible, setIsVisible] = useState({});
@@ -41,8 +42,8 @@ function LandingPage() {
         <div className={styles.container}>
           <div className={`${styles.heroContent} ${isVisible.hero ? styles.fadeInUp : ''}`}>
             <h1 className={styles.heroTitle}>
-              AI-powered assistant<br/>
-              to grow <span className={styles.highlight}>your productivity</span>
+              <AnimatedHighlight delay={200}>AI-powered assistant</AnimatedHighlight><br/>
+              to grow <AnimatedHighlight delay={400}><span className={styles.highlight}>your productivity</span></AnimatedHighlight>
             </h1>
             <p className={styles.heroDescription}>
               Join thousands of users managing Gmail and Google Calendar through intelligent AI assistance. 
