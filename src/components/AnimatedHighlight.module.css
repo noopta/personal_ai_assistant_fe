@@ -2,6 +2,7 @@
   position: relative;
   display: inline-block;
   padding: 4px 12px;
+  margin-right: 8px;
   transition: color 0.6s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
@@ -16,13 +17,18 @@
   transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
   background: transparent;
   transform: scaleX(0);
-  transform-origin: left;
   z-index: -1;
+}
+
+.highlightWrapper:not(.visible)::before {
+  transform-origin: right;
+  transform: scaleX(0);
 }
 
 .highlightWrapper.visible::before {
   background: var(--accent-primary);
   transform: scaleX(1);
+  transform-origin: left;
   box-shadow: 0 4px 20px rgba(99, 91, 255, 0.3);
 }
 
