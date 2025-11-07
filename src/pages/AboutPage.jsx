@@ -107,46 +107,21 @@ function AboutPage() {
 
         {/* Team Section */}
         <section className={styles.section}>
-          <h2>Meet Our Team</h2>
+          <h2>Meet the Founder</h2>
           <p className={styles.teamIntro}>
-            Our diverse team of engineers, designers, and product experts share a passion for 
-            building tools that make a real difference in people's daily lives.
+            AirThreads was built by an engineer who experienced firsthand the frustration of 
+            juggling multiple productivity tools and saw an opportunity to create something better.
           </p>
           <div className={styles.teamGrid}>
             <div className={styles.teamMember}>
               <div className={styles.memberPhoto}>👨‍💻</div>
-              <h4>Alex Chen</h4>
-              <p className={styles.memberRole}>Co-Founder & CEO</p>
+              <h4>Anupta Islam</h4>
+              <p className={styles.memberRole}>Founder & CEO</p>
               <p>
-                Former senior engineer at Google with 8+ years in AI and productivity tools. 
-                Passionate about user experience and scalable systems.
-              </p>
-            </div>
-            <div className={styles.teamMember}>
-              <div className={styles.memberPhoto}>👩‍🔬</div>
-              <h4>Sarah Rodriguez</h4>
-              <p className={styles.memberRole}>Co-Founder & CTO</p>
-              <p>
-                AI researcher and full-stack developer with expertise in natural language processing 
-                and machine learning applications.
-              </p>
-            </div>
-            <div className={styles.teamMember}>
-              <div className={styles.memberPhoto}>👨‍🎨</div>
-              <h4>Michael Kim</h4>
-              <p className={styles.memberRole}>Head of Design</p>
-              <p>
-                Award-winning UX designer focused on creating intuitive interfaces for complex 
-                productivity workflows and AI-powered tools.
-              </p>
-            </div>
-            <div className={styles.teamMember}>
-              <div className={styles.memberPhoto}>👩‍💼</div>
-              <h4>Emma Thompson</h4>
-              <p className={styles.memberRole}>Head of Product</p>
-              <p>
-                Product strategist with a background in enterprise software and deep understanding 
-                of workplace productivity challenges.
+                Software engineer with a passion for building AI-powered productivity solutions. 
+                Experienced in full-stack development, system architecture, and creating seamless 
+                user experiences. Based in Toronto, Canada, Anupta combines technical expertise 
+                with a deep understanding of modern workflow challenges to build AirThreads.
               </p>
             </div>
           </div>
