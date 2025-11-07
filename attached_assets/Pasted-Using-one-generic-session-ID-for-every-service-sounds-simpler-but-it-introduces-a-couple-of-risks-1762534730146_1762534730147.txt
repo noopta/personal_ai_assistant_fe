@@ -1,0 +1,19 @@
+Using one generic “session ID” for every service sounds simpler, but it introduces a couple of risks you don’t have today:
+
+Namespace collisions / data leaks – Right now each Gmail refresh token file lives under its own .{gmailHashID}-gcp-saved-tokens.json and calendar has its own hash. If you switch to a single ID and use it everywhere, a bug in one auth flow (or a path traversal) could overwrite or expose the other service’s tokens because they now share the same identifier. The current separation gives you a safety net: Gmail code can’t accidentally pick up a calendar file unless you explicitly hand it that hash.
+
+Rotation and revocation – If one service needs to force re-auth (e.g., Gmail token revoked), you can generate a new Gmail hash without touching the calendar hash. Sharing a single ID means revoking Gmail would also invalidate Calendar (or vice versa), forcing the user to re-auth both services even if only one broke.
+
+Future scope – You’ve already got code (and token filenames, logs, audit trails) that key off gmailHashID and calendarHashID. Collapsing them into one ID means refactoring both MCP services, migration scripts to rename existing token files, and careful handling of legacy hashes. That’s a lot of churn for little security gain.
+
+A safer path:
+
+Keep the per-service hashes (they already exist, and they’re only stored server-side).
+Expose them to trusted clients via a signed, short-lived token, not as raw values:
+Frontend calls /api/vapi-session with cookies.
+Python backend reads userIDHash, gmailHashID, calendarHashID, bundles them into a JWT (or signed blob) with exp and scope.
+Frontend hands that token to Vapi.
+When Vapi hits your MCP endpoints, it includes the token; backend verifies signature and extracts the individual hashes.
+That way the browser/Vapi never sees raw hash IDs (unless you decide to), you don’t break existing storage, and you still give voice mode the identifiers it needs. If you later add more services (Drive, Docs, etc.), you can add their hashes to the token without touching the existing file structure.
+
+If you want, I can implement the /api/vapi-session endpoint + token validation flow next; just say the word.
