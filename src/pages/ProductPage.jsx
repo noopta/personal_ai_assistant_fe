@@ -15,10 +15,7 @@ import { generateSecureRandomId, sanitizeInput, validateUrlParam, secureLog, get
 function ProductPage() {
   const [messages, setMessages] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-  // Hash IDs are required in request body per backend API spec
-  const [userIDHash] = useState(() => generateSecureRandomId());
-  const [gmailHashID] = useState(() => generateSecureRandomId());
-  const [calendarHashID] = useState(() => generateSecureRandomId());
+  // Hash IDs managed by backend via HTTP-only cookies
   const [isGmailAuthenticated, setIsGmailAuthenticated] = useState(false);
   const [isCalendarAuthenticated, setIsCalendarAuthenticated] = useState(false);
   const [currentMode, setCurrentMode] = useState('auth'); // 'auth', 'selection', 'text', 'voice'
@@ -171,17 +168,13 @@ function ProductPage() {
         // Check both Gmail and Calendar status after OAuth
         setTimeout(async () => {
           try {
-            // Check Gmail status - cookies sent automatically
+            // Check Gmail status - backend-issued cookies sent automatically
             const gmailResponse = await fetch(`${GMAIL_API_URL}/checkGmailStatus`, {
               method: 'POST',
               headers: {
                 'Content-Type': 'application/json',
               },
-              credentials: 'include',  // Send cookies with request
-              body: JSON.stringify({
-                userIDHash,
-                gmailHashID
-              })
+              credentials: 'include'  // Send cookies with request
             });
 
             if (gmailResponse.ok) {
@@ -199,17 +192,13 @@ function ProductPage() {
               }
             }
 
-            // Check Calendar status - cookies sent automatically
+            // Check Calendar status - backend-issued cookies sent automatically
             const calendarResponse = await fetch(`${CALENDAR_API_URL}/checkCalendarStatus`, {
               method: 'POST',
               headers: {
                 'Content-Type': 'application/json',
               },
-              credentials: 'include',  // Send cookies with request
-              body: JSON.stringify({
-                userIDHash,
-                calendarHashID
-              })
+              credentials: 'include'  // Send cookies with request
             });
 
             if (calendarResponse.ok) {
@@ -277,17 +266,13 @@ function ProductPage() {
     try {
       secureLog('Starting Gmail authentication');
 
-      // Backend requires hash IDs in request body
+      // Backend sets HTTP-only cookies during auth flow
       const authResponse = await fetch(`${GMAIL_API_URL}/initiateGmailAuth`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        credentials: 'include',  // Send cookies with request
-        body: JSON.stringify({
-          userIDHash,
-          gmailHashID
-        })
+        credentials: 'include'  // Send cookies with request
       });
 
       const authData = await authResponse.json();
@@ -362,17 +347,13 @@ function ProductPage() {
     try {
       secureLog('Starting Calendar authentication');
 
-      // Backend requires hash IDs in request body
+      // Backend sets HTTP-only cookies during auth flow
       const authResponse = await fetch(`${CALENDAR_API_URL}/initiateCalendarAuth`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        credentials: 'include',  // Send cookies with request
-        body: JSON.stringify({
-          userIDHash,
-          calendarHashID
-        })
+        credentials: 'include'  // Send cookies with request
       });
 
       const authData = await authResponse.json();
@@ -461,17 +442,13 @@ function ProductPage() {
       // Handle Gmail authentication if needed (only if not already authenticated)
       if (needsGmail && !isGmailAuthenticated) {
         try {
-          // Backend requires hash IDs per API spec
+          // Backend-issued cookies sent automatically
           const gmailStatusResponse = await fetch(`${GMAIL_API_URL}/checkGmailStatus`, {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
             },
-            credentials: 'include',  // Send cookies with request
-            body: JSON.stringify({
-              userIDHash,
-              gmailHashID
-            })
+            credentials: 'include'  // Send cookies with request
           });
           const gmailStatusData = await gmailStatusResponse.json();
           
@@ -503,17 +480,13 @@ function ProductPage() {
       if (needsCalendar && !isCalendarAuthenticated) {
         secureLog('Calendar authentication needed');
         try {
-          // Backend requires hash IDs per API spec
+          // Backend-issued cookies sent automatically
           const calendarStatusResponse = await fetch(`${CALENDAR_API_URL}/checkCalendarStatus`, {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
             },
-            credentials: 'include',  // Send cookies with request
-            body: JSON.stringify({
-              userIDHash,
-              calendarHashID
-            })
+            credentials: 'include'  // Send cookies with request
           });
           const calendarStatusData = await calendarStatusResponse.json();
           secureLog('Calendar status data received');
@@ -563,7 +536,7 @@ function ProductPage() {
       // Now proceed with the original query - cookies sent automatically
       secureLog('Sending request to agent endpoint');
 
-      // Send query to backend - backend requires hash IDs per API spec
+      // Send query to backend - hash IDs sent via cookies
       const response = await fetch(`${AGENT_API_URL}/agent`, {
         method: 'POST',
         headers: {
@@ -571,9 +544,6 @@ function ProductPage() {
         },
         credentials: 'include',  // Send cookies with request
         body: JSON.stringify({
-          userIDHash,
-          gmailHashID,
-          calendarHashID,
           query: message
         })
       });
@@ -673,17 +643,13 @@ function ProductPage() {
     try {
       secureLog('Checking Gmail status');
 
-      // Backend requires hash IDs per API spec
+      // Backend-issued cookies sent automatically
       const response = await fetch(`${GMAIL_API_URL}/checkGmailStatus`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        credentials: 'include',  // Send cookies with request
-        body: JSON.stringify({
-          userIDHash,
-          gmailHashID
-        })
+        credentials: 'include'  // Send cookies with request
       });
       const data = await response.json();
       secureLog('Gmail status response received');
@@ -706,17 +672,13 @@ function ProductPage() {
 
   const handleCheckCalendarStatus = async () => {
     try {
-      // Backend requires hash IDs per API spec
+      // Backend-issued cookies sent automatically
       const response = await fetch(`${CALENDAR_API_URL}/checkCalendarStatus`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        credentials: 'include',  // Send cookies with request
-        body: JSON.stringify({
-          userIDHash,
-          calendarHashID
-        })
+        credentials: 'include'  // Send cookies with request
       });
       const data = await response.json();
       
