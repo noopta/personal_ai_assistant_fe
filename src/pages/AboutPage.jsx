@@ -1,4 +1,5 @@
 import styles from './AboutPage.module.css';
+import founderPhoto from '../assets/founder-photo.png';
 
 function AboutPage() {
   return (
@@ -114,7 +115,7 @@ function AboutPage() {
           </p>
           <div className={styles.teamGrid}>
             <div className={styles.teamMember}>
-              <div className={styles.memberPhoto}>👨‍💻</div>
+              <img src={founderPhoto} alt="Anu I." className={styles.memberPhoto} />
               <h4>Anu I.</h4>
               <p className={styles.memberRole}>Founder</p>
               <p>
