@@ -125,6 +125,10 @@ function AboutPage() {
                 I built AirThreads to bridge the gap between our fragmented productivity tools and create 
                 the unified, intelligent workspace I always wished existed.
               </p>
+              <p style={{ fontSize: '14px', fontStyle: 'italic', opacity: 0.8, marginTop: '12px' }}>
+                And yes, that is a film photo of me holding a Modelo in a random Mexican spot on Mission Street, 
+                because I have no formal pictures.
+              </p>
             </div>
           </div>
         </section>
