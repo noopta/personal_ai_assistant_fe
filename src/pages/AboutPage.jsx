@@ -127,7 +127,7 @@ function AboutPage() {
               </p>
               <p style={{ fontSize: '14px', fontStyle: 'italic', opacity: 0.8, marginTop: '12px' }}>
                 And yes, that is a film photo of me holding a Modelo in a random Mexican spot on Mission Street, 
-                because I have no formal pictures.
+                because I barely have any photos of myself, let alone any formal pictures.
               </p>
             </div>
           </div>
