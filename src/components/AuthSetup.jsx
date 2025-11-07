@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import styles from './AuthSetup.module.css';
-import { secureLog, getEnvVar } from '../utils/securityUtils';
+import { secureLog, getEnvVar, generateSecureRandomId } from '../utils/securityUtils';
 
 function AuthSetup({ onAuthComplete, initialGmailAuth = false, initialCalendarAuth = false, forceRecheck = false }) {
   const [isGmailAuthenticated, setIsGmailAuthenticated] = useState(initialGmailAuth);
@@ -10,6 +10,11 @@ function AuthSetup({ onAuthComplete, initialGmailAuth = false, initialCalendarAu
   const [authMessages, setAuthMessages] = useState([]);
   const [isCheckingStatus, setIsCheckingStatus] = useState(true);
   const [oauthWindowOpen, setOauthWindowOpen] = useState(false);
+  
+  // Hash IDs are required in request body per backend API spec
+  const [userIDHash] = useState(() => generateSecureRandomId());
+  const [gmailHashID] = useState(() => generateSecureRandomId());
+  const [calendarHashID] = useState(() => generateSecureRandomId());
 
   // Get API configuration from environment variables
   const GMAIL_API_URL = getEnvVar('REACT_APP_GMAIL_API_URL', 'https://api.airthreads.ai:4007');

@@ -1,0 +1,46 @@
+Gmail MCP (https://api.airthreads.ai:4007, same on  (line 3007))
+
+POST /checkGmailStatus – returns { status: 'ready' | 'needs_auth', ... }.
+Body:
+
+{ "userIDHash": "abc123...", "gmailHashID": "def456..." }
+Requires cookies or hashes; 401 if missing or not authorized.
+
+POST /initiateGmailAuth – starts OAuth, responds with { authUrl, userIDHash }. Same body as above.
+
+POST /completeGmailAuth – used when forwarding the OAuth code/state. Body includes the hashes plus the Google code.
+
+POST /logout – clears Gmail cookies/sessions; body optional (hashes for logging).
+
+POST /mcp – Model Context Protocol invocations. Body is the MCP JSON-RPC payload; include credentials so the server can map to the user.
+
+Google Calendar MCP (https://api.airthreads.ai:4009, same on  (line 3005))
+
+POST /checkCalendarStatus – identical pattern to Gmail but looks at calendar tokens. Body:
+
+{ "userIDHash": "...", "calendarHashID": "..." }
+POST /initiateCalendarAuth – returns calendar OAuth URL.
+
+POST /completeCalendarAuth – accepts OAuth code & state.
+
+POST /logout – clears calendar cookies.
+
+POST /mcp – MCP RPC payload for calendar tools.
+
+GET /health – simple JSON health info (no auth).
+
+Python Agent API (https://api.airthreads.ai:5000, same as https://api.airthreads.ai/api/...)
+
+POST /checkStatus (or whatever status route you wired) – expects { userIDHash, gmailHashID, calendarHashID }. Returns backend readiness.
+
+POST /agent / /execute / other task routes defined in python-server/main.py – always POST with the agent request JSON.
+
+GET /health – Waitress health JSON.
+
+Usage Notes
+
+Every MCP/REST route (except /health) expects credentials: 'include' so the HTTP-only cookies (userIDHash, gmailHashID, calendarHashID) arrive. If you can’t rely on cookies yet, include those hashes in the JSON body exactly as the backend expects; otherwise you’ll see 401 Unauthorized.
+
+All routes return 401 when the user hasn’t authenticated for that service. Call the corresponding initiate...Auth endpoint, bounce the user through Google’s OAuth consent, and POST complete...Auth (or let the callback handler do it) before retrying check...Status.
+
+CORS is open for https://airthreads.ai, so you don’t need extra headers beyond the usual Content-Type: application/json.
