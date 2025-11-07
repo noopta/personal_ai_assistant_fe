@@ -48,7 +48,8 @@ function ProductPage() {
         credentials: 'include', // Send HTTP-only cookies for authentication
         headers: {
           'Content-Type': 'application/json',
-        }
+        },
+        body: JSON.stringify({}) // Empty body as per backend spec
       });
 
       if (!response.ok) {
