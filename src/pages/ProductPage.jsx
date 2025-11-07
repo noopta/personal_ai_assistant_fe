@@ -267,7 +267,7 @@ function ProductPage() {
       secureLog('Starting Gmail authentication');
 
       // Backend will handle cookie creation - no need to send hashes
-      const authResponse = await fetch(`${GMAIL_API_URL}/initiate-auth`, {
+      const authResponse = await fetch(`${GMAIL_API_URL}/initiateGmailAuth`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -348,7 +348,7 @@ function ProductPage() {
       secureLog('Starting Calendar authentication');
 
       // Backend will handle cookie creation - no need to send hashes
-      const authResponse = await fetch(`${CALENDAR_API_URL}/initiate-auth`, {
+      const authResponse = await fetch(`${CALENDAR_API_URL}/initiateCalendarAuth`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
