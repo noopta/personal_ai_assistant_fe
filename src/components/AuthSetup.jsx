@@ -12,8 +12,8 @@ function AuthSetup({ onAuthComplete, initialGmailAuth = false, initialCalendarAu
   const [oauthWindowOpen, setOauthWindowOpen] = useState(false);
 
   // Get API configuration from environment variables
-  const GMAIL_API_URL = getEnvVar('REACT_APP_GMAIL_API_URL', 'https://luciuslab.xyz:4007');
-  const CALENDAR_API_URL = getEnvVar('REACT_APP_CALENDAR_API_URL', 'https://luciuslab.xyz:4009');
+  const GMAIL_API_URL = getEnvVar('REACT_APP_GMAIL_API_URL', 'https://api.airthreads.ai:4007');
+  const CALENDAR_API_URL = getEnvVar('REACT_APP_CALENDAR_API_URL', 'https://api.airthreads.ai:4009');
 
   useEffect(() => {
     // Sync internal state with initial auth props
