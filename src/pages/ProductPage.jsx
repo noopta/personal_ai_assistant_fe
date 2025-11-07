@@ -28,9 +28,9 @@ function ProductPage() {
   // TODO: SECURITY - Move these to .env.local and rotate these keys!
   const VAPI_API_KEY = getEnvVar('REACT_APP_VAPI_API_KEY', 'cf04b093-6837-4059-8fc0-7996040ab866');
   const VAPI_ASSISTANT_ID = getEnvVar('REACT_APP_VAPI_ASSISTANT_ID', '607939c5-79e1-4de7-bbfa-4e3f0671edef');
-  const GMAIL_API_URL = getEnvVar('REACT_APP_GMAIL_API_URL', 'https://luciuslab.xyz:4007');
-  const CALENDAR_API_URL = getEnvVar('REACT_APP_CALENDAR_API_URL', 'https://luciuslab.xyz:4009');
-  const AGENT_API_URL = getEnvVar('REACT_APP_AGENT_API_URL', 'https://luciuslab.xyz:5000');
+  const GMAIL_API_URL = getEnvVar('REACT_APP_GMAIL_API_URL', 'https://api.airthreads.ai:4007');
+  const CALENDAR_API_URL = getEnvVar('REACT_APP_CALENDAR_API_URL', 'https://api.airthreads.ai:4009');
+  const AGENT_API_URL = getEnvVar('REACT_APP_AGENT_API_URL', 'https://api.airthreads.ai:5000');
 
 
   // ok so basicalyl we are getting back a series of 
