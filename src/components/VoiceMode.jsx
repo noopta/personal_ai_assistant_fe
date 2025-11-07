@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import styles from './VoiceMode.module.css';
 import ChatMessage from './ChatMessage';
 
-function VoiceMode({ onSwitchMode, vapiRef, messages, setMessages, isLoading, setIsLoading }) {
+function VoiceMode({ onSwitchMode, vapiRef, messages, setMessages, isLoading, setIsLoading, vapiSessionToken }) {
   const [isListening, setIsListening] = useState(false);
   const [isAISpeaking, setIsAISpeaking] = useState(false);
   const [currentTranscript, setCurrentTranscript] = useState('');
@@ -89,10 +89,21 @@ function VoiceMode({ onSwitchMode, vapiRef, messages, setMessages, isLoading, se
       if (!isCallActive) {
         console.log('Call inactive, restarting...');
 
-        // Cookies are sent automatically - no need to pass hashes
-        vapiRef.current.start('607939c5-79e1-4de7-bbfa-4e3f0671edef', {
+        // Pass session token for user identification
+        const assistantOverrides = {
           recordingEnabled: false
-        });
+        };
+
+        if (vapiSessionToken) {
+          assistantOverrides.variableValues = {
+            session_token: vapiSessionToken
+          };
+          console.log('Restarting Vapi with session token');
+        } else {
+          console.warn('No session token available for call restart');
+        }
+
+        vapiRef.current.start('607939c5-79e1-4de7-bbfa-4e3f0671edef', assistantOverrides);
         // The call-start event will set isCallActive to true
       }
     }

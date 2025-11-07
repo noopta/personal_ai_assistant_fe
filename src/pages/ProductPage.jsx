@@ -23,6 +23,7 @@ function ProductPage() {
   const [vapiMessage, setVapiMessage] = useState('');
   const [oauthWindowOpen, setOauthWindowOpen] = useState(false);
   const [forceAuthRecheck, setForceAuthRecheck] = useState(0); // Counter to trigger rechecks
+  const [vapiSessionToken, setVapiSessionToken] = useState(null); // Secure token for Vapi calls
 
   // Get API configuration from environment variables
   const VAPI_API_KEY = getEnvVar('REACT_APP_VAPI_API_KEY', 'cf04b093-6837-4059-8fc0-7996040ab866');
@@ -37,6 +38,36 @@ function ProductPage() {
   // so question then becomes how do we determine the final conversation-update, and also, how do we store the data to determine this
 
   const vapiRef = useRef();
+
+  // Fetch Vapi session token from backend
+  const fetchVapiSessionToken = async () => {
+    try {
+      secureLog('Fetching Vapi session token');
+      const response = await fetch(`${API_BASE_URL}/api/vapi-session`, {
+        method: 'POST',
+        credentials: 'include', // Send HTTP-only cookies for authentication
+        headers: {
+          'Content-Type': 'application/json',
+        }
+      });
+
+      if (!response.ok) {
+        throw new Error(`Failed to fetch Vapi session token: ${response.status}`);
+      }
+
+      const data = await response.json();
+      secureLog('Vapi session token received');
+      setVapiSessionToken(data.token);
+      return data.token;
+    } catch (error) {
+      console.error('Error fetching Vapi session token:', error);
+      setMessages(prev => [...prev, {
+        type: 'assistant',
+        content: '⚠️ Failed to initialize voice session. Please try again or contact support.'
+      }]);
+      return null;
+    }
+  };
 
   // Initialize Vapi when voice mode is selected
   const initializeVapi = () => {
@@ -83,10 +114,22 @@ function ProductPage() {
         return;
       }
 
-      // Cookies are sent automatically with requests - no need to pass hashes
-      vapiRef.current.start(VAPI_ASSISTANT_ID, {
+      // Pass session token to Vapi for user identification
+      const assistantOverrides = {
         recordingEnabled: false
-      });
+      };
+
+      // Include session token if available for multi-user isolation
+      if (vapiSessionToken) {
+        assistantOverrides.variableValues = {
+          session_token: vapiSessionToken
+        };
+        secureLog('Starting Vapi with session token');
+      } else {
+        console.warn('No Vapi session token available - voice mode may not work correctly');
+      }
+
+      vapiRef.current.start(VAPI_ASSISTANT_ID, assistantOverrides);
     }
   };
 
@@ -725,9 +768,14 @@ function ProductPage() {
     }, 300);
   };
 
-  const handleAuthComplete = (authStatus) => {
+  const handleAuthComplete = async (authStatus) => {
     setIsGmailAuthenticated(authStatus.isGmailAuthenticated);
     setIsCalendarAuthenticated(authStatus.isCalendarAuthenticated);
+    
+    // Fetch Vapi session token for voice mode
+    // This token contains the user's hash IDs for multi-user isolation
+    await fetchVapiSessionToken();
+    
     setCurrentMode('selection');
   };
 
@@ -775,6 +823,7 @@ function ProductPage() {
           setMessages={setMessages}
           isLoading={isLoading}
           setIsLoading={setIsLoading}
+          vapiSessionToken={vapiSessionToken}
         />
       </div>
     );
