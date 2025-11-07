@@ -217,7 +217,7 @@ a.footerLink:hover {
   .footerBottom {
     flex-direction: column;
     gap: 16px;
-    align-items: flex-start;
+    align-items: center;
     padding-top: 20px;
   }
 

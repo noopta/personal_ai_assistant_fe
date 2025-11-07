@@ -115,8 +115,8 @@ function AboutPage() {
           <div className={styles.teamGrid}>
             <div className={styles.teamMember}>
               <div className={styles.memberPhoto}>👨‍💻</div>
-              <h4>Anupta Islam</h4>
-              <p className={styles.memberRole}>Founder & CEO</p>
+              <h4>Anu I.</h4>
+              <p className={styles.memberRole}>Founder</p>
               <p>
                 I'm a software engineer with a passion for building AI-powered productivity solutions. 
                 With experience in full-stack development and system architecture, I focus on creating 
@@ -167,13 +167,7 @@ function AboutPage() {
           </p>
           <div className={styles.contactInfo}>
             <div className={styles.contactItem}>
-              <strong>Email:</strong> hello@taskflowai.com
-            </div>
-            <div className={styles.contactItem}>
-              <strong>Support:</strong> support@taskflowai.com
-            </div>
-            <div className={styles.contactItem}>
-              <strong>Partnership:</strong> partners@taskflowai.com
+              <strong>Email:</strong> support@airthreads.ai
             </div>
           </div>
         </section>
