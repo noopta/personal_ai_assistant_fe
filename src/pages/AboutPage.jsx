@@ -38,7 +38,7 @@ function AboutPage() {
               Picture being on a business trip with an unexpected layover—traditionally, you'd manually 
               email every team member and update your calendar. But what if an app could read that email, 
               notify your team automatically, and find the next available time slots to reschedule your 
-              meetings? That's the game changer we envisioned.
+              meetings? That's the game changer I envisioned.
             </p>
           </div>
         </section>
@@ -48,18 +48,18 @@ function AboutPage() {
           <div className={styles.missionVision}>
             <div className={styles.missionCard}>
               <div className={styles.cardIcon}>🎯</div>
-              <h3>Our Mission</h3>
+              <h3>My Mission</h3>
               <p>
-                To empower individuals and teams with AI-driven task management that eliminates friction, 
-                reduces cognitive load, and amplifies human potential. We believe technology should work 
+                To empower individuals with AI-driven task management that eliminates friction, 
+                reduces cognitive load, and amplifies human potential. I believe technology should work 
                 for you, not against you.
               </p>
             </div>
             <div className={styles.visionCard}>
               <div className={styles.cardIcon}>🚀</div>
-              <h3>Our Vision</h3>
+              <h3>My Vision</h3>
               <p>
-                A world where everyone can focus on meaningful work while AI handles the routine. We 
+                A world where everyone can focus on meaningful work while AI handles the routine. I 
                 envision seamless productivity ecosystems that understand context, anticipate needs, 
                 and deliver results effortlessly.
               </p>
@@ -69,13 +69,13 @@ function AboutPage() {
 
         {/* Values */}
         <section className={styles.section}>
-          <h2>Our Values</h2>
+          <h2>Core Values</h2>
           <div className={styles.valuesGrid}>
             <div className={styles.valueCard}>
               <div className={styles.valueIcon}>🔒</div>
               <h4>Privacy First</h4>
               <p>
-                Your data belongs to you. We implement enterprise-grade security measures and 
+                Your data belongs to you. AirThreads implements enterprise-grade security measures and 
                 transparent privacy practices to protect your information at every step.
               </p>
             </div>
@@ -83,7 +83,7 @@ function AboutPage() {
               <div className={styles.valueIcon}>🌟</div>
               <h4>User-Centric Design</h4>
               <p>
-                Every feature we build starts with understanding real user needs. We prioritize 
+                Every feature starts with understanding real user needs. AirThreads prioritizes 
                 intuitive experiences and meaningful functionality over flashy features.
               </p>
             </div>
@@ -91,16 +91,16 @@ function AboutPage() {
               <div className={styles.valueIcon}>⚡</div>
               <h4>Continuous Innovation</h4>
               <p>
-                Technology evolves rapidly, and so do we. We're committed to staying at the forefront 
+                Technology evolves rapidly, and so does AirThreads. I'm committed to staying at the forefront 
                 of AI and productivity tools to deliver cutting-edge solutions.
               </p>
             </div>
             <div className={styles.valueCard}>
               <div className={styles.valueIcon}>🤝</div>
-              <h4>Collaboration</h4>
+              <h4>User Empowerment</h4>
               <p>
-                Great products are built by great teams. We foster open communication, diverse 
-                perspectives, and collaborative problem-solving in everything we do.
+                Great products solve real problems. AirThreads is built to empower users with tools 
+                that integrate seamlessly into their workflows and adapt to their unique needs.
               </p>
             </div>
           </div>
@@ -135,11 +135,11 @@ function AboutPage() {
 
         {/* Technology */}
         <section className={styles.section}>
-          <h2>Our Technology</h2>
+          <h2>The Technology</h2>
           <div className={styles.technologyContent}>
             <p>
-              AirThreads is built on cutting-edge technology stack designed for scalability, 
-              security, and performance. Our platform leverages advanced natural language processing, 
+              AirThreads is built on a cutting-edge technology stack designed for scalability, 
+              security, and performance. The platform leverages advanced natural language processing, 
               machine learning algorithms, and robust API integrations to deliver seamless experiences.
             </p>
             <div className={styles.techHighlights}>
@@ -167,7 +167,7 @@ function AboutPage() {
         <section className={styles.contactSection}>
           <h2>Get in Touch</h2>
           <p>
-            We're always excited to hear from our users and potential partners. Whether you have 
+            I'm always excited to hear from users and potential partners. Whether you have 
             questions, feedback, or collaboration ideas, don't hesitate to reach out.
           </p>
           <div className={styles.contactInfo}>
