@@ -12,8 +12,7 @@ function AuthSetup({ onAuthComplete, initialGmailAuth = false, initialCalendarAu
   const [oauthWindowOpen, setOauthWindowOpen] = useState(false);
 
   // Get API configuration from environment variables
-  const GMAIL_API_URL = getEnvVar('REACT_APP_GMAIL_API_URL', 'https://api.airthreads.ai:4007');
-  const CALENDAR_API_URL = getEnvVar('REACT_APP_CALENDAR_API_URL', 'https://api.airthreads.ai:4009');
+  const API_BASE_URL = getEnvVar('REACT_APP_API_BASE_URL', 'https://api.airthreads.ai');
 
   useEffect(() => {
     // Sync internal state with initial auth props
@@ -68,7 +67,7 @@ function AuthSetup({ onAuthComplete, initialGmailAuth = false, initialCalendarAu
     // Check Gmail status - cookies sent automatically
     try {
       secureLog('Checking Gmail status');
-      const gmailResponse = await fetch(`${GMAIL_API_URL}/checkGmailStatus`, {
+      const gmailResponse = await fetch(`${API_BASE_URL}/api/gmail-status`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -112,7 +111,7 @@ function AuthSetup({ onAuthComplete, initialGmailAuth = false, initialCalendarAu
     // Check Calendar status - cookies sent automatically
     try {
       secureLog('Checking Calendar status');
-      const calendarResponse = await fetch(`${CALENDAR_API_URL}/checkCalendarStatus`, {
+      const calendarResponse = await fetch(`${API_BASE_URL}/api/calendar-status`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -178,7 +177,7 @@ function AuthSetup({ onAuthComplete, initialGmailAuth = false, initialCalendarAu
 
     try {
       // Backend will handle cookie creation - no need to send hashes
-      const authResponse = await fetch(`${GMAIL_API_URL}/initiateGmailAuth`, {
+      const authResponse = await fetch(`${API_BASE_URL}/api/gmail-auth`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -238,7 +237,7 @@ function AuthSetup({ onAuthComplete, initialGmailAuth = false, initialCalendarAu
 
     try {
       // Backend will handle cookie creation - no need to send hashes
-      const authResponse = await fetch(`${CALENDAR_API_URL}/initiateCalendarAuth`, {
+      const authResponse = await fetch(`${API_BASE_URL}/api/calendar-auth`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
