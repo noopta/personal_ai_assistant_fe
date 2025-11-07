@@ -178,7 +178,7 @@ function AuthSetup({ onAuthComplete, initialGmailAuth = false, initialCalendarAu
 
     try {
       // Backend will handle cookie creation - no need to send hashes
-      const authResponse = await fetch(`${GMAIL_API_URL}/initiate-auth`, {
+      const authResponse = await fetch(`${GMAIL_API_URL}/initiateGmailAuth`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -238,7 +238,7 @@ function AuthSetup({ onAuthComplete, initialGmailAuth = false, initialCalendarAu
 
     try {
       // Backend will handle cookie creation - no need to send hashes
-      const authResponse = await fetch(`${CALENDAR_API_URL}/initiate-auth`, {
+      const authResponse = await fetch(`${CALENDAR_API_URL}/initiateCalendarAuth`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
