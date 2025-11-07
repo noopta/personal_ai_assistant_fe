@@ -118,10 +118,11 @@ function AboutPage() {
               <h4>Anupta Islam</h4>
               <p className={styles.memberRole}>Founder & CEO</p>
               <p>
-                Software engineer with a passion for building AI-powered productivity solutions. 
-                Experienced in full-stack development, system architecture, and creating seamless 
-                user experiences. Based in Toronto, Canada, Anupta combines technical expertise 
-                with a deep understanding of modern workflow challenges to build AirThreads.
+                I'm a software engineer with a passion for building AI-powered productivity solutions. 
+                With experience in full-stack development and system architecture, I focus on creating 
+                seamless user experiences that solve real workflow challenges. Based in Toronto, Canada, 
+                I built AirThreads to bridge the gap between our fragmented productivity tools and create 
+                the unified, intelligent workspace I always wished existed.
               </p>
             </div>
           </div>
