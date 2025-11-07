@@ -25,12 +25,9 @@ function ProductPage() {
   const [forceAuthRecheck, setForceAuthRecheck] = useState(0); // Counter to trigger rechecks
 
   // Get API configuration from environment variables
-  // TODO: SECURITY - Move these to .env.local and rotate these keys!
   const VAPI_API_KEY = getEnvVar('REACT_APP_VAPI_API_KEY', 'cf04b093-6837-4059-8fc0-7996040ab866');
   const VAPI_ASSISTANT_ID = getEnvVar('REACT_APP_VAPI_ASSISTANT_ID', '607939c5-79e1-4de7-bbfa-4e3f0671edef');
-  const GMAIL_API_URL = getEnvVar('REACT_APP_GMAIL_API_URL', 'https://api.airthreads.ai:4007');
-  const CALENDAR_API_URL = getEnvVar('REACT_APP_CALENDAR_API_URL', 'https://api.airthreads.ai:4009');
-  const AGENT_API_URL = getEnvVar('REACT_APP_AGENT_API_URL', 'https://api.airthreads.ai:5000');
+  const API_BASE_URL = getEnvVar('REACT_APP_API_BASE_URL', 'https://api.airthreads.ai');
 
 
   // ok so basicalyl we are getting back a series of 
@@ -169,7 +166,7 @@ function ProductPage() {
         setTimeout(async () => {
           try {
             // Check Gmail status - backend-issued cookies sent automatically
-            const gmailResponse = await fetch(`${GMAIL_API_URL}/checkGmailStatus`, {
+            const gmailResponse = await fetch(`${API_BASE_URL}/api/gmail-status`, {
               method: 'POST',
               headers: {
                 'Content-Type': 'application/json',
@@ -193,7 +190,7 @@ function ProductPage() {
             }
 
             // Check Calendar status - backend-issued cookies sent automatically
-            const calendarResponse = await fetch(`${CALENDAR_API_URL}/checkCalendarStatus`, {
+            const calendarResponse = await fetch(`${API_BASE_URL}/api/calendar-status`, {
               method: 'POST',
               headers: {
                 'Content-Type': 'application/json',
@@ -267,7 +264,7 @@ function ProductPage() {
       secureLog('Starting Gmail authentication');
 
       // Backend sets HTTP-only cookies during auth flow
-      const authResponse = await fetch(`${GMAIL_API_URL}/initiateGmailAuth`, {
+      const authResponse = await fetch(`${API_BASE_URL}/api/gmail-auth`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -348,7 +345,7 @@ function ProductPage() {
       secureLog('Starting Calendar authentication');
 
       // Backend sets HTTP-only cookies during auth flow
-      const authResponse = await fetch(`${CALENDAR_API_URL}/initiateCalendarAuth`, {
+      const authResponse = await fetch(`${API_BASE_URL}/api/calendar-auth`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -443,7 +440,7 @@ function ProductPage() {
       if (needsGmail && !isGmailAuthenticated) {
         try {
           // Backend-issued cookies sent automatically
-          const gmailStatusResponse = await fetch(`${GMAIL_API_URL}/checkGmailStatus`, {
+          const gmailStatusResponse = await fetch(`${API_BASE_URL}/api/gmail-status`, {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
@@ -481,7 +478,7 @@ function ProductPage() {
         secureLog('Calendar authentication needed');
         try {
           // Backend-issued cookies sent automatically
-          const calendarStatusResponse = await fetch(`${CALENDAR_API_URL}/checkCalendarStatus`, {
+          const calendarStatusResponse = await fetch(`${API_BASE_URL}/api/calendar-status`, {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
@@ -537,7 +534,7 @@ function ProductPage() {
       secureLog('Sending request to agent endpoint');
 
       // Send query to backend - hash IDs sent via cookies
-      const response = await fetch(`${AGENT_API_URL}/agent`, {
+      const response = await fetch(`${API_BASE_URL}/api/agent`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -644,7 +641,7 @@ function ProductPage() {
       secureLog('Checking Gmail status');
 
       // Backend-issued cookies sent automatically
-      const response = await fetch(`${GMAIL_API_URL}/checkGmailStatus`, {
+      const response = await fetch(`${API_BASE_URL}/api/gmail-status`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -673,7 +670,7 @@ function ProductPage() {
   const handleCheckCalendarStatus = async () => {
     try {
       // Backend-issued cookies sent automatically
-      const response = await fetch(`${CALENDAR_API_URL}/checkCalendarStatus`, {
+      const response = await fetch(`${API_BASE_URL}/api/calendar-status`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
