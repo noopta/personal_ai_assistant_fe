@@ -1,7 +1,6 @@
 import { Link } from 'react-router-dom';
 import { useEffect, useRef, useState } from 'react';
 import styles from './LandingPage.module.css';
-import AnimatedHighlight from '../components/AnimatedHighlight';
 
 function LandingPage() {
   const [isVisible, setIsVisible] = useState({});
@@ -115,7 +114,7 @@ function LandingPage() {
         <div className={styles.container}>
           <div className={styles.sectionHeader}>
             <h2 className={styles.sectionTitle}>
-              <AnimatedHighlight delay={0}>Unified platform</AnimatedHighlight> <AnimatedHighlight delay={300}>for your productivity</AnimatedHighlight>
+              Unified platform for your productivity
             </h2>
             <p className={styles.sectionSubtitle}>
               Handle all of your task management needs, manage workflows, and automate processes with AI-powered assistance.
