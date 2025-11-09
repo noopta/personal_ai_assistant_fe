@@ -103,3 +103,75 @@ export const getEnvVar = (key, defaultValue = '') => {
 
   return value || defaultValue;
 };
+
+/**
+ * Logged fetch wrapper that logs all API requests and responses
+ * @param {string} url - The URL to fetch
+ * @param {object} options - Fetch options
+ * @returns {Promise<Response>} The fetch response
+ */
+export const loggedFetch = async (url, options = {}) => {
+  const requestId = Math.random().toString(36).substring(7);
+  const startTime = Date.now();
+
+  // Log request details
+  console.group(`🌐 API Request [${requestId}]`);
+  console.log('🔵 Method:', options.method || 'GET');
+  console.log('🔵 URL:', url);
+  console.log('🔵 Credentials:', options.credentials || 'same-origin');
+  
+  if (options.headers) {
+    console.log('🔵 Headers:', options.headers);
+  }
+  
+  if (options.body) {
+    try {
+      const bodyData = JSON.parse(options.body);
+      console.log('🔵 Body:', bodyData);
+    } catch {
+      console.log('🔵 Body:', options.body);
+    }
+  }
+  
+  console.log('🔵 Timestamp:', new Date().toISOString());
+  console.groupEnd();
+
+  try {
+    // Make the actual fetch request
+    const response = await fetch(url, options);
+    const duration = Date.now() - startTime;
+
+    // Clone response to read body without consuming it
+    const clonedResponse = response.clone();
+    let responseData;
+    
+    try {
+      responseData = await clonedResponse.json();
+    } catch {
+      responseData = await clonedResponse.text();
+    }
+
+    // Log response details
+    console.group(`📡 API Response [${requestId}]`);
+    console.log('✅ Status:', response.status, response.statusText);
+    console.log('✅ URL:', url);
+    console.log('✅ Duration:', `${duration}ms`);
+    console.log('✅ Response Data:', responseData);
+    console.log('✅ Timestamp:', new Date().toISOString());
+    console.groupEnd();
+
+    return response;
+  } catch (error) {
+    const duration = Date.now() - startTime;
+    
+    // Log error details
+    console.group(`❌ API Error [${requestId}]`);
+    console.error('❌ Error:', error.message);
+    console.error('❌ URL:', url);
+    console.error('❌ Duration:', `${duration}ms`);
+    console.error('❌ Timestamp:', new Date().toISOString());
+    console.groupEnd();
+
+    throw error;
+  }
+};

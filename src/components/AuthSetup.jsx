@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import styles from './AuthSetup.module.css';
-import { secureLog, getEnvVar } from '../utils/securityUtils';
+import { secureLog, getEnvVar, loggedFetch } from '../utils/securityUtils';
 
 function AuthSetup({ onAuthComplete, initialGmailAuth = false, initialCalendarAuth = false, forceRecheck = false }) {
   const [isGmailAuthenticated, setIsGmailAuthenticated] = useState(initialGmailAuth);
@@ -67,7 +67,7 @@ function AuthSetup({ onAuthComplete, initialGmailAuth = false, initialCalendarAu
     // Check Gmail status - cookies sent automatically
     try {
       secureLog('Checking Gmail status');
-      const gmailResponse = await fetch(`${API_BASE_URL}/api/gmail-status`, {
+      const gmailResponse = await loggedFetch(`${API_BASE_URL}/api/gmail-status`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -111,7 +111,7 @@ function AuthSetup({ onAuthComplete, initialGmailAuth = false, initialCalendarAu
     // Check Calendar status - cookies sent automatically
     try {
       secureLog('Checking Calendar status');
-      const calendarResponse = await fetch(`${API_BASE_URL}/api/calendar-status`, {
+      const calendarResponse = await loggedFetch(`${API_BASE_URL}/api/calendar-status`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -177,7 +177,7 @@ function AuthSetup({ onAuthComplete, initialGmailAuth = false, initialCalendarAu
 
     try {
       // Backend will handle cookie creation - no need to send hashes
-      const authResponse = await fetch(`${API_BASE_URL}/api/gmail-auth`, {
+      const authResponse = await loggedFetch(`${API_BASE_URL}/api/gmail-auth`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -237,7 +237,7 @@ function AuthSetup({ onAuthComplete, initialGmailAuth = false, initialCalendarAu
 
     try {
       // Backend will handle cookie creation - no need to send hashes
-      const authResponse = await fetch(`${API_BASE_URL}/api/calendar-auth`, {
+      const authResponse = await loggedFetch(`${API_BASE_URL}/api/calendar-auth`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
