@@ -71,7 +71,7 @@ function ProductPage() {
   };
 
   // Initialize Vapi when voice mode is selected
-  const initializeVapi = () => {
+  const initializeVapi = (sessionToken) => {
     if (!vapiRef.current) {
       if (!VAPI_API_KEY) {
         console.error('VAPI_API_KEY not configured - please add to .env.local');
@@ -120,10 +120,11 @@ function ProductPage() {
         recordingEnabled: false
       };
 
-      // Include session token if available for multi-user isolation
-      if (vapiSessionToken) {
+      // Use passed token parameter or fall back to state
+      const token = sessionToken || vapiSessionToken;
+      if (token) {
         assistantOverrides.variableValues = {
-          session_token: vapiSessionToken
+          session_token: token
         };
         secureLog('Starting Vapi with session token');
       } else {
@@ -739,12 +740,14 @@ function ProductPage() {
     }
   };
 
-  const handleModeSelect = (mode) => {
+  const handleModeSelect = async (mode) => {
     setIsTransitioning(true);
-    setTimeout(() => {
+    setTimeout(async () => {
       // Initialize Vapi when voice mode is selected
       if (mode === 'voice') {
-        initializeVapi();
+        // Ensure we have the token, or fetch it if not available
+        const token = vapiSessionToken || await fetchVapiSessionToken();
+        initializeVapi(token);
       } else {
         // Clean up Vapi when switching away from voice mode
         cleanupVapi();
@@ -754,12 +757,14 @@ function ProductPage() {
     }, 300);
   };
 
-  const handleSwitchMode = (mode) => {
+  const handleSwitchMode = async (mode) => {
     setIsTransitioning(true);
-    setTimeout(() => {
+    setTimeout(async () => {
       // Initialize Vapi when voice mode is selected
       if (mode === 'voice') {
-        initializeVapi();
+        // Ensure we have the token, or fetch it if not available
+        const token = vapiSessionToken || await fetchVapiSessionToken();
+        initializeVapi(token);
       } else {
         // Clean up Vapi when switching away from voice mode
         cleanupVapi();
