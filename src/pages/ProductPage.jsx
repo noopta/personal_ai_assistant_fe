@@ -57,9 +57,9 @@ function ProductPage() {
       }
 
       const data = await response.json();
-      secureLog('Vapi session token received');
-      setVapiSessionToken(data.token);
-      return data.token;
+      secureLog('Vapi session token received', { hasToken: !!data.session_token });
+      setVapiSessionToken(data.session_token);
+      return data.session_token;
     } catch (error) {
       console.error('Error fetching Vapi session token:', error);
       setMessages(prev => [...prev, {
