@@ -111,7 +111,7 @@ function AuthSetup({ onAuthComplete, initialGmailAuth = false, initialCalendarAu
     // Check Calendar status - cookies sent automatically
     try {
       secureLog('Checking Calendar status');
-      const calendarResponse = await loggedFetch(`${API_BASE_URL}/api/calendar-status`, {
+      const calendarResponse = await loggedFetch(`${API_BASE_URL}:3005/checkCalendarStatus`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -237,7 +237,7 @@ function AuthSetup({ onAuthComplete, initialGmailAuth = false, initialCalendarAu
 
     try {
       // Backend will handle cookie creation - no need to send hashes
-      const authResponse = await loggedFetch(`${API_BASE_URL}/api/calendar-auth`, {
+      const authResponse = await loggedFetch(`${API_BASE_URL}:3005/initiate-auth`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
