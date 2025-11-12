@@ -71,7 +71,7 @@ function ProductPage() {
   };
 
   // Initialize Vapi when voice mode is selected
-  const initializeVapi = (sessionToken) => {
+  const initializeVapi = (sessionToken, gmailAuthStatus, calendarAuthStatus) => {
     if (!vapiRef.current) {
       if (!VAPI_API_KEY) {
         console.error('VAPI_API_KEY not configured - please add to .env.local');
@@ -115,7 +115,7 @@ function ProductPage() {
         return;
       }
 
-      // Pass session token to Vapi for user identification
+      // Pass session token and authentication status to Vapi
       const assistantOverrides = {
         recordingEnabled: false
       };
@@ -124,9 +124,14 @@ function ProductPage() {
       const token = sessionToken || vapiSessionToken;
       if (token) {
         assistantOverrides.variableValues = {
-          session_token: token
+          session_token: token,
+          gmail_authenticated: gmailAuthStatus ?? isGmailAuthenticated,
+          calendar_authenticated: calendarAuthStatus ?? isCalendarAuthenticated
         };
-        secureLog('Starting Vapi with session token');
+        secureLog('Starting Vapi with session token and auth status', {
+          gmail: gmailAuthStatus ?? isGmailAuthenticated,
+          calendar: calendarAuthStatus ?? isCalendarAuthenticated
+        });
       } else {
         console.warn('No Vapi session token available - voice mode may not work correctly');
       }
@@ -747,7 +752,8 @@ function ProductPage() {
       if (mode === 'voice') {
         // Ensure we have the token, or fetch it if not available
         const token = vapiSessionToken || await fetchVapiSessionToken();
-        initializeVapi(token);
+        // Pass authentication status flags to Vapi
+        initializeVapi(token, isGmailAuthenticated, isCalendarAuthenticated);
       } else {
         // Clean up Vapi when switching away from voice mode
         cleanupVapi();
@@ -764,7 +770,8 @@ function ProductPage() {
       if (mode === 'voice') {
         // Ensure we have the token, or fetch it if not available
         const token = vapiSessionToken || await fetchVapiSessionToken();
-        initializeVapi(token);
+        // Pass authentication status flags to Vapi
+        initializeVapi(token, isGmailAuthenticated, isCalendarAuthenticated);
       } else {
         // Clean up Vapi when switching away from voice mode
         cleanupVapi();
