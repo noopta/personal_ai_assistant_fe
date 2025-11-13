@@ -132,8 +132,7 @@ function VoiceMode({ onSwitchMode, vapiRef, messages, setMessages, isLoading, se
         </button>
       </div>
 
-      <div className={styles.contentLayout}>
-        <div className={styles.voiceInterface}>
+      <div className={styles.voiceInterface}>
         <div className={styles.visualizer}>
           {/* Persistent AI Avatar */}
           <div className={styles.avatarContainer}>
@@ -211,9 +210,9 @@ function VoiceMode({ onSwitchMode, vapiRef, messages, setMessages, isLoading, se
             </div>
           </div>
         </div>
-        </div>
 
-        <div className={styles.activitySidebar}>
+        {/* Recent Activity Drawer - Integrated below info panel */}
+        <div className={styles.activityDrawer}>
           <RecentActivity />
         </div>
       </div>

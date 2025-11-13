@@ -68,19 +68,13 @@
   transform: translateY(-2px);
 }
 
-/* Content Layout - Two Column */
-.contentLayout {
-  display: grid;
-  grid-template-columns: 1fr 400px;
-  gap: 32px;
-  align-items: start;
+/* Activity Drawer - Below info panel */
+.activityDrawer {
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
   position: relative;
   z-index: 1;
-}
-
-.activitySidebar {
-  position: sticky;
-  top: 40px;
 }
 
 /* Voice Interface */
@@ -569,29 +563,5 @@
 
   .infoIcon {
     font-size: 1.5rem;
-  }
-}
-
-/* Content Layout Responsive */
-@media (max-width: 1024px) {
-  .contentLayout {
-    grid-template-columns: 1fr;
-    gap: 24px;
-  }
-
-  .activitySidebar {
-    position: relative;
-    top: 0;
-    order: 2;
-  }
-
-  .voiceInterface {
-    order: 1;
-  }
-}
-
-@media (max-width: 768px) {
-  .contentLayout {
-    gap: 20px;
   }
 }

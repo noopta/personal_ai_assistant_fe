@@ -4,6 +4,7 @@ import styles from './RecentActivity.module.css';
 function RecentActivity() {
   const [isLoading, setIsLoading] = useState(true);
   const [activities, setActivities] = useState([]);
+  const [isExpanded, setIsExpanded] = useState(true);
 
   // Demo activity data
   const demoActivities = [
@@ -45,9 +46,33 @@ function RecentActivity() {
 
   return (
     <div className={styles.container}>
-      <h3 className={styles.title}>RECENT ACTIVITY</h3>
+      <button 
+        className={styles.header}
+        onClick={() => setIsExpanded(!isExpanded)}
+        aria-expanded={isExpanded}
+      >
+        <div className={styles.titleBadge}>
+          <span className={styles.title}>RECENT ACTIVITY</span>
+          <span className={styles.activityCount}>{activities.length || 4}</span>
+        </div>
+        <svg 
+          className={`${styles.chevron} ${isExpanded ? styles.expanded : ''}`}
+          width="20" 
+          height="20" 
+          viewBox="0 0 20 20" 
+          fill="none"
+        >
+          <path 
+            d="M5 7.5L10 12.5L15 7.5" 
+            stroke="currentColor" 
+            strokeWidth="2" 
+            strokeLinecap="round" 
+            strokeLinejoin="round"
+          />
+        </svg>
+      </button>
       
-      <div className={styles.activityList}>
+      <div className={`${styles.activityList} ${isExpanded ? styles.expanded : styles.collapsed}`}>
         {isLoading ? (
           // Loading skeleton
           <>
