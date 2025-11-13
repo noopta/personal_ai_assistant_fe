@@ -712,6 +712,12 @@ function ProductPage() {
         },
         credentials: 'include'  // Send cookies with request
       });
+      
+      if (!response.ok) {
+        const errorText = await response.text();
+        throw new Error(`Gmail status check failed (${response.status}): ${errorText}`);
+      }
+      
       const data = await response.json();
       secureLog('Gmail status response received');
       
@@ -721,13 +727,23 @@ function ProductPage() {
       
       setMessages(prev => [...prev, {
         type: 'assistant',
-        content: `${statusMessage}\n\nStatus: ${data.message}`
+        content: `${statusMessage}\n\nStatus: ${data.message || 'No additional details'}`
       }]);
     } catch (error) {
-      setMessages(prev => [...prev, {
-        type: 'assistant',
-        content: `Error checking Gmail status: ${error.message}`
-      }]);
+      console.error('Gmail status check error:', error);
+      
+      // Check for CORS or network errors
+      if (error.name === 'TypeError' || error.message?.includes('Failed to fetch')) {
+        setMessages(prev => [...prev, {
+          type: 'assistant',
+          content: '⚠️ Gmail service is currently unavailable. This may be due to network issues or the backend server not running. Please try again later.'
+        }]);
+      } else {
+        setMessages(prev => [...prev, {
+          type: 'assistant',
+          content: `Error checking Gmail status: ${error.message}`
+        }]);
+      }
     }
   };
 
@@ -741,6 +757,12 @@ function ProductPage() {
         },
         credentials: 'include'  // Send cookies with request
       });
+      
+      if (!response.ok) {
+        const errorText = await response.text();
+        throw new Error(`Calendar status check failed (${response.status}): ${errorText}`);
+      }
+      
       const data = await response.json();
       
       const statusMessage = data.authenticated 
@@ -749,13 +771,23 @@ function ProductPage() {
       
       setMessages(prev => [...prev, {
         type: 'assistant',
-        content: `${statusMessage}\n\nStatus: ${data.message}`
+        content: `${statusMessage}\n\nStatus: ${data.message || 'No additional details'}`
       }]);
     } catch (error) {
-      setMessages(prev => [...prev, {
-        type: 'assistant',
-        content: `Error checking Calendar status: ${error.message}`
-      }]);
+      console.error('Calendar status check error:', error);
+      
+      // Check for CORS or network errors
+      if (error.name === 'TypeError' || error.message?.includes('Failed to fetch')) {
+        setMessages(prev => [...prev, {
+          type: 'assistant',
+          content: '⚠️ Calendar service is currently unavailable. This may be due to the backend server on port 3005 not running or CORS configuration issues. Please ensure the calendar service backend is running.'
+        }]);
+      } else {
+        setMessages(prev => [...prev, {
+          type: 'assistant',
+          content: `Error checking Calendar status: ${error.message}`
+        }]);
+      }
     }
   };
 
