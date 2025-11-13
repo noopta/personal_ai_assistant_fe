@@ -583,7 +583,20 @@ function ProductPage() {
       // Now proceed with the original query - cookies sent automatically
       secureLog('Sending request to agent endpoint');
 
-      // Send query to backend - hash IDs sent via cookies
+      // Ensure we have a session token for the agent endpoint
+      const token = vapiSessionToken || await fetchVapiSessionToken();
+      
+      // Verify we have a valid token before proceeding
+      if (!token) {
+        setMessages(prev => [...prev, {
+          type: 'assistant',
+          content: '⚠️ Failed to initialize session. Please refresh the page and try again.'
+        }]);
+        setIsLoading(false);
+        return;
+      }
+
+      // Send query to backend - hash IDs sent via cookies and session token
       const response = await loggedFetch(`${API_BASE_URL}/api/agent`, {
         method: 'POST',
         headers: {
@@ -591,7 +604,8 @@ function ProductPage() {
         },
         credentials: 'include',  // Send cookies with request
         body: JSON.stringify({
-          query: message
+          query: message,
+          session_token: token  // Include session token for user identification
         })
       });
 
