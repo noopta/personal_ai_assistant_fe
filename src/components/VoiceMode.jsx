@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import styles from './VoiceMode.module.css';
 import ChatMessage from './ChatMessage';
+import RecentActivity from './RecentActivity';
 
 function VoiceMode({ onSwitchMode, vapiRef, messages, setMessages, isLoading, setIsLoading, vapiSessionToken }) {
   const [isListening, setIsListening] = useState(false);
@@ -131,7 +132,8 @@ function VoiceMode({ onSwitchMode, vapiRef, messages, setMessages, isLoading, se
         </button>
       </div>
 
-      <div className={styles.voiceInterface}>
+      <div className={styles.contentLayout}>
+        <div className={styles.voiceInterface}>
         <div className={styles.visualizer}>
           {/* Persistent AI Avatar */}
           <div className={styles.avatarContainer}>
@@ -208,6 +210,11 @@ function VoiceMode({ onSwitchMode, vapiRef, messages, setMessages, isLoading, se
               <div className={styles.infoValue}>Vapi Active</div>
             </div>
           </div>
+        </div>
+        </div>
+
+        <div className={styles.activitySidebar}>
+          <RecentActivity />
         </div>
       </div>
 
