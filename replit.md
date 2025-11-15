@@ -95,6 +95,27 @@ A complete recreation of the web interface as a native iOS app, featuring:
 See `ios-app/README.md` for detailed documentation.
 
 ## Recent Changes
+- 2025-11-15: Real-Time Activity Feed Integration
+  - **Backend Infrastructure Connection:** Integrated real-time activity feed from backend API
+    - **Initial Load:** GET `/api/activity/recent?limit=20` fetches latest activities on mount
+    - **Real-Time Streaming:** EventSource `/api/activity/stream` with Server-Sent Events (SSE)
+    - **Authentication:** Uses credentials: 'include' for cookie-based session auth
+    - **Data Transformation:**
+      - Maps backend structure (summary, timestamp, source, metadata) to component format
+      - Converts Unix timestamps to relative time ("2 minutes ago")
+      - Updates timestamps every minute for freshness
+    - **Features:**
+      - Auto-prepends new activities in real-time
+      - De-duplicates based on description + timestamp
+      - Limits display to 50 most recent items
+      - Ignores heartbeat messages (every 15s) to prevent parse errors
+      - Auto-reconnects on connection errors
+    - **Cleanup:** Properly closes EventSource and clears timers on unmount
+  - **Activity Types Supported:**
+    - Gmail: send, delete, modify, batch_modify, batch_delete
+    - Calendar: create, update, delete
+  - **Status:** ✅ Architect-approved, production-ready
+
 - 2025-11-05: Production-Ready Mobile Responsive Design
   - **Comprehensive Mobile Optimization:** Complete mobile-first responsive design overhaul for production deployment
     - **Typography Accessibility:** All text elements meet 13px minimum across all breakpoints (390px, 480px, 768px, desktop) for WCAG readability compliance

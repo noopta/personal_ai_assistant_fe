@@ -1,47 +1,147 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import styles from './RecentActivity.module.css';
+import { getEnvVar } from '../utils/securityUtils';
 
 function RecentActivity() {
   const [isLoading, setIsLoading] = useState(true);
   const [activities, setActivities] = useState([]);
   const [isExpanded, setIsExpanded] = useState(true);
+  const eventSourceRef = useRef(null);
+  const API_BASE_URL = getEnvVar('REACT_APP_API_BASE_URL', 'https://api.airthreads.ai');
 
-  // Demo activity data
-  const demoActivities = [
-    {
-      id: 1,
-      description: 'Scheduled team meeting',
-      timestamp: '2 minutes ago',
-      type: 'calendar'
-    },
-    {
-      id: 2,
-      description: 'Sent project update email',
-      timestamp: '5 minutes ago',
-      type: 'gmail'
-    },
-    {
-      id: 3,
-      description: 'Organized calendar events',
-      timestamp: '12 minutes ago',
-      type: 'calendar'
-    },
-    {
-      id: 4,
-      description: 'Replied to client inquiry',
-      timestamp: '28 minutes ago',
-      type: 'gmail'
+  // Convert Unix timestamp to relative time
+  const getRelativeTime = (unixTimestamp) => {
+    const now = Math.floor(Date.now() / 1000);
+    const diffSeconds = now - unixTimestamp;
+    
+    if (diffSeconds < 60) return 'just now';
+    if (diffSeconds < 3600) {
+      const minutes = Math.floor(diffSeconds / 60);
+      return `${minutes} minute${minutes > 1 ? 's' : ''} ago`;
     }
-  ];
+    if (diffSeconds < 86400) {
+      const hours = Math.floor(diffSeconds / 3600);
+      return `${hours} hour${hours > 1 ? 's' : ''} ago`;
+    }
+    const days = Math.floor(diffSeconds / 86400);
+    return `${days} day${days > 1 ? 's' : ''} ago`;
+  };
 
-  // Simulate loading with staggered animation
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setActivities(demoActivities);
+  // Fetch initial activities
+  const fetchActivities = async () => {
+    try {
+      const response = await fetch(`${API_BASE_URL}/api/activity/recent?limit=20`, {
+        method: 'GET',
+        credentials: 'include',
+        headers: {
+          'Accept': 'application/json',
+        }
+      });
+
+      if (!response.ok) {
+        console.warn('Failed to fetch activities:', response.status);
+        setIsLoading(false);
+        return;
+      }
+
+      const data = await response.json();
+      
+      // Transform activities to match component structure
+      const transformedActivities = data.activities.map((activity, index) => ({
+        id: `${activity.timestamp}-${index}`,
+        description: activity.summary,
+        timestamp: getRelativeTime(activity.timestamp),
+        type: activity.source,
+        rawTimestamp: activity.timestamp,
+        metadata: activity.metadata
+      }));
+
+      setActivities(transformedActivities);
       setIsLoading(false);
-    }, 1200);
+    } catch (error) {
+      console.error('Error fetching activities:', error);
+      setIsLoading(false);
+    }
+  };
 
-    return () => clearTimeout(timer);
+  // Set up real-time EventSource stream
+  const setupEventSource = () => {
+    try {
+      const eventSource = new EventSource(`${API_BASE_URL}/api/activity/stream`, {
+        withCredentials: true
+      });
+
+      eventSource.onmessage = (event) => {
+        try {
+          // Ignore heartbeat messages (empty or whitespace-only payloads)
+          if (!event.data || event.data.trim() === '') {
+            return;
+          }
+          
+          const activity = JSON.parse(event.data);
+          
+          // Transform and prepend new activity
+          const newActivity = {
+            id: `${activity.timestamp}-${Date.now()}`,
+            description: activity.summary,
+            timestamp: getRelativeTime(activity.timestamp),
+            type: activity.source,
+            rawTimestamp: activity.timestamp,
+            metadata: activity.metadata
+          };
+
+          setActivities(prev => {
+            // De-duplicate: check if activity already exists
+            const isDuplicate = prev.some(item => 
+              item.description === newActivity.description && 
+              item.rawTimestamp === newActivity.rawTimestamp
+            );
+            
+            if (isDuplicate) return prev;
+            
+            // Prepend new activity and limit to 50 items
+            return [newActivity, ...prev].slice(0, 50);
+          });
+        } catch (parseError) {
+          console.error('Error parsing activity event:', parseError);
+        }
+      };
+
+      eventSource.onerror = (error) => {
+        console.warn('EventSource connection error (will auto-reconnect):', error);
+        // EventSource automatically reconnects
+      };
+
+      eventSourceRef.current = eventSource;
+    } catch (error) {
+      console.error('Error setting up EventSource:', error);
+    }
+  };
+
+  // Initialize on mount
+  useEffect(() => {
+    fetchActivities();
+    setupEventSource();
+
+    // Cleanup on unmount
+    return () => {
+      if (eventSourceRef.current) {
+        eventSourceRef.current.close();
+        eventSourceRef.current = null;
+      }
+    };
+  }, []);
+
+  // Update relative timestamps every minute
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setActivities(prev => prev.map(activity => ({
+        ...activity,
+        timestamp: getRelativeTime(activity.rawTimestamp)
+      })));
+    }, 60000); // Update every minute
+
+    return () => clearInterval(interval);
   }, []);
 
   return (
