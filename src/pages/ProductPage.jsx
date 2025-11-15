@@ -221,7 +221,8 @@ function ProductPage() {
               headers: {
                 'Content-Type': 'application/json',
               },
-              credentials: 'include'  // Send cookies with request
+              credentials: 'include',  // Send cookies with request
+              body: JSON.stringify({})  // Empty body to satisfy preflight
             });
 
             if (gmailResponse.ok) {
@@ -245,7 +246,8 @@ function ProductPage() {
               headers: {
                 'Content-Type': 'application/json',
               },
-              credentials: 'include'  // Send cookies with request
+              credentials: 'include',  // Send cookies with request
+              body: JSON.stringify({})  // Empty body to satisfy preflight
             });
 
             if (calendarResponse.ok) {
@@ -319,7 +321,8 @@ function ProductPage() {
         headers: {
           'Content-Type': 'application/json',
         },
-        credentials: 'include'  // Send cookies with request
+        credentials: 'include',  // Send cookies with request
+        body: JSON.stringify({})  // Empty body to satisfy preflight
       });
 
       const authData = await authResponse.json();
@@ -400,7 +403,8 @@ function ProductPage() {
         headers: {
           'Content-Type': 'application/json',
         },
-        credentials: 'include'  // Send cookies with request
+        credentials: 'include',  // Send cookies with request
+        body: JSON.stringify({})  // Empty body to satisfy preflight
       });
 
       const authData = await authResponse.json();
@@ -495,7 +499,8 @@ function ProductPage() {
             headers: {
               'Content-Type': 'application/json',
             },
-            credentials: 'include'  // Send cookies with request
+            credentials: 'include',  // Send cookies with request
+            body: JSON.stringify({})  // Empty body to satisfy preflight
           });
           const gmailStatusData = await gmailStatusResponse.json();
           
@@ -533,7 +538,8 @@ function ProductPage() {
             headers: {
               'Content-Type': 'application/json',
             },
-            credentials: 'include'  // Send cookies with request
+            credentials: 'include',  // Send cookies with request
+            body: JSON.stringify({})  // Empty body to satisfy preflight
           });
           const calendarStatusData = await calendarStatusResponse.json();
           secureLog('Calendar status data received');
@@ -710,7 +716,8 @@ function ProductPage() {
         headers: {
           'Content-Type': 'application/json',
         },
-        credentials: 'include'  // Send cookies with request
+        credentials: 'include',  // Send cookies with request
+        body: JSON.stringify({})  // Empty body to satisfy preflight
       });
       
       if (!response.ok) {
@@ -755,7 +762,8 @@ function ProductPage() {
         headers: {
           'Content-Type': 'application/json',
         },
-        credentials: 'include'  // Send cookies with request
+        credentials: 'include',  // Send cookies with request
+        body: JSON.stringify({})  // Empty body to satisfy preflight
       });
       
       if (!response.ok) {

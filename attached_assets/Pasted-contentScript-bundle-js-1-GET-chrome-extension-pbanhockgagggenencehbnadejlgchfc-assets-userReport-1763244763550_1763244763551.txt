@@ -1,0 +1,70 @@
+contentScript.bundle.js:1
+GET chrome-extension://pbanhockgagggenencehbnadejlgchfc/assets/userReportLinkedCandidate.json net::ERR_FILE_NOT_FOUND
+
+product:1 Access to fetch at 'https://api.airthreads.ai/api/gmail-status' from origin 'https://airthreads.ai' has been blocked by CORS policy: Response to preflight request doesn't pass access control check: No 'Access-Control-Allow-Origin' header is present on the requested resource.
+securityUtils.js:141
+POST https://api.airthreads.ai/api/gmail-status net::ERR_FAILED
+securityUtils.js:168 ❌ API Error [csf73q]
+installHook.js:1 ❌ Error: Failed to fetch
+installHook.js:1 ❌ URL: https://api.airthreads.ai/api/gmail-status
+installHook.js:1 ❌ Duration: 173ms
+installHook.js:1 ❌ Timestamp: 2025-11-15T22:09:09.209Z
+installHook.js:1 Error checking Gmail status: TypeError: Failed to fetch
+at eu (securityUtils.js:141:28)
+at D (AuthSetup.jsx:70:35)
+at AuthSetup.jsx:31:5
+securityUtils.js:118 🌐 API Request [yobiwh]
+securityUtils.js:119 🔵 Method: POST
+securityUtils.js:120 🔵 URL: https://api.airthreads.ai/api/calendar-status
+securityUtils.js:121 🔵 Credentials: include
+securityUtils.js:124 🔵 Headers:
+{Content-Type: 'application/json'}
+securityUtils.js:136 🔵 Timestamp: 2025-11-15T22:09:09.210Z
+product:1 Access to fetch at 'https://api.airthreads.ai/api/calendar-status' from origin 'https://airthreads.ai' has been blocked by CORS policy: Response to preflight request doesn't pass access control check: No 'Access-Control-Allow-Origin' header is present on the requested resource.
+securityUtils.js:141
+POST https://api.airthreads.ai/api/calendar-status net::ERR_FAILED
+securityUtils.js:168 ❌ API Error [yobiwh]
+installHook.js:1 ❌ Error: Failed to fetch
+installHook.js:1 ❌ URL: https://api.airthreads.ai/api/calendar-status
+installHook.js:1 ❌ Duration: 42ms
+installHook.js:1 ❌ Timestamp: 2025-11-15T22:09:09.253Z
+installHook.js:1 Error checking Calendar status: TypeError: Failed to fetch
+at eu (securityUtils.js:141:28)
+at D (AuthSetup.jsx:114:38)
+installHook.js:1 CORS error detected for Calendar service. This needs to be fixed on the server side.
+securityUtils.js:118 🌐 API Request [p7hvhl]
+securityUtils.js:119 🔵 Method: POST
+securityUtils.js:120 🔵 URL: https://api.airthreads.ai/api/gmail-auth
+securityUtils.js:121 🔵 Credentials: include
+securityUtils.js:124 🔵 Headers:
+{Content-Type: 'application/json'}
+securityUtils.js:136 🔵 Timestamp: 2025-11-15T22:09:19.614Z
+product:1 Access to fetch at 'https://api.airthreads.ai/api/gmail-auth' from origin 'https://airthreads.ai' has been blocked by CORS policy: Response to preflight request doesn't pass access control check: No 'Access-Control-Allow-Origin' header is present on the requested resource.
+securityUtils.js:141
+POST https://api.airthreads.ai/api/gmail-auth net::ERR_FAILED
+securityUtils.js:168 ❌ API Error [p7hvhl]
+installHook.js:1 ❌ Error: Failed to fetch
+installHook.js:1 ❌ URL: https://api.airthreads.ai/api/gmail-auth
+installHook.js:1 ❌ Duration: 50ms
+installHook.js:1 ❌ Timestamp: 2025-11-15T22:09:19.663Z
+installHook.js:1 Error during Gmail authentication: TypeError: Failed to fetch
+at eu (securityUtils.js:141:28)
+at onClick (AuthSetup.jsx:180:34)
+securityUtils.js:118 🌐 API Request [izg3s]
+securityUtils.js:119 🔵 Method: POST
+securityUtils.js:120 🔵 URL: https://api.airthreads.ai/api/calendar-auth
+securityUtils.js:121 🔵 Credentials: include
+securityUtils.js:124 🔵 Headers:
+{Content-Type: 'application/json'}
+securityUtils.js:136 🔵 Timestamp: 2025-11-15T22:09:21.096Z
+product:1 Access to fetch at 'https://api.airthreads.ai/api/calendar-auth' from origin 'https://airthreads.ai' has been blocked by CORS policy: Response to preflight request doesn't pass access control check: No 'Access-Control-Allow-Origin' header is present on the requested resource.
+securityUtils.js:141
+POST https://api.airthreads.ai/api/calendar-auth net::ERR_FAILED
+securityUtils.js:168 ❌ API Error [izg3s]
+installHook.js:1 ❌ Error: Failed to fetch
+installHook.js:1 ❌ URL: https://api.airthreads.ai/api/calendar-auth
+installHook.js:1 ❌ Duration: 65ms
+installHook.js:1 ❌ Timestamp: 2025-11-15T22:09:21.161Z
+installHook.js:1 Error during Calendar authentication: TypeError: Failed to fetch
+at eu (securityUtils.js:141:28)
+at onClick (AuthSetup.jsx:240:34)

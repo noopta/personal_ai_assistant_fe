@@ -95,6 +95,24 @@ A complete recreation of the web interface as a native iOS app, featuring:
 See `ios-app/README.md` for detailed documentation.
 
 ## Recent Changes
+- 2025-11-15: API Endpoint & CORS Preflight Fixes
+  - **Fixed Calendar Endpoint Migration:**
+    - Changed all Calendar endpoints from direct port calls (`:3005/checkCalendarStatus`, `:3005/initiate-auth`) to Python proxy routes (`/api/calendar-status`, `/api/calendar-auth`)
+    - Ensures cookies flow through FastAPI proxy for proper authentication
+    - Mirrors Gmail's working pattern (`/api/gmail-status`, `/api/gmail-auth`)
+    - Updated 6 locations across ProductPage and AuthSetup components
+  - **Fixed CORS Preflight Failures:**
+    - Added `body: JSON.stringify({})` to all 12 Gmail/Calendar API requests
+    - Previously had `Content-Type: application/json` header but no body, causing `content-length: 0`
+    - Browser was rejecting OPTIONS preflight due to missing Access-Control-Allow-Origin
+    - All POST requests now include proper JSON body to satisfy CORS requirements
+  - **Authentication Flow Architecture:**
+    - Frontend → Python FastAPI Proxy (`api.airthreads.ai`) → MCP Servers (Gmail/Calendar)
+    - Proxy injects/reads HTTP-only cookies: `userIDHash`, `gmailHashID`, `calendarHashID`
+    - All requests use `credentials: 'include'` to send cookies
+    - No direct port access (prevents CORS cookie stripping)
+  - **Status:** ✅ Architect-approved, ready for testing
+
 - 2025-11-15: Real-Time Activity Feed Integration
   - **Backend Infrastructure Connection:** Integrated real-time activity feed from backend API
     - **Initial Load:** GET `/api/activity/recent?limit=20` fetches latest activities on mount

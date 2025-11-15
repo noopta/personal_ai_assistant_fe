@@ -72,7 +72,8 @@ function AuthSetup({ onAuthComplete, initialGmailAuth = false, initialCalendarAu
         headers: {
           'Content-Type': 'application/json',
         },
-        credentials: 'include'  // Send cookies with request
+        credentials: 'include',  // Send cookies with request
+        body: JSON.stringify({})  // Empty body to satisfy preflight
       });
 
       secureLog('Gmail status response received');
@@ -116,7 +117,8 @@ function AuthSetup({ onAuthComplete, initialGmailAuth = false, initialCalendarAu
         headers: {
           'Content-Type': 'application/json',
         },
-        credentials: 'include'  // Send cookies with request
+        credentials: 'include',  // Send cookies with request
+        body: JSON.stringify({})  // Empty body to satisfy preflight
       });
 
       secureLog('Calendar status response received');
@@ -182,7 +184,8 @@ function AuthSetup({ onAuthComplete, initialGmailAuth = false, initialCalendarAu
         headers: {
           'Content-Type': 'application/json',
         },
-        credentials: 'include'  // Send cookies with request
+        credentials: 'include',  // Send cookies with request
+        body: JSON.stringify({})  // Empty body to satisfy preflight
       });
 
       const authData = await authResponse.json();
@@ -242,7 +245,8 @@ function AuthSetup({ onAuthComplete, initialGmailAuth = false, initialCalendarAu
         headers: {
           'Content-Type': 'application/json',
         },
-        credentials: 'include'  // Send cookies with request
+        credentials: 'include',  // Send cookies with request
+        body: JSON.stringify({})  // Empty body to satisfy preflight
       });
 
       const authData = await authResponse.json();
