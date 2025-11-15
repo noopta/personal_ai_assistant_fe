@@ -1,0 +1,60 @@
+Here’s what the frontend needs to do to surface the new “recent activities” feed:
+
+1. Pull the latest queue on load
+
+Endpoint: GET https://api.airthreads.ai/api/activity/recent
+Auth: same cookies/session token you use for Gmail status (send with credentials: 'include')
+Optional query ?limit=20 (cap 1–100; default 20)
+Response:
+{
+  "activities": [
+    {
+      "userIDHash": "3c43456f-a50c-4b3e-949b-2002b0c2d706",
+      "summary": "Sent email to anuptaislam33@gmail.com | Project update",
+      "type": "gmail.send",
+      "source": "gmail",
+      "timestamp": 1731625530,
+      "metadata": {
+        "subject": "Project update",
+        "to": ["anuptaislam33@gmail.com"],
+        "messageId": "18d1bf..."
+      }
+    },
+    ...
+  ]
+}
+The list is already ordered newest → oldest. Render this immediately to seed the UI.
+2. Subscribe for real-time updates (Server-Sent Events)
+
+Endpoint: GET https://api.airthreads.ai/api/activity/stream
+Use the browser EventSource API:
+const source = new EventSource('https://api.airthreads.ai/api/activity/stream', { withCredentials: true });
+
+source.onmessage = (evt) => {
+  const activity = JSON.parse(evt.data);
+  // prepend to the feed
+};
+
+source.onerror = () => {
+  // EventSource auto-reconnects, but you can log for visibility
+};
+The stream pushes:
+Backlog: first few events (up to 10) so a reconnect still gets recent context.
+Live updates: every time Gmail/Calendar logs a modifying action (gmail.send, gmail.delete, calendar.update, etc.).
+Heartbeats: comment lines (: heartbeat) every 15s so proxies keep the socket alive. You can ignore them; they don’t trigger onmessage.
+3. Data contract (fields)
+
+Each activity object always has:
+
+userIDHash: which user’s queue it belongs to (useful if you multiplex multiple accounts).
+summary: human-readable description. Display this verbatim.
+type: enum values so far: gmail.send, gmail.delete, gmail.modify, gmail.batch_modify, gmail.batch_delete, calendar.create, calendar.update, calendar.delete.
+source: "gmail" or "calendar".
+timestamp: Unix seconds (UTC). Convert to “2 min ago”.
+metadata: tool-specific details (message IDs, attendees, start/end times, counts). Optional.
+4. Expected behavior
+
+Queues auto-trim to the latest 50 items per user and expire after 24h (configurable). If you reconnect after a long idle, GET /activity/recent repopulates from Redis; the SSE backlog only sends the latest 10 by design.
+The webhook is internal; the frontend never needs to POST activities—only consume them.
+If the EventSource disconnects (tab sleep, network change), the browser automatically reconnects. On re-entry, you may see a few duplicate items. Handle this by de-duplicating based on metadata.messageId+timestamp or simply filtering if the summary already exists at the top of your list.
+With those two calls—GET /activity/recent on load + EventSource('/activity/stream')—you’ll always have an up-to-date timeline of high-impact actions.
