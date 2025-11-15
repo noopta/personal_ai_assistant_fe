@@ -240,7 +240,7 @@ function ProductPage() {
             }
 
             // Check Calendar status - backend-issued cookies sent automatically
-            const calendarResponse = await loggedFetch(`${API_BASE_URL}:3005/checkCalendarStatus`, {
+            const calendarResponse = await loggedFetch(`${API_BASE_URL}/api/calendar-status`, {
               method: 'POST',
               headers: {
                 'Content-Type': 'application/json',
@@ -395,7 +395,7 @@ function ProductPage() {
       secureLog('Starting Calendar authentication');
 
       // Backend sets HTTP-only cookies during auth flow
-      const authResponse = await loggedFetch(`${API_BASE_URL}:3005/initiate-auth`, {
+      const authResponse = await loggedFetch(`${API_BASE_URL}/api/calendar-auth`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -528,7 +528,7 @@ function ProductPage() {
         secureLog('Calendar authentication needed');
         try {
           // Backend-issued cookies sent automatically
-          const calendarStatusResponse = await loggedFetch(`${API_BASE_URL}:3005/checkCalendarStatus`, {
+          const calendarStatusResponse = await loggedFetch(`${API_BASE_URL}/api/calendar-status`, {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
@@ -750,7 +750,7 @@ function ProductPage() {
   const handleCheckCalendarStatus = async () => {
     try {
       // Backend-issued cookies sent automatically
-      const response = await loggedFetch(`${API_BASE_URL}:3005/checkCalendarStatus`, {
+      const response = await loggedFetch(`${API_BASE_URL}/api/calendar-status`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
