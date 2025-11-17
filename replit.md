@@ -113,6 +113,26 @@ See `ios-app/README.md` for detailed documentation.
     - No direct port access (prevents CORS cookie stripping)
   - **Status:** ✅ Architect-approved, ready for testing
 
+- 2025-11-17: Activity Stream Integration Fix
+  - **Issue Identified:** EventSource stream missing required `userIDHash` URL parameter
+  - **Frontend Implementation:**
+    - Added userIDHash retrieval from cookies (non-HTTP-only)
+    - Added fallback to fetch from `/api/user/session` endpoint
+    - Updated EventSource URL: `/api/activity/stream?userIDHash=${hashID}`
+    - Added comprehensive logging for debugging authentication flow
+  - **Backend Requirement (ACTION NEEDED):**
+    - Must add `GET /api/user/session` endpoint that returns:
+      ```json
+      {
+        "userIDHash": "...",
+        "gmailHashID": "...",
+        "calendarHashID": "..."
+      }
+      ```
+    - Endpoint should read from existing session/cookies and return hash IDs
+    - Required for frontend to properly authenticate EventSource streams
+  - **Status:** ⏳ Frontend ready, waiting for backend endpoint
+
 - 2025-11-17: Recent Activity UI Enhancements
   - **Dynamic Activity Count:** Badge now shows actual number of activities (not hardcoded default)
   - **Empty State:** Clean empty state with icon when no activities exist

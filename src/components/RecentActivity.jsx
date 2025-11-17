@@ -6,8 +6,47 @@ function RecentActivity() {
   const [isLoading, setIsLoading] = useState(true);
   const [activities, setActivities] = useState([]);
   const [isExpanded, setIsExpanded] = useState(true);
+  const [userIDHash, setUserIDHash] = useState(null);
   const eventSourceRef = useRef(null);
   const API_BASE_URL = getEnvVar('REACT_APP_API_BASE_URL', 'https://api.airthreads.ai');
+
+  // Get userIDHash from cookies
+  const getUserIDHashFromCookie = () => {
+    const cookies = document.cookie.split(';');
+    for (let cookie of cookies) {
+      const [name, value] = cookie.trim().split('=');
+      if (name === 'userIDHash') {
+        return value;
+      }
+    }
+    return null;
+  };
+
+  // Fetch userIDHash from backend if not in cookies
+  const fetchUserIDHash = async () => {
+    try {
+      const response = await fetch(`${API_BASE_URL}/api/user/session`, {
+        method: 'GET',
+        credentials: 'include',
+        headers: {
+          'Accept': 'application/json',
+        }
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        if (data.userIDHash) {
+          setUserIDHash(data.userIDHash);
+          return data.userIDHash;
+        }
+      }
+      console.warn('Could not fetch userIDHash from backend');
+      return null;
+    } catch (error) {
+      console.error('Error fetching userIDHash:', error);
+      return null;
+    }
+  };
 
   // Convert Unix timestamp to relative time
   const getRelativeTime = (unixTimestamp) => {
@@ -65,20 +104,29 @@ function RecentActivity() {
   };
 
   // Set up real-time EventSource stream
-  const setupEventSource = () => {
+  const setupEventSource = (hashID) => {
+    if (!hashID) {
+      console.warn('No userIDHash available for activity stream');
+      return;
+    }
+
     try {
-      const eventSource = new EventSource(`${API_BASE_URL}/api/activity/stream`, {
-        withCredentials: true
-      });
+      // Include userIDHash as URL parameter as required by backend
+      const eventSource = new EventSource(
+        `${API_BASE_URL}/api/activity/stream?userIDHash=${hashID}`,
+        { withCredentials: true }
+      );
 
       eventSource.onmessage = (event) => {
         try {
           // Ignore heartbeat messages (empty or whitespace-only payloads)
           if (!event.data || event.data.trim() === '') {
+            console.log('💓 Activity stream heartbeat');
             return;
           }
           
           const activity = JSON.parse(event.data);
+          console.log('📧 New activity received:', activity.summary);
           
           // Transform and prepend new activity
           const newActivity = {
@@ -108,8 +156,13 @@ function RecentActivity() {
       };
 
       eventSource.onerror = (error) => {
-        console.warn('EventSource connection error (will auto-reconnect):', error);
+        console.error('❌ EventSource connection error (will auto-reconnect):', error);
+        console.error('Stream URL was:', `${API_BASE_URL}/api/activity/stream?userIDHash=${hashID.substring(0, 8)}...`);
         // EventSource automatically reconnects
+      };
+
+      eventSource.onopen = () => {
+        console.log('✅ Activity stream connected successfully');
       };
 
       eventSourceRef.current = eventSource;
@@ -118,10 +171,40 @@ function RecentActivity() {
     }
   };
 
-  // Initialize on mount
+  // Initialize userIDHash and setup connections
   useEffect(() => {
-    fetchActivities();
-    setupEventSource();
+    const initializeActivity = async () => {
+      console.log('🔍 Initializing Recent Activity component...');
+      
+      // First, try to get userIDHash from cookies
+      let hashID = getUserIDHashFromCookie();
+      
+      if (hashID) {
+        console.log('✅ Found userIDHash in cookies:', hashID.substring(0, 8) + '...');
+        setUserIDHash(hashID);
+      } else {
+        console.log('⚠️ No userIDHash in cookies, attempting to fetch from backend...');
+        hashID = await fetchUserIDHash();
+        if (hashID) {
+          console.log('✅ Retrieved userIDHash from backend:', hashID.substring(0, 8) + '...');
+        }
+      }
+
+      // Fetch initial activities
+      await fetchActivities();
+      
+      // Setup real-time stream with userIDHash
+      if (hashID) {
+        console.log('🔌 Setting up EventSource stream with userIDHash...');
+        setupEventSource(hashID);
+      } else {
+        console.error('❌ Cannot setup activity stream: No userIDHash available');
+        console.error('Please ensure you are authenticated and the backend is properly setting cookies');
+        setIsLoading(false);
+      }
+    };
+
+    initializeActivity();
 
     // Cleanup on unmount
     return () => {
