@@ -22,8 +22,9 @@ function RecentActivity() {
     return null;
   };
 
-  // Fetch userIDHash from backend if not in cookies
-  const fetchUserIDHash = async () => {
+  // Fetch the correct hash ID from backend
+  // Activities are stored under gmailHashID (when Gmail is authenticated)
+  const fetchActivityHashID = async () => {
     try {
       const response = await fetch(`${API_BASE_URL}/api/user/session`, {
         method: 'GET',
@@ -35,15 +36,26 @@ function RecentActivity() {
 
       if (response.ok) {
         const data = await response.json();
-        if (data.userIDHash) {
-          setUserIDHash(data.userIDHash);
-          return data.userIDHash;
+        console.log('📋 Session data received:', {
+          userIDHash: data.userIDHash?.substring(0, 8) + '...',
+          gmailHashID: data.gmailHashID?.substring(0, 8) + '...' || 'null',
+          calendarHashID: data.calendarHashID?.substring(0, 8) + '...' || 'null'
+        });
+
+        // Use gmailHashID if available (Gmail activities are stored under this)
+        // Fall back to userIDHash if Gmail isn't authenticated
+        const hashID = data.gmailHashID || data.userIDHash;
+        
+        if (hashID) {
+          setUserIDHash(hashID);
+          console.log('✅ Using hash ID for activities:', hashID.substring(0, 8) + '...');
+          return hashID;
         }
       }
-      console.warn('Could not fetch userIDHash from backend');
+      console.warn('Could not fetch hash ID from backend');
       return null;
     } catch (error) {
-      console.error('Error fetching userIDHash:', error);
+      console.error('Error fetching hash ID:', error);
       return null;
     }
   };
@@ -67,26 +79,38 @@ function RecentActivity() {
   };
 
   // Fetch initial activities
-  const fetchActivities = async () => {
+  const fetchActivities = async (hashID) => {
     try {
-      const response = await fetch(`${API_BASE_URL}/api/activity/recent?limit=20`, {
+      // If we have a hashID, use POST with body; otherwise use GET with cookies only
+      const requestOptions = hashID ? {
+        method: 'POST',
+        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+        },
+        body: JSON.stringify({ userIDHash: hashID })
+      } : {
         method: 'GET',
         credentials: 'include',
         headers: {
           'Accept': 'application/json',
         }
-      });
+      };
+
+      const response = await fetch(`${API_BASE_URL}/api/activity/recent?limit=20`, requestOptions);
 
       if (!response.ok) {
-        console.warn('Failed to fetch activities:', response.status);
+        console.warn('⚠️ Failed to fetch activities:', response.status);
         setIsLoading(false);
         return;
       }
 
       const data = await response.json();
+      console.log(`📧 Fetched ${data.activities?.length || 0} activities`);
       
       // Transform activities to match component structure
-      const transformedActivities = data.activities.map((activity, index) => ({
+      const transformedActivities = (data.activities || []).map((activity, index) => ({
         id: `${activity.timestamp}-${index}`,
         description: activity.summary,
         timestamp: getRelativeTime(activity.timestamp),
@@ -98,7 +122,7 @@ function RecentActivity() {
       setActivities(transformedActivities);
       setIsLoading(false);
     } catch (error) {
-      console.error('Error fetching activities:', error);
+      console.error('❌ Error fetching activities:', error);
       setIsLoading(false);
     }
   };
@@ -171,37 +195,37 @@ function RecentActivity() {
     }
   };
 
-  // Initialize userIDHash and setup connections
+  // Initialize and setup connections
   useEffect(() => {
     const initializeActivity = async () => {
       console.log('🔍 Initializing Recent Activity component...');
       
-      // First, try to get userIDHash from cookies
-      let hashID = getUserIDHashFromCookie();
+      // Fetch session data to get the correct hash ID (gmailHashID preferred)
+      let hashID = await fetchActivityHashID();
       
-      if (hashID) {
-        console.log('✅ Found userIDHash in cookies:', hashID.substring(0, 8) + '...');
-        setUserIDHash(hashID);
-      } else {
-        console.log('⚠️ No userIDHash in cookies, attempting to fetch from backend...');
-        hashID = await fetchUserIDHash();
+      if (!hashID) {
+        console.log('⚠️ No hash ID from backend, trying cookies...');
+        hashID = getUserIDHashFromCookie();
         if (hashID) {
-          console.log('✅ Retrieved userIDHash from backend:', hashID.substring(0, 8) + '...');
+          console.log('✅ Found hash ID in cookies:', hashID.substring(0, 8) + '...');
+          setUserIDHash(hashID);
         }
       }
 
-      // Fetch initial activities
-      await fetchActivities();
-      
-      // Setup real-time stream with userIDHash
-      if (hashID) {
-        console.log('🔌 Setting up EventSource stream with userIDHash...');
-        setupEventSource(hashID);
-      } else {
-        console.error('❌ Cannot setup activity stream: No userIDHash available');
-        console.error('Please ensure you are authenticated and the backend is properly setting cookies');
+      if (!hashID) {
+        console.error('❌ Cannot setup activity stream: No hash ID available');
+        console.error('💡 Tip: Make sure Gmail or Calendar is authenticated first');
         setIsLoading(false);
+        return;
       }
+
+      // Fetch initial activities with the hash ID
+      console.log('📥 Fetching initial activities...');
+      await fetchActivities(hashID);
+      
+      // Setup real-time stream
+      console.log('🔌 Setting up EventSource stream...');
+      setupEventSource(hashID);
     };
 
     initializeActivity();

@@ -1,0 +1,162 @@
+ Excellent! The activity was recorded! I can see:
+  {
+    "userIDHash": "e6c653a7-1656-4ae5-be40-5d2952d76793",
+    "summary": "Sent email to anuptaislam33@gmail.com | Hi",
+    "type": "gmail.send",
+    "source": "gmail",
+    "timestamp": 1763359909,
+    "metadata": {
+      "subject": "Hi",
+      "to": ["anuptaislam33@gmail.com"],
+      "messageId": "19a90718545a8f1c"
+    }
+  }
+
+  The issue is: Your frontend is listening for activities under user
+  bb4b28a6-a185-4cfd-a33c-6d38fa02deea but the email activities are being recorded under
+   e6c653a7-1656-4ae5-be40-5d2952d76793.
+
+  Here's the exact fix for your frontend:
+
+  Replace your current userIDHash detection with this code:
+
+  // In your RecentActivity.jsx or wherever you're setting up the stream
+
+  // Instead of using the session userIDHash, use the Gmail-authenticated userIDHash
+  async function getGmailAuthenticatedUserID() {
+    try {
+      // Check current session first
+      const sessionResponse = await fetch('https://api.airthreads.ai/api/user/session',
+  {
+        credentials: 'include',
+        headers: { 'Content-Type': 'application/json' }
+      });
+
+      if (sessionResponse.ok) {
+        const session = await sessionResponse.json();
+
+        // If this user has a gmailHashID, use that for activities
+        if (session.gmailHashID) {
+          console.log('✅ Using gmailHashID for activities:', session.gmailHashID);
+          return session.gmailHashID;
+        }
+      }
+
+      // Fallback: Check what Gmail users have recent activities
+      const allKeys = await fetch('https://api.airthreads.ai/api/debug/activity-keys', {
+        credentials: 'include'
+      }).catch(() => null);
+
+      // For now, manually use the Gmail-authenticated user that has activities
+      const gmailUserWithActivities = "e6c653a7-1656-4ae5-be40-5d2952d76793";
+      console.log('🔧 Using Gmail user with activities:', gmailUserWithActivities);
+      return gmailUserWithActivities;
+
+    } catch (error) {
+      console.error('Error getting Gmail user ID:', error);
+      return null;
+    }
+  }
+
+  // Modify your activity fetching to use this userID
+  async function setupActivityStream() {
+    const userIDHash = await getGmailAuthenticatedUserID();
+
+    if (!userIDHash) {
+      console.error('❌ No Gmail-authenticated user found');
+      return;
+    }
+
+    console.log('🔌 Setting up activity stream for Gmail user:', userIDHash);
+
+    // Fetch recent activities
+    const recentResponse = await fetch('https://api.airthreads.ai/api/activity/recent',
+  {
+      method: 'POST',
+      credentials: 'include',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ userIDHash })
+    });
+
+    if (recentResponse.ok) {
+      const data = await recentResponse.json();
+      console.log('📧 Found activities:', data.activities);
+      // Update your UI with activities
+      setActivities(data.activities || []);
+    }
+
+    // Set up SSE stream
+    const eventSource = new
+  EventSource(`https://api.airthreads.ai/api/activity/stream?userIDHash=${userIDHash}`,
+  {
+      withCredentials: true
+    });
+
+    eventSource.onmessage = (event) => {
+      try {
+        if (event.data.includes('heartbeat')) {
+          console.log('💓 Heartbeat');
+          return;
+        }
+
+        const activity = JSON.parse(event.data);
+        console.log('🆕 New activity received:', activity);
+
+        // Add to your activities state
+        setActivities(prev => [activity, ...prev].slice(0, 100));
+
+      } catch (err) {
+        console.error('Failed to parse activity:', err);
+      }
+    };
+
+    eventSource.onopen = () => {
+      console.log('✅ Activity stream connected');
+    };
+
+    eventSource.onerror = (err) => {
+      console.error('❌ Activity stream error:', err);
+    };
+
+    return eventSource;
+  }
+
+  // Call this function instead of your current setup
+  setupActivityStream();
+
+  Quick Test
+
+  You can also test this immediately by adding this to your browser console:
+
+  // Test fetching activities for the Gmail user
+  fetch('https://api.airthreads.ai/api/activity/recent', {
+    method: 'POST',
+    credentials: 'include',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ userIDHash: "e6c653a7-1656-4ae5-be40-5d2952d76793" })
+  })
+  .then(r => r.json())
+  .then(data => {
+    console.log('🎉 Gmail activities found:', data.activities);
+  });
+
+  // Test SSE stream
+  const eventSource = new EventSource(`https://api.airthreads.ai/api/activity/stream?use
+  rIDHash=e6c653a7-1656-4ae5-be40-5d2952d76793`, {
+    withCredentials: true
+  });
+
+  eventSource.onmessage = (event) => {
+    if (!event.data.includes('heartbeat')) {
+      console.log('🆕 Live activity:', JSON.parse(event.data));
+    }
+  };
+
+  eventSource.onopen = () => console.log('✅ Stream connected');
+
+  Now send another test email and you should see the activity appear in real-time in
+  your browser console!
+
+  The core issue was that you have multiple user sessions, and activities are tied to
+  the Gmail-authenticated user (e6c653a7-1656-4ae5-be40-5d2952d76793) rather than your
+  main session user (bb4b28a6-a185-4cfd-a33c-6d38fa02deea).
