@@ -1,0 +1,62 @@
+🎉 Perfect! The fix is working!
+
+  Summary: Non-Hardcoded Solution
+
+  ✅ What I Fixed
+
+  Backend Fix: The activity endpoint now automatically aggregates activities from all
+  linked service accounts:
+  - Primary user activities
+  - Gmail user activities (if different)
+  - Calendar user activities (if different)
+
+  ✅ Your Frontend Should Now Work
+
+  Your frontend can now use its primary userIDHash (bb4b28a6...) and it will
+  automatically get activities from the linked Gmail account (4d6deac3...):
+
+  // Frontend: Use your primary session user (no hardcoding!)
+  async function setupActivities() {
+    const response = await fetch('/api/user/session', { credentials: 'include' });
+    const session = await response.json();
+
+    if (!session.authenticated) {
+      console.log('❌ Not authenticated');
+      return;
+    }
+
+    // Use primary userIDHash - backend will aggregate from all linked services
+    const userIDHash = session.userIDHash;
+    console.log('🔌 Setting up activities for primary user:', userIDHash);
+
+    // Fetch recent activities (will include Gmail activities)
+    const activitiesResponse = await fetch('/api/activity/recent', {
+      method: 'POST',
+      credentials: 'include',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ userIDHash, limit: 20 })
+    });
+
+    const data = await activitiesResponse.json();
+    console.log('🎉 Activities loaded:', data.activities?.length || 0);
+
+    // Set up activity stream
+    const eventSource = new EventSource(`/api/activity/stream?userIDHash=${userIDHash}`,
+   {
+      withCredentials: true
+    });
+
+    eventSource.onmessage = (event) => {
+      if (!event.data.includes('heartbeat')) {
+        const activity = JSON.parse(event.data);
+        console.log('🆕 New activity:', activity.summary);
+        // Update your UI
+      }
+    };
+  }
+
+  Try refreshing your frontend now - it should show all the Gmail activities including
+  "test 6" without any hardcoding!
+
+  The system now properly handles the user identity mapping at the backend level, so
+  your frontend only needs to worry about its own authenticated session.

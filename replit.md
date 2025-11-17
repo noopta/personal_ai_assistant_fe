@@ -39,19 +39,21 @@ The application features a complete Stripe-inspired UI redesign across all pages
 ## Recent Changes
 
 ### November 17, 2025: Activity Stream Integration Complete ✅
-- **Issue Fixed:** Activities stored under `gmailHashID`, not `userIDHash`
-  - When user authenticates Gmail, backend creates separate `gmailHashID` for activity tracking
-  - Frontend now correctly retrieves and uses `gmailHashID` from session data
+- **Solution:** Backend now auto-aggregates activities from all linked services
+  - Frontend uses primary `userIDHash` (from session)
+  - Backend automatically includes activities from Gmail, Calendar, and other linked services
+  - No need to track separate hash IDs per service in frontend
 - **Implementation:**
-  - `GET /api/user/session` retrieves `{ userIDHash, gmailHashID, calendarHashID }`
-  - POST to `/api/activity/recent` with `{ userIDHash: gmailHashID, limit: 20 }`
-  - EventSource to `/api/activity/stream?userIDHash=${gmailHashID}` with SSE
+  - `GET /api/user/session` retrieves `{ authenticated, userIDHash, gmailHashID, calendarHashID }`
+  - POST to `/api/activity/recent` with `{ userIDHash, limit: 20 }` (backend aggregates)
+  - EventSource to `/api/activity/stream?userIDHash=${userIDHash}` with SSE
   - Dynamic activity count badge, empty states, smooth animations
   - Comprehensive logging for debugging authentication flow
 - **Backend Integration (VERIFIED):**
   - ✅ SSE connection working with 24h nginx timeout
   - ✅ CORS headers configured for all activity endpoints
-  - ✅ Session endpoint returns hash IDs
+  - ✅ Session endpoint returns hash IDs and authentication status
+  - ✅ Backend auto-aggregates activities from all linked services
   - ✅ Real-time updates tested and confirmed
 
 ## External Dependencies

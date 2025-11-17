@@ -22,8 +22,8 @@ function RecentActivity() {
     return null;
   };
 
-  // Fetch the correct hash ID from backend
-  // Activities are stored under gmailHashID (when Gmail is authenticated)
+  // Fetch user session and hash ID from backend
+  // Backend now aggregates activities from all linked services automatically
   const fetchActivityHashID = async () => {
     try {
       const response = await fetch(`${API_BASE_URL}/api/user/session`, {
@@ -37,18 +37,25 @@ function RecentActivity() {
       if (response.ok) {
         const data = await response.json();
         console.log('📋 Session data received:', {
+          authenticated: data.authenticated,
           userIDHash: data.userIDHash?.substring(0, 8) + '...',
-          gmailHashID: data.gmailHashID?.substring(0, 8) + '...' || 'null',
-          calendarHashID: data.calendarHashID?.substring(0, 8) + '...' || 'null'
+          hasGmail: !!data.gmailHashID,
+          hasCalendar: !!data.calendarHashID
         });
 
-        // Use gmailHashID if available (Gmail activities are stored under this)
-        // Fall back to userIDHash if Gmail isn't authenticated
-        const hashID = data.gmailHashID || data.userIDHash;
+        // Check authentication status
+        if (!data.authenticated) {
+          console.warn('⚠️ User not authenticated');
+          return null;
+        }
+
+        // Use primary userIDHash - backend aggregates from all linked services
+        const hashID = data.userIDHash;
         
         if (hashID) {
           setUserIDHash(hashID);
-          console.log('✅ Using hash ID for activities:', hashID.substring(0, 8) + '...');
+          console.log('✅ Using primary userIDHash for activities:', hashID.substring(0, 8) + '...');
+          console.log('📌 Backend will automatically aggregate from all linked services');
           return hashID;
         }
       }
@@ -200,7 +207,8 @@ function RecentActivity() {
     const initializeActivity = async () => {
       console.log('🔍 Initializing Recent Activity component...');
       
-      // Fetch session data to get the correct hash ID (gmailHashID preferred)
+      // Fetch session data to get primary userIDHash
+      // Backend now aggregates activities from all linked services
       let hashID = await fetchActivityHashID();
       
       if (!hashID) {
@@ -214,13 +222,13 @@ function RecentActivity() {
 
       if (!hashID) {
         console.error('❌ Cannot setup activity stream: No hash ID available');
-        console.error('💡 Tip: Make sure Gmail or Calendar is authenticated first');
+        console.error('💡 Tip: Make sure you are authenticated (Gmail/Calendar will be auto-linked)');
         setIsLoading(false);
         return;
       }
 
-      // Fetch initial activities with the hash ID
-      console.log('📥 Fetching initial activities...');
+      // Fetch initial activities with primary userIDHash
+      console.log('📥 Fetching initial activities (from all linked services)...');
       await fetchActivities(hashID);
       
       // Setup real-time stream
