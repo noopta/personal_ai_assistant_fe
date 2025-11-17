@@ -153,7 +153,9 @@ function RecentActivity() {
       >
         <div className={styles.titleBadge}>
           <span className={styles.title}>RECENT ACTIVITY</span>
-          <span className={styles.activityCount}>{activities.length || 4}</span>
+          {activities.length > 0 && (
+            <span className={styles.activityCount}>{activities.length}</span>
+          )}
         </div>
         <svg 
           className={`${styles.chevron} ${isExpanded ? styles.expanded : ''}`}
@@ -191,36 +193,58 @@ function RecentActivity() {
             ))}
           </>
         ) : (
-          // Actual activity items
-          activities.map((activity, index) => (
-            <div 
-              key={activity.id} 
-              className={styles.activityItem}
-              style={{ animationDelay: `${index * 0.1}s` }}
-            >
-              <div className={styles.checkmark}>
-                <svg 
-                  width="16" 
-                  height="16" 
-                  viewBox="0 0 16 16" 
-                  fill="none" 
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path 
-                    d="M13.3334 4L6.00002 11.3333L2.66669 8" 
-                    stroke="currentColor" 
-                    strokeWidth="2" 
-                    strokeLinecap="round" 
-                    strokeLinejoin="round"
-                  />
-                </svg>
+          // Actual activity items or empty state
+          activities.length > 0 ? (
+            activities.map((activity, index) => (
+              <div 
+                key={activity.id} 
+                className={styles.activityItem}
+                style={{ animationDelay: `${index * 0.05}s` }}
+              >
+                <div className={styles.checkmark}>
+                  <svg 
+                    width="16" 
+                    height="16" 
+                    viewBox="0 0 16 16" 
+                    fill="none" 
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path 
+                      d="M13.3334 4L6.00002 11.3333L2.66669 8" 
+                      stroke="currentColor" 
+                      strokeWidth="2" 
+                      strokeLinecap="round" 
+                      strokeLinejoin="round"
+                    />
+                  </svg>
+                </div>
+                <div className={styles.activityContent}>
+                  <p className={styles.activityDescription}>{activity.description}</p>
+                  <p className={styles.activityTimestamp}>{activity.timestamp}</p>
+                </div>
               </div>
-              <div className={styles.activityContent}>
-                <p className={styles.activityDescription}>{activity.description}</p>
-                <p className={styles.activityTimestamp}>{activity.timestamp}</p>
-              </div>
+            ))
+          ) : (
+            <div className={styles.emptyState}>
+              <svg 
+                width="48" 
+                height="48" 
+                viewBox="0 0 24 24" 
+                fill="none" 
+                className={styles.emptyIcon}
+              >
+                <path 
+                  d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" 
+                  stroke="currentColor" 
+                  strokeWidth="1.5" 
+                  strokeLinecap="round" 
+                  strokeLinejoin="round"
+                />
+              </svg>
+              <p className={styles.emptyText}>No recent activity yet</p>
+              <p className={styles.emptySubtext}>Your Gmail and Calendar actions will appear here</p>
             </div>
-          ))
+          )
         )}
       </div>
     </div>

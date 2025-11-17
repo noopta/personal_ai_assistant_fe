@@ -113,6 +113,19 @@ See `ios-app/README.md` for detailed documentation.
     - No direct port access (prevents CORS cookie stripping)
   - **Status:** ✅ Architect-approved, ready for testing
 
+- 2025-11-17: Recent Activity UI Enhancements
+  - **Dynamic Activity Count:** Badge now shows actual number of activities (not hardcoded default)
+  - **Empty State:** Clean empty state with icon when no activities exist
+  - **Smooth Animations:**
+    - Cubic-bezier easing (0.4, 0, 0.2, 1) for professional material design feel
+    - Faster stagger delay (0.05s) for snappier appearance
+    - Subtle scale effect (0.98 → 1.0) on slide-in for depth
+  - **Enhanced Hover Effects:**
+    - Subtle lift animation (translateY(-2px))
+    - Purple glow shadow on hover
+    - Increased background opacity for better feedback
+  - **Status:** ✅ Architect-approved, smooth minimalist UI
+
 - 2025-11-15: Real-Time Activity Feed Integration
   - **Backend Infrastructure Connection:** Integrated real-time activity feed from backend API
     - **Initial Load:** GET `/api/activity/recent?limit=20` fetches latest activities on mount
