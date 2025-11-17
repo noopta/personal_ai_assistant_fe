@@ -49,12 +49,20 @@ The application features a complete Stripe-inspired UI redesign across all pages
   - EventSource to `/api/activity/stream?userIDHash=${userIDHash}` with SSE
   - Dynamic activity count badge, empty states, smooth animations
   - Comprehensive logging for debugging authentication flow
+- **Robust Reconnection Logic:**
+  - Connection state tracking with visual indicator (🟢 connected / 🔴 disconnected)
+  - Heartbeat timeout monitoring (reconnects if no heartbeat for 60s)
+  - Exponential backoff reconnection (1s, 2s, 4s... up to 30s max)
+  - Race condition prevention (clears all timers before reconnect)
+  - Single EventSource instance guarantee (no duplicate connections)
+  - Proper cleanup on unmount
 - **Backend Integration (VERIFIED):**
   - ✅ SSE connection working with 24h nginx timeout
   - ✅ CORS headers configured for all activity endpoints
   - ✅ Session endpoint returns hash IDs and authentication status
   - ✅ Backend auto-aggregates activities from all linked services
   - ✅ Real-time updates tested and confirmed
+  - ✅ Automatic reconnection on connection loss
 
 ## External Dependencies
 - **Vapi AI**: Used for voice integration via `REACT_APP_VAPI_API_KEY` and `REACT_APP_VAPI_ASSISTANT_ID`.

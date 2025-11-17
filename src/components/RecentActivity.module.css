@@ -40,6 +40,12 @@
   gap: 12px;
 }
 
+.connectionStatus {
+  font-size: 10px;
+  margin-left: 4px;
+  opacity: 0.9;
+}
+
 .title {
   font-size: 13px;
   font-weight: 600;

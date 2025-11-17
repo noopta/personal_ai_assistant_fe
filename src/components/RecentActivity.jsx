@@ -7,7 +7,12 @@ function RecentActivity() {
   const [activities, setActivities] = useState([]);
   const [isExpanded, setIsExpanded] = useState(true);
   const [userIDHash, setUserIDHash] = useState(null);
+  const [isConnected, setIsConnected] = useState(false);
   const eventSourceRef = useRef(null);
+  const reconnectTimeoutRef = useRef(null);
+  const heartbeatTimeoutRef = useRef(null);
+  const hashIDRef = useRef(null);
+  const reconnectAttempts = useRef(0);
   const API_BASE_URL = getEnvVar('REACT_APP_API_BASE_URL', 'https://api.airthreads.ai');
 
   // Get userIDHash from cookies
@@ -134,25 +139,100 @@ function RecentActivity() {
     }
   };
 
-  // Set up real-time EventSource stream
+  // Reset heartbeat timeout - if no heartbeat for 60s, reconnect
+  const resetHeartbeatTimeout = () => {
+    if (heartbeatTimeoutRef.current) {
+      clearTimeout(heartbeatTimeoutRef.current);
+    }
+    
+    heartbeatTimeoutRef.current = setTimeout(() => {
+      console.warn('⚠️ No heartbeat received for 60 seconds, reconnecting...');
+      reconnectStream();
+    }, 60000); // 60 seconds
+  };
+
+  // Reconnect with exponential backoff
+  const reconnectStream = () => {
+    if (!hashIDRef.current) {
+      console.error('Cannot reconnect: no hash ID available');
+      return;
+    }
+
+    // Close existing connection
+    if (eventSourceRef.current) {
+      eventSourceRef.current.close();
+      eventSourceRef.current = null;
+    }
+
+    // Clear any existing reconnect timer to prevent multiple connections
+    if (reconnectTimeoutRef.current) {
+      clearTimeout(reconnectTimeoutRef.current);
+      reconnectTimeoutRef.current = null;
+    }
+
+    // Clear heartbeat timeout since we're reconnecting
+    if (heartbeatTimeoutRef.current) {
+      clearTimeout(heartbeatTimeoutRef.current);
+      heartbeatTimeoutRef.current = null;
+    }
+
+    setIsConnected(false);
+
+    // Calculate backoff delay (max 30 seconds)
+    const delay = Math.min(1000 * Math.pow(2, reconnectAttempts.current), 30000);
+    console.log(`🔄 Reconnecting in ${delay / 1000}s (attempt ${reconnectAttempts.current + 1})...`);
+
+    reconnectTimeoutRef.current = setTimeout(() => {
+      reconnectAttempts.current += 1;
+      setupEventSource(hashIDRef.current);
+    }, delay);
+  };
+
+  // Set up real-time EventSource stream with reconnection logic
   const setupEventSource = (hashID) => {
     if (!hashID) {
       console.warn('No userIDHash available for activity stream');
       return;
     }
 
+    // Store hashID for reconnection
+    hashIDRef.current = hashID;
+
+    // Close any existing connection
+    if (eventSourceRef.current) {
+      eventSourceRef.current.close();
+    }
+
     try {
-      // Include userIDHash as URL parameter as required by backend
+      console.log('🔌 Opening EventSource connection...');
       const eventSource = new EventSource(
         `${API_BASE_URL}/api/activity/stream?userIDHash=${hashID}`,
         { withCredentials: true }
       );
 
+      eventSource.onopen = () => {
+        console.log('✅ Activity stream connected successfully');
+        setIsConnected(true);
+        reconnectAttempts.current = 0; // Reset reconnect counter on success
+        
+        // Clear any pending reconnect timers since we're now connected
+        if (reconnectTimeoutRef.current) {
+          clearTimeout(reconnectTimeoutRef.current);
+          reconnectTimeoutRef.current = null;
+        }
+        
+        // Start heartbeat monitoring
+        resetHeartbeatTimeout();
+      };
+
       eventSource.onmessage = (event) => {
         try {
+          // Reset heartbeat timeout on any message
+          resetHeartbeatTimeout();
+
           // Ignore heartbeat messages (empty or whitespace-only payloads)
-          if (!event.data || event.data.trim() === '') {
-            console.log('💓 Activity stream heartbeat');
+          if (!event.data || event.data.trim() === '' || event.data.includes('heartbeat')) {
+            console.log('💓 Heartbeat');
             return;
           }
           
@@ -176,29 +256,39 @@ function RecentActivity() {
               item.rawTimestamp === newActivity.rawTimestamp
             );
             
-            if (isDuplicate) return prev;
+            if (isDuplicate) {
+              console.log('⚠️ Duplicate activity detected, skipping');
+              return prev;
+            }
             
             // Prepend new activity and limit to 50 items
+            console.log('✅ Adding new activity to list');
             return [newActivity, ...prev].slice(0, 50);
           });
         } catch (parseError) {
-          console.error('Error parsing activity event:', parseError);
+          console.error('❌ Error parsing activity event:', parseError, event.data);
         }
       };
 
       eventSource.onerror = (error) => {
-        console.error('❌ EventSource connection error (will auto-reconnect):', error);
-        console.error('Stream URL was:', `${API_BASE_URL}/api/activity/stream?userIDHash=${hashID.substring(0, 8)}...`);
-        // EventSource automatically reconnects
-      };
+        console.error('❌ EventSource connection error:', error);
+        console.error('Stream URL:', `${API_BASE_URL}/api/activity/stream?userIDHash=${hashID.substring(0, 8)}...`);
+        console.error('ReadyState:', eventSource.readyState);
+        
+        setIsConnected(false);
 
-      eventSource.onopen = () => {
-        console.log('✅ Activity stream connected successfully');
+        // EventSource readyState: 0 = CONNECTING, 1 = OPEN, 2 = CLOSED
+        if (eventSource.readyState === 2) {
+          console.error('⚠️ Connection closed, attempting manual reconnect...');
+          reconnectStream();
+        }
       };
 
       eventSourceRef.current = eventSource;
     } catch (error) {
-      console.error('Error setting up EventSource:', error);
+      console.error('❌ Error setting up EventSource:', error);
+      setIsConnected(false);
+      reconnectStream();
     }
   };
 
@@ -240,9 +330,19 @@ function RecentActivity() {
 
     // Cleanup on unmount
     return () => {
+      console.log('🧹 Cleaning up activity stream...');
+      
       if (eventSourceRef.current) {
         eventSourceRef.current.close();
         eventSourceRef.current = null;
+      }
+      
+      if (reconnectTimeoutRef.current) {
+        clearTimeout(reconnectTimeoutRef.current);
+      }
+      
+      if (heartbeatTimeoutRef.current) {
+        clearTimeout(heartbeatTimeoutRef.current);
       }
     };
   }, []);
@@ -271,6 +371,12 @@ function RecentActivity() {
           {activities.length > 0 && (
             <span className={styles.activityCount}>{activities.length}</span>
           )}
+          <span 
+            className={styles.connectionStatus}
+            title={isConnected ? 'Stream connected' : 'Stream disconnected'}
+          >
+            {isConnected ? '🟢' : '🔴'}
+          </span>
         </div>
         <svg 
           className={`${styles.chevron} ${isExpanded ? styles.expanded : ''}`}
