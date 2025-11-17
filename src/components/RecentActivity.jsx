@@ -81,7 +81,7 @@ function RecentActivity() {
   // Fetch initial activities
   const fetchActivities = async (hashID) => {
     try {
-      // If we have a hashID, use POST with body; otherwise use GET with cookies only
+      // If we have a hashID, use POST with body (limit in body); otherwise use GET with cookies only
       const requestOptions = hashID ? {
         method: 'POST',
         credentials: 'include',
@@ -89,7 +89,7 @@ function RecentActivity() {
           'Content-Type': 'application/json',
           'Accept': 'application/json',
         },
-        body: JSON.stringify({ userIDHash: hashID })
+        body: JSON.stringify({ userIDHash: hashID, limit: 20 })
       } : {
         method: 'GET',
         credentials: 'include',
@@ -98,7 +98,7 @@ function RecentActivity() {
         }
       };
 
-      const response = await fetch(`${API_BASE_URL}/api/activity/recent?limit=20`, requestOptions);
+      const response = await fetch(`${API_BASE_URL}/api/activity/recent`, requestOptions);
 
       if (!response.ok) {
         console.warn('⚠️ Failed to fetch activities:', response.status);

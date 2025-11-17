@@ -20,8 +20,8 @@ The application features a complete Stripe-inspired UI redesign across all pages
 - **Frontend**: React 19.1.0 (Create React App) with React Router DOM 7.6.2 for routing, custom CSS Modules for styling, `react-markdown` for rich text, and `react-syntax-highlighter` for code display. `@vapi-ai/web` is used for voice integration.
 - **iOS App**: A native iOS application built with SwiftUI, replicating the web interface with full feature parity and Stripe-inspired design principles.
 - **Development Environment**: Configured for Replit with frontend running on port 5000, host set to `0.0.0.0`, and host check disabled for Replit proxy compatibility.
-- **Real-time Features**: Integrated real-time activity feed using Server-Sent Events (SSE) for initial load and streaming, with de-duplication, display limits, and auto-reconnection.
-- **Authentication Flow**: Frontend interacts with a Python FastAPI Proxy (`api.airthreads.ai`) which then communicates with MCP (Model Context Protocol) servers for Gmail/Calendar. The proxy handles HTTP-only cookies (`userIDHash`, `gmailHashID`, `calendarHashID`) for secure session management, with all requests using `credentials: 'include'`.
+- **Real-time Features**: Integrated real-time activity feed using Server-Sent Events (SSE) for initial load and streaming, with de-duplication, display limits, and auto-reconnection. Activities are fetched via POST to `/api/activity/recent` with `{ userIDHash, limit }` and streamed via EventSource to `/api/activity/stream?userIDHash=...`. The component uses `gmailHashID` (from session) for Gmail activities.
+- **Authentication Flow**: Frontend interacts with a Python FastAPI Proxy (`api.airthreads.ai`) which then communicates with MCP (Model Context Protocol) servers for Gmail/Calendar. The proxy handles HTTP-only cookies (`userIDHash`, `gmailHashID`, `calendarHashID`) for secure session management, with all requests using `credentials: 'include'`. Session data retrieved via `GET /api/user/session`.
 
 ### Feature Specifications
 - **Core Functionality**: Chat interface for task management and integration.
@@ -35,6 +35,24 @@ The application features a complete Stripe-inspired UI redesign across all pages
 - **Frontend-Only Repository**: This repository focuses solely on the React frontend.
 - **Backend Architecture (External to this repo)**: Includes Node.js/Express API server, Python MCP client, Google Calendar MCP server, and Redis for session management. The frontend is designed to function with placeholder content until these backend services are fully integrated.
 - **Deployment**: Configured for Replit's autoscale deployment using `npm run build` and `npx serve -s build -l 5000`.
+
+## Recent Changes
+
+### November 17, 2025: Activity Stream Integration Complete ✅
+- **Issue Fixed:** Activities stored under `gmailHashID`, not `userIDHash`
+  - When user authenticates Gmail, backend creates separate `gmailHashID` for activity tracking
+  - Frontend now correctly retrieves and uses `gmailHashID` from session data
+- **Implementation:**
+  - `GET /api/user/session` retrieves `{ userIDHash, gmailHashID, calendarHashID }`
+  - POST to `/api/activity/recent` with `{ userIDHash: gmailHashID, limit: 20 }`
+  - EventSource to `/api/activity/stream?userIDHash=${gmailHashID}` with SSE
+  - Dynamic activity count badge, empty states, smooth animations
+  - Comprehensive logging for debugging authentication flow
+- **Backend Integration (VERIFIED):**
+  - ✅ SSE connection working with 24h nginx timeout
+  - ✅ CORS headers configured for all activity endpoints
+  - ✅ Session endpoint returns hash IDs
+  - ✅ Real-time updates tested and confirmed
 
 ## External Dependencies
 - **Vapi AI**: Used for voice integration via `REACT_APP_VAPI_API_KEY` and `REACT_APP_VAPI_ASSISTANT_ID`.
