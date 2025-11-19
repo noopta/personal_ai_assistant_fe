@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import { useEffect, useRef, useState } from 'react';
 import styles from './LandingPage.module.css';
+import SpaceBackground from '../components/SpaceBackground';
 
 function LandingPage() {
   const [isVisible, setIsVisible] = useState({});
@@ -37,6 +38,7 @@ function LandingPage() {
 
   return (
     <div className={styles.landingPage}>
+      <SpaceBackground />
       <section className={styles.hero} id="hero" ref={el => sectionRefs.current.hero = el}>
         <div className={styles.container}>
           <div className={`${styles.heroContent} ${isVisible.hero ? styles.fadeInUp : ''}`}>
@@ -61,32 +63,45 @@ function LandingPage() {
             </div>
           </div>
           <div className={`${styles.heroVisual} ${isVisible.hero ? styles.fadeInUp : ''}`}>
-            <div className={styles.dashboardCard}>
-              <div className={styles.cardHeader}>
-                <div className={styles.cardTitle}>Today</div>
-                <div className={styles.cardBadge}>Live</div>
-              </div>
-              <div className={styles.statsGrid}>
-                <div className={styles.statItem}>
-                  <div className={styles.statLabel}>Tasks completed</div>
-                  <div className={styles.statValue}>23 <span className={styles.statChange}>+18%</span></div>
+            <div className={styles.floatingCards}>
+              <div className={`${styles.integrationCard} ${styles.gmailCard}`}>
+                <div className={styles.cardIcon}>
+                  <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
+                    <rect width="48" height="48" rx="12" fill="url(#gmailGradient)"/>
+                    <path d="M12 16L24 25L36 16V14L24 23L12 14V16Z" fill="white"/>
+                    <path d="M36 14H12C10.9 14 10 14.9 10 16V32C10 33.1 10.9 34 12 34H36C37.1 34 38 33.1 38 32V16C38 14.9 37.1 14 36 14Z" fill="white" fillOpacity="0.9"/>
+                    <defs>
+                      <linearGradient id="gmailGradient" x1="0" y1="0" x2="48" y2="48">
+                        <stop stopColor="#EA4335"/>
+                        <stop offset="1" stopColor="#C5221F"/>
+                      </linearGradient>
+                    </defs>
+                  </svg>
                 </div>
-                <div className={styles.statItem}>
-                  <div className={styles.statLabel}>Emails processed</div>
-                  <div className={styles.statValue}>156 <span className={styles.statChange}>+24%</span></div>
+                <div className={styles.cardContent}>
+                  <h3 className={styles.cardTitle}>Gmail</h3>
+                  <p className={styles.cardSubtitle}>Untegrations</p>
                 </div>
               </div>
-              <div className={styles.chartPlaceholder}>
-                <svg viewBox="0 0 200 80" className={styles.chart}>
-                  <path d="M 0 60 Q 50 40, 100 45 T 200 30" stroke="var(--accent-primary)" strokeWidth="2" fill="none"/>
-                  <path d="M 0 60 Q 50 40, 100 45 T 200 30 L 200 80 L 0 80 Z" fill="url(#gradient)" opacity="0.2"/>
-                  <defs>
-                    <linearGradient id="gradient" x1="0%" y1="0%" x2="0%" y2="100%">
-                      <stop offset="0%" stopColor="var(--accent-primary)" stopOpacity="0.8"/>
-                      <stop offset="100%" stopColor="var(--accent-primary)" stopOpacity="0"/>
-                    </linearGradient>
-                  </defs>
-                </svg>
+              
+              <div className={`${styles.integrationCard} ${styles.calendarCard}`}>
+                <div className={styles.cardIcon}>
+                  <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
+                    <rect width="48" height="48" rx="12" fill="url(#calendarGradient)"/>
+                    <rect x="14" y="16" width="20" height="18" rx="2" fill="white" fillOpacity="0.9"/>
+                    <path d="M18 14V18M30 14V18M14 22H34M16 26H20M16 30H20M24 26H28M24 30H28" stroke="#1A73E8" strokeWidth="2" strokeLinecap="round"/>
+                    <defs>
+                      <linearGradient id="calendarGradient" x1="0" y1="0" x2="48" y2="48">
+                        <stop stopColor="#4285F4"/>
+                        <stop offset="1" stopColor="#1A73E8"/>
+                      </linearGradient>
+                    </defs>
+                  </svg>
+                </div>
+                <div className={styles.cardContent}>
+                  <h3 className={styles.cardTitle}>Calendar</h3>
+                  <p className={styles.cardSubtitle}>Untegrations</p>
+                </div>
               </div>
             </div>
           </div>

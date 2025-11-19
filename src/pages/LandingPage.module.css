@@ -172,8 +172,105 @@
 .heroVisual {
   display: flex;
   justify-content: center;
+  align-items: center;
   opacity: 1;
   animation: fadeInUp 0.8s ease-out 0.2s forwards;
+  position: relative;
+  min-height: 400px;
+}
+
+/* Floating 3D Glassmorphic Integration Cards */
+.floatingCards {
+  position: relative;
+  width: 100%;
+  max-width: 500px;
+  height: 400px;
+}
+
+.integrationCard {
+  position: absolute;
+  width: 280px;
+  height: 160px;
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(40px) saturate(180%);
+  -webkit-backdrop-filter: blur(40px) saturate(180%);
+  border: 2px solid rgba(255, 255, 255, 0.18);
+  border-radius: 24px;
+  padding: 24px;
+  box-shadow: 
+    0 20px 60px rgba(0, 0, 0, 0.5),
+    0 0 40px rgba(99, 91, 255, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.integrationCard:hover {
+  transform: translateY(-12px) scale(1.05);
+  box-shadow: 
+    0 30px 80px rgba(0, 0, 0, 0.6),
+    0 0 60px rgba(99, 91, 255, 0.6),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  border-color: rgba(99, 91, 255, 0.4);
+}
+
+.gmailCard {
+  top: 80px;
+  left: 0;
+  animation: float 6s ease-in-out infinite;
+}
+
+.calendarCard {
+  top: 180px;
+  right: 0;
+  animation: float 6s ease-in-out infinite 3s;
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  25% {
+    transform: translateY(-10px) rotate(1deg);
+  }
+  50% {
+    transform: translateY(0) rotate(0deg);
+  }
+  75% {
+    transform: translateY(10px) rotate(-1deg);
+  }
+}
+
+.cardIcon {
+  width: 56px;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.3));
+}
+
+.cardContent {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.integrationCard .cardTitle {
+  font-size: 24px;
+  font-weight: 700;
+  color: #FFFFFF;
+  letter-spacing: -0.02em;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.integrationCard .cardSubtitle {
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.7);
+  font-weight: 500;
 }
 
 .dashboardCard {
