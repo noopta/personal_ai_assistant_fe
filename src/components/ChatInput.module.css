@@ -1,12 +1,19 @@
+/* CYBERPUNK CHAT INPUT */
+
 .inputWrapper {
   position: relative;
-  background: rgba(255, 255, 255, 0.03);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border-top: 2px solid rgba(99, 91, 255, 0.3);
+  background: linear-gradient(135deg, 
+    rgba(0, 255, 255, 0.05) 0%, 
+    rgba(0, 0, 0, 0.9) 100%
+  );
+  backdrop-filter: blur(30px);
+  -webkit-backdrop-filter: blur(30px);
+  border-top: 2px solid var(--neon-cyan);
   box-shadow: 
-    0 -12px 40px 0 rgba(0, 0, 0, 0.4),
-    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    0 -10px 50px rgba(0, 255, 255, 0.3),
+    inset 0 0 50px rgba(0, 255, 255, 0.05);
+  position: relative;
+  overflow: hidden;
 }
 
 .inputWrapper::before {
@@ -16,89 +23,171 @@
   left: 0;
   right: 0;
   height: 2px;
-  background: linear-gradient(90deg, transparent 0%, rgba(99, 91, 255, 0.8) 50%, transparent 100%);
-  opacity: 0.7;
+  background: linear-gradient(90deg, 
+    transparent 0%, 
+    var(--neon-cyan) 25%, 
+    var(--neon-magenta) 50%, 
+    var(--neon-cyan) 75%, 
+    transparent 100%
+  );
+  animation: holo-shift 3s linear infinite;
+  background-size: 200% 100%;
+  box-shadow: 0 0 20px var(--neon-cyan);
+}
+
+.inputWrapper::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent 0px,
+    rgba(0, 255, 255, 0.02) 1px,
+    transparent 2px
+  );
+  pointer-events: none;
+  animation: scanline 8s linear infinite;
 }
 
 .inputContainer {
-  padding: 1.5rem 2rem;
+  padding: 24px 32px;
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
+  gap: 16px;
+  position: relative;
+  z-index: 1;
 }
 
 .inputGroup {
   display: flex;
-  gap: 0.75rem;
+  gap: 16px;
   align-items: flex-end;
   position: relative;
 }
 
+/* HUD-STYLE INPUT FIELD */
 .input {
   flex: 1;
-  padding: 1rem 1.25rem;
-  border: 2px solid rgba(255, 255, 255, 0.15);
-  border-radius: 20px;
-  font-size: 1rem;
+  padding: 16px 24px;
+  border: 2px solid var(--neon-cyan);
+  font-size: 16px;
+  font-family: var(--font-terminal);
   font-weight: 400;
   outline: none;
-  background: rgba(255, 255, 255, 0.08);
-  backdrop-filter: blur(40px) saturate(180%);
-  -webkit-backdrop-filter: blur(40px) saturate(180%);
-  color: var(--text-primary);
-  transition: all var(--duration-normal) var(--transition-smooth);
+  background: linear-gradient(135deg, 
+    rgba(0, 255, 255, 0.08) 0%, 
+    rgba(0, 0, 0, 0.9) 100%
+  );
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  color: var(--neon-cyan);
+  transition: all 0.3s var(--transition-glitch);
   box-shadow: 
-    0 12px 40px 0 rgba(0, 0, 0, 0.5),
-    0 0 20px rgba(99, 91, 255, 0.2),
-    inset 0 1px 0 rgba(255, 255, 255, 0.1);
-  line-height: 1.5;
-  min-height: 56px;
+    0 0 30px rgba(0, 255, 255, 0.3),
+    inset 0 0 30px rgba(0, 255, 255, 0.05);
+  line-height: 1.6;
+  min-height: 60px;
   resize: none;
+  clip-path: polygon(
+    0 8px,
+    8px 0,
+    calc(100% - 8px) 0,
+    100% 8px,
+    100% calc(100% - 8px),
+    calc(100% - 8px) 100%,
+    8px 100%,
+    0 calc(100% - 8px)
+  );
+  letter-spacing: 0.5px;
+  position: relative;
+}
+
+.input::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent 0px,
+    rgba(0, 255, 255, 0.02) 1px,
+    transparent 2px
+  );
+  pointer-events: none;
 }
 
 .input::placeholder {
-  color: var(--text-muted);
+  color: rgba(0, 255, 255, 0.4);
   font-weight: 400;
-  opacity: 0.8;
+  font-family: var(--font-terminal);
+  letter-spacing: 1px;
 }
 
 .input:focus {
-  border-color: rgba(99, 91, 255, 0.5);
-  background: rgba(255, 255, 255, 0.12);
+  border-color: var(--neon-magenta);
+  background: linear-gradient(135deg, 
+    rgba(255, 0, 255, 0.1) 0%, 
+    rgba(0, 0, 0, 0.95) 100%
+  );
   box-shadow: 
-    0 20px 60px 0 rgba(0, 0, 0, 0.6),
-    0 0 50px rgba(99, 91, 255, 0.7),
-    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    0 0 50px rgba(255, 0, 255, 0.6),
+    inset 0 0 40px rgba(255, 0, 255, 0.08);
+  color: var(--neon-magenta);
   transform: translateY(-2px);
 }
 
-.input:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
-  background: var(--bg-tertiary);
+.input:focus::placeholder {
+  color: rgba(255, 0, 255, 0.4);
 }
 
+.input:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  background: rgba(0, 0, 0, 0.6);
+  border-color: rgba(0, 255, 255, 0.2);
+}
+
+/* NEON SEND BUTTON */
 .sendButton {
-  padding: 1rem 1.5rem;
-  background: linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-secondary) 100%);
-  color: #ffffff;
-  border: 2px solid rgba(255, 255, 255, 0.3);
-  border-radius: 20px;
-  font-size: 1rem;
-  font-weight: 600;
+  padding: 16px 32px;
+  background: linear-gradient(135deg, 
+    rgba(0, 255, 255, 0.2) 0%, 
+    rgba(255, 0, 255, 0.2) 100%
+  );
+  color: var(--neon-cyan);
+  border: 2px solid var(--neon-cyan);
+  font-family: var(--font-terminal);
+  font-size: 16px;
+  font-weight: 700;
   cursor: pointer;
-  transition: all var(--duration-normal) var(--transition-smooth);
+  transition: all 0.3s var(--transition-glitch);
   box-shadow: 
-    0 12px 40px 0 rgba(0, 0, 0, 0.5),
-    0 0 50px rgba(99, 91, 255, 0.7),
-    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    0 0 40px rgba(0, 255, 255, 0.4),
+    inset 0 0 30px rgba(0, 255, 255, 0.08);
   position: relative;
   overflow: hidden;
   display: flex;
   align-items: center;
-  gap: 0.5rem;
-  min-width: 100px;
+  gap: 12px;
+  min-width: 140px;
   justify-content: center;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  clip-path: polygon(
+    0 10px,
+    10px 0,
+    calc(100% - 10px) 0,
+    100% 10px,
+    100% calc(100% - 10px),
+    calc(100% - 10px) 100%,
+    10px 100%,
+    0 calc(100% - 10px)
+  );
 }
 
 .sendButton::before {
@@ -108,8 +197,12 @@
   left: -100%;
   width: 100%;
   height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-  transition: left 0.6s ease;
+  background: linear-gradient(90deg, 
+    transparent, 
+    rgba(255, 255, 255, 0.2), 
+    transparent
+  );
+  transition: left 0.5s ease;
 }
 
 .sendButton:hover:not(:disabled)::before {
@@ -117,105 +210,162 @@
 }
 
 .sendButton:hover:not(:disabled) {
-  transform: translateY(-4px) scale(1.05);
+  transform: translateY(-4px);
+  border-color: var(--neon-magenta);
+  color: var(--neon-magenta);
   box-shadow: 
-    0 20px 60px 0 rgba(0, 0, 0, 0.7),
-    0 0 70px rgba(99, 91, 255, 0.9),
-    inset 0 1px 0 rgba(255, 255, 255, 0.3);
-  border-color: rgba(255, 255, 255, 0.4);
+    0 0 60px rgba(255, 0, 255, 0.7),
+    inset 0 0 40px rgba(255, 0, 255, 0.12);
+  background: linear-gradient(135deg, 
+    rgba(255, 0, 255, 0.25) 0%, 
+    rgba(0, 255, 255, 0.25) 100%
+  );
 }
 
 .sendButton:active:not(:disabled) {
-  transform: translateY(0) scale(0.98);
+  transform: translateY(0) scale(0.95);
   transition: all 0.1s ease;
 }
 
 .sendButton:disabled,
 .sendButton.disabled {
-  opacity: 0.5;
+  opacity: 0.4;
   cursor: not-allowed;
   transform: none;
   box-shadow: none;
-  background: var(--bg-quaternary);
-  border-color: var(--border-color);
+  background: rgba(0, 0, 0, 0.6);
+  border-color: rgba(0, 255, 255, 0.2);
+  color: rgba(0, 255, 255, 0.3);
 }
 
 .sendIcon {
-  width: 18px;
-  height: 18px;
+  width: 20px;
+  height: 20px;
   fill: currentColor;
   transition: transform 0.3s ease;
+  filter: drop-shadow(0 0 8px currentColor);
 }
 
 .sendButton:hover:not(:disabled) .sendIcon {
-  transform: translateX(2px);
+  transform: translateX(4px);
 }
 
 .sendText {
-  font-weight: 600;
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+  font-weight: 700;
+  text-shadow: 0 0 10px currentColor;
 }
 
+/* INPUT HINT */
 .inputHint {
   display: flex;
   justify-content: center;
-  margin-top: 0.25rem;
+  margin-top: 8px;
 }
 
 .hintText {
-  font-size: 13px;
-  color: var(--text-muted);
-  opacity: 0.7;
+  font-size: 12px;
+  font-family: var(--font-terminal);
+  color: rgba(0, 255, 255, 0.5);
+  opacity: 0.8;
   font-weight: 400;
   text-align: center;
+  letter-spacing: 1px;
+  text-transform: uppercase;
 }
 
-/* Enhanced focus states */
+/* CORNER ACCENTS FOR INPUT */
+.inputGroup::before,
+.inputGroup::after {
+  content: '';
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  border: 2px solid var(--neon-cyan);
+  pointer-events: none;
+  transition: all 0.3s ease;
+}
+
+.inputGroup::before {
+  top: -8px;
+  left: -8px;
+  border-right: none;
+  border-bottom: none;
+  box-shadow: 0 0 15px var(--neon-cyan);
+}
+
+.inputGroup::after {
+  bottom: -8px;
+  right: -8px;
+  border-left: none;
+  border-top: none;
+  box-shadow: 0 0 15px var(--neon-cyan);
+}
+
+.inputGroup:focus-within::before,
+.inputGroup:focus-within::after {
+  border-color: var(--neon-magenta);
+  box-shadow: 0 0 20px var(--neon-magenta);
+}
+
+/* ENHANCED FOCUS STATES */
 .inputGroup:focus-within .sendButton:not(:disabled) {
   box-shadow: 
-    0 6px 20px rgba(59, 130, 246, 0.35),
-    0 3px 10px rgba(6, 182, 212, 0.25);
+    0 0 50px rgba(0, 255, 255, 0.6),
+    inset 0 0 35px rgba(0, 255, 255, 0.1);
+  border-color: var(--neon-cyan);
+  animation: neon-pulse 2s ease-in-out infinite;
 }
 
-/* Typing indicator */
+/* TYPING INDICATOR */
 .input:not(:placeholder-shown) + .sendButton:not(:disabled) {
-  background: linear-gradient(135deg, var(--accent-secondary) 0%, var(--accent-primary) 100%);
+  background: linear-gradient(135deg, 
+    rgba(0, 255, 255, 0.3) 0%, 
+    rgba(255, 0, 255, 0.3) 100%
+  );
   animation: sendButtonPulse 2s ease-in-out infinite;
+  border-color: var(--neon-green);
+  color: var(--neon-green);
 }
 
 @keyframes sendButtonPulse {
   0%, 100% {
     box-shadow: 
-      0 4px 16px rgba(59, 130, 246, 0.3),
-      0 2px 8px rgba(6, 182, 212, 0.2);
+      0 0 40px rgba(0, 255, 0, 0.5),
+      inset 0 0 30px rgba(0, 255, 0, 0.08);
   }
   50% {
     box-shadow: 
-      0 6px 20px rgba(59, 130, 246, 0.4),
-      0 3px 10px rgba(6, 182, 212, 0.3);
+      0 0 60px rgba(0, 255, 0, 0.7),
+      inset 0 0 40px rgba(0, 255, 0, 0.12);
   }
 }
 
-/* Responsive design */
+/* SCANLINE ANIMATION */
+@keyframes scanline {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(10px); }
+}
+
+/* RESPONSIVE */
 @media (max-width: 768px) {
   .inputContainer {
-    padding: 1.25rem 1.5rem;
-    gap: 0.5rem;
+    padding: 20px 24px;
+    gap: 12px;
   }
 
   .inputGroup {
-    gap: 0.5rem;
+    gap: 12px;
   }
 
   .input {
-    padding: 0.875rem 1rem;
-    font-size: 16px; /* Prevent zoom on iOS */
-    min-height: 48px;
+    padding: 14px 20px;
+    font-size: 16px;
+    min-height: 52px;
   }
 
   .sendButton {
-    padding: 0.875rem 1.25rem;
-    min-width: 80px;
+    padding: 14px 24px;
+    min-width: 100px;
   }
 
   .sendText {
@@ -223,47 +373,69 @@
   }
 
   .sendIcon {
-    width: 20px;
-    height: 20px;
+    width: 22px;
+    height: 22px;
   }
 
   .hintText {
-    font-size: 13px;
+    font-size: 11px;
   }
 }
 
-/* Dark mode enhancements */
+@media (max-width: 480px) {
+  .inputContainer {
+    padding: 16px 20px;
+  }
+
+  .input {
+    padding: 12px 16px;
+    font-size: 16px;
+    min-height: 48px;
+  }
+
+  .sendButton {
+    padding: 12px 20px;
+    min-width: 80px;
+  }
+
+  .inputGroup::before,
+  .inputGroup::after {
+    display: none;
+  }
+}
+
+/* DARK MODE ENHANCEMENTS */
 [data-theme="dark"] .input {
   background: linear-gradient(135deg, 
-    rgba(18, 24, 38, 0.9) 0%, 
-    rgba(25, 32, 64, 0.8) 100%);
-  border-color: rgba(59, 130, 246, 0.2);
+    rgba(0, 255, 255, 0.1) 0%, 
+    rgba(0, 0, 0, 0.95) 100%
+  );
+  border-color: var(--neon-cyan);
 }
 
 [data-theme="dark"] .input:focus {
-  border-color: var(--accent-primary);
+  border-color: var(--neon-magenta);
   background: linear-gradient(135deg, 
-    rgba(25, 32, 64, 0.95) 0%, 
-    rgba(18, 24, 38, 0.9) 100%);
+    rgba(255, 0, 255, 0.12) 0%, 
+    rgba(0, 0, 0, 0.98) 100%
+  );
 }
 
-/* Light mode enhancements */
+/* LIGHT MODE (Maintain cyberpunk aesthetic) */
 [data-theme="light"] .input {
   background: linear-gradient(135deg, 
-    rgba(255, 255, 255, 0.95) 0%, 
-    rgba(241, 245, 251, 0.9) 100%);
-  border-color: var(--border-color);
-  box-shadow: 
-    0 4px 16px rgba(59, 130, 246, 0.08),
-    inset 0 1px 0 rgba(255, 255, 255, 0.8);
+    rgba(0, 255, 255, 0.12) 0%, 
+    rgba(0, 0, 0, 0.88) 100%
+  );
+  border-color: var(--neon-cyan);
+  color: var(--neon-cyan);
 }
 
 [data-theme="light"] .input:focus {
   background: linear-gradient(135deg, 
-    rgba(241, 245, 251, 0.95) 0%, 
-    rgba(255, 255, 255, 0.9) 100%);
-  box-shadow: 
-    0 0 0 3px rgba(59, 130, 246, 0.1),
-    0 8px 24px rgba(59, 130, 246, 0.1),
-    inset 0 1px 0 rgba(255, 255, 255, 0.9);
+    rgba(255, 0, 255, 0.15) 0%, 
+    rgba(0, 0, 0, 0.92) 100%
+  );
+  border-color: var(--neon-magenta);
+  color: var(--neon-magenta);
 }
