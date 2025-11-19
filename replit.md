@@ -9,7 +9,10 @@ I prefer iterative development, with a focus on clear, concise communication. Pl
 ## System Architecture
 
 ### UI/UX Decisions
-The application features a minimalist, artistic aesthetic inspired by Blade Runner 2049 - sophisticated, clean, and atmospheric. The design emphasizes:
+
+**Landing Page**: Glassmorphic design with purple-to-blue gradient background (#9c2cf3 → #7c4dff → #4f7dfd → #35a1ff), featuring five 3D floating cards (Mitedoy, Gmail x2, Calendar, Calegrator) with backdrop-filter blur, scattered arrangement using perspective transforms, and subtle floating animations. Two-column hero layout with text on left (40%) and cards on right (60%), soft bubble elements in background, and proper z-index layering (text > cards > bubbles).
+
+**Interior Pages**: Minimalist, artistic aesthetic inspired by Blade Runner 2049 - sophisticated, clean, and atmospheric. The design emphasizes:
 - **Color Palette**: Muted dark grays (#0F0F0F, #1A1A1A, #252525) with subtle orange/amber accents (#FF8C42) for strategic highlights
 - **Typography**: Clean sans-serif fonts with excellent hierarchy and spacing, focusing on large, minimal text treatments
 - **Visual Style**: Atmospheric gradients, subtle particle effects (30 low-opacity amber particles), simple geometric elements
@@ -29,23 +32,38 @@ This repository is dedicated to the React frontend. The backend architecture, ex
 
 ## Recent Changes
 
+### November 19, 2025: Glassmorphic Landing Page - Reference Design Implementation ✅
+- **Scope**: Complete landing page redesign to match reference image with purple-blue gradient and 3D floating cards
+- **Design Philosophy**: Modern, professional glassmorphic aesthetic with depth and dimension
+
+**Landing Page Design:**
+- **Background**: Purple-to-blue gradient (#9c2cf3 → #7c4dff → #4f7dfd → #35a1ff)
+- **Hero Layout**: Two-column CSS Grid (text left 40%, cards right 60%)
+- **Typography**: "AirThreads AI Assistant" with large, bold text treatments, proper text shadows
+- **Glassmorphic Cards**: Five 3D floating cards with backdrop-filter blur(45px), subtle transparency, 1px white borders
+  - Mitedoy (bottom left): Colorful gradient icon, "Task Management"
+  - Gmail Red (top center): Red Gmail icon, "Correspondence & Assisting"
+  - Gmail Blue (center left): Blue Gmail icon, "Compose & Send"
+  - Calendar (top right): Calendar icon with "14", "Smart Scheduling"
+  - Calegrator (middle right): Green calendar icon, "Event Coordination"
+- **3D Perspective**: Individual transform3d and rotateX/Y/Z values for each card creating scattered floating effect
+- **Animations**: Subtle floating animations (translateY -10px to -18px) with 6.5s-8.5s durations
+- **Background Elements**: Soft blurred bubbles (blur(60px)) with radial gradients for atmospheric depth
+- **Z-Index Layering**: Text (z-index: 20) > Cards (z-index: 3-7) > Bubbles (z-index: 1)
+- **Header**: Updated to "AI Aseguet" button matching reference design
+- **Responsive**: Grid layout maintained above 900px, fallback to stacked layout below
+
+**Technical Implementation:**
+- ✅ All 5 cards positioned and visible with proper 3D transforms
+- ✅ Glassmorphic styling with backdrop-filter and gradients
+- ✅ Proper stacking contexts and z-index management
+- ✅ Smooth animations using CSS keyframes
+- ✅ Architect review passed
+- ✅ No code quality regressions
+
 ### November 19, 2025: Complete Minimalist Redesign - Blade Runner 2049 Inspired ✅
-- **Scope**: Complete transformation from cyberpunk to minimalist artistic aesthetic across all pages
+- **Scope**: Complete transformation from cyberpunk to minimalist artistic aesthetic across interior pages
 - **Design Philosophy**: Artistic, clean, sophisticated - inspired by Blade Runner 2049
-
-**Minimalist Design System:**
-- **Color Palette**: Muted dark grays (#0F0F0F, #1A1A1A, #252525) with subtle orange/amber accents (#FF8C42)
-- **Typography**: Clean sans-serif with excellent hierarchy, minimal text treatments, generous spacing
-- **Animations**: Minimal motion (fade-in, slide-up, subtle-glow only) - no heavy effects
-- **Background**: Subtle atmospheric gradient with 30 low-opacity amber particles
-- **CSS Variables**: --bg-primary, --bg-secondary, --text-primary, --text-secondary, --accent-primary
-- **Utility Classes**: .container, .section, .card, .btn for consistent minimal styling
-
-**Landing Page Redesign:**
-- Clean hero section with large minimal typography
-- Subtle orange accent line for visual interest
-- Atmospheric gradient background
-- Emphasis on whitespace and typography hierarchy
 
 **Product/Chat Page Redesign:**
 - Minimal chat interface with clean message bubbles
