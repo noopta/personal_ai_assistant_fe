@@ -113,151 +113,197 @@
   will-change: transform;
 }
 
-/* Email Icons */
-.emailCluster {
+/* Interactive Network Visualization */
+.networkSvg {
   position: absolute;
-  top: 15%;
-  right: 10%;
-  width: 400px;
-  height: 400px;
+  top: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0.8;
+  pointer-events: none;
 }
 
-.emailIcon1,
-.emailIcon2,
-.emailIcon3 {
+.connection {
+  stroke-dasharray: 5, 5;
+  animation: dashFlow 20s linear infinite;
+}
+
+@keyframes dashFlow {
+  to {
+    stroke-dashoffset: -200;
+  }
+}
+
+/* Network nodes with pulsing animation */
+.node1,
+.node2,
+.node3,
+.node4,
+.node5 {
+  animation: nodePulse 3s ease-in-out infinite;
+}
+
+.node2 { animation-delay: 0.5s; }
+.node3 { animation-delay: 1s; }
+.node4 { animation-delay: 1.5s; }
+.node5 { animation-delay: 2s; }
+
+@keyframes nodePulse {
+  0%, 100% {
+    r: 6;
+    opacity: 0.8;
+    stroke-width: 1;
+  }
+  50% {
+    r: 8;
+    opacity: 1;
+    stroke-width: 2;
+  }
+}
+
+/* Data packets traveling along connections */
+.dataPacket1,
+.dataPacket2,
+.dataPacket3,
+.dataPacket4,
+.dataPacket5,
+.dataPacket6 {
+  filter: blur(1px);
+}
+
+/* Binary data stream */
+.binaryStream {
   position: absolute;
-  width: 120px;
-  height: auto;
-  opacity: 0.6;
-}
-
-.emailIcon1 {
-  top: 10%;
-  right: 20%;
-  animation: emailFloat1 8s ease-in-out infinite;
-}
-
-.emailIcon2 {
-  top: 50%;
-  right: 5%;
-  animation: emailFloat2 10s ease-in-out infinite 1s;
-}
-
-.emailIcon3 {
-  top: 70%;
-  right: 35%;
-  animation: emailFloat3 9s ease-in-out infinite 2s;
-}
-
-@keyframes emailFloat1 {
-  0%, 100% { transform: translateY(0) rotate(-5deg); opacity: 0.6; }
-  50% { transform: translateY(-25px) rotate(5deg); opacity: 0.8; }
-}
-
-@keyframes emailFloat2 {
-  0%, 100% { transform: translateY(0) rotate(3deg); opacity: 0.5; }
-  50% { transform: translateY(-35px) rotate(-3deg); opacity: 0.7; }
-}
-
-@keyframes emailFloat3 {
-  0%, 100% { transform: translateY(0) rotate(-2deg); opacity: 0.4; }
-  50% { transform: translateY(-20px) rotate(2deg); opacity: 0.6; }
-}
-
-/* Data Flow Lines */
-.dataFlowLines {
-  position: absolute;
-  top: 30%;
-  left: 15%;
-  width: 300px;
-  height: 200px;
-}
-
-.flowLine1,
-.flowLine2,
-.flowLine3 {
-  position: absolute;
-  height: 1px;
-  background: linear-gradient(90deg, rgba(10,10,10,0.06), transparent);
-}
-
-.flowLine1 {
-  width: 200px;
   top: 20%;
+  left: 10%;
+  width: 80%;
+  height: 60%;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.binaryText1,
+.binaryText2,
+.binaryText3 {
+  position: absolute;
+  font-family: 'Courier New', monospace;
+  font-size: 0.75rem;
+  color: rgba(10, 10, 10, 0.04);
+  white-space: nowrap;
+  letter-spacing: 0.2em;
+  font-weight: 300;
+}
+
+.binaryText1 {
+  top: 15%;
+  left: -20%;
+  animation: binaryScroll1 25s linear infinite;
+}
+
+.binaryText2 {
+  top: 45%;
+  left: -30%;
+  animation: binaryScroll2 30s linear infinite;
+}
+
+.binaryText3 {
+  top: 75%;
+  left: -25%;
+  animation: binaryScroll3 28s linear infinite;
+}
+
+@keyframes binaryScroll1 {
+  from { transform: translateX(0); }
+  to { transform: translateX(120%); }
+}
+
+@keyframes binaryScroll2 {
+  from { transform: translateX(0); }
+  to { transform: translateX(130%); }
+}
+
+@keyframes binaryScroll3 {
+  from { transform: translateX(0); }
+  to { transform: translateX(125%); }
+}
+
+/* Mouse-reactive particle field */
+.particleField {
+  position: absolute;
+  top: 0;
   left: 0;
-  animation: dataFlow 6s ease-in-out infinite;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  transition: transform 0.3s cubic-bezier(0.19, 1, 0.22, 1);
 }
 
-.flowLine2 {
-  width: 150px;
-  top: 50%;
-  left: 30px;
-  animation: dataFlow 7s ease-in-out infinite 1.5s;
-}
-
-.flowLine3 {
-  width: 180px;
-  top: 80%;
-  left: 10px;
-  animation: dataFlow 8s ease-in-out infinite 3s;
-}
-
-@keyframes dataFlow {
-  0%, 100% { 
-    opacity: 0.3;
-    transform: translateX(0) scaleX(1);
-  }
-  50% { 
-    opacity: 0.6;
-    transform: translateX(20px) scaleX(1.2);
-  }
-}
-
-/* Notification Dots */
-.notificationDots {
+.particle1,
+.particle2,
+.particle3,
+.particle4,
+.particle5,
+.particle6 {
   position: absolute;
-  bottom: 25%;
-  right: 25%;
-  width: 100px;
-  height: 100px;
-}
-
-.dot1,
-.dot2,
-.dot3 {
-  position: absolute;
-  width: 8px;
-  height: 8px;
-  background: rgba(10, 10, 10, 0.15);
+  width: 3px;
+  height: 3px;
+  background: rgba(10, 10, 10, 0.1);
   border-radius: 50%;
 }
 
-.dot1 {
-  top: 0;
-  left: 0;
-  animation: dotPulse 3s ease-in-out infinite;
+.particle1 {
+  top: 20%;
+  left: 30%;
+  animation: particleFloat 8s ease-in-out infinite;
 }
 
-.dot2 {
-  top: 30px;
-  left: 40px;
-  animation: dotPulse 3s ease-in-out infinite 1s;
+.particle2 {
+  top: 40%;
+  left: 60%;
+  animation: particleFloat 10s ease-in-out infinite 1s;
 }
 
-.dot3 {
-  top: 60px;
-  left: 20px;
-  animation: dotPulse 3s ease-in-out infinite 2s;
+.particle3 {
+  top: 60%;
+  left: 25%;
+  animation: particleFloat 9s ease-in-out infinite 2s;
 }
 
-@keyframes dotPulse {
-  0%, 100% { 
-    transform: scale(1);
-    opacity: 0.15;
+.particle4 {
+  top: 30%;
+  left: 75%;
+  animation: particleFloat 11s ease-in-out infinite 3s;
+}
+
+.particle5 {
+  top: 70%;
+  left: 50%;
+  animation: particleFloat 7s ease-in-out infinite 1.5s;
+}
+
+.particle6 {
+  top: 50%;
+  left: 40%;
+  animation: particleFloat 12s ease-in-out infinite 2.5s;
+}
+
+@keyframes particleFloat {
+  0%, 100% {
+    transform: translate(0, 0) scale(1);
+    opacity: 0.3;
   }
-  50% { 
-    transform: scale(1.5);
+  25% {
+    transform: translate(20px, -30px) scale(1.2);
+    opacity: 0.6;
+  }
+  50% {
+    transform: translate(-15px, -20px) scale(0.8);
     opacity: 0.4;
+  }
+  75% {
+    transform: translate(10px, -40px) scale(1.1);
+    opacity: 0.5;
   }
 }
 
@@ -1025,17 +1071,33 @@
   .capCard,
   .ctaFrame,
   .kineticText,
-  .emailIcon1,
-  .emailIcon2,
-  .emailIcon3,
-  .flowLine1,
-  .flowLine2,
-  .flowLine3,
-  .dot1,
-  .dot2,
-  .dot3 {
+  .connection,
+  .node1,
+  .node2,
+  .node3,
+  .node4,
+  .node5,
+  .dataPacket1,
+  .dataPacket2,
+  .dataPacket3,
+  .dataPacket4,
+  .dataPacket5,
+  .dataPacket6,
+  .binaryText1,
+  .binaryText2,
+  .binaryText3,
+  .particle1,
+  .particle2,
+  .particle3,
+  .particle4,
+  .particle5,
+  .particle6 {
     animation: none !important;
     transition: none !important;
+  }
+
+  .particleField {
+    transform: none !important;
   }
 
   .heroMeta,

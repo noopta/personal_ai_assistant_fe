@@ -69,43 +69,109 @@ function LandingPage() {
         {/* Vertical Label */}
         <div className={styles.verticalLabel}>AIRTHREADS — 2025</div>
 
-        {/* Mid Layer - Email/Data themed elements with parallax */}
+        {/* Mid Layer - Interactive Data Network */}
         <div 
           className={styles.midLayer}
           style={{
             transform: `translate3d(${mousePos.x * -20}px, ${scrollY * 0.3 + mousePos.y * -20}px, -50px)`
           }}
         >
-          {/* Email envelope icons */}
-          <div className={styles.emailCluster}>
-            <svg className={styles.emailIcon1} viewBox="0 0 100 80" xmlns="http://www.w3.org/2000/svg">
-              <rect x="10" y="15" width="80" height="50" fill="none" stroke="rgba(10,10,10,0.08)" strokeWidth="1.5"/>
-              <path d="M 10 15 L 50 45 L 90 15" fill="none" stroke="rgba(10,10,10,0.08)" strokeWidth="1.5"/>
-            </svg>
-            
-            <svg className={styles.emailIcon2} viewBox="0 0 100 80" xmlns="http://www.w3.org/2000/svg">
-              <rect x="10" y="15" width="80" height="50" fill="none" stroke="rgba(10,10,10,0.06)" strokeWidth="1.5"/>
-              <path d="M 10 15 L 50 45 L 90 15" fill="none" stroke="rgba(10,10,10,0.06)" strokeWidth="1.5"/>
-            </svg>
+          {/* Network Nodes */}
+          <svg className={styles.networkSvg} viewBox="0 0 1000 800" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              {/* Gradient for connections */}
+              <linearGradient id="connectionGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" stopColor="rgba(10,10,10,0.02)" />
+                <stop offset="50%" stopColor="rgba(10,10,10,0.08)" />
+                <stop offset="100%" stopColor="rgba(10,10,10,0.02)" />
+              </linearGradient>
+            </defs>
 
-            <svg className={styles.emailIcon3} viewBox="0 0 100 80" xmlns="http://www.w3.org/2000/svg">
-              <rect x="10" y="15" width="80" height="50" fill="none" stroke="rgba(10,10,10,0.05)" strokeWidth="1.5"/>
-              <path d="M 10 15 L 50 45 L 90 15" fill="none" stroke="rgba(10,10,10,0.05)" strokeWidth="1.5"/>
-            </svg>
+            {/* Network connections with animated data packets */}
+            <g className={styles.networkConnections}>
+              {/* Connection 1 */}
+              <line x1="200" y1="150" x2="600" y2="250" stroke="rgba(10,10,10,0.04)" strokeWidth="1" className={styles.connection}/>
+              <circle r="4" fill="rgba(10,10,10,0.15)" className={styles.dataPacket1}>
+                <animateMotion dur="4s" repeatCount="indefinite">
+                  <mpath href="#path1" />
+                </animateMotion>
+              </circle>
+              <path id="path1" d="M 200 150 L 600 250" fill="none" stroke="none"/>
+
+              {/* Connection 2 */}
+              <line x1="600" y1="250" x2="800" y2="150" stroke="rgba(10,10,10,0.04)" strokeWidth="1" className={styles.connection}/>
+              <circle r="4" fill="rgba(10,10,10,0.15)" className={styles.dataPacket2}>
+                <animateMotion dur="5s" repeatCount="indefinite">
+                  <mpath href="#path2" />
+                </animateMotion>
+              </circle>
+              <path id="path2" d="M 600 250 L 800 150" fill="none" stroke="none"/>
+
+              {/* Connection 3 */}
+              <line x1="200" y1="150" x2="350" y2="400" stroke="rgba(10,10,10,0.04)" strokeWidth="1" className={styles.connection}/>
+              <circle r="4" fill="rgba(10,10,10,0.15)" className={styles.dataPacket3}>
+                <animateMotion dur="6s" repeatCount="indefinite">
+                  <mpath href="#path3" />
+                </animateMotion>
+              </circle>
+              <path id="path3" d="M 200 150 L 350 400" fill="none" stroke="none"/>
+
+              {/* Connection 4 */}
+              <line x1="350" y1="400" x2="600" y2="250" stroke="rgba(10,10,10,0.04)" strokeWidth="1" className={styles.connection}/>
+              <circle r="4" fill="rgba(10,10,10,0.15)" className={styles.dataPacket4}>
+                <animateMotion dur="4.5s" repeatCount="indefinite">
+                  <mpath href="#path4" />
+                </animateMotion>
+              </circle>
+              <path id="path4" d="M 350 400 L 600 250" fill="none" stroke="none"/>
+
+              {/* Connection 5 */}
+              <line x1="600" y1="250" x2="700" y2="450" stroke="rgba(10,10,10,0.04)" strokeWidth="1" className={styles.connection}/>
+              <circle r="4" fill="rgba(10,10,10,0.15)" className={styles.dataPacket5}>
+                <animateMotion dur="5.5s" repeatCount="indefinite">
+                  <mpath href="#path5" />
+                </animateMotion>
+              </circle>
+              <path id="path5" d="M 600 250 L 700 450" fill="none" stroke="none"/>
+
+              {/* Connection 6 */}
+              <line x1="800" y1="150" x2="700" y2="450" stroke="rgba(10,10,10,0.04)" strokeWidth="1" className={styles.connection}/>
+              <circle r="4" fill="rgba(10,10,10,0.15)" className={styles.dataPacket6}>
+                <animateMotion dur="6.5s" repeatCount="indefinite">
+                  <mpath href="#path6" />
+                </animateMotion>
+              </circle>
+              <path id="path6" d="M 800 150 L 700 450" fill="none" stroke="none"/>
+            </g>
+
+            {/* Network nodes (pulsing) */}
+            <circle cx="200" cy="150" r="6" fill="none" stroke="rgba(10,10,10,0.1)" strokeWidth="1" className={styles.node1}/>
+            <circle cx="600" cy="250" r="6" fill="none" stroke="rgba(10,10,10,0.1)" strokeWidth="1" className={styles.node2}/>
+            <circle cx="800" cy="150" r="6" fill="none" stroke="rgba(10,10,10,0.1)" strokeWidth="1" className={styles.node3}/>
+            <circle cx="350" cy="400" r="6" fill="none" stroke="rgba(10,10,10,0.1)" strokeWidth="1" className={styles.node4}/>
+            <circle cx="700" cy="450" r="6" fill="none" stroke="rgba(10,10,10,0.1)" strokeWidth="1" className={styles.node5}/>
+          </svg>
+
+          {/* Floating binary data stream */}
+          <div className={styles.binaryStream}>
+            <div className={styles.binaryText1}>01001000 01000101 01001100 01001100 01001111</div>
+            <div className={styles.binaryText2}>01000100 01000001 01010100 01000001</div>
+            <div className={styles.binaryText3}>01010011 01000101 01001110 01000100</div>
           </div>
 
-          {/* Data flow lines */}
-          <div className={styles.dataFlowLines}>
-            <div className={styles.flowLine1}></div>
-            <div className={styles.flowLine2}></div>
-            <div className={styles.flowLine3}></div>
-          </div>
-          
-          {/* Notification dots */}
-          <div className={styles.notificationDots}>
-            <div className={styles.dot1}></div>
-            <div className={styles.dot2}></div>
-            <div className={styles.dot3}></div>
+          {/* Mouse-reactive particles */}
+          <div 
+            className={styles.particleField}
+            style={{
+              transform: `translate(${mousePos.x * 15}px, ${mousePos.y * 15}px)`
+            }}
+          >
+            <div className={styles.particle1}></div>
+            <div className={styles.particle2}></div>
+            <div className={styles.particle3}></div>
+            <div className={styles.particle4}></div>
+            <div className={styles.particle5}></div>
+            <div className={styles.particle6}></div>
           </div>
         </div>
 
