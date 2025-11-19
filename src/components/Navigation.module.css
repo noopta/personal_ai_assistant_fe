@@ -1,17 +1,16 @@
 .navbar {
-  background: rgba(255, 255, 255, 0.08);
-  backdrop-filter: blur(40px) saturate(180%);
-  -webkit-backdrop-filter: blur(40px) saturate(180%);
-  border-bottom: 2px solid rgba(99, 91, 255, 0.3);
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(60px) saturate(120%);
+  -webkit-backdrop-filter: blur(60px) saturate(120%);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
   padding: 0.875rem 0;
   position: sticky;
   top: 0;
   z-index: 1000;
   box-shadow: 
-    0 20px 60px 0 rgba(0, 0, 0, 0.6),
-    0 0 40px rgba(99, 91, 255, 0.4),
+    0 4px 24px rgba(0, 0, 0, 0.08),
     inset 0 1px 0 rgba(255, 255, 255, 0.15);
-  transition: all var(--duration-normal) ease;
+  transition: all 0.3s ease;
 }
 
 [data-theme="light"] .navbar {
@@ -36,9 +35,9 @@
 .logoText {
   font-size: 1.375rem;
   font-weight: 700;
-  color: var(--text-primary);
+  color: #ffffff;
   letter-spacing: -0.01em;
-  text-shadow: 0 0 20px rgba(99, 91, 255, 0.5);
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 .navLinks {
@@ -49,12 +48,12 @@
 
 .navLink {
   text-decoration: none;
-  color: var(--text-secondary);
+  color: rgba(255, 255, 255, 0.8);
   font-weight: 500;
   font-size: 14px;
   padding: 0.5rem 0.75rem;
   border-radius: 8px;
-  transition: all var(--duration-normal) var(--transition-smooth);
+  transition: all 0.3s ease;
   position: relative;
   min-height: 44px;
   display: flex;
@@ -62,21 +61,15 @@
 }
 
 .navLink:hover {
-  color: var(--text-primary);
-  background: rgba(99, 91, 255, 0.15);
-  transform: translateY(-2px);
-  box-shadow: 0 0 30px rgba(99, 91, 255, 0.4);
-  text-shadow: 0 0 15px rgba(99, 91, 255, 0.3);
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.15);
+  transform: translateY(-1px);
 }
 
 .navLink.active {
-  color: var(--text-primary);
+  color: #ffffff;
   font-weight: 600;
-  background: rgba(99, 91, 255, 0.2);
-  box-shadow: 
-    0 0 40px rgba(99, 91, 255, 0.6),
-    0 4px 20px rgba(0, 0, 0, 0.4);
-  text-shadow: 0 0 20px rgba(99, 91, 255, 0.5);
+  background: rgba(255, 255, 255, 0.2);
 }
 
 .ctaSection {
@@ -86,20 +79,18 @@
 }
 
 .ctaButton {
-  background: linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-secondary) 100%);
-  color: white;
+  background: rgba(255, 255, 255, 0.25);
+  color: #ffffff;
   text-decoration: none;
   padding: 0.625rem 1.25rem;
   border-radius: 24px;
   font-weight: 600;
   font-size: 14px;
-  transition: all var(--duration-normal) var(--transition-smooth);
-  border: 2px solid rgba(255, 255, 255, 0.2);
+  transition: all 0.3s ease;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(20px);
   cursor: pointer;
-  box-shadow: 
-    0 12px 40px 0 rgba(0, 0, 0, 0.5),
-    0 0 50px rgba(99, 91, 255, 0.6),
-    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
   min-height: 44px;
   display: flex;
   align-items: center;
@@ -114,7 +105,7 @@
   left: -100%;
   width: 100%;
   height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.15), transparent);
   transition: left 0.5s ease;
 }
 
@@ -123,12 +114,10 @@
 }
 
 .ctaButton:hover {
-  transform: translateY(-3px) scale(1.05);
-  box-shadow: 
-    0 20px 60px 0 rgba(0, 0, 0, 0.7),
-    0 0 70px rgba(99, 91, 255, 0.8),
-    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  transform: translateY(-2px);
+  background: rgba(255, 255, 255, 0.35);
   border-color: rgba(255, 255, 255, 0.4);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
 }
 
 @media (max-width: 768px) {
