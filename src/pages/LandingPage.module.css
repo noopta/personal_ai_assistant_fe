@@ -75,8 +75,12 @@
   font-weight: 700;
   line-height: 1.1;
   margin-bottom: 24px;
-  color: var(--text-primary);
+  color: #0A2540 !important;
   letter-spacing: -0.04em;
+  background: linear-gradient(135deg, #635BFF, #00D4FF);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 [data-theme="light"] .heroTitle {
