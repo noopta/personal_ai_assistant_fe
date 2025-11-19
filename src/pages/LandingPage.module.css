@@ -1,66 +1,99 @@
-/* GLASSMORPHIC LANDING PAGE - Purple/Blue Gradient */
+/* TILTED GLASSMORPHIC LANDING PAGE - 3D Floating Cards */
 
 .landingPage {
   position: relative;
   min-height: 100vh;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+  background: linear-gradient(135deg, #a855f7 0%, #6366f1 50%, #3b82f6 100%);
   color: #ffffff;
   overflow-x: hidden;
 }
 
-/* Floating Glassmorphic Shapes */
-.floatingShape1,
-.floatingShape2,
-.floatingShape3 {
+/* Floating Bubbles */
+.bubble1,
+.bubble2,
+.bubble3,
+.bubble4,
+.bubble5 {
   position: fixed;
   border-radius: 50%;
   background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(60px);
   pointer-events: none;
   z-index: 0;
-}
-
-.floatingShape1 {
-  width: 500px;
-  height: 500px;
-  top: -10%;
-  right: -5%;
   animation: float 20s ease-in-out infinite;
 }
 
-.floatingShape2 {
-  width: 400px;
-  height: 400px;
-  bottom: -10%;
-  left: -5%;
-  animation: float 25s ease-in-out infinite reverse;
+.bubble1 {
+  width: 80px;
+  height: 80px;
+  top: 15%;
+  right: 10%;
+  background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.05));
+  animation-delay: 0s;
 }
 
-.floatingShape3 {
-  width: 300px;
-  height: 300px;
+.bubble2 {
+  width: 120px;
+  height: 120px;
+  bottom: 20%;
+  left: 5%;
+  background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.25), rgba(255, 255, 255, 0.03));
+  animation-delay: 3s;
+  animation-duration: 25s;
+}
+
+.bubble3 {
+  width: 60px;
+  height: 60px;
+  top: 60%;
+  right: 15%;
+  background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.04));
+  animation-delay: 6s;
+  animation-duration: 22s;
+}
+
+.bubble4 {
+  width: 100px;
+  height: 100px;
   top: 40%;
-  left: 50%;
-  transform: translateX(-50%);
-  animation: float 30s ease-in-out infinite;
+  left: 8%;
+  background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0.03));
+  animation-delay: 9s;
+  animation-duration: 28s;
+}
+
+.bubble5 {
+  width: 70px;
+  height: 70px;
+  bottom: 35%;
+  right: 25%;
+  background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.05));
+  animation-delay: 12s;
+  animation-duration: 24s;
 }
 
 @keyframes float {
   0%, 100% {
     transform: translateY(0px) translateX(0px);
+    opacity: 0.6;
   }
-  33% {
+  25% {
     transform: translateY(-30px) translateX(20px);
+    opacity: 0.8;
   }
-  66% {
-    transform: translateY(20px) translateX(-20px);
+  50% {
+    transform: translateY(-15px) translateX(-15px);
+    opacity: 0.7;
+  }
+  75% {
+    transform: translateY(-40px) translateX(10px);
+    opacity: 0.75;
   }
 }
 
 .container {
   position: relative;
   z-index: 1;
-  max-width: 1200px;
+  max-width: 1400px;
   margin: 0 auto;
   padding: 0 2rem;
 }
@@ -72,19 +105,18 @@
   align-items: center;
   padding: 6rem 0;
   position: relative;
+  perspective: 2000px;
 }
 
 .hero .container {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 3rem;
   width: 100%;
+  position: relative;
 }
 
 .heroContent {
-  flex: 1;
-  max-width: 600px;
+  max-width: 500px;
+  z-index: 10;
+  position: relative;
   animation: fadeInUp 1s ease-out both;
 }
 
@@ -92,36 +124,34 @@
   font-size: clamp(3rem, 8vw, 5rem);
   font-weight: 700;
   line-height: 1.1;
-  margin-bottom: 1.5rem;
+  margin-bottom: 0.5rem;
   letter-spacing: -0.02em;
   color: #ffffff;
-  text-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
 }
 
 .heroSubtitle {
-  font-size: clamp(1.125rem, 2vw, 1.25rem);
-  color: rgba(255, 255, 255, 0.9);
-  margin-bottom: 2.5rem;
-  line-height: 1.7;
+  font-size: clamp(2rem, 6vw, 3.5rem);
   font-weight: 400;
+  display: block;
+  margin-top: 0.25rem;
+  opacity: 0.95;
 }
 
 .heroActions {
-  display: flex;
-  gap: 1rem;
-  flex-wrap: wrap;
+  margin-top: 2.5rem;
 }
 
 .primaryCta {
   background: rgba(255, 255, 255, 0.95);
-  color: #667eea;
-  padding: 1rem 2.5rem;
+  color: #6366f1;
+  padding: 1rem 3rem;
   text-decoration: none;
   font-weight: 600;
-  font-size: 1rem;
+  font-size: 1.125rem;
   border-radius: 12px;
   transition: all 0.3s ease;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+  display: inline-block;
 }
 
 .primaryCta:hover {
@@ -130,93 +160,186 @@
   box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2);
 }
 
-.secondaryCta {
-  background: rgba(255, 255, 255, 0.1);
-  color: #ffffff;
-  padding: 1rem 2.5rem;
-  text-decoration: none;
-  font-weight: 600;
-  font-size: 1rem;
-  border-radius: 12px;
-  border: 2px solid rgba(255, 255, 255, 0.3);
-  backdrop-filter: blur(10px);
-  transition: all 0.3s ease;
-}
-
-.secondaryCta:hover {
-  background: rgba(255, 255, 255, 0.2);
-  border-color: rgba(255, 255, 255, 0.5);
-  transform: translateY(-2px);
-}
-
-/* Preview Cards - Glassmorphic */
-.previewCards {
-  flex-shrink: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-  width: 280px;
+/* Floating Tilted Glass Cards - 3D Effect */
+.floatingCards {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
 }
 
 .glassCard {
-  background: rgba(255, 255, 255, 0.15);
-  backdrop-filter: blur(20px);
-  border-radius: 20px;
+  position: absolute;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.25) 0%, rgba(255, 255, 255, 0.12) 100%);
+  backdrop-filter: blur(40px) saturate(180%);
+  -webkit-backdrop-filter: blur(40px) saturate(180%);
+  border-radius: 24px;
   padding: 1.5rem;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-  transition: all 0.4s ease;
-  animation: fadeInRight 1s ease-out both;
-}
-
-.card1 {
-  animation-delay: 0.2s;
-}
-
-.card2 {
-  animation-delay: 0.4s;
-}
-
-.card3 {
-  animation-delay: 0.6s;
+  border: 1.5px solid rgba(255, 255, 255, 0.35);
+  box-shadow: 0 12px 48px rgba(0, 0, 0, 0.15),
+              0 4px 16px rgba(0, 0, 0, 0.1),
+              inset 0 1px 0 rgba(255, 255, 255, 0.4),
+              0 0 0 1px rgba(255, 255, 255, 0.1);
+  pointer-events: auto;
+  cursor: pointer;
+  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  transform-style: preserve-3d;
 }
 
 .glassCard:hover {
-  background: rgba(255, 255, 255, 0.2);
-  border-color: rgba(255, 255, 255, 0.4);
-  transform: translateX(-8px) scale(1.02);
-  box-shadow: 0 12px 48px rgba(0, 0, 0, 0.15);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.35) 0%, rgba(255, 255, 255, 0.18) 100%);
+  border-color: rgba(255, 255, 255, 0.5);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25),
+              0 8px 24px rgba(0, 0, 0, 0.15),
+              inset 0 1px 0 rgba(255, 255, 255, 0.5),
+              0 0 0 1px rgba(255, 255, 255, 0.2);
+  transform: scale(1.05) !important;
+  z-index: 100;
+}
+
+/* Individual Card Positions & Tilts - More Dramatic & Spread Out */
+.card1 {
+  top: 8%;
+  left: 45%;
+  width: 260px;
+  transform: rotateX(12deg) rotateY(-15deg) rotateZ(-8deg) scale(1.05);
+  animation: floatCard1 6s ease-in-out infinite;
+  animation-delay: 0s;
+  z-index: 5;
+}
+
+.card2 {
+  top: 10%;
+  right: 8%;
+  width: 280px;
+  transform: rotateX(-8deg) rotateY(18deg) rotateZ(10deg) scale(1.1);
+  animation: floatCard2 7s ease-in-out infinite;
+  animation-delay: 0.5s;
+  z-index: 6;
+}
+
+.card3 {
+  top: 40%;
+  left: 38%;
+  width: 240px;
+  transform: rotateX(15deg) rotateY(-12deg) rotateZ(-12deg) scale(0.95);
+  animation: floatCard3 8s ease-in-out infinite;
+  animation-delay: 1s;
+  z-index: 4;
+}
+
+.card4 {
+  bottom: 18%;
+  right: 12%;
+  width: 270px;
+  transform: rotateX(-10deg) rotateY(14deg) rotateZ(8deg) scale(1.05);
+  animation: floatCard4 7.5s ease-in-out infinite;
+  animation-delay: 1.5s;
+  z-index: 3;
+}
+
+.card5 {
+  bottom: 10%;
+  left: 50%;
+  width: 250px;
+  transform: rotateX(10deg) rotateY(-20deg) rotateZ(-5deg) scale(1);
+  animation: floatCard5 6.5s ease-in-out infinite;
+  animation-delay: 2s;
+  z-index: 2;
+}
+
+/* Floating Card Animations - More Dynamic & Varied */
+@keyframes floatCard1 {
+  0%, 100% {
+    transform: rotateX(12deg) rotateY(-15deg) rotateZ(-8deg) scale(1.05) translateY(0px) translateZ(0px);
+  }
+  33% {
+    transform: rotateX(15deg) rotateY(-12deg) rotateZ(-6deg) scale(1.06) translateY(-25px) translateZ(10px);
+  }
+  66% {
+    transform: rotateX(10deg) rotateY(-18deg) rotateZ(-10deg) scale(1.04) translateY(-15px) translateZ(5px);
+  }
+}
+
+@keyframes floatCard2 {
+  0%, 100% {
+    transform: rotateX(-8deg) rotateY(18deg) rotateZ(10deg) scale(1.1) translateY(0px) translateZ(0px);
+  }
+  33% {
+    transform: rotateX(-12deg) rotateY(20deg) rotateZ(8deg) scale(1.11) translateY(-30px) translateZ(15px);
+  }
+  66% {
+    transform: rotateX(-6deg) rotateY(16deg) rotateZ(12deg) scale(1.09) translateY(-18px) translateZ(8px);
+  }
+}
+
+@keyframes floatCard3 {
+  0%, 100% {
+    transform: rotateX(15deg) rotateY(-12deg) rotateZ(-12deg) scale(0.95) translateY(0px) translateZ(0px);
+  }
+  33% {
+    transform: rotateX(18deg) rotateY(-15deg) rotateZ(-10deg) scale(0.96) translateY(-22px) translateZ(12px);
+  }
+  66% {
+    transform: rotateX(12deg) rotateY(-10deg) rotateZ(-14deg) scale(0.94) translateY(-12px) translateZ(6px);
+  }
+}
+
+@keyframes floatCard4 {
+  0%, 100% {
+    transform: rotateX(-10deg) rotateY(14deg) rotateZ(8deg) scale(1.05) translateY(0px) translateZ(0px);
+  }
+  33% {
+    transform: rotateX(-14deg) rotateY(17deg) rotateZ(10deg) scale(1.06) translateY(-28px) translateZ(14px);
+  }
+  66% {
+    transform: rotateX(-8deg) rotateY(12deg) rotateZ(6deg) scale(1.04) translateY(-16px) translateZ(7px);
+  }
+}
+
+@keyframes floatCard5 {
+  0%, 100% {
+    transform: rotateX(10deg) rotateY(-20deg) rotateZ(-5deg) scale(1) translateY(0px) translateZ(0px);
+  }
+  33% {
+    transform: rotateX(14deg) rotateY(-23deg) rotateZ(-7deg) scale(1.02) translateY(-24px) translateZ(11px);
+  }
+  66% {
+    transform: rotateX(8deg) rotateY(-18deg) rotateZ(-3deg) scale(0.99) translateY(-14px) translateZ(5px);
+  }
 }
 
 .cardIcon {
-  width: 48px;
-  height: 48px;
-  background: rgba(255, 255, 255, 0.2);
-  border-radius: 12px;
+  margin-bottom: 1rem;
   display: flex;
   align-items: center;
-  justify-content: center;
-  margin-bottom: 1rem;
+  justify-content: flex-start;
+}
+
+.cardContent {
   color: #ffffff;
 }
 
 .cardTitle {
-  font-size: 1.125rem;
+  font-size: 1.25rem;
   font-weight: 600;
   color: #ffffff;
   margin-bottom: 0.5rem;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 .cardDescription {
   font-size: 0.875rem;
-  color: rgba(255, 255, 255, 0.8);
-  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.85);
+  line-height: 1.5;
 }
 
 /* ==================== FEATURES SECTION ==================== */
 .features {
   padding: 6rem 0;
-  background: rgba(255, 255, 255, 0.05);
+  background: rgba(0, 0, 0, 0.1);
   backdrop-filter: blur(40px);
 }
 
@@ -236,24 +359,27 @@
 
 .sectionSubtitle {
   font-size: 1.25rem;
-  color: rgba(255, 255, 255, 0.8);
+  color: rgba(255, 255, 255, 0.85);
   max-width: 600px;
   margin: 0 auto;
 }
 
 .featuresGrid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 2rem;
+  max-width: 1000px;
+  margin: 0 auto;
 }
 
 .featureCard {
   background: rgba(255, 255, 255, 0.1);
   backdrop-filter: blur(20px);
   border-radius: 20px;
-  padding: 2rem;
+  padding: 2.5rem;
   border: 1px solid rgba(255, 255, 255, 0.2);
   transition: all 0.4s ease;
+  text-align: center;
 }
 
 .featureCard:hover {
@@ -271,7 +397,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: 1.5rem;
+  margin: 0 auto 1.5rem;
   color: #ffffff;
 }
 
@@ -302,6 +428,8 @@
   text-align: center;
   box-shadow: 0 16px 64px rgba(0, 0, 0, 0.15);
   animation: fadeInUp 1s ease-out both;
+  max-width: 800px;
+  margin: 0 auto;
 }
 
 .ctaTitle {
@@ -316,15 +444,12 @@
   font-size: 1.25rem;
   color: rgba(255, 255, 255, 0.9);
   margin-bottom: 2.5rem;
-  max-width: 600px;
-  margin-left: auto;
-  margin-right: auto;
 }
 
 .ctaButton {
   display: inline-block;
   background: rgba(255, 255, 255, 0.95);
-  color: #667eea;
+  color: #6366f1;
   padding: 1.25rem 3rem;
   text-decoration: none;
   font-weight: 600;
@@ -352,41 +477,57 @@
   }
 }
 
-@keyframes fadeInRight {
-  from {
-    opacity: 0;
-    transform: translateX(30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
-}
-
 /* ==================== RESPONSIVE ==================== */
-@media (max-width: 1024px) {
-  .hero .container {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-
-  .previewCards {
-    width: 100%;
-    flex-direction: row;
-    overflow-x: auto;
-    padding-bottom: 1rem;
+@media (max-width: 1200px) {
+  .floatingCards {
+    transform: translate(-10%, -50%);
+    width: 700px;
   }
 
   .glassCard {
-    min-width: 260px;
+    width: 220px;
+    padding: 1.25rem;
   }
 }
 
-@media (max-width: 768px) {
+@media (max-width: 1024px) {
   .hero {
     padding: 4rem 0;
   }
 
+  .floatingCards {
+    position: static;
+    transform: none;
+    width: 100%;
+    height: auto;
+    margin-top: 3rem;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+    padding: 2rem;
+  }
+
+  .glassCard {
+    position: static !important;
+    width: 100% !important;
+    transform: none !important;
+    animation: none !important;
+  }
+
+  .glassCard:hover {
+    transform: translateY(-4px) !important;
+  }
+
+  .bubble1,
+  .bubble2,
+  .bubble3,
+  .bubble4,
+  .bubble5 {
+    opacity: 0.3;
+  }
+}
+
+@media (max-width: 768px) {
   .container {
     padding: 0 1.5rem;
   }
@@ -395,20 +536,13 @@
     font-size: 2.5rem;
   }
 
-  .heroActions {
-    flex-direction: column;
-    width: 100%;
+  .heroSubtitle {
+    font-size: 1.75rem;
   }
 
-  .primaryCta,
-  .secondaryCta {
-    width: 100%;
-    text-align: center;
-    justify-content: center;
-  }
-
-  .previewCards {
-    flex-direction: column;
+  .floatingCards {
+    grid-template-columns: 1fr;
+    padding: 1rem;
   }
 
   .featuresGrid {
@@ -418,12 +552,6 @@
 
   .ctaCard {
     padding: 3rem 2rem;
-  }
-
-  .floatingShape1,
-  .floatingShape2,
-  .floatingShape3 {
-    display: none;
   }
 }
 
@@ -436,8 +564,12 @@
     font-size: 2rem;
   }
 
+  .heroSubtitle {
+    font-size: 1.5rem;
+  }
+
   .featureCard {
-    padding: 1.5rem;
+    padding: 2rem;
   }
 
   .ctaCard {
