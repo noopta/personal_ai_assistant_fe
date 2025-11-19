@@ -106,7 +106,7 @@
   padding: 6rem 0;
   position: relative;
   perspective: 2000px;
-  z-index: 10;
+  isolation: isolate;
 }
 
 .hero .container {
@@ -116,7 +116,7 @@
 
 .heroContent {
   max-width: 500px;
-  z-index: 100;
+  z-index: 10;
   position: relative;
   animation: fadeInUp 1s ease-out both;
 }
@@ -173,6 +173,25 @@
   bottom: 0;
   pointer-events: none;
   z-index: 1;
+  perspective: 1200px;
+  perspective-origin: 50% 50%;
+}
+
+/* Connection Threads Layer */
+.floatingCards::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: 
+    linear-gradient(135deg, transparent 0%, rgba(255, 255, 255, 0.03) 50%, transparent 100%),
+    radial-gradient(ellipse at 45% 35%, rgba(255, 255, 255, 0.02) 0%, transparent 50%),
+    radial-gradient(ellipse at 60% 55%, rgba(255, 255, 255, 0.02) 0%, transparent 50%);
+  opacity: 0.5;
+  pointer-events: none;
+  z-index: -1;
 }
 
 .glassCard {
@@ -213,6 +232,23 @@
   z-index: 5;
 }
 
+/* Connection thread from card1 to card2 */
+.card1::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 100%;
+  width: 220px;
+  height: 2px;
+  background: linear-gradient(90deg, rgba(100, 255, 220, 0.5), rgba(100, 255, 220, 0.2), transparent);
+  filter: blur(1px);
+  opacity: 0.9;
+  box-shadow: 0 0 8px rgba(100, 255, 220, 0.3);
+  pointer-events: none;
+  transform-origin: left center;
+  transform: translateY(-50%) rotate(-2deg);
+}
+
 .card2 {
   top: 10%;
   right: 8%;
@@ -223,6 +259,23 @@
   z-index: 6;
 }
 
+/* Connection thread from card2 to card4 */
+.card2::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 30%;
+  width: 2px;
+  height: 180px;
+  background: linear-gradient(180deg, rgba(100, 255, 220, 0.5), rgba(100, 255, 220, 0.2), transparent);
+  filter: blur(1px);
+  opacity: 0.9;
+  box-shadow: 0 0 8px rgba(100, 255, 220, 0.3);
+  pointer-events: none;
+  transform-origin: top center;
+  transform: translateX(-50%) rotate(8deg);
+}
+
 .card3 {
   top: 40%;
   left: 38%;
@@ -231,6 +284,23 @@
   animation: floatCard3 8s ease-in-out infinite;
   animation-delay: 1s;
   z-index: 4;
+}
+
+/* Connection thread from card3 to card5 */
+.card3::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  right: 20%;
+  width: 2px;
+  height: 140px;
+  background: linear-gradient(180deg, rgba(100, 255, 220, 0.5), rgba(100, 255, 220, 0.2), transparent);
+  filter: blur(1px);
+  opacity: 0.9;
+  box-shadow: 0 0 8px rgba(100, 255, 220, 0.3);
+  pointer-events: none;
+  transform-origin: top center;
+  transform: translateX(50%) rotate(-10deg);
 }
 
 .card4 {
@@ -251,6 +321,23 @@
   animation: floatCard5 6.5s ease-in-out infinite;
   animation-delay: 2s;
   z-index: 2;
+}
+
+/* Connection thread from card5 to card1 */
+.card5::after {
+  content: '';
+  position: absolute;
+  bottom: 100%;
+  left: 20%;
+  width: 2px;
+  height: 200px;
+  background: linear-gradient(0deg, rgba(100, 255, 220, 0.5), rgba(100, 255, 220, 0.2), transparent);
+  filter: blur(1px);
+  opacity: 0.9;
+  box-shadow: 0 0 8px rgba(100, 255, 220, 0.3);
+  pointer-events: none;
+  transform-origin: bottom center;
+  transform: translateX(-50%) rotate(5deg);
 }
 
 /* Floating Card Animations - More Dynamic & Varied */
