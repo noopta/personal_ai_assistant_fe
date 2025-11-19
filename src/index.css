@@ -69,6 +69,17 @@
   --duration-fast: 0.2s;
   --duration-normal: 0.3s;
   --duration-slow: 0.5s;
+  
+  /* Dramatic Space Gradients */
+  --space-gradient-purple: radial-gradient(circle at 50% 20%, rgba(99, 91, 255, 0.15) 0%, transparent 50%);
+  --space-gradient-cyan: radial-gradient(circle at 80% 80%, rgba(0, 212, 255, 0.1) 0%, transparent 50%);
+  --space-gradient-full: radial-gradient(circle at 50% 20%, rgba(99, 91, 255, 0.15) 0%, transparent 50%),
+                         radial-gradient(circle at 80% 80%, rgba(0, 212, 255, 0.1) 0%, transparent 50%);
+  
+  /* Neon Border Effects */
+  --neon-border-purple: 1px solid rgba(99, 91, 255, 0.4);
+  --neon-border-cyan: 1px solid rgba(0, 212, 255, 0.4);
+  --neon-border-glow: 2px solid rgba(99, 91, 255, 0.6);
 }
 
 [data-theme="light"] {
@@ -378,6 +389,92 @@ code {
 
 .pulse-glow {
   animation: pulse-glow 2s ease-in-out infinite;
+}
+
+/* ============================================ */
+/* DRAMATIC 3D CARD EFFECTS */
+/* ============================================ */
+
+.dramatic-card {
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(40px) saturate(180%);
+  -webkit-backdrop-filter: blur(40px) saturate(180%);
+  border: 2px solid rgba(255, 255, 255, 0.18);
+  border-radius: 24px;
+  box-shadow: 
+    0 20px 60px rgba(0, 0, 0, 0.5),
+    0 0 40px rgba(99, 91, 255, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.dramatic-card:hover {
+  transform: translateY(-12px) scale(1.02);
+  box-shadow: 
+    0 30px 80px rgba(0, 0, 0, 0.6),
+    0 0 60px rgba(99, 91, 255, 0.6),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  border-color: rgba(99, 91, 255, 0.4);
+}
+
+/* Floating Animation for Cards */
+@keyframes float-card {
+  0%, 100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  25% {
+    transform: translateY(-10px) rotate(0.5deg);
+  }
+  50% {
+    transform: translateY(0) rotate(0deg);
+  }
+  75% {
+    transform: translateY(10px) rotate(-0.5deg);
+  }
+}
+
+.float-animation {
+  animation: float-card 6s ease-in-out infinite;
+}
+
+.float-animation-delay {
+  animation: float-card 6s ease-in-out infinite 3s;
+}
+
+/* Space Background Utility */
+.space-background {
+  background: 
+    var(--space-gradient-full),
+    var(--bg-primary);
+}
+
+/* Neon Glow Text */
+.neon-text-purple {
+  text-shadow: 
+    0 0 30px rgba(99, 91, 255, 0.6),
+    0 0 60px rgba(99, 91, 255, 0.4);
+}
+
+.neon-text-cyan {
+  text-shadow: 
+    0 0 30px rgba(0, 212, 255, 0.6),
+    0 0 60px rgba(0, 212, 255, 0.4);
+}
+
+/* Fade In Up Animation Utility */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fade-in-up {
+  animation: fadeInUp 0.8s ease-out forwards;
 }
 
 /* Fade In Animations */

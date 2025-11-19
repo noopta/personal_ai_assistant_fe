@@ -41,9 +41,9 @@
 .assistant .avatar {
   background: linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-secondary) 100%);
   box-shadow: 
-    0 4px 20px rgba(59, 130, 246, 0.25),
-    0 0 30px rgba(6, 182, 212, 0.15);
-  border: 2px solid rgba(255, 255, 255, 0.1);
+    0 8px 24px rgba(59, 130, 246, 0.4),
+    0 0 40px rgba(99, 91, 255, 0.5);
+  border: 2px solid rgba(255, 255, 255, 0.2);
 }
 
 .user .avatar {
@@ -88,13 +88,16 @@
 }
 
 .assistant .content {
-  background: var(--glass-bg);
-  backdrop-filter: blur(var(--glass-blur));
-  -webkit-backdrop-filter: blur(var(--glass-blur));
-  border: 1px solid var(--glass-border);
-  border-radius: 16px 16px 16px 4px;
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(40px) saturate(180%);
+  -webkit-backdrop-filter: blur(40px) saturate(180%);
+  border: 2px solid rgba(255, 255, 255, 0.15);
+  border-radius: 20px 20px 20px 4px;
   padding: 1rem 1.25rem;
-  box-shadow: var(--glass-shadow);
+  box-shadow: 
+    0 12px 40px 0 rgba(0, 0, 0, 0.5),
+    0 0 30px rgba(99, 91, 255, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.15);
   position: relative;
   overflow: hidden;
   transition: all var(--duration-normal) var(--transition-smooth);
@@ -116,10 +119,13 @@
 
 .user .content {
   background: linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-secondary) 100%);
-  border-radius: 16px 16px 4px 16px;
+  border-radius: 20px 20px 4px 20px;
   padding: 1rem 1.25rem;
-  box-shadow: var(--glass-shadow), var(--glow-purple);
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 
+    0 12px 40px 0 rgba(0, 0, 0, 0.5),
+    0 0 40px rgba(99, 91, 255, 0.6),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  border: 2px solid rgba(255, 255, 255, 0.3);
   position: relative;
   overflow: hidden;
   transition: all var(--duration-normal) var(--transition-smooth);

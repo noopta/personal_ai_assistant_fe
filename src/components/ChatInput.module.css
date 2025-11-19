@@ -1,9 +1,12 @@
 .inputWrapper {
   position: relative;
-  background: rgba(255, 255, 255, 0.02);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  border-top: 1px solid var(--glass-border);
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-top: 2px solid rgba(99, 91, 255, 0.3);
+  box-shadow: 
+    0 -12px 40px 0 rgba(0, 0, 0, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
 }
 
 .inputWrapper::before {
@@ -12,9 +15,9 @@
   top: 0;
   left: 0;
   right: 0;
-  height: 1px;
-  background: linear-gradient(90deg, transparent 0%, var(--accent-primary) 50%, transparent 100%);
-  opacity: 0.5;
+  height: 2px;
+  background: linear-gradient(90deg, transparent 0%, rgba(99, 91, 255, 0.8) 50%, transparent 100%);
+  opacity: 0.7;
 }
 
 .inputContainer {
@@ -34,17 +37,20 @@
 .input {
   flex: 1;
   padding: 1rem 1.25rem;
-  border: 1px solid var(--glass-border);
-  border-radius: 16px;
+  border: 2px solid rgba(255, 255, 255, 0.15);
+  border-radius: 20px;
   font-size: 1rem;
   font-weight: 400;
   outline: none;
-  background: var(--glass-bg);
-  backdrop-filter: blur(var(--glass-blur));
-  -webkit-backdrop-filter: blur(var(--glass-blur));
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(40px) saturate(180%);
+  -webkit-backdrop-filter: blur(40px) saturate(180%);
   color: var(--text-primary);
   transition: all var(--duration-normal) var(--transition-smooth);
-  box-shadow: var(--glass-shadow);
+  box-shadow: 
+    0 12px 40px 0 rgba(0, 0, 0, 0.5),
+    0 0 20px rgba(99, 91, 255, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
   line-height: 1.5;
   min-height: 56px;
   resize: none;
@@ -57,10 +63,13 @@
 }
 
 .input:focus {
-  border-color: var(--glass-border-hover);
-  background: var(--glass-bg-hover);
-  box-shadow: var(--glass-shadow-lg), var(--glow-purple);
-  transform: translateY(-1px);
+  border-color: rgba(99, 91, 255, 0.5);
+  background: rgba(255, 255, 255, 0.12);
+  box-shadow: 
+    0 20px 60px 0 rgba(0, 0, 0, 0.6),
+    0 0 50px rgba(99, 91, 255, 0.7),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  transform: translateY(-2px);
 }
 
 .input:disabled {
@@ -73,13 +82,16 @@
   padding: 1rem 1.5rem;
   background: linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-secondary) 100%);
   color: #ffffff;
-  border: none;
-  border-radius: 16px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-radius: 20px;
   font-size: 1rem;
   font-weight: 600;
   cursor: pointer;
   transition: all var(--duration-normal) var(--transition-smooth);
-  box-shadow: var(--glass-shadow), var(--glow-purple);
+  box-shadow: 
+    0 12px 40px 0 rgba(0, 0, 0, 0.5),
+    0 0 50px rgba(99, 91, 255, 0.7),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
   position: relative;
   overflow: hidden;
   display: flex;
@@ -87,7 +99,6 @@
   gap: 0.5rem;
   min-width: 100px;
   justify-content: center;
-  border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 .sendButton::before {
@@ -106,9 +117,12 @@
 }
 
 .sendButton:hover:not(:disabled) {
-  transform: translateY(-2px) scale(1.02);
-  box-shadow: var(--glass-shadow-lg), var(--glow-purple-lg);
-  border-color: rgba(255, 255, 255, 0.3);
+  transform: translateY(-4px) scale(1.05);
+  box-shadow: 
+    0 20px 60px 0 rgba(0, 0, 0, 0.7),
+    0 0 70px rgba(99, 91, 255, 0.9),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  border-color: rgba(255, 255, 255, 0.4);
 }
 
 .sendButton:active:not(:disabled) {

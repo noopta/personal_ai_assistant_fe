@@ -1,13 +1,16 @@
 .navbar {
-  background: var(--glass-bg);
-  backdrop-filter: blur(var(--glass-blur));
-  -webkit-backdrop-filter: blur(var(--glass-blur));
-  border-bottom: 1px solid var(--glass-border);
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(40px) saturate(180%);
+  -webkit-backdrop-filter: blur(40px) saturate(180%);
+  border-bottom: 2px solid rgba(99, 91, 255, 0.3);
   padding: 0.875rem 0;
   position: sticky;
   top: 0;
   z-index: 1000;
-  box-shadow: var(--glass-shadow);
+  box-shadow: 
+    0 20px 60px 0 rgba(0, 0, 0, 0.6),
+    0 0 40px rgba(99, 91, 255, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.15);
   transition: all var(--duration-normal) ease;
 }
 
@@ -35,6 +38,7 @@
   font-weight: 700;
   color: var(--text-primary);
   letter-spacing: -0.01em;
+  text-shadow: 0 0 20px rgba(99, 91, 255, 0.5);
 }
 
 .navLinks {
@@ -59,15 +63,20 @@
 
 .navLink:hover {
   color: var(--text-primary);
-  background: rgba(99, 91, 255, 0.05);
-  transform: translateY(-1px);
+  background: rgba(99, 91, 255, 0.15);
+  transform: translateY(-2px);
+  box-shadow: 0 0 30px rgba(99, 91, 255, 0.4);
+  text-shadow: 0 0 15px rgba(99, 91, 255, 0.3);
 }
 
 .navLink.active {
   color: var(--text-primary);
   font-weight: 600;
-  background: rgba(99, 91, 255, 0.1);
-  box-shadow: var(--glow-purple);
+  background: rgba(99, 91, 255, 0.2);
+  box-shadow: 
+    0 0 40px rgba(99, 91, 255, 0.6),
+    0 4px 20px rgba(0, 0, 0, 0.4);
+  text-shadow: 0 0 20px rgba(99, 91, 255, 0.5);
 }
 
 .ctaSection {
@@ -85,9 +94,12 @@
   font-weight: 600;
   font-size: 14px;
   transition: all var(--duration-normal) var(--transition-smooth);
-  border: none;
+  border: 2px solid rgba(255, 255, 255, 0.2);
   cursor: pointer;
-  box-shadow: var(--glass-shadow), var(--glow-purple);
+  box-shadow: 
+    0 12px 40px 0 rgba(0, 0, 0, 0.5),
+    0 0 50px rgba(99, 91, 255, 0.6),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
   min-height: 44px;
   display: flex;
   align-items: center;
@@ -111,8 +123,12 @@
 }
 
 .ctaButton:hover {
-  transform: translateY(-1px) scale(1.02);
-  box-shadow: var(--glass-shadow-lg), var(--glow-purple-lg);
+  transform: translateY(-3px) scale(1.05);
+  box-shadow: 
+    0 20px 60px 0 rgba(0, 0, 0, 0.7),
+    0 0 70px rgba(99, 91, 255, 0.8),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  border-color: rgba(255, 255, 255, 0.4);
 }
 
 @media (max-width: 768px) {
