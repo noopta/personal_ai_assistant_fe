@@ -6,7 +6,6 @@ import IntegrationsPage from './pages/IntegrationsPage';
 import AboutPage from './pages/AboutPage';
 import OAuth2CallbackPage from './pages/OAuth2CallbackPage';
 import { ThemeProvider } from './contexts/ThemeContext';
-import StripeGradient from './components/StripeGradient';
 import MadeInCanada from './components/MadeInCanada';
 import './App.css';
 
@@ -15,7 +14,6 @@ function App() {
     <ThemeProvider>
       <Router>
         <div className="App">
-          <StripeGradient />
           <Routes>
             {/* OAuth callback route without navigation */}
             <Route path="/oauth2callback" element={<OAuth2CallbackPage />} />
