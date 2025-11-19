@@ -29,16 +29,14 @@ function LandingPage() {
 
   return (
     <div className={styles.landingPage}>
-      {/* Custom Cursor */}
-      <div 
-        className={styles.customCursor}
-        style={{
-          transform: `translate(calc(${mousePos.x * 10}px), calc(${mousePos.y * 10}px))`
-        }}
-      />
 
       {/* Experimental Hero */}
       <section className={styles.hero}>
+        {/* Kinetic Typography Background */}
+        <div className={styles.kineticLayer}>
+          <div className={styles.kineticText} data-text="AI">AI</div>
+        </div>
+
         {/* Background Layer - Deep parallax */}
         <div 
           className={styles.bgLayer}
@@ -67,6 +65,9 @@ function LandingPage() {
             </path>
           </svg>
         </div>
+
+        {/* Vertical Label */}
+        <div className={styles.verticalLabel}>AIRTHREADS — 2025</div>
 
         {/* Mid Layer - Geometric shapes with parallax */}
         <div 
@@ -247,8 +248,9 @@ function LandingPage() {
       <section className={styles.finalSection}>
         <div className={styles.ctaExperimental}>
           <div className={styles.ctaFrame}></div>
+          <div className={styles.ctaNumber}>04</div>
           <h2 className={styles.ctaTitle}>
-            Ready to begin?
+            Ready to<br />begin?
           </h2>
           <Link to="/product" className={styles.ctaLink}>
             <span>Start Trial</span>
@@ -257,6 +259,52 @@ function LandingPage() {
           <p className={styles.ctaNote}>14 days · No card required</p>
         </div>
       </section>
+
+      {/* Experimental Footer */}
+      <footer className={styles.footer}>
+        <div className={styles.footerGrid}>
+          <div className={styles.footerBrand}>
+            <div className={styles.footerLogo}>AirThreads</div>
+            <p className={styles.footerTagline}>
+              AI-powered productivity
+              <br />
+              for modern professionals
+            </p>
+          </div>
+
+          <div className={styles.footerLinks}>
+            <div className={styles.footerColumn}>
+              <div className={styles.footerLabel}>Product</div>
+              <Link to="/product" className={styles.footerLink}>Features</Link>
+              <Link to="/product" className={styles.footerLink}>Pricing</Link>
+              <Link to="/integrations" className={styles.footerLink}>Integrations</Link>
+            </div>
+
+            <div className={styles.footerColumn}>
+              <div className={styles.footerLabel}>Company</div>
+              <Link to="/about" className={styles.footerLink}>About</Link>
+              <Link to="/about" className={styles.footerLink}>Contact</Link>
+              <Link to="/about" className={styles.footerLink}>Careers</Link>
+            </div>
+
+            <div className={styles.footerColumn}>
+              <div className={styles.footerLabel}>Legal</div>
+              <a href="#" className={styles.footerLink}>Privacy</a>
+              <a href="#" className={styles.footerLink}>Terms</a>
+              <a href="#" className={styles.footerLink}>Security</a>
+            </div>
+          </div>
+        </div>
+
+        <div className={styles.footerBottom}>
+          <div className={styles.footerCopyright}>
+            © 2025 AirThreads. All rights reserved.
+          </div>
+          <div className={styles.footerMeta}>
+            Designed by concept art studio
+          </div>
+        </div>
+      </footer>
     </div>
   );
 }
