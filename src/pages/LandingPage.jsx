@@ -69,23 +69,43 @@ function LandingPage() {
         {/* Vertical Label */}
         <div className={styles.verticalLabel}>AIRTHREADS — 2025</div>
 
-        {/* Mid Layer - Geometric shapes with parallax */}
+        {/* Mid Layer - Email/Data themed elements with parallax */}
         <div 
           className={styles.midLayer}
           style={{
             transform: `translate3d(${mousePos.x * -20}px, ${scrollY * 0.3 + mousePos.y * -20}px, -50px)`
           }}
         >
-          <div className={styles.floatingGrid}>
-            <div className={styles.gridLine} style={{ '--delay': '0s' }}></div>
-            <div className={styles.gridLine} style={{ '--delay': '0.5s' }}></div>
-            <div className={styles.gridLine} style={{ '--delay': '1s' }}></div>
+          {/* Email envelope icons */}
+          <div className={styles.emailCluster}>
+            <svg className={styles.emailIcon1} viewBox="0 0 100 80" xmlns="http://www.w3.org/2000/svg">
+              <rect x="10" y="15" width="80" height="50" fill="none" stroke="rgba(10,10,10,0.08)" strokeWidth="1.5"/>
+              <path d="M 10 15 L 50 45 L 90 15" fill="none" stroke="rgba(10,10,10,0.08)" strokeWidth="1.5"/>
+            </svg>
+            
+            <svg className={styles.emailIcon2} viewBox="0 0 100 80" xmlns="http://www.w3.org/2000/svg">
+              <rect x="10" y="15" width="80" height="50" fill="none" stroke="rgba(10,10,10,0.06)" strokeWidth="1.5"/>
+              <path d="M 10 15 L 50 45 L 90 15" fill="none" stroke="rgba(10,10,10,0.06)" strokeWidth="1.5"/>
+            </svg>
+
+            <svg className={styles.emailIcon3} viewBox="0 0 100 80" xmlns="http://www.w3.org/2000/svg">
+              <rect x="10" y="15" width="80" height="50" fill="none" stroke="rgba(10,10,10,0.05)" strokeWidth="1.5"/>
+              <path d="M 10 15 L 50 45 L 90 15" fill="none" stroke="rgba(10,10,10,0.05)" strokeWidth="1.5"/>
+            </svg>
+          </div>
+
+          {/* Data flow lines */}
+          <div className={styles.dataFlowLines}>
+            <div className={styles.flowLine1}></div>
+            <div className={styles.flowLine2}></div>
+            <div className={styles.flowLine3}></div>
           </div>
           
-          <div className={styles.geometricCluster}>
-            <div className={styles.circle1}></div>
-            <div className={styles.square1}></div>
-            <div className={styles.triangle1}></div>
+          {/* Notification dots */}
+          <div className={styles.notificationDots}>
+            <div className={styles.dot1}></div>
+            <div className={styles.dot2}></div>
+            <div className={styles.dot3}></div>
           </div>
         </div>
 

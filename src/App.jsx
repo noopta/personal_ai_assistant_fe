@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import Navigation from './components/Navigation';
 import LandingPage from './pages/LandingPage';
 import ProductPage from './pages/ProductPage';
@@ -8,6 +8,27 @@ import OAuth2CallbackPage from './pages/OAuth2CallbackPage';
 import { ThemeProvider } from './contexts/ThemeContext';
 import MadeInCanada from './components/MadeInCanada';
 import './App.css';
+
+function AppContent() {
+  const location = useLocation();
+  const isLandingPage = location.pathname === '/';
+
+  return (
+    <>
+      <Navigation />
+      <main>
+        <Routes>
+          <Route path="/" element={<LandingPage />} />
+          <Route path="/product" element={<ProductPage />} />
+          <Route path="/integrations" element={<IntegrationsPage />} />
+          <Route path="/about" element={<AboutPage />} />
+        </Routes>
+      </main>
+      {/* Only show MadeInCanada footer on non-landing pages */}
+      {!isLandingPage && <MadeInCanada />}
+    </>
+  );
+}
 
 function App() {
   return (
@@ -19,20 +40,7 @@ function App() {
             <Route path="/oauth2callback" element={<OAuth2CallbackPage />} />
             
             {/* Regular routes with navigation */}
-            <Route path="/*" element={
-              <>
-                <Navigation />
-                <main>
-                  <Routes>
-                    <Route path="/" element={<LandingPage />} />
-                    <Route path="/product" element={<ProductPage />} />
-                    <Route path="/integrations" element={<IntegrationsPage />} />
-                    <Route path="/about" element={<AboutPage />} />
-                  </Routes>
-                </main>
-                <MadeInCanada />
-              </>
-            } />
+            <Route path="/*" element={<AppContent />} />
           </Routes>
         </div>
       </Router>

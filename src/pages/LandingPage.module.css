@@ -113,90 +113,152 @@
   will-change: transform;
 }
 
-.floatingGrid {
+/* Email Icons */
+.emailCluster {
   position: absolute;
-  top: 20%;
+  top: 15%;
   right: 10%;
   width: 400px;
   height: 400px;
-  transform: rotate(-15deg);
 }
 
-.gridLine {
-  position: absolute;
-  width: 100%;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, #0A0A0A 50%, transparent);
-  opacity: 0.08;
-  animation: gridPulse 4s ease-in-out infinite;
-  animation-delay: var(--delay, 0s);
-}
-
-.gridLine:nth-child(1) { top: 33%; }
-.gridLine:nth-child(2) { top: 66%; }
-.gridLine:nth-child(3) { top: 99%; }
-
-@keyframes gridPulse {
-  0%, 100% { opacity: 0.08; transform: scaleX(1); }
-  50% { opacity: 0.15; transform: scaleX(1.1); }
-}
-
-.geometricCluster {
-  position: absolute;
-  top: 40%;
-  right: 15%;
-  width: 300px;
-  height: 300px;
-}
-
-.circle1 {
-  position: absolute;
-  width: 200px;
-  height: 200px;
-  border: 1px solid rgba(10, 10, 10, 0.1);
-  border-radius: 50%;
-  top: 0;
-  right: 0;
-  animation: float1 8s ease-in-out infinite;
-}
-
-.square1 {
+.emailIcon1,
+.emailIcon2,
+.emailIcon3 {
   position: absolute;
   width: 120px;
-  height: 120px;
-  border: 1px solid rgba(10, 10, 10, 0.12);
-  bottom: 20px;
-  left: 30px;
-  transform: rotate(15deg);
-  animation: rotate1 12s linear infinite;
+  height: auto;
+  opacity: 0.6;
 }
 
-.triangle1 {
-  position: absolute;
-  width: 0;
-  height: 0;
-  border-left: 50px solid transparent;
-  border-right: 50px solid transparent;
-  border-bottom: 86px solid rgba(10, 10, 10, 0.08);
+.emailIcon1 {
+  top: 10%;
+  right: 20%;
+  animation: emailFloat1 8s ease-in-out infinite;
+}
+
+.emailIcon2 {
   top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  animation: float2 10s ease-in-out infinite;
+  right: 5%;
+  animation: emailFloat2 10s ease-in-out infinite 1s;
 }
 
-@keyframes float1 {
-  0%, 100% { transform: translateY(0) scale(1); }
-  50% { transform: translateY(-30px) scale(1.05); }
+.emailIcon3 {
+  top: 70%;
+  right: 35%;
+  animation: emailFloat3 9s ease-in-out infinite 2s;
 }
 
-@keyframes rotate1 {
-  from { transform: rotate(15deg); }
-  to { transform: rotate(375deg); }
+@keyframes emailFloat1 {
+  0%, 100% { transform: translateY(0) rotate(-5deg); opacity: 0.6; }
+  50% { transform: translateY(-25px) rotate(5deg); opacity: 0.8; }
 }
 
-@keyframes float2 {
-  0%, 100% { transform: translate(-50%, -50%) translateY(0); }
-  50% { transform: translate(-50%, -50%) translateY(20px); }
+@keyframes emailFloat2 {
+  0%, 100% { transform: translateY(0) rotate(3deg); opacity: 0.5; }
+  50% { transform: translateY(-35px) rotate(-3deg); opacity: 0.7; }
+}
+
+@keyframes emailFloat3 {
+  0%, 100% { transform: translateY(0) rotate(-2deg); opacity: 0.4; }
+  50% { transform: translateY(-20px) rotate(2deg); opacity: 0.6; }
+}
+
+/* Data Flow Lines */
+.dataFlowLines {
+  position: absolute;
+  top: 30%;
+  left: 15%;
+  width: 300px;
+  height: 200px;
+}
+
+.flowLine1,
+.flowLine2,
+.flowLine3 {
+  position: absolute;
+  height: 1px;
+  background: linear-gradient(90deg, rgba(10,10,10,0.06), transparent);
+}
+
+.flowLine1 {
+  width: 200px;
+  top: 20%;
+  left: 0;
+  animation: dataFlow 6s ease-in-out infinite;
+}
+
+.flowLine2 {
+  width: 150px;
+  top: 50%;
+  left: 30px;
+  animation: dataFlow 7s ease-in-out infinite 1.5s;
+}
+
+.flowLine3 {
+  width: 180px;
+  top: 80%;
+  left: 10px;
+  animation: dataFlow 8s ease-in-out infinite 3s;
+}
+
+@keyframes dataFlow {
+  0%, 100% { 
+    opacity: 0.3;
+    transform: translateX(0) scaleX(1);
+  }
+  50% { 
+    opacity: 0.6;
+    transform: translateX(20px) scaleX(1.2);
+  }
+}
+
+/* Notification Dots */
+.notificationDots {
+  position: absolute;
+  bottom: 25%;
+  right: 25%;
+  width: 100px;
+  height: 100px;
+}
+
+.dot1,
+.dot2,
+.dot3 {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  background: rgba(10, 10, 10, 0.15);
+  border-radius: 50%;
+}
+
+.dot1 {
+  top: 0;
+  left: 0;
+  animation: dotPulse 3s ease-in-out infinite;
+}
+
+.dot2 {
+  top: 30px;
+  left: 40px;
+  animation: dotPulse 3s ease-in-out infinite 1s;
+}
+
+.dot3 {
+  top: 60px;
+  left: 20px;
+  animation: dotPulse 3s ease-in-out infinite 2s;
+}
+
+@keyframes dotPulse {
+  0%, 100% { 
+    transform: scale(1);
+    opacity: 0.15;
+  }
+  50% { 
+    transform: scale(1.5);
+    opacity: 0.4;
+  }
 }
 
 /* Foreground - Hero Stage */
@@ -958,15 +1020,20 @@
 /* ==================== REDUCED MOTION ==================== */
 @media (prefers-reduced-motion: reduce) {
   .blob,
-  .gridLine,
-  .circle1,
-  .square1,
-  .triangle1,
   .annotationLine1,
   .annotationLine2,
   .capCard,
   .ctaFrame,
-  .kineticText {
+  .kineticText,
+  .emailIcon1,
+  .emailIcon2,
+  .emailIcon3,
+  .flowLine1,
+  .flowLine2,
+  .flowLine3,
+  .dot1,
+  .dot2,
+  .dot3 {
     animation: none !important;
     transition: none !important;
   }

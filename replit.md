@@ -67,9 +67,11 @@ This repository is dedicated to the React frontend. The backend architecture, ex
 - ✅ Global 100px grid overlay across entire page
 - ✅ Giant kinetic "AI" typography (35rem) with stroke outline
 - ✅ Vertical rotated label "AIRTHREADS — 2025"
-- ✅ Experimental footer with clean grid and animated links
+- ✅ Experimental footer with clean grid and animated links (only on landing page)
 - ✅ Section numbering system (01-04) throughout
 - ✅ Complete accessibility with reduced-motion fallbacks
+- ✅ Thematic background elements: Email envelopes, data flow lines, notification dots (replaced random geometric shapes)
+- ✅ All elements relevant to email/productivity app concept
 
 ---
 
