@@ -47,19 +47,21 @@
   --gradient-3: #00d4ff;
   --gradient-4: #ffba27;
   
-  /* Glassmorphic Effect Variables */
-  --glass-bg: rgba(255, 255, 255, 0.05);
-  --glass-bg-hover: rgba(255, 255, 255, 0.08);
-  --glass-border: rgba(255, 255, 255, 0.1);
-  --glass-border-hover: rgba(99, 91, 255, 0.4);
-  --glass-blur: 20px;
-  --glass-shadow: 0 8px 32px 0 rgba(10, 37, 64, 0.37);
-  --glass-shadow-lg: 0 12px 48px 0 rgba(10, 37, 64, 0.5);
+  /* Glassmorphic Effect Variables - DRAMATIC */
+  --glass-bg: rgba(255, 255, 255, 0.08);
+  --glass-bg-hover: rgba(255, 255, 255, 0.12);
+  --glass-border: rgba(255, 255, 255, 0.15);
+  --glass-border-hover: rgba(99, 91, 255, 0.6);
+  --glass-blur: 30px;
+  --glass-shadow: 0 12px 40px 0 rgba(0, 0, 0, 0.5);
+  --glass-shadow-lg: 0 20px 60px 0 rgba(0, 0, 0, 0.7);
   
-  /* Glow Effects */
-  --glow-purple: 0 0 20px rgba(99, 91, 255, 0.3);
-  --glow-purple-lg: 0 0 30px rgba(99, 91, 255, 0.5);
-  --glow-cyan: 0 0 20px rgba(0, 212, 255, 0.3);
+  /* Glow Effects - DRAMATIC */
+  --glow-purple: 0 0 40px rgba(99, 91, 255, 0.5);
+  --glow-purple-lg: 0 0 60px rgba(99, 91, 255, 0.7);
+  --glow-purple-xl: 0 0 80px rgba(99, 91, 255, 0.8);
+  --glow-cyan: 0 0 40px rgba(0, 212, 255, 0.5);
+  --glow-cyan-lg: 0 0 60px rgba(0, 212, 255, 0.6);
   
   /* Animation Variables */
   --transition-smooth: cubic-bezier(0.4, 0, 0.2, 1);
