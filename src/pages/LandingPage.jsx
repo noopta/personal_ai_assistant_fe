@@ -80,7 +80,7 @@ function LandingPage() {
                 </div>
                 <div className={styles.cardContent}>
                   <h3 className={styles.cardTitle}>Gmail</h3>
-                  <p className={styles.cardSubtitle}>Untegrations</p>
+                  <p className={styles.cardSubtitle}>Integrations</p>
                 </div>
               </div>
               
@@ -100,7 +100,7 @@ function LandingPage() {
                 </div>
                 <div className={styles.cardContent}>
                   <h3 className={styles.cardTitle}>Calendar</h3>
-                  <p className={styles.cardSubtitle}>Untegrations</p>
+                  <p className={styles.cardSubtitle}>Integrations</p>
                 </div>
               </div>
             </div>
