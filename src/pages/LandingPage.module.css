@@ -64,9 +64,10 @@
   text-align: center;
   max-width: 720px;
   margin: 0 auto 80px;
-  opacity: 0;
+  opacity: 1;
   position: relative;
   z-index: 10; /* Higher than path (z-index: 1) so content appears on top */
+  animation: fadeInUp 0.8s ease-out forwards;
 }
 
 .heroTitle {
@@ -76,6 +77,10 @@
   margin-bottom: 24px;
   color: var(--text-primary);
   letter-spacing: -0.04em;
+}
+
+[data-theme="light"] .heroTitle {
+  color: #0A2540 !important;
 }
 
 .highlight {
@@ -89,6 +94,19 @@
   color: var(--text-secondary);
   margin-bottom: 40px;
   font-weight: 400;
+}
+
+[data-theme="light"] .heroDescription {
+  color: #425466 !important;
+}
+
+/* Fallback for default/unthemed state */
+.landingPage .heroTitle {
+  color: #0A2540;
+}
+
+.landingPage .heroDescription {
+  color: #425466;
 }
 
 .heroActions {
@@ -171,8 +189,8 @@
 .heroVisual {
   display: flex;
   justify-content: center;
-  opacity: 0;
-  animation-delay: 0.2s;
+  opacity: 1;
+  animation: fadeInUp 0.8s ease-out 0.2s forwards;
 }
 
 .dashboardCard {
@@ -358,7 +376,8 @@
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
   gap: 32px;
-  opacity: 0;
+  opacity: 1;
+  animation: fadeInUp 0.8s ease-out forwards;
 }
 
 .featureCard {
@@ -465,7 +484,8 @@
 }
 
 .benefitsContent {
-  opacity: 0;
+  opacity: 1;
+  animation: fadeInUp 0.8s ease-out forwards;
 }
 
 .benefitsDescription {
@@ -512,8 +532,8 @@
 }
 
 .benefitsVisual {
-  opacity: 0;
-  animation-delay: 0.2s;
+  opacity: 1;
+  animation: fadeInUp 0.8s ease-out 0.2s forwards;
 }
 
 .benefitsCard {
