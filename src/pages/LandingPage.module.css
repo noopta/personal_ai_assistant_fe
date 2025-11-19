@@ -1,11 +1,11 @@
-/* TILTED GLASSMORPHIC LANDING PAGE - 3D Floating Cards */
+/* GLASSMORPHIC LANDING PAGE - Purple to Blue Gradient */
 
 .landingPage {
   position: relative;
   min-height: 100vh;
-  background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 50%, #0f1419 100%);
+  background: linear-gradient(135deg, #9c2cf3 0%, #7c4dff 25%, #4f7dfd 60%, #35a1ff 100%);
   color: #ffffff;
-  overflow-x: hidden;
+  overflow: hidden;
 }
 
 /* Floating Bubbles */
@@ -16,57 +16,57 @@
 .bubble5 {
   position: fixed;
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.1);
   pointer-events: none;
-  z-index: 0;
+  z-index: 1;
+  filter: blur(60px);
   animation: float 20s ease-in-out infinite;
 }
 
 .bubble1 {
-  width: 80px;
-  height: 80px;
-  top: 15%;
-  right: 10%;
-  background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.05));
+  width: 180px;
+  height: 180px;
+  top: 10%;
+  right: 20%;
+  background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.25), transparent);
   animation-delay: 0s;
 }
 
 .bubble2 {
-  width: 120px;
-  height: 120px;
-  bottom: 20%;
-  left: 5%;
-  background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.25), rgba(255, 255, 255, 0.03));
+  width: 140px;
+  height: 140px;
+  bottom: 15%;
+  right: 40%;
+  background: radial-gradient(circle at 30% 30%, rgba(156, 44, 243, 0.15), transparent);
   animation-delay: 3s;
   animation-duration: 25s;
 }
 
 .bubble3 {
-  width: 60px;
-  height: 60px;
-  top: 60%;
-  right: 15%;
-  background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.04));
+  width: 100px;
+  height: 100px;
+  top: 50%;
+  left: 3%;
+  background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.2), transparent);
   animation-delay: 6s;
   animation-duration: 22s;
 }
 
 .bubble4 {
-  width: 100px;
-  height: 100px;
-  top: 40%;
-  left: 8%;
-  background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0.03));
+  width: 160px;
+  height: 160px;
+  top: 30%;
+  left: 10%;
+  background: radial-gradient(circle at 30% 30%, rgba(124, 77, 255, 0.12), transparent);
   animation-delay: 9s;
   animation-duration: 28s;
 }
 
 .bubble5 {
-  width: 70px;
-  height: 70px;
-  bottom: 35%;
-  right: 25%;
-  background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.05));
+  width: 120px;
+  height: 120px;
+  bottom: 25%;
+  left: 5%;
+  background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.18), transparent);
   animation-delay: 12s;
   animation-duration: 24s;
 }
@@ -101,41 +101,49 @@
 /* ==================== HERO SECTION ==================== */
 .hero {
   min-height: 100vh;
-  display: flex;
+  display: grid;
+  grid-template-columns: 40% 60%;
   align-items: center;
-  padding: 6rem 0;
+  padding: 6rem 2rem;
   position: relative;
-  perspective: 2000px;
+  perspective: 1600px;
   isolation: isolate;
+  gap: 2rem;
 }
 
 .hero .container {
   width: 100%;
   position: relative;
+  grid-column: 1 / -1;
+  display: contents;
 }
 
 .heroContent {
-  max-width: 500px;
-  z-index: 10;
   position: relative;
+  z-index: 20;
+  pointer-events: auto;
+  padding-left: 2rem;
   animation: fadeInUp 1s ease-out both;
 }
 
 .heroTitle {
-  font-size: clamp(3rem, 8vw, 5rem);
+  font-size: clamp(3.5rem, 7vw, 5.5rem);
   font-weight: 700;
   line-height: 1.1;
   margin-bottom: 0.5rem;
   letter-spacing: -0.02em;
   color: #ffffff;
+  text-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
 .heroSubtitle {
-  font-size: clamp(2rem, 6vw, 3.5rem);
-  font-weight: 400;
+  font-size: clamp(2.5rem, 5vw, 4rem);
+  font-weight: 300;
   display: block;
-  margin-top: 0.25rem;
-  opacity: 0.95;
+  margin-top: 0.5rem;
+  letter-spacing: 0.05em;
+  color: #ffffff;
+  text-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
 .heroActions {
@@ -166,238 +174,135 @@
 
 /* Floating Tilted Glass Cards - 3D Effect */
 .floatingCards {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
+  position: relative;
+  width: 100%;
+  height: 100%;
+  min-height: 600px;
   pointer-events: none;
-  z-index: 1;
-  perspective: 1200px;
-  perspective-origin: 50% 50%;
-}
-
-/* Connection Threads Layer */
-.floatingCards::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-image: 
-    linear-gradient(135deg, transparent 0%, rgba(255, 255, 255, 0.03) 50%, transparent 100%),
-    radial-gradient(ellipse at 45% 35%, rgba(255, 255, 255, 0.02) 0%, transparent 50%),
-    radial-gradient(ellipse at 60% 55%, rgba(255, 255, 255, 0.02) 0%, transparent 50%);
-  opacity: 0.5;
-  pointer-events: none;
-  z-index: -1;
+  z-index: 10;
+  transform-style: preserve-3d;
 }
 
 .glassCard {
   position: absolute;
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.03) 100%);
-  backdrop-filter: blur(60px) saturate(120%);
-  -webkit-backdrop-filter: blur(60px) saturate(120%);
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.35) 0%, rgba(255, 255, 255, 0.12) 100%);
+  backdrop-filter: blur(45px) saturate(130%);
+  -webkit-backdrop-filter: blur(45px) saturate(130%);
   border-radius: 28px;
-  padding: 1.5rem;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3),
-              0 2px 8px rgba(0, 0, 0, 0.2),
-              inset 0 0 0 1px rgba(255, 255, 255, 0.05);
+  padding: 1.75rem;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  box-shadow: 0 12px 48px rgba(31, 38, 135, 0.2),
+              0 4px 16px rgba(0, 0, 0, 0.08),
+              inset 0 0 0 1px rgba(255, 255, 255, 0.15);
   pointer-events: auto;
   cursor: pointer;
-  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   transform-style: preserve-3d;
+  width: 240px;
+  min-height: 160px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
 }
 
 .glassCard:hover {
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.12) 0%, rgba(255, 255, 255, 0.06) 100%);
-  border-color: rgba(255, 255, 255, 0.15);
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4),
-              0 4px 12px rgba(0, 0, 0, 0.3),
-              inset 0 0 0 1px rgba(255, 255, 255, 0.1);
-  transform: scale(1.03) !important;
-  z-index: 50;
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.42) 0%, rgba(255, 255, 255, 0.18) 100%);
+  border-color: rgba(255, 255, 255, 0.45);
+  box-shadow: 0 16px 56px rgba(31, 38, 135, 0.25),
+              0 6px 20px rgba(0, 0, 0, 0.12),
+              inset 0 0 0 1px rgba(255, 255, 255, 0.2);
+  transform: translateY(-5px) scale(1.02) !important;
 }
 
-/* Individual Card Positions & Tilts - More Dramatic & Spread Out */
+/* Individual Card Positions & Tilts - Matching Reference Image */
 .card1 {
-  top: 8%;
+  top: 5%;
   left: 45%;
-  width: 260px;
-  transform: rotateX(12deg) rotateY(-15deg) rotateZ(-8deg) scale(1.05);
-  animation: floatCard1 6s ease-in-out infinite;
+  transform: translate3d(0, 0, 120px) rotateX(14deg) rotateY(-18deg) rotateZ(-6deg);
+  animation: floatCard1 7s ease-in-out infinite;
   animation-delay: 0s;
   z-index: 5;
 }
 
-/* Connection thread from card1 to card2 */
-.card1::after {
-  content: '';
-  position: absolute;
-  top: 50%;
-  left: 100%;
-  width: 220px;
-  height: 2px;
-  background: linear-gradient(90deg, rgba(100, 255, 220, 0.5), rgba(100, 255, 220, 0.2), transparent);
-  filter: blur(1px);
-  opacity: 0.9;
-  box-shadow: 0 0 8px rgba(100, 255, 220, 0.3);
-  pointer-events: none;
-  transform-origin: left center;
-  transform: translateY(-50%) rotate(-2deg);
-}
-
 .card2 {
-  top: 10%;
-  right: 8%;
-  width: 280px;
-  transform: rotateX(-8deg) rotateY(18deg) rotateZ(10deg) scale(1.1);
-  animation: floatCard2 7s ease-in-out infinite;
-  animation-delay: 0.5s;
+  top: 0;
+  right: 10%;
+  transform: translate3d(40px, 20px, 80px) rotateX(-6deg) rotateY(22deg) rotateZ(10deg);
+  animation: floatCard2 8s ease-in-out infinite;
+  animation-delay: 0.8s;
   z-index: 6;
 }
 
-/* Connection thread from card2 to card4 */
-.card2::after {
-  content: '';
-  position: absolute;
-  top: 100%;
-  left: 30%;
-  width: 2px;
-  height: 180px;
-  background: linear-gradient(180deg, rgba(100, 255, 220, 0.5), rgba(100, 255, 220, 0.2), transparent);
-  filter: blur(1px);
-  opacity: 0.9;
-  box-shadow: 0 0 8px rgba(100, 255, 220, 0.3);
-  pointer-events: none;
-  transform-origin: top center;
-  transform: translateX(-50%) rotate(8deg);
-}
-
 .card3 {
-  top: 40%;
-  left: 38%;
-  width: 240px;
-  transform: rotateX(15deg) rotateY(-12deg) rotateZ(-12deg) scale(0.95);
-  animation: floatCard3 8s ease-in-out infinite;
-  animation-delay: 1s;
+  top: 35%;
+  left: 30%;
+  transform: translate3d(-60px, 180px, 30px) rotateX(20deg) rotateY(-10deg) rotateZ(-14deg);
+  animation: floatCard3 6.5s ease-in-out infinite;
+  animation-delay: 1.5s;
   z-index: 4;
 }
 
-/* Connection thread from card3 to card5 */
-.card3::after {
-  content: '';
-  position: absolute;
-  top: 100%;
-  right: 20%;
-  width: 2px;
-  height: 140px;
-  background: linear-gradient(180deg, rgba(100, 255, 220, 0.5), rgba(100, 255, 220, 0.2), transparent);
-  filter: blur(1px);
-  opacity: 0.9;
-  box-shadow: 0 0 8px rgba(100, 255, 220, 0.3);
-  pointer-events: none;
-  transform-origin: top center;
-  transform: translateX(50%) rotate(-10deg);
-}
-
 .card4 {
-  bottom: 18%;
-  right: 12%;
-  width: 270px;
-  transform: rotateX(-10deg) rotateY(14deg) rotateZ(8deg) scale(1.05);
-  animation: floatCard4 7.5s ease-in-out infinite;
-  animation-delay: 1.5s;
-  z-index: 3;
+  bottom: 15%;
+  right: 18%;
+  transform: translate3d(80px, 260px, -20px) rotateX(-12deg) rotateY(16deg) rotateZ(8deg);
+  animation: floatCard4 7s ease-in-out infinite;
+  animation-delay: 2s;
+  z-index: 7;
 }
 
 .card5 {
-  bottom: 10%;
-  left: 50%;
-  width: 250px;
-  transform: rotateX(10deg) rotateY(-20deg) rotateZ(-5deg) scale(1);
-  animation: floatCard5 6.5s ease-in-out infinite;
-  animation-delay: 2s;
-  z-index: 2;
+  bottom: 5%;
+  left: 42%;
+  transform: translate3d(-20px, 320px, 60px) rotateX(8deg) rotateY(-24deg) rotateZ(-4deg);
+  animation: floatCard5 8.5s ease-in-out infinite;
+  animation-delay: 2.5s;
+  z-index: 3;
 }
 
-/* Connection thread from card5 to card1 */
-.card5::after {
-  content: '';
-  position: absolute;
-  bottom: 100%;
-  left: 20%;
-  width: 2px;
-  height: 200px;
-  background: linear-gradient(0deg, rgba(100, 255, 220, 0.5), rgba(100, 255, 220, 0.2), transparent);
-  filter: blur(1px);
-  opacity: 0.9;
-  box-shadow: 0 0 8px rgba(100, 255, 220, 0.3);
-  pointer-events: none;
-  transform-origin: bottom center;
-  transform: translateX(-50%) rotate(5deg);
-}
-
-/* Floating Card Animations - More Dynamic & Varied */
+/* Floating Card Animations - Subtle Movement */
 @keyframes floatCard1 {
   0%, 100% {
-    transform: rotateX(12deg) rotateY(-15deg) rotateZ(-8deg) scale(1.05) translateY(0px) translateZ(0px);
+    transform: translate3d(0, 0, 120px) rotateX(14deg) rotateY(-18deg) rotateZ(-6deg);
   }
-  33% {
-    transform: rotateX(15deg) rotateY(-12deg) rotateZ(-6deg) scale(1.06) translateY(-25px) translateZ(10px);
-  }
-  66% {
-    transform: rotateX(10deg) rotateY(-18deg) rotateZ(-10deg) scale(1.04) translateY(-15px) translateZ(5px);
+  50% {
+    transform: translate3d(0, -15px, 120px) rotateX(16deg) rotateY(-16deg) rotateZ(-4deg);
   }
 }
 
 @keyframes floatCard2 {
   0%, 100% {
-    transform: rotateX(-8deg) rotateY(18deg) rotateZ(10deg) scale(1.1) translateY(0px) translateZ(0px);
+    transform: translate3d(40px, 20px, 80px) rotateX(-6deg) rotateY(22deg) rotateZ(10deg);
   }
-  33% {
-    transform: rotateX(-12deg) rotateY(20deg) rotateZ(8deg) scale(1.11) translateY(-30px) translateZ(15px);
-  }
-  66% {
-    transform: rotateX(-6deg) rotateY(16deg) rotateZ(12deg) scale(1.09) translateY(-18px) translateZ(8px);
+  50% {
+    transform: translate3d(40px, 5px, 80px) rotateX(-8deg) rotateY(24deg) rotateZ(12deg);
   }
 }
 
 @keyframes floatCard3 {
   0%, 100% {
-    transform: rotateX(15deg) rotateY(-12deg) rotateZ(-12deg) scale(0.95) translateY(0px) translateZ(0px);
+    transform: translate3d(-60px, 180px, 30px) rotateX(20deg) rotateY(-10deg) rotateZ(-14deg);
   }
-  33% {
-    transform: rotateX(18deg) rotateY(-15deg) rotateZ(-10deg) scale(0.96) translateY(-22px) translateZ(12px);
-  }
-  66% {
-    transform: rotateX(12deg) rotateY(-10deg) rotateZ(-14deg) scale(0.94) translateY(-12px) translateZ(6px);
+  50% {
+    transform: translate3d(-60px, 170px, 30px) rotateX(22deg) rotateY(-8deg) rotateZ(-12deg);
   }
 }
 
 @keyframes floatCard4 {
   0%, 100% {
-    transform: rotateX(-10deg) rotateY(14deg) rotateZ(8deg) scale(1.05) translateY(0px) translateZ(0px);
+    transform: translate3d(80px, 260px, -20px) rotateX(-12deg) rotateY(16deg) rotateZ(8deg);
   }
-  33% {
-    transform: rotateX(-14deg) rotateY(17deg) rotateZ(10deg) scale(1.06) translateY(-28px) translateZ(14px);
-  }
-  66% {
-    transform: rotateX(-8deg) rotateY(12deg) rotateZ(6deg) scale(1.04) translateY(-16px) translateZ(7px);
+  50% {
+    transform: translate3d(80px, 250px, -20px) rotateX(-10deg) rotateY(18deg) rotateZ(10deg);
   }
 }
 
 @keyframes floatCard5 {
   0%, 100% {
-    transform: rotateX(10deg) rotateY(-20deg) rotateZ(-5deg) scale(1) translateY(0px) translateZ(0px);
+    transform: translate3d(-20px, 320px, 60px) rotateX(8deg) rotateY(-24deg) rotateZ(-4deg);
   }
-  33% {
-    transform: rotateX(14deg) rotateY(-23deg) rotateZ(-7deg) scale(1.02) translateY(-24px) translateZ(11px);
-  }
-  66% {
-    transform: rotateX(8deg) rotateY(-18deg) rotateZ(-3deg) scale(0.99) translateY(-14px) translateZ(5px);
+  50% {
+    transform: translate3d(-20px, 310px, 60px) rotateX(10deg) rotateY(-22deg) rotateZ(-2deg);
   }
 }
 
