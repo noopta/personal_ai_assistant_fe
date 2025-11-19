@@ -1,230 +1,85 @@
-/* CYBERPUNK CHAT INPUT */
+/* MINIMAL CHAT INPUT - Blade Runner 2049 Inspired */
 
 .inputWrapper {
+  background: var(--bg-secondary);
+  border-top: 1px solid var(--border-subtle);
   position: relative;
-  background: linear-gradient(135deg, 
-    rgba(0, 255, 255, 0.05) 0%, 
-    rgba(0, 0, 0, 0.9) 100%
-  );
-  backdrop-filter: blur(30px);
-  -webkit-backdrop-filter: blur(30px);
-  border-top: 2px solid var(--neon-cyan);
-  box-shadow: 
-    0 -10px 50px rgba(0, 255, 255, 0.3),
-    inset 0 0 50px rgba(0, 255, 255, 0.05);
-  position: relative;
-  overflow: hidden;
-}
-
-.inputWrapper::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 2px;
-  background: linear-gradient(90deg, 
-    transparent 0%, 
-    var(--neon-cyan) 25%, 
-    var(--neon-magenta) 50%, 
-    var(--neon-cyan) 75%, 
-    transparent 100%
-  );
-  animation: holo-shift 3s linear infinite;
-  background-size: 200% 100%;
-  box-shadow: 0 0 20px var(--neon-cyan);
-}
-
-.inputWrapper::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: repeating-linear-gradient(
-    0deg,
-    transparent 0px,
-    rgba(0, 255, 255, 0.02) 1px,
-    transparent 2px
-  );
-  pointer-events: none;
-  animation: scanline 8s linear infinite;
 }
 
 .inputContainer {
-  padding: 24px 32px;
+  padding: var(--space-lg);
   display: flex;
   flex-direction: column;
-  gap: 16px;
-  position: relative;
-  z-index: 1;
+  gap: var(--space-md);
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
 .inputGroup {
   display: flex;
-  gap: 16px;
+  gap: var(--space-md);
   align-items: flex-end;
-  position: relative;
 }
 
-/* HUD-STYLE INPUT FIELD */
+/* Input field */
 .input {
   flex: 1;
-  padding: 16px 24px;
-  border: 2px solid var(--neon-cyan);
-  font-size: 16px;
-  font-family: var(--font-terminal);
-  font-weight: 400;
+  padding: var(--space-md);
+  border: 1px solid var(--border-medium);
+  font-size: 0.9375rem;
+  font-family: inherit;
   outline: none;
-  background: linear-gradient(135deg, 
-    rgba(0, 255, 255, 0.08) 0%, 
-    rgba(0, 0, 0, 0.9) 100%
-  );
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  color: var(--neon-cyan);
-  transition: all 0.3s var(--transition-glitch);
-  box-shadow: 
-    0 0 30px rgba(0, 255, 255, 0.3),
-    inset 0 0 30px rgba(0, 255, 255, 0.05);
-  line-height: 1.6;
-  min-height: 60px;
+  background: var(--bg-tertiary);
+  color: var(--text-primary);
+  transition: all var(--transition-smooth);
+  line-height: 1.5;
+  min-height: 48px;
   resize: none;
-  clip-path: polygon(
-    0 8px,
-    8px 0,
-    calc(100% - 8px) 0,
-    100% 8px,
-    100% calc(100% - 8px),
-    calc(100% - 8px) 100%,
-    8px 100%,
-    0 calc(100% - 8px)
-  );
-  letter-spacing: 0.5px;
-  position: relative;
-}
-
-.input::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: repeating-linear-gradient(
-    0deg,
-    transparent 0px,
-    rgba(0, 255, 255, 0.02) 1px,
-    transparent 2px
-  );
-  pointer-events: none;
+  border-radius: 4px;
 }
 
 .input::placeholder {
-  color: rgba(0, 255, 255, 0.4);
-  font-weight: 400;
-  font-family: var(--font-terminal);
-  letter-spacing: 1px;
+  color: var(--text-muted);
+  font-weight: 300;
 }
 
 .input:focus {
-  border-color: var(--neon-magenta);
-  background: linear-gradient(135deg, 
-    rgba(255, 0, 255, 0.1) 0%, 
-    rgba(0, 0, 0, 0.95) 100%
-  );
-  box-shadow: 
-    0 0 50px rgba(255, 0, 255, 0.6),
-    inset 0 0 40px rgba(255, 0, 255, 0.08);
-  color: var(--neon-magenta);
-  transform: translateY(-2px);
-}
-
-.input:focus::placeholder {
-  color: rgba(255, 0, 255, 0.4);
+  border-color: var(--accent-border);
+  background: var(--bg-elevated);
 }
 
 .input:disabled {
   opacity: 0.5;
   cursor: not-allowed;
-  background: rgba(0, 0, 0, 0.6);
-  border-color: rgba(0, 255, 255, 0.2);
+  background: var(--bg-secondary);
 }
 
-/* NEON SEND BUTTON */
+/* Send button */
 .sendButton {
-  padding: 16px 32px;
-  background: linear-gradient(135deg, 
-    rgba(0, 255, 255, 0.2) 0%, 
-    rgba(255, 0, 255, 0.2) 100%
-  );
-  color: var(--neon-cyan);
-  border: 2px solid var(--neon-cyan);
-  font-family: var(--font-terminal);
-  font-size: 16px;
-  font-weight: 700;
+  padding: var(--space-md) var(--space-xl);
+  background: var(--accent-primary);
+  color: #000;
+  border: none;
+  font-size: 0.9375rem;
+  font-weight: 500;
   cursor: pointer;
-  transition: all 0.3s var(--transition-glitch);
-  box-shadow: 
-    0 0 40px rgba(0, 255, 255, 0.4),
-    inset 0 0 30px rgba(0, 255, 255, 0.08);
-  position: relative;
-  overflow: hidden;
+  transition: all var(--transition-smooth);
   display: flex;
   align-items: center;
-  gap: 12px;
-  min-width: 140px;
+  gap: var(--space-sm);
+  min-width: 120px;
   justify-content: center;
-  text-transform: uppercase;
-  letter-spacing: 2px;
-  clip-path: polygon(
-    0 10px,
-    10px 0,
-    calc(100% - 10px) 0,
-    100% 10px,
-    100% calc(100% - 10px),
-    calc(100% - 10px) 100%,
-    10px 100%,
-    0 calc(100% - 10px)
-  );
-}
-
-.sendButton::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(90deg, 
-    transparent, 
-    rgba(255, 255, 255, 0.2), 
-    transparent
-  );
-  transition: left 0.5s ease;
-}
-
-.sendButton:hover:not(:disabled)::before {
-  left: 100%;
+  border-radius: 4px;
 }
 
 .sendButton:hover:not(:disabled) {
-  transform: translateY(-4px);
-  border-color: var(--neon-magenta);
-  color: var(--neon-magenta);
-  box-shadow: 
-    0 0 60px rgba(255, 0, 255, 0.7),
-    inset 0 0 40px rgba(255, 0, 255, 0.12);
-  background: linear-gradient(135deg, 
-    rgba(255, 0, 255, 0.25) 0%, 
-    rgba(0, 255, 255, 0.25) 100%
-  );
+  opacity: 0.9;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(255, 140, 66, 0.25);
 }
 
 .sendButton:active:not(:disabled) {
-  transform: translateY(0) scale(0.95);
-  transition: all 0.1s ease;
+  transform: translateY(0);
 }
 
 .sendButton:disabled,
@@ -232,139 +87,55 @@
   opacity: 0.4;
   cursor: not-allowed;
   transform: none;
-  box-shadow: none;
-  background: rgba(0, 0, 0, 0.6);
-  border-color: rgba(0, 255, 255, 0.2);
-  color: rgba(0, 255, 255, 0.3);
 }
 
 .sendIcon {
-  width: 20px;
-  height: 20px;
+  width: 18px;
+  height: 18px;
   fill: currentColor;
-  transition: transform 0.3s ease;
-  filter: drop-shadow(0 0 8px currentColor);
+  transition: transform var(--transition-smooth);
 }
 
 .sendButton:hover:not(:disabled) .sendIcon {
-  transform: translateX(4px);
+  transform: translateX(2px);
 }
 
 .sendText {
-  font-weight: 700;
-  text-shadow: 0 0 10px currentColor;
+  font-weight: 500;
 }
 
-/* INPUT HINT */
+/* Input hint */
 .inputHint {
   display: flex;
   justify-content: center;
-  margin-top: 8px;
+  margin-top: var(--space-xs);
 }
 
 .hintText {
-  font-size: 12px;
-  font-family: var(--font-terminal);
-  color: rgba(0, 255, 255, 0.5);
-  opacity: 0.8;
-  font-weight: 400;
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  font-weight: 300;
   text-align: center;
-  letter-spacing: 1px;
-  text-transform: uppercase;
 }
 
-/* CORNER ACCENTS FOR INPUT */
-.inputGroup::before,
-.inputGroup::after {
-  content: '';
-  position: absolute;
-  width: 20px;
-  height: 20px;
-  border: 2px solid var(--neon-cyan);
-  pointer-events: none;
-  transition: all 0.3s ease;
-}
-
-.inputGroup::before {
-  top: -8px;
-  left: -8px;
-  border-right: none;
-  border-bottom: none;
-  box-shadow: 0 0 15px var(--neon-cyan);
-}
-
-.inputGroup::after {
-  bottom: -8px;
-  right: -8px;
-  border-left: none;
-  border-top: none;
-  box-shadow: 0 0 15px var(--neon-cyan);
-}
-
-.inputGroup:focus-within::before,
-.inputGroup:focus-within::after {
-  border-color: var(--neon-magenta);
-  box-shadow: 0 0 20px var(--neon-magenta);
-}
-
-/* ENHANCED FOCUS STATES */
-.inputGroup:focus-within .sendButton:not(:disabled) {
-  box-shadow: 
-    0 0 50px rgba(0, 255, 255, 0.6),
-    inset 0 0 35px rgba(0, 255, 255, 0.1);
-  border-color: var(--neon-cyan);
-  animation: neon-pulse 2s ease-in-out infinite;
-}
-
-/* TYPING INDICATOR */
-.input:not(:placeholder-shown) + .sendButton:not(:disabled) {
-  background: linear-gradient(135deg, 
-    rgba(0, 255, 255, 0.3) 0%, 
-    rgba(255, 0, 255, 0.3) 100%
-  );
-  animation: sendButtonPulse 2s ease-in-out infinite;
-  border-color: var(--neon-green);
-  color: var(--neon-green);
-}
-
-@keyframes sendButtonPulse {
-  0%, 100% {
-    box-shadow: 
-      0 0 40px rgba(0, 255, 0, 0.5),
-      inset 0 0 30px rgba(0, 255, 0, 0.08);
-  }
-  50% {
-    box-shadow: 
-      0 0 60px rgba(0, 255, 0, 0.7),
-      inset 0 0 40px rgba(0, 255, 0, 0.12);
-  }
-}
-
-/* SCANLINE ANIMATION */
-@keyframes scanline {
-  0% { transform: translateY(0); }
-  100% { transform: translateY(10px); }
-}
-
-/* RESPONSIVE */
+/* ==================== RESPONSIVE ==================== */
 @media (max-width: 768px) {
   .inputContainer {
-    padding: 20px 24px;
-    gap: 12px;
+    padding: var(--space-md);
   }
 
   .inputGroup {
-    gap: 12px;
+    gap: var(--space-sm);
   }
 
   .input {
-    padding: 14px 20px;
-    font-size: 16px;
-    min-height: 52px;
+    padding: var(--space-sm) var(--space-md);
+    font-size: 1rem;
+    min-height: 44px;
   }
 
   .sendButton {
-    padding: 14px 24px;
+    padding: var(--space-sm) var(--space-lg);
     min-width: 100px;
   }
 
@@ -373,69 +144,22 @@
   }
 
   .sendIcon {
-    width: 22px;
-    height: 22px;
-  }
-
-  .hintText {
-    font-size: 11px;
+    width: 20px;
+    height: 20px;
   }
 }
 
 @media (max-width: 480px) {
   .inputContainer {
-    padding: 16px 20px;
+    padding: var(--space-sm);
   }
 
   .input {
-    padding: 12px 16px;
-    font-size: 16px;
-    min-height: 48px;
+    font-size: 1rem;
   }
 
   .sendButton {
-    padding: 12px 20px;
-    min-width: 80px;
+    padding: var(--space-sm) var(--space-md);
+    min-width: 70px;
   }
-
-  .inputGroup::before,
-  .inputGroup::after {
-    display: none;
-  }
-}
-
-/* DARK MODE ENHANCEMENTS */
-[data-theme="dark"] .input {
-  background: linear-gradient(135deg, 
-    rgba(0, 255, 255, 0.1) 0%, 
-    rgba(0, 0, 0, 0.95) 100%
-  );
-  border-color: var(--neon-cyan);
-}
-
-[data-theme="dark"] .input:focus {
-  border-color: var(--neon-magenta);
-  background: linear-gradient(135deg, 
-    rgba(255, 0, 255, 0.12) 0%, 
-    rgba(0, 0, 0, 0.98) 100%
-  );
-}
-
-/* LIGHT MODE (Maintain cyberpunk aesthetic) */
-[data-theme="light"] .input {
-  background: linear-gradient(135deg, 
-    rgba(0, 255, 255, 0.12) 0%, 
-    rgba(0, 0, 0, 0.88) 100%
-  );
-  border-color: var(--neon-cyan);
-  color: var(--neon-cyan);
-}
-
-[data-theme="light"] .input:focus {
-  background: linear-gradient(135deg, 
-    rgba(255, 0, 255, 0.15) 0%, 
-    rgba(0, 0, 0, 0.92) 100%
-  );
-  border-color: var(--neon-magenta);
-  color: var(--neon-magenta);
 }

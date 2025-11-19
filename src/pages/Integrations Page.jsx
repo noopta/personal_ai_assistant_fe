@@ -87,7 +87,6 @@ function IntegrationsPage() {
 
   return (
     <div className={styles.integrationsPage}>
-      
       <div className={styles.container}>
         {/* Header */}
         <header className={styles.header}>

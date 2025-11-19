@@ -10,43 +10,43 @@ function CyberBackground() {
 
     const ctx = canvas.getContext('2d');
     let animationFrameId;
-    let matrix = [];
-    let columns = 0;
     
     const resize = () => {
       canvas.width = window.innerWidth;
       canvas.height = window.innerHeight;
-      columns = Math.floor(canvas.width / 20) + 1;
-      matrix = Array(columns).fill(0);
     };
 
     resize();
     window.addEventListener('resize', resize);
 
-    const matrixChars = '01';
-    const fontSize = 16;
-    ctx.font = `${fontSize}px monospace`;
+    const particles = [];
+    const particleCount = 30;
+
+    for (let i = 0; i < particleCount; i++) {
+      particles.push({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        vx: (Math.random() - 0.5) * 0.2,
+        vy: (Math.random() - 0.5) * 0.2,
+        size: Math.random() * 1.5 + 0.5
+      });
+    }
 
     const draw = () => {
-      ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+      ctx.fillStyle = 'rgba(15, 15, 15, 0.05)';
       ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-      ctx.fillStyle = '#00FFFF';
-      
-      matrix.forEach((y, index) => {
-        const text = matrixChars.charAt(Math.floor(Math.random() * matrixChars.length));
-        const x = index * 20;
+      particles.forEach(particle => {
+        ctx.beginPath();
+        ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2);
+        ctx.fillStyle = 'rgba(255, 140, 66, 0.3)';
+        ctx.fill();
 
-        ctx.shadowBlur = 10;
-        ctx.shadowColor = '#00FFFF';
-        ctx.fillText(text, x, y);
-        ctx.shadowBlur = 0;
+        particle.x += particle.vx;
+        particle.y += particle.vy;
 
-        if (y > canvas.height && Math.random() > 0.975) {
-          matrix[index] = 0;
-        } else {
-          matrix[index] = y + fontSize;
-        }
+        if (particle.x < 0 || particle.x > canvas.width) particle.vx *= -1;
+        if (particle.y < 0 || particle.y > canvas.height) particle.vy *= -1;
       });
 
       animationFrameId = requestAnimationFrame(draw);
@@ -61,10 +61,9 @@ function CyberBackground() {
   }, []);
 
   return (
-    <div className={styles.cyberBackground}>
+    <div className={styles.background}>
       <canvas ref={canvasRef} className={styles.canvas} />
-      <div className={styles.gridOverlay} />
-      <div className={styles.hexagonPattern} />
+      <div className={styles.gradient} />
     </div>
   );
 }
