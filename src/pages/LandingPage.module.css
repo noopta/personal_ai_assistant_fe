@@ -215,46 +215,51 @@
 }
 
 /* Individual Card Positions & Tilts - Matching Reference Image */
+/* Mitedoy - Bottom Left */
 .card1 {
-  top: 10%;
-  left: 8%;
-  transform: translate3d(-30px, 0, 80px) rotateX(18deg) rotateY(-12deg) rotateZ(-8deg);
+  bottom: 15%;
+  left: 3%;
+  transform: translate3d(-20px, 0, 60px) rotateX(16deg) rotateY(-10deg) rotateZ(-10deg);
   animation: floatCard1 7s ease-in-out infinite;
   animation-delay: 0s;
-  z-index: 4;
+  z-index: 3;
 }
 
+/* Gmail (Red) - Top Center */
 .card2 {
   top: 8%;
-  left: 35%;
-  transform: translate3d(20px, 0, 120px) rotateX(-8deg) rotateY(20deg) rotateZ(12deg);
+  left: 38%;
+  transform: translate3d(10px, 0, 120px) rotateX(-10deg) rotateY(18deg) rotateZ(14deg);
   animation: floatCard2 8s ease-in-out infinite;
   animation-delay: 0.8s;
   z-index: 6;
 }
 
+/* Gmail (Blue) - Center Left */
 .card3 {
-  top: 28%;
-  left: 5%;
-  transform: translate3d(-50px, 0, 40px) rotateX(22deg) rotateY(-14deg) rotateZ(-12deg);
+  top: 35%;
+  left: 8%;
+  transform: translate3d(-40px, 0, 50px) rotateX(20deg) rotateY(-12deg) rotateZ(-14deg);
   animation: floatCard3 6.5s ease-in-out infinite;
   animation-delay: 1.5s;
-  z-index: 3;
+  z-index: 4;
 }
 
+/* Calendar - Top Right */
 .card4 {
   top: 6%;
-  right: 12%;
-  transform: translate3d(40px, 0, 60px) rotateX(-10deg) rotateY(18deg) rotateZ(10deg);
+  right: 10%;
+  transform: translate3d(35px, 0, 80px) rotateX(-8deg) rotateY(20deg) rotateZ(12deg);
   animation: floatCard4 7s ease-in-out infinite;
   animation-delay: 2s;
   z-index: 7;
 }
 
+/* Calegrator - Middle Right */
 .card5 {
-  top: 32%;
-  right: 16%;
-  transform: translate3d(30px, 0, 100px) rotateX(12deg) rotateY(-20deg) rotateZ(-6deg);
+  top: 36%;
+  right: 14%;
+  transform: translate3d(25px, 0, 100px) rotateX(14deg) rotateY(-18deg) rotateZ(-8deg);
   animation: floatCard5 8.5s ease-in-out infinite;
   animation-delay: 2.5s;
   z-index: 5;
@@ -263,46 +268,46 @@
 /* Floating Card Animations - Subtle Movement */
 @keyframes floatCard1 {
   0%, 100% {
-    transform: translate3d(-30px, 0, 80px) rotateX(18deg) rotateY(-12deg) rotateZ(-8deg);
+    transform: translate3d(-20px, 0, 60px) rotateX(16deg) rotateY(-10deg) rotateZ(-10deg);
   }
   50% {
-    transform: translate3d(-30px, -15px, 80px) rotateX(20deg) rotateY(-10deg) rotateZ(-6deg);
+    transform: translate3d(-20px, -12px, 60px) rotateX(18deg) rotateY(-8deg) rotateZ(-8deg);
   }
 }
 
 @keyframes floatCard2 {
   0%, 100% {
-    transform: translate3d(20px, 0, 120px) rotateX(-8deg) rotateY(20deg) rotateZ(12deg);
+    transform: translate3d(10px, 0, 120px) rotateX(-10deg) rotateY(18deg) rotateZ(14deg);
   }
   50% {
-    transform: translate3d(20px, -12px, 120px) rotateX(-10deg) rotateY(22deg) rotateZ(14deg);
+    transform: translate3d(10px, -15px, 120px) rotateX(-12deg) rotateY(20deg) rotateZ(16deg);
   }
 }
 
 @keyframes floatCard3 {
   0%, 100% {
-    transform: translate3d(-50px, 0, 40px) rotateX(22deg) rotateY(-14deg) rotateZ(-12deg);
+    transform: translate3d(-40px, 0, 50px) rotateX(20deg) rotateY(-12deg) rotateZ(-14deg);
   }
   50% {
-    transform: translate3d(-50px, -10px, 40px) rotateX(24deg) rotateY(-12deg) rotateZ(-10deg);
+    transform: translate3d(-40px, -10px, 50px) rotateX(22deg) rotateY(-10deg) rotateZ(-12deg);
   }
 }
 
 @keyframes floatCard4 {
   0%, 100% {
-    transform: translate3d(40px, 0, 60px) rotateX(-10deg) rotateY(18deg) rotateZ(10deg);
+    transform: translate3d(35px, 0, 80px) rotateX(-8deg) rotateY(20deg) rotateZ(12deg);
   }
   50% {
-    transform: translate3d(40px, -14px, 60px) rotateX(-12deg) rotateY(20deg) rotateZ(12deg);
+    transform: translate3d(35px, -14px, 80px) rotateX(-10deg) rotateY(22deg) rotateZ(14deg);
   }
 }
 
 @keyframes floatCard5 {
   0%, 100% {
-    transform: translate3d(30px, 0, 100px) rotateX(12deg) rotateY(-20deg) rotateZ(-6deg);
+    transform: translate3d(25px, 0, 100px) rotateX(14deg) rotateY(-18deg) rotateZ(-8deg);
   }
   50% {
-    transform: translate3d(30px, -18px, 100px) rotateX(14deg) rotateY(-18deg) rotateZ(-4deg);
+    transform: translate3d(25px, -16px, 100px) rotateX(16deg) rotateY(-16deg) rotateZ(-6deg);
   }
 }
 
