@@ -479,19 +479,53 @@
 }
 
 /* ==================== RESPONSIVE ==================== */
-@media (max-width: 1200px) {
-  .floatingCards {
-    transform: translate(-10%, -50%);
-    width: 700px;
+@media (max-width: 1400px) {
+  .card1 {
+    left: 42%;
   }
-
-  .glassCard {
-    width: 220px;
-    padding: 1.25rem;
+  
+  .card3 {
+    left: 35%;
+  }
+  
+  .card5 {
+    left: 48%;
   }
 }
 
-@media (max-width: 1024px) {
+@media (max-width: 1200px) {
+  .card1 {
+    top: 10%;
+    left: 40%;
+    width: 220px;
+  }
+
+  .card2 {
+    top: 12%;
+    right: 10%;
+    width: 240px;
+  }
+
+  .card3 {
+    top: 38%;
+    left: 32%;
+    width: 200px;
+  }
+
+  .card4 {
+    bottom: 20%;
+    right: 15%;
+    width: 230px;
+  }
+
+  .card5 {
+    bottom: 12%;
+    left: 45%;
+    width: 210px;
+  }
+}
+
+@media (max-width: 900px) {
   .hero {
     padding: 4rem 0;
   }
