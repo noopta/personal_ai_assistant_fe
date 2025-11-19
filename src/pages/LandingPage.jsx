@@ -30,8 +30,32 @@ function LandingPage() {
 
           {/* Tilted Floating Glass Cards */}
           <div className={styles.floatingCards}>
-            {/* Gmail Card 1 */}
+            {/* Mitedoy Card */}
             <div className={`${styles.glassCard} ${styles.card1}`}>
+              <div className={styles.cardIcon}>
+                <svg width="40" height="40" viewBox="0 0 48 48" fill="none">
+                  <defs>
+                    <linearGradient id="mitedoy-gradient" x1="0" y1="0" x2="48" y2="48">
+                      <stop offset="0%" stopColor="#FF6B6B"/>
+                      <stop offset="50%" stopColor="#FFB86C"/>
+                      <stop offset="100%" stopColor="#4ECDC4"/>
+                    </linearGradient>
+                  </defs>
+                  <rect width="48" height="48" rx="12" fill="url(#mitedoy-gradient)"/>
+                  <circle cx="24" cy="16" r="4" fill="white"/>
+                  <circle cx="18" cy="26" r="3" fill="white" opacity="0.9"/>
+                  <circle cx="30" cy="26" r="3" fill="white" opacity="0.9"/>
+                  <circle cx="24" cy="34" r="2.5" fill="white" opacity="0.8"/>
+                </svg>
+              </div>
+              <div className={styles.cardContent}>
+                <h3 className={styles.cardTitle}>Mitedoy</h3>
+                <p className={styles.cardDescription}>Task Management</p>
+              </div>
+            </div>
+
+            {/* Gmail Card 1 */}
+            <div className={`${styles.glassCard} ${styles.card2}`}>
               <div className={styles.cardIcon}>
                 <svg width="40" height="40" viewBox="0 0 48 48" fill="none">
                   <rect width="48" height="48" rx="8" fill="#EA4335"/>
@@ -41,12 +65,27 @@ function LandingPage() {
               </div>
               <div className={styles.cardContent}>
                 <h3 className={styles.cardTitle}>Gmail</h3>
-                <p className={styles.cardDescription}>Email Management & Automation</p>
+                <p className={styles.cardDescription}>Correspondence & Assisting</p>
+              </div>
+            </div>
+
+            {/* Gmail Card 2 */}
+            <div className={`${styles.glassCard} ${styles.card3}`}>
+              <div className={styles.cardIcon}>
+                <svg width="40" height="40" viewBox="0 0 48 48" fill="none">
+                  <rect width="48" height="48" rx="8" fill="#5B8DEE"/>
+                  <path d="M24 26.5l-12-9v18c0 1.1.9 2 2 2h20c1.1 0 2-.9 2-2v-18l-12 9z" fill="white"/>
+                  <path d="M24 26.5l12-9V15c0-1.1-.9-2-2-2H14c-1.1 0-2 .9-2 2v2.5l12 9z" fill="white" opacity="0.8"/>
+                </svg>
+              </div>
+              <div className={styles.cardContent}>
+                <h3 className={styles.cardTitle}>Gmail</h3>
+                <p className={styles.cardDescription}>Compose & Send</p>
               </div>
             </div>
 
             {/* Calendar Card */}
-            <div className={`${styles.glassCard} ${styles.card2}`}>
+            <div className={`${styles.glassCard} ${styles.card4}`}>
               <div className={styles.cardIcon}>
                 <svg width="40" height="40" viewBox="0 0 48 48" fill="none">
                   <rect width="48" height="48" rx="8" fill="#4285F4"/>
@@ -61,58 +100,21 @@ function LandingPage() {
               </div>
             </div>
 
-            {/* Gmail Card 2 */}
-            <div className={`${styles.glassCard} ${styles.card3}`}>
-              <div className={styles.cardIcon}>
-                <svg width="40" height="40" viewBox="0 0 48 48" fill="none">
-                  <rect width="48" height="48" rx="8" fill="#34A853"/>
-                  <circle cx="24" cy="24" r="8" fill="white"/>
-                  <path d="M24 18v6l4 4" stroke="#34A853" strokeWidth="2" strokeLinecap="round"/>
-                </svg>
-              </div>
-              <div className={styles.cardContent}>
-                <h3 className={styles.cardTitle}>Gmail</h3>
-                <p className={styles.cardDescription}>Compose & Send</p>
-              </div>
-            </div>
-
-            {/* Integration Card */}
-            <div className={`${styles.glassCard} ${styles.card4}`}>
-              <div className={styles.cardIcon}>
-                <svg width="40" height="40" viewBox="0 0 48 48" fill="none">
-                  <rect width="48" height="48" rx="8" fill="#FBBC04"/>
-                  <rect x="14" y="18" width="20" height="14" rx="2" fill="white"/>
-                  <circle cx="18" cy="22" r="1.5" fill="#FBBC04"/>
-                  <circle cx="24" cy="22" r="1.5" fill="#FBBC04"/>
-                  <circle cx="30" cy="22" r="1.5" fill="#FBBC04"/>
-                </svg>
-              </div>
-              <div className={styles.cardContent}>
-                <h3 className={styles.cardTitle}>Integrations</h3>
-                <p className={styles.cardDescription}>Connect Your Tools</p>
-              </div>
-            </div>
-
-            {/* AI Card */}
+            {/* Calegrator Card */}
             <div className={`${styles.glassCard} ${styles.card5}`}>
               <div className={styles.cardIcon}>
                 <svg width="40" height="40" viewBox="0 0 48 48" fill="none">
-                  <rect width="48" height="48" rx="8" fill="url(#gradient1)"/>
-                  <defs>
-                    <linearGradient id="gradient1" x1="0" y1="0" x2="48" y2="48">
-                      <stop offset="0%" stopColor="#667eea"/>
-                      <stop offset="100%" stopColor="#764ba2"/>
-                    </linearGradient>
-                  </defs>
-                  <circle cx="24" cy="20" r="4" fill="white"/>
-                  <circle cx="16" cy="28" r="3" fill="white" opacity="0.8"/>
-                  <circle cx="32" cy="28" r="3" fill="white" opacity="0.8"/>
-                  <path d="M24 24l-8 4m8-4l8 4" stroke="white" strokeWidth="2" strokeLinecap="round"/>
+                  <rect width="48" height="48" rx="8" fill="#34A853"/>
+                  <rect x="14" y="16" width="20" height="20" rx="2" fill="white"/>
+                  <line x1="14" y1="22" x2="34" y2="22" stroke="#34A853" strokeWidth="1.5"/>
+                  <circle cx="19" cy="27" r="1.5" fill="#34A853"/>
+                  <circle cx="24" cy="27" r="1.5" fill="#34A853"/>
+                  <circle cx="29" cy="27" r="1.5" fill="#34A853"/>
                 </svg>
               </div>
               <div className={styles.cardContent}>
-                <h3 className={styles.cardTitle}>AI Assistant</h3>
-                <p className={styles.cardDescription}>Smart Automation</p>
+                <h3 className={styles.cardTitle}>Calegrator</h3>
+                <p className={styles.cardDescription}>Event Coordination</p>
               </div>
             </div>
           </div>

@@ -216,93 +216,93 @@
 
 /* Individual Card Positions & Tilts - Matching Reference Image */
 .card1 {
-  top: 5%;
-  left: 45%;
-  transform: translate3d(0, 0, 120px) rotateX(14deg) rotateY(-18deg) rotateZ(-6deg);
+  top: 10%;
+  left: 8%;
+  transform: translate3d(-30px, 0, 80px) rotateX(18deg) rotateY(-12deg) rotateZ(-8deg);
   animation: floatCard1 7s ease-in-out infinite;
   animation-delay: 0s;
-  z-index: 5;
+  z-index: 4;
 }
 
 .card2 {
-  top: 0;
-  right: 10%;
-  transform: translate3d(40px, 20px, 80px) rotateX(-6deg) rotateY(22deg) rotateZ(10deg);
+  top: 8%;
+  left: 35%;
+  transform: translate3d(20px, 0, 120px) rotateX(-8deg) rotateY(20deg) rotateZ(12deg);
   animation: floatCard2 8s ease-in-out infinite;
   animation-delay: 0.8s;
   z-index: 6;
 }
 
 .card3 {
-  top: 35%;
-  left: 30%;
-  transform: translate3d(-60px, 180px, 30px) rotateX(20deg) rotateY(-10deg) rotateZ(-14deg);
+  top: 28%;
+  left: 5%;
+  transform: translate3d(-50px, 0, 40px) rotateX(22deg) rotateY(-14deg) rotateZ(-12deg);
   animation: floatCard3 6.5s ease-in-out infinite;
   animation-delay: 1.5s;
-  z-index: 4;
+  z-index: 3;
 }
 
 .card4 {
-  bottom: 15%;
-  right: 18%;
-  transform: translate3d(80px, 260px, -20px) rotateX(-12deg) rotateY(16deg) rotateZ(8deg);
+  top: 6%;
+  right: 12%;
+  transform: translate3d(40px, 0, 60px) rotateX(-10deg) rotateY(18deg) rotateZ(10deg);
   animation: floatCard4 7s ease-in-out infinite;
   animation-delay: 2s;
   z-index: 7;
 }
 
 .card5 {
-  bottom: 5%;
-  left: 42%;
-  transform: translate3d(-20px, 320px, 60px) rotateX(8deg) rotateY(-24deg) rotateZ(-4deg);
+  top: 32%;
+  right: 16%;
+  transform: translate3d(30px, 0, 100px) rotateX(12deg) rotateY(-20deg) rotateZ(-6deg);
   animation: floatCard5 8.5s ease-in-out infinite;
   animation-delay: 2.5s;
-  z-index: 3;
+  z-index: 5;
 }
 
 /* Floating Card Animations - Subtle Movement */
 @keyframes floatCard1 {
   0%, 100% {
-    transform: translate3d(0, 0, 120px) rotateX(14deg) rotateY(-18deg) rotateZ(-6deg);
+    transform: translate3d(-30px, 0, 80px) rotateX(18deg) rotateY(-12deg) rotateZ(-8deg);
   }
   50% {
-    transform: translate3d(0, -15px, 120px) rotateX(16deg) rotateY(-16deg) rotateZ(-4deg);
+    transform: translate3d(-30px, -15px, 80px) rotateX(20deg) rotateY(-10deg) rotateZ(-6deg);
   }
 }
 
 @keyframes floatCard2 {
   0%, 100% {
-    transform: translate3d(40px, 20px, 80px) rotateX(-6deg) rotateY(22deg) rotateZ(10deg);
+    transform: translate3d(20px, 0, 120px) rotateX(-8deg) rotateY(20deg) rotateZ(12deg);
   }
   50% {
-    transform: translate3d(40px, 5px, 80px) rotateX(-8deg) rotateY(24deg) rotateZ(12deg);
+    transform: translate3d(20px, -12px, 120px) rotateX(-10deg) rotateY(22deg) rotateZ(14deg);
   }
 }
 
 @keyframes floatCard3 {
   0%, 100% {
-    transform: translate3d(-60px, 180px, 30px) rotateX(20deg) rotateY(-10deg) rotateZ(-14deg);
+    transform: translate3d(-50px, 0, 40px) rotateX(22deg) rotateY(-14deg) rotateZ(-12deg);
   }
   50% {
-    transform: translate3d(-60px, 170px, 30px) rotateX(22deg) rotateY(-8deg) rotateZ(-12deg);
+    transform: translate3d(-50px, -10px, 40px) rotateX(24deg) rotateY(-12deg) rotateZ(-10deg);
   }
 }
 
 @keyframes floatCard4 {
   0%, 100% {
-    transform: translate3d(80px, 260px, -20px) rotateX(-12deg) rotateY(16deg) rotateZ(8deg);
+    transform: translate3d(40px, 0, 60px) rotateX(-10deg) rotateY(18deg) rotateZ(10deg);
   }
   50% {
-    transform: translate3d(80px, 250px, -20px) rotateX(-10deg) rotateY(18deg) rotateZ(10deg);
+    transform: translate3d(40px, -14px, 60px) rotateX(-12deg) rotateY(20deg) rotateZ(12deg);
   }
 }
 
 @keyframes floatCard5 {
   0%, 100% {
-    transform: translate3d(-20px, 320px, 60px) rotateX(8deg) rotateY(-24deg) rotateZ(-4deg);
+    transform: translate3d(30px, 0, 100px) rotateX(12deg) rotateY(-20deg) rotateZ(-6deg);
   }
   50% {
-    transform: translate3d(-20px, 310px, 60px) rotateX(10deg) rotateY(-22deg) rotateZ(-2deg);
+    transform: translate3d(30px, -18px, 100px) rotateX(14deg) rotateY(-18deg) rotateZ(-4deg);
   }
 }
 
