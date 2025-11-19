@@ -4,223 +4,146 @@ import styles from './LandingPage.module.css';
 function LandingPage() {
   return (
     <div className={styles.landingPage}>
-      {/* Premium Hero Section */}
+      {/* Abstract Hero */}
       <section className={styles.hero}>
-        <div className={styles.container}>
-          <div className={styles.heroContent}>
+        <div className={styles.heroGrid}>
+          <div className={styles.heroText}>
+            <div className={styles.eyebrow}>AI Assistant</div>
             <h1 className={styles.heroTitle}>
-              Delegate your inbox.
+              Delegate
               <br />
-              Own your day.
+              your inbox.
+              <br />
+              <span className={styles.titleAccent}>Own your day.</span>
             </h1>
-            <p className={styles.heroSubtitle}>
-              AI-powered assistant that transforms how you manage Gmail and Calendar.
-              Automate responses, schedule smarter, and reclaim hours every week.
-            </p>
-            <div className={styles.heroActions}>
-              <Link to="/product" className={styles.primaryCta}>
-                Book a Live Demo
-                <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-                  <path d="M7.5 15L12.5 10L7.5 5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                </svg>
-              </Link>
-              <Link to="/product" className={styles.secondaryCta}>
-                <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
-                  <path d="M10 2C5.58 2 2 5.58 2 10C2 14.42 5.58 18 10 18C14.42 18 18 14.42 18 10C18 5.58 14.42 2 10 2ZM8 14L8 6L14 10L8 14Z"/>
-                </svg>
-                Watch 90s Tour
-              </Link>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Social Proof Section */}
-      <section className={styles.socialProof}>
-        <div className={styles.container}>
-          <p className={styles.socialProofLabel}>Trusted by teams at</p>
-          <div className={styles.logoGrid}>
-            <div className={styles.companyLogo}>Stripe</div>
-            <div className={styles.companyLogo}>Notion</div>
-            <div className={styles.companyLogo}>Figma</div>
-            <div className={styles.companyLogo}>Linear</div>
-            <div className={styles.companyLogo}>Vercel</div>
-          </div>
-          <div className={styles.metricsRow}>
-            <div className={styles.metric}>
-              <div className={styles.metricValue}>98%</div>
-              <div className={styles.metricLabel}>Customer Satisfaction</div>
-            </div>
-            <div className={styles.metric}>
-              <div className={styles.metricValue}>15hrs</div>
-              <div className={styles.metricLabel}>Saved Per Week</div>
-            </div>
-            <div className={styles.metric}>
-              <div className={styles.metricValue}>50K+</div>
-              <div className={styles.metricLabel}>Emails Managed</div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Bento Grid - Automation Playbooks */}
-      <section className={styles.bentoSection}>
-        <div className={styles.container}>
-          <div className={styles.sectionHeader}>
-            <h2 className={styles.sectionTitle}>Automation Playbooks</h2>
-            <p className={styles.sectionSubtitle}>
-              Your AI assistant handles the work while you focus on what matters
-            </p>
           </div>
           
-          <div className={styles.bentoGrid}>
-            <div className={styles.bentoCard}>
-              <div className={styles.bentoIcon}>
-                <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
-                  <rect width="32" height="32" rx="8" fill="url(#gradient1)"/>
-                  <path d="M8 12H24M8 16H24M8 20H16" stroke="white" strokeWidth="2" strokeLinecap="round"/>
-                  <defs>
-                    <linearGradient id="gradient1" x1="0" y1="0" x2="32" y2="32">
-                      <stop offset="0%" stopColor="#3F7CFF"/>
-                      <stop offset="100%" stopColor="#7C3AED"/>
-                    </linearGradient>
-                  </defs>
-                </svg>
-              </div>
-              <h3 className={styles.bentoTitle}>Inbox Triage</h3>
-              <p className={styles.bentoDescription}>
-                Automatically prioritize, categorize, and surface urgent emails
-              </p>
-              <div className={styles.bentoMetric}>
-                <span className={styles.bentoMetricValue}>-87%</span> email clutter
-              </div>
-            </div>
+          <div className={styles.abstractShapes}>
+            <div className={styles.shape1}></div>
+            <div className={styles.shape2}></div>
+            <div className={styles.shape3}></div>
+          </div>
+        </div>
 
-            <div className={styles.bentoCard}>
-              <div className={styles.bentoIcon}>
-                <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
-                  <rect width="32" height="32" rx="8" fill="url(#gradient2)"/>
-                  <circle cx="16" cy="16" r="6" stroke="white" strokeWidth="2"/>
-                  <path d="M16 10V16L20 18" stroke="white" strokeWidth="2" strokeLinecap="round"/>
-                  <defs>
-                    <linearGradient id="gradient2" x1="0" y1="0" x2="32" y2="32">
-                      <stop offset="0%" stopColor="#65FBD2"/>
-                      <stop offset="100%" stopColor="#3F7CFF"/>
-                    </linearGradient>
-                  </defs>
-                </svg>
-              </div>
-              <h3 className={styles.bentoTitle}>Smart Scheduling</h3>
-              <p className={styles.bentoDescription}>
-                AI finds the perfect meeting times based on everyone's calendar
-              </p>
-              <div className={styles.bentoMetric}>
-                <span className={styles.bentoMetricValue}>5min</span> avg. scheduling time
-              </div>
-            </div>
-
-            <div className={styles.bentoCard}>
-              <div className={styles.bentoIcon}>
-                <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
-                  <rect width="32" height="32" rx="8" fill="url(#gradient3)"/>
-                  <path d="M16 8V24M8 16H24" stroke="white" strokeWidth="2" strokeLinecap="round"/>
-                  <defs>
-                    <linearGradient id="gradient3" x1="0" y1="0" x2="32" y2="32">
-                      <stop offset="0%" stopColor="#F6C76E"/>
-                      <stop offset="100%" stopColor="#7C3AED"/>
-                    </linearGradient>
-                  </defs>
-                </svg>
-              </div>
-              <h3 className={styles.bentoTitle}>Follow-up Sequences</h3>
-              <p className={styles.bentoDescription}>
-                Never miss a reply with intelligent, contextual follow-ups
-              </p>
-              <div className={styles.bentoMetric}>
-                <span className={styles.bentoMetricValue}>+43%</span> response rate
-              </div>
-            </div>
-
-            <div className={styles.bentoCard}>
-              <div className={styles.bentoIcon}>
-                <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
-                  <rect width="32" height="32" rx="8" fill="url(#gradient4)"/>
-                  <rect x="10" y="10" width="12" height="12" rx="2" stroke="white" strokeWidth="2"/>
-                  <path d="M10 14H22" stroke="white" strokeWidth="2"/>
-                  <defs>
-                    <linearGradient id="gradient4" x1="0" y1="0" x2="32" y2="32">
-                      <stop offset="0%" stopColor="#7C3AED"/>
-                      <stop offset="100%" stopColor="#3F7CFF"/>
-                    </linearGradient>
-                  </defs>
-                </svg>
-              </div>
-              <h3 className={styles.bentoTitle}>Time Blocking</h3>
-              <p className={styles.bentoDescription}>
-                Automatically protect focus time and deep work sessions
-              </p>
-              <div className={styles.bentoMetric}>
-                <span className={styles.bentoMetricValue}>12hrs</span> focus time/week
-              </div>
-            </div>
+        <div className={styles.heroFooter}>
+          <p className={styles.heroDescription}>
+            Transform email chaos into clarity.
+            <br />
+            Automate responses. Schedule intelligently.
+          </p>
+          <div className={styles.heroActions}>
+            <Link to="/product" className={styles.primaryBtn}>
+              Experience AirThreads
+            </Link>
           </div>
         </div>
       </section>
 
-      {/* Security & Trust Section */}
-      <section className={styles.trustSection}>
-        <div className={styles.container}>
-          <div className={styles.sectionHeader}>
-            <h2 className={styles.sectionTitle}>Enterprise-Grade Security</h2>
-            <p className={styles.sectionSubtitle}>
-              Your data is encrypted, private, and never used for training
+      {/* Stats Bar */}
+      <section className={styles.statsBar}>
+        <div className={styles.stat}>
+          <div className={styles.statNumber}>15</div>
+          <div className={styles.statLabel}>Hours saved weekly</div>
+        </div>
+        <div className={styles.statDivider}></div>
+        <div className={styles.stat}>
+          <div className={styles.statNumber}>98%</div>
+          <div className={styles.statLabel}>Satisfaction rate</div>
+        </div>
+        <div className={styles.statDivider}></div>
+        <div className={styles.stat}>
+          <div className={styles.statNumber}>50K</div>
+          <div className={styles.statLabel}>Emails managed</div>
+        </div>
+      </section>
+
+      {/* Capabilities - Asymmetric Grid */}
+      <section className={styles.capabilities}>
+        <div className={styles.capabilitiesHeader}>
+          <h2 className={styles.sectionTitle}>Capabilities</h2>
+          <div className={styles.sectionNumber}>01</div>
+        </div>
+
+        <div className={styles.capGrid}>
+          <div className={styles.capCard} data-size="large">
+            <div className={styles.capNumber}>01</div>
+            <h3 className={styles.capTitle}>Intelligent Triage</h3>
+            <p className={styles.capDescription}>
+              AI categorizes and prioritizes every message. 
+              Focus on what matters. Ignore the noise.
             </p>
+            <div className={styles.capMetric}>-87% clutter</div>
           </div>
 
-          <div className={styles.trustGrid}>
-            <div className={styles.trustCard}>
-              <div className={styles.trustIcon}>🔒</div>
-              <h4 className={styles.trustTitle}>SOC 2 Type II</h4>
-              <p className={styles.trustDescription}>Independently audited security controls</p>
-            </div>
-            <div className={styles.trustCard}>
-              <div className={styles.trustIcon}>🛡️</div>
-              <h4 className={styles.trustTitle}>End-to-End Encryption</h4>
-              <p className={styles.trustDescription}>Data encrypted at rest and in transit</p>
-            </div>
-            <div className={styles.trustCard}>
-              <div className={styles.trustIcon}>✓</div>
-              <h4 className={styles.trustTitle}>OAuth 2.0</h4>
-              <p className={styles.trustDescription}>Secure authentication, never store passwords</p>
-            </div>
-            <div className={styles.trustCard}>
-              <div className={styles.trustIcon}>📋</div>
-              <h4 className={styles.trustTitle}>Audit Logs</h4>
-              <p className={styles.trustDescription}>Complete visibility into all AI actions</p>
-            </div>
+          <div className={styles.capCard} data-size="small">
+            <div className={styles.capNumber}>02</div>
+            <h3 className={styles.capTitle}>Smart Scheduling</h3>
+            <p className={styles.capDescription}>
+              Find perfect meeting times instantly.
+            </p>
+            <div className={styles.capMetric}>5 min avg</div>
+          </div>
+
+          <div className={styles.capCard} data-size="small">
+            <div className={styles.capNumber}>03</div>
+            <h3 className={styles.capTitle}>Auto Follow-ups</h3>
+            <p className={styles.capDescription}>
+              Contextual reminders. Never miss a reply.
+            </p>
+            <div className={styles.capMetric}>+43% response</div>
+          </div>
+
+          <div className={styles.capCard} data-size="medium">
+            <div className={styles.capNumber}>04</div>
+            <h3 className={styles.capTitle}>Focus Protection</h3>
+            <p className={styles.capDescription}>
+              Automated time blocking preserves deep work sessions. 
+              Your calendar defends your productivity.
+            </p>
+            <div className={styles.capMetric}>12 hrs focus/week</div>
           </div>
         </div>
       </section>
 
-      {/* Final CTA Section */}
+      {/* Trust - Minimal */}
+      <section className={styles.trust}>
+        <div className={styles.trustHeader}>
+          <h2 className={styles.sectionTitle}>Security</h2>
+          <div className={styles.sectionNumber}>02</div>
+        </div>
+
+        <div className={styles.trustGrid}>
+          <div className={styles.trustItem}>
+            <div className={styles.trustLabel}>SOC 2 Type II</div>
+            <div className={styles.trustLine}></div>
+          </div>
+          <div className={styles.trustItem}>
+            <div className={styles.trustLabel}>End-to-End Encryption</div>
+            <div className={styles.trustLine}></div>
+          </div>
+          <div className={styles.trustItem}>
+            <div className={styles.trustLabel}>OAuth 2.0 Secure Auth</div>
+            <div className={styles.trustLine}></div>
+          </div>
+          <div className={styles.trustItem}>
+            <div className={styles.trustLabel}>Full Audit Logs</div>
+            <div className={styles.trustLine}></div>
+          </div>
+        </div>
+      </section>
+
+      {/* Final CTA - Artistic */}
       <section className={styles.finalCta}>
-        <div className={styles.container}>
-          <div className={styles.ctaCard}>
-            <h2 className={styles.ctaTitle}>Ready to transform your productivity?</h2>
-            <p className={styles.ctaSubtitle}>
-              Join thousands of professionals saving 15+ hours every week
-            </p>
-            <div className={styles.ctaActions}>
-              <Link to="/product" className={styles.primaryCta}>
-                Start Free Trial
-                <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-                  <path d="M7.5 15L12.5 10L7.5 5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                </svg>
-              </Link>
-              <p className={styles.ctaNote}>No credit card required • 14-day free trial</p>
-            </div>
-          </div>
+        <div className={styles.ctaContent}>
+          <h2 className={styles.ctaTitle}>Ready to begin?</h2>
+          <Link to="/product" className={styles.ctaButton}>
+            Start Your Trial
+            <div className={styles.ctaArrow}>→</div>
+          </Link>
+          <p className={styles.ctaNote}>14 days free · No card required</p>
         </div>
+        
+        <div className={styles.ctaShape}></div>
       </section>
     </div>
   );
