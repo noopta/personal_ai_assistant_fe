@@ -19,7 +19,7 @@
   z-index: 2;
 }
 
-/* CSS Custom Properties for theming - Stripe Inspired */
+/* CSS Custom Properties for theming - Glassmorphic AI Design System */
 :root {
   /* Stripe Dark Theme */
   --bg-primary: #0A2540;
@@ -45,6 +45,27 @@
   --gradient-2: #7038ff;
   --gradient-3: #00d4ff;
   --gradient-4: #ffba27;
+  
+  /* Glassmorphic Effect Variables */
+  --glass-bg: rgba(255, 255, 255, 0.05);
+  --glass-bg-hover: rgba(255, 255, 255, 0.08);
+  --glass-border: rgba(255, 255, 255, 0.1);
+  --glass-border-hover: rgba(99, 91, 255, 0.4);
+  --glass-blur: 20px;
+  --glass-shadow: 0 8px 32px 0 rgba(10, 37, 64, 0.37);
+  --glass-shadow-lg: 0 12px 48px 0 rgba(10, 37, 64, 0.5);
+  
+  /* Glow Effects */
+  --glow-purple: 0 0 20px rgba(99, 91, 255, 0.3);
+  --glow-purple-lg: 0 0 30px rgba(99, 91, 255, 0.5);
+  --glow-cyan: 0 0 20px rgba(0, 212, 255, 0.3);
+  
+  /* Animation Variables */
+  --transition-smooth: cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  --duration-fast: 0.2s;
+  --duration-normal: 0.3s;
+  --duration-slow: 0.5s;
 }
 
 [data-theme="light"] {
@@ -72,6 +93,20 @@
   --gradient-2: #7038ff;
   --gradient-3: #00d4ff;
   --gradient-4: #ffba27;
+  
+  /* Glassmorphic Effect Variables (Light Theme) */
+  --glass-bg: rgba(255, 255, 255, 0.7);
+  --glass-bg-hover: rgba(255, 255, 255, 0.85);
+  --glass-border: rgba(10, 37, 64, 0.1);
+  --glass-border-hover: rgba(99, 91, 255, 0.3);
+  --glass-blur: 20px;
+  --glass-shadow: 0 8px 32px 0 rgba(10, 37, 64, 0.1);
+  --glass-shadow-lg: 0 12px 48px 0 rgba(10, 37, 64, 0.15);
+  
+  /* Glow Effects (Light Theme) */
+  --glow-purple: 0 0 20px rgba(99, 91, 255, 0.2);
+  --glow-purple-lg: 0 0 30px rgba(99, 91, 255, 0.3);
+  --glow-cyan: 0 0 20px rgba(0, 212, 255, 0.2);
 }
 
 /* Ensure proper contrast on accent backgrounds */
@@ -187,4 +222,263 @@ code {
 
 [data-theme="light"] .theme-toggle-icon.moon {
   opacity: 1;
+}
+
+/* ============================================ */
+/* GLASSMORPHIC DESIGN SYSTEM UTILITIES */
+/* ============================================ */
+
+/* Glassmorphic Card Base */
+.glass-card {
+  background: var(--glass-bg);
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  border: 1px solid var(--glass-border);
+  border-radius: 16px;
+  box-shadow: var(--glass-shadow);
+  transition: all var(--duration-normal) var(--transition-smooth);
+}
+
+.glass-card:hover {
+  background: var(--glass-bg-hover);
+  border-color: var(--glass-border-hover);
+  box-shadow: var(--glass-shadow-lg), var(--glow-purple);
+  transform: translateY(-2px);
+}
+
+/* Glassmorphic Card Variants */
+.glass-card-lg {
+  background: var(--glass-bg);
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  border: 1px solid var(--glass-border);
+  border-radius: 24px;
+  box-shadow: var(--glass-shadow-lg);
+  padding: 2rem;
+}
+
+.glass-card-interactive {
+  background: var(--glass-bg);
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  border: 1px solid var(--glass-border);
+  border-radius: 16px;
+  box-shadow: var(--glass-shadow);
+  cursor: pointer;
+  transition: all var(--duration-normal) var(--transition-smooth);
+}
+
+.glass-card-interactive:hover {
+  background: var(--glass-bg-hover);
+  border-color: var(--glass-border-hover);
+  box-shadow: var(--glass-shadow-lg), var(--glow-purple);
+  transform: translateY(-4px) scale(1.01);
+}
+
+.glass-card-interactive:active {
+  transform: translateY(-2px) scale(0.99);
+}
+
+/* Purple Accent Glow */
+.glow-purple {
+  box-shadow: var(--glow-purple);
+}
+
+.glow-purple-lg {
+  box-shadow: var(--glow-purple-lg);
+}
+
+/* Animated Gradient Background */
+@keyframes gradientShift {
+  0%, 100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+.animated-gradient {
+  background: linear-gradient(
+    135deg,
+    var(--bg-primary) 0%,
+    var(--bg-secondary) 25%,
+    var(--bg-tertiary) 50%,
+    var(--bg-secondary) 75%,
+    var(--bg-primary) 100%
+  );
+  background-size: 400% 400%;
+  animation: gradientShift 15s ease infinite;
+}
+
+/* Particle Effects */
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0) translateX(0);
+    opacity: 0.3;
+  }
+  25% {
+    transform: translateY(-20px) translateX(10px);
+    opacity: 0.5;
+  }
+  50% {
+    transform: translateY(-40px) translateX(-10px);
+    opacity: 0.7;
+  }
+  75% {
+    transform: translateY(-20px) translateX(10px);
+    opacity: 0.5;
+  }
+}
+
+.particle {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  background: var(--accent-primary);
+  border-radius: 50%;
+  opacity: 0.3;
+  animation: float 8s ease-in-out infinite;
+  box-shadow: var(--glow-purple);
+}
+
+/* Shimmer Effect */
+@keyframes shimmer {
+  0% {
+    background-position: -1000px 0;
+  }
+  100% {
+    background-position: 1000px 0;
+  }
+}
+
+.shimmer {
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(99, 91, 255, 0.1) 50%,
+    transparent 100%
+  );
+  background-size: 1000px 100%;
+  animation: shimmer 3s infinite;
+}
+
+/* Glow Animation */
+@keyframes pulse-glow {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(99, 91, 255, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 40px rgba(99, 91, 255, 0.6);
+  }
+}
+
+.pulse-glow {
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+
+/* Fade In Animations */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes fadeInRight {
+  from {
+    opacity: 0;
+    transform: translateX(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.fade-in-up {
+  animation: fadeInUp 0.8s var(--transition-smooth) forwards;
+}
+
+.fade-in-left {
+  animation: fadeInLeft 0.8s var(--transition-smooth) forwards;
+}
+
+.fade-in-right {
+  animation: fadeInRight 0.8s var(--transition-smooth) forwards;
+}
+
+/* Scale Animation */
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.scale-in {
+  animation: scaleIn 0.5s var(--transition-bounce) forwards;
+}
+
+/* Hover Lift Effect */
+.lift-on-hover {
+  transition: transform var(--duration-normal) var(--transition-smooth);
+}
+
+.lift-on-hover:hover {
+  transform: translateY(-6px);
+}
+
+/* Button Glassmorphic Styles */
+.glass-button {
+  background: var(--glass-bg);
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  border: 1px solid var(--glass-border);
+  border-radius: 12px;
+  padding: 0.75rem 1.5rem;
+  color: var(--text-primary);
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--duration-normal) var(--transition-smooth);
+  box-shadow: var(--glass-shadow);
+}
+
+.glass-button:hover {
+  background: var(--glass-bg-hover);
+  border-color: var(--glass-border-hover);
+  box-shadow: var(--glass-shadow-lg), var(--glow-purple);
+  transform: translateY(-2px);
+}
+
+.glass-button-primary {
+  background: linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-secondary) 100%);
+  border: 1px solid var(--accent-primary);
+  color: #FFFFFF;
+  font-weight: 600;
+  box-shadow: var(--glass-shadow), var(--glow-purple);
+}
+
+.glass-button-primary:hover {
+  box-shadow: var(--glass-shadow-lg), var(--glow-purple-lg);
+  transform: translateY(-2px) scale(1.02);
 }

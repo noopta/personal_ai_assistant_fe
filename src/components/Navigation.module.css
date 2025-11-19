@@ -1,17 +1,18 @@
 .navbar {
-  background: rgba(10, 37, 64, 0.95);
-  backdrop-filter: blur(20px) saturate(180%);
-  border-bottom: 1px solid var(--border-color);
+  background: var(--glass-bg);
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  border-bottom: 1px solid var(--glass-border);
   padding: 0.875rem 0;
   position: sticky;
   top: 0;
   z-index: 1000;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-  transition: all 0.2s ease;
+  box-shadow: var(--glass-shadow);
+  transition: all var(--duration-normal) ease;
 }
 
 [data-theme="light"] .navbar {
-  background: rgba(255, 255, 255, 0.95);
+  background: var(--glass-bg);
 }
 
 .container {
@@ -48,8 +49,8 @@
   font-weight: 500;
   font-size: 14px;
   padding: 0.5rem 0.75rem;
-  border-radius: 6px;
-  transition: all 0.2s ease;
+  border-radius: 8px;
+  transition: all var(--duration-normal) var(--transition-smooth);
   position: relative;
   min-height: 44px;
   display: flex;
@@ -58,11 +59,15 @@
 
 .navLink:hover {
   color: var(--text-primary);
+  background: rgba(99, 91, 255, 0.05);
+  transform: translateY(-1px);
 }
 
 .navLink.active {
   color: var(--text-primary);
   font-weight: 600;
+  background: rgba(99, 91, 255, 0.1);
+  box-shadow: var(--glow-purple);
 }
 
 .ctaSection {
@@ -72,26 +77,42 @@
 }
 
 .ctaButton {
-  background: var(--accent-primary);
+  background: linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-secondary) 100%);
   color: white;
   text-decoration: none;
   padding: 0.625rem 1.25rem;
   border-radius: 24px;
   font-weight: 600;
   font-size: 14px;
-  transition: all 0.2s ease;
+  transition: all var(--duration-normal) var(--transition-smooth);
   border: none;
   cursor: pointer;
-  box-shadow: 0 4px 12px rgba(99, 91, 255, 0.3);
+  box-shadow: var(--glass-shadow), var(--glow-purple);
   min-height: 44px;
   display: flex;
   align-items: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.ctaButton::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.5s ease;
+}
+
+.ctaButton:hover::before {
+  left: 100%;
 }
 
 .ctaButton:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 6px 16px rgba(99, 91, 255, 0.4);
-  background: var(--accent-secondary);
+  transform: translateY(-1px) scale(1.02);
+  box-shadow: var(--glass-shadow-lg), var(--glow-purple-lg);
 }
 
 @media (max-width: 768px) {

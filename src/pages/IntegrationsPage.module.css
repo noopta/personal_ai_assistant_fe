@@ -5,12 +5,36 @@
   padding: 100px 0 80px;
   color: var(--text-primary);
   position: relative;
+  overflow: hidden;
+}
+
+.integrationsPage::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    135deg,
+    var(--bg-primary) 0%,
+    var(--bg-secondary) 25%,
+    var(--bg-tertiary) 50%,
+    var(--bg-secondary) 75%,
+    var(--bg-primary) 100%
+  );
+  background-size: 400% 400%;
+  animation: gradientShift 20s ease infinite;
+  z-index: 0;
+  pointer-events: none;
 }
 
 .container {
   max-width: 1200px;
   margin: 0 auto;
   padding: 0 32px;
+  position: relative;
+  z-index: 1;
 }
 
 /* Header */
@@ -59,19 +83,21 @@
 
 /* Integration Card */
 .integrationCard {
-  background: var(--bg-card);
-  border-radius: 16px;
-  border: 1px solid var(--border-color);
+  background: var(--glass-bg);
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  border-radius: 20px;
+  border: 1px solid var(--glass-border);
   overflow: hidden;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  box-shadow: 0 2px 8px var(--shadow-color);
+  transition: all var(--duration-normal) var(--transition-smooth);
+  box-shadow: var(--glass-shadow);
 }
 
 .integrationCard:hover {
-  transform: translateY(-4px);
-  border-color: var(--border-hover);
-  box-shadow: 0 12px 32px var(--shadow-color), 0 0 0 1px var(--border-hover);
-  background: var(--bg-card);
+  transform: translateY(-4px) scale(1.01);
+  border-color: var(--glass-border-hover);
+  box-shadow: var(--glass-shadow-lg), var(--glow-purple);
+  background: var(--glass-bg-hover);
 }
 
 /* Card Header */
@@ -95,15 +121,19 @@
   width: 56px;
   height: 56px;
   background: rgba(99, 91, 255, 0.1);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
   border-radius: 12px;
   border: 1px solid rgba(99, 91, 255, 0.2);
-  transition: all 0.3s ease;
+  transition: all var(--duration-normal) var(--transition-smooth);
+  box-shadow: var(--glow-purple);
 }
 
 .integrationCard:hover .icon {
-  transform: scale(1.05);
-  background: rgba(99, 91, 255, 0.15);
-  border-color: rgba(99, 91, 255, 0.3);
+  transform: scale(1.05) rotate(5deg);
+  background: rgba(99, 91, 255, 0.2);
+  border-color: rgba(99, 91, 255, 0.4);
+  box-shadow: var(--glow-purple-lg);
 }
 
 .headerContent {

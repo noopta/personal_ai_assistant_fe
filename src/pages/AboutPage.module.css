@@ -3,12 +3,37 @@
   background: var(--bg-primary);
   color: var(--text-primary);
   padding: 100px 0 80px;
+  position: relative;
+  overflow: hidden;
+}
+
+.aboutPage::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    135deg,
+    var(--bg-primary) 0%,
+    var(--bg-secondary) 25%,
+    var(--bg-tertiary) 50%,
+    var(--bg-secondary) 75%,
+    var(--bg-primary) 100%
+  );
+  background-size: 400% 400%;
+  animation: gradientShift 20s ease infinite;
+  z-index: 0;
+  pointer-events: none;
 }
 
 .container {
   max-width: 1200px;
   margin: 0 auto;
   padding: 0 32px;
+  position: relative;
+  z-index: 1;
 }
 
 /* Hero Section */
@@ -84,20 +109,23 @@
 
 .missionCard,
 .visionCard {
-  background: var(--bg-card);
+  background: var(--glass-bg);
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
   padding: 40px;
-  border-radius: 16px;
+  border-radius: 20px;
   text-align: center;
-  border: 1px solid var(--border-color);
-  box-shadow: 0 2px 8px var(--shadow-color);
-  transition: all 0.3s ease;
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--glass-shadow);
+  transition: all var(--duration-normal) var(--transition-smooth);
 }
 
 .missionCard:hover,
 .visionCard:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 12px 32px var(--shadow-color);
-  border-color: var(--border-hover);
+  transform: translateY(-4px) scale(1.02);
+  box-shadow: var(--glass-shadow-lg), var(--glow-purple);
+  border-color: var(--glass-border-hover);
+  background: var(--glass-bg-hover);
 }
 
 .cardIcon {
@@ -130,19 +158,22 @@
 }
 
 .valueCard {
-  background: var(--bg-card);
+  background: var(--glass-bg);
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
   padding: 32px;
-  border-radius: 12px;
-  box-shadow: 0 2px 8px var(--shadow-color);
-  border: 1px solid var(--border-color);
+  border-radius: 16px;
+  box-shadow: var(--glass-shadow);
+  border: 1px solid var(--glass-border);
   text-align: center;
-  transition: all 0.3s ease;
+  transition: all var(--duration-normal) var(--transition-smooth);
 }
 
 .valueCard:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 12px 32px var(--shadow-color);
-  border-color: rgba(99, 91, 255, 0.3);
+  transform: translateY(-4px) scale(1.02);
+  box-shadow: var(--glass-shadow-lg), var(--glow-purple);
+  border-color: var(--glass-border-hover);
+  background: var(--glass-bg-hover);
 }
 
 .valueIcon {

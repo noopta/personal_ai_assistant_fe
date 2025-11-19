@@ -1,8 +1,9 @@
 .inputWrapper {
   position: relative;
-  background: linear-gradient(135deg, var(--bg-secondary) 0%, var(--bg-tertiary) 100%);
-  border-top: 1px solid var(--border-color);
+  background: rgba(255, 255, 255, 0.02);
   backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-top: 1px solid var(--glass-border);
 }
 
 .inputWrapper::before {
@@ -33,21 +34,20 @@
 .input {
   flex: 1;
   padding: 1rem 1.25rem;
-  border: 2px solid var(--border-color);
+  border: 1px solid var(--glass-border);
   border-radius: 16px;
   font-size: 1rem;
   font-weight: 400;
   outline: none;
-  background: linear-gradient(135deg, var(--bg-card) 0%, var(--bg-tertiary) 100%);
+  background: var(--glass-bg);
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
   color: var(--text-primary);
-  transition: all 0.3s ease;
-  box-shadow: 
-    0 4px 16px var(--shadow-color),
-    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  transition: all var(--duration-normal) var(--transition-smooth);
+  box-shadow: var(--glass-shadow);
   line-height: 1.5;
   min-height: 56px;
   resize: none;
-  backdrop-filter: blur(10px);
 }
 
 .input::placeholder {
@@ -57,11 +57,9 @@
 }
 
 .input:focus {
-  border-color: var(--accent-primary);
-  box-shadow: 
-    0 0 0 3px rgba(59, 130, 246, 0.1),
-    0 8px 24px var(--shadow-color),
-    inset 0 1px 0 rgba(255, 255, 255, 0.15);
+  border-color: var(--glass-border-hover);
+  background: var(--glass-bg-hover);
+  box-shadow: var(--glass-shadow-lg), var(--glow-purple);
   transform: translateY(-1px);
 }
 
@@ -80,10 +78,8 @@
   font-size: 1rem;
   font-weight: 600;
   cursor: pointer;
-  transition: all 0.3s ease;
-  box-shadow: 
-    0 4px 16px rgba(59, 130, 246, 0.3),
-    0 2px 8px rgba(6, 182, 212, 0.2);
+  transition: all var(--duration-normal) var(--transition-smooth);
+  box-shadow: var(--glass-shadow), var(--glow-purple);
   position: relative;
   overflow: hidden;
   display: flex;
@@ -111,9 +107,7 @@
 
 .sendButton:hover:not(:disabled) {
   transform: translateY(-2px) scale(1.02);
-  box-shadow: 
-    0 8px 24px rgba(59, 130, 246, 0.4),
-    0 4px 12px rgba(6, 182, 212, 0.3);
+  box-shadow: var(--glass-shadow-lg), var(--glow-purple-lg);
   border-color: rgba(255, 255, 255, 0.3);
 }
 
