@@ -75,16 +75,8 @@
   font-weight: 700;
   line-height: 1.1;
   margin-bottom: 24px;
-  color: #0A2540 !important;
+  color: var(--text-primary);
   letter-spacing: -0.04em;
-  background: linear-gradient(135deg, #635BFF, #00D4FF);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-[data-theme="light"] .heroTitle {
-  color: #0A2540 !important;
 }
 
 .highlight {
@@ -98,19 +90,6 @@
   color: var(--text-secondary);
   margin-bottom: 40px;
   font-weight: 400;
-}
-
-[data-theme="light"] .heroDescription {
-  color: #425466 !important;
-}
-
-/* Fallback for default/unthemed state */
-.landingPage .heroTitle {
-  color: #0A2540;
-}
-
-.landingPage .heroDescription {
-  color: #425466;
 }
 
 .heroActions {
