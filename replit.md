@@ -9,19 +9,28 @@ I prefer iterative development, with a focus on clear, concise communication. Pl
 ## System Architecture
 
 ### UI/UX Decisions
-**Landing Page**: Glassmorphic design with a purple-to-blue gradient background, featuring five 3D floating cards with backdrop-filter blur, scattered arrangement using perspective transforms, and subtle floating animations. It includes a two-column hero layout, soft bubble elements, and proper z-index layering. The landing page also supports light/dark mode, 9 color palette variants, and 7 animated hero backgrounds.
+**Complete Glassmorphic Design System**: The entire website uses a unified glassmorphic design system with backdrop-filter blur effects, semi-transparent glass panels, and theme-adaptive styling throughout all pages.
 
-**Interior Pages**: Minimalist, artistic aesthetic inspired by Blade Runner 2049, emphasizing sophistication, cleanliness, and atmosphere. Key elements include:
-- **Color Palette**: Muted dark grays with subtle orange/amber accents.
-- **Typography**: Clean sans-serif fonts with excellent hierarchy and spacing.
-- **Visual Style**: Atmospheric gradients, subtle particle effects, and simple geometric elements.
-- **UI Components**: Minimal cards, clean buttons, and subtle accent lines.
-- **Animations**: Minimal motion design limited to fade-in, slide-up, and subtle-glow effects.
-- **Layout Philosophy**: Emphasis on whitespace, typography hierarchy, and clean geometric composition.
-- **Mobile Responsiveness**: Comprehensive responsive design (13px minimum font, 44px minimum touch targets).
+**Landing Page**: Glassmorphic hero section with animated gradient backgrounds (7 options: Deep Tech static + 6 animated), featuring five 3D floating cards with backdrop-filter blur, scattered arrangement using perspective transforms, and subtle floating animations. Two-column hero layout with soft bubble elements and proper z-index layering.
+
+**Interior Pages** (Product, Integrations, About): Fully glassmorphic design matching the landing page aesthetic:
+- **Glass Effects**: Backdrop-filter blur (12-20px) on all cards, panels, and UI elements
+- **Color System**: CSS variables (--background, --foreground, --primary, --border, --glass) for theme consistency
+- **Theme Variants**: Light/dark mode toggle + 9 color palette variants (Original, Crimson, Tangerine, Canary, Emerald, Teal, Azure, Indigo, Violet, Magenta)
+- **Typography**: Clean sans-serif fonts with excellent hierarchy and spacing
+- **UI Components**: Glass navigation (GlassNav), glass cards with hover effects, glass footer with responsive design
+- **Animations**: Smooth transitions, fade-in effects, subtle hover animations
+- **Layout**: Emphasis on whitespace, clean composition, and atmospheric design
+- **Mobile Responsiveness**: Comprehensive responsive design with media queries (13px minimum font, 44px minimum touch targets, single-column layouts <768px)
 
 ### Technical Implementations
-The frontend uses React 19.1.0 (Create React App) with React Router DOM, custom CSS Modules, `react-markdown`, and `react-syntax-highlighter`. `@vapi-ai/web` is integrated for voice capabilities. An iOS app uses SwiftUI for feature parity. The Replit environment runs the frontend on port 5000. Real-time features use Server-Sent Events (SSE) for an activity feed, including de-duplication, display limits, and robust auto-reconnection with exponential backoff. Authentication leverages a Python FastAPI Proxy for secure session management via HTTP-only cookies (`userIDHash`, `gmailHashID`, `calendarHashID`).
+The frontend uses React 19.1.0 (Create React App) with React Router DOM, inline styles with CSS variables for theming (no CSS Modules), `react-markdown`, and `react-syntax-highlighter`. `@vapi-ai/web` is integrated for voice capabilities. An iOS app uses SwiftUI for feature parity. The Replit environment runs the frontend on port 5000.
+
+**Styling Architecture**: Glassmorphic design implemented using inline styles combined with CSS variables for theme switching. All pages use `color-mix(in srgb, var(--background) X%, transparent)` for theme-adaptive glass effects. Media queries embedded in `<style>` tags target className props for responsive behavior.
+
+**Theme System**: Global CSS variables in App.css define theme tokens. ThemeToggle component switches light/dark mode. DesignSwitcher provides 9 color palette variants. All glassmorphic components consume these variables for consistent theming.
+
+Real-time features use Server-Sent Events (SSE) for an activity feed, including de-duplication, display limits, and robust auto-reconnection with exponential backoff. Authentication leverages a Python FastAPI Proxy for secure session management via HTTP-only cookies (`userIDHash`, `gmailHashID`, `calendarHashID`).
 
 ### Feature Specifications
 Core functionality is a chat interface for task management, integrating with Gmail, Google Calendar, and Notion (upcoming). The UI includes Landing, Product (Chat), Integrations, and About pages, all adhering to a consistent minimalist design. Vapi AI enables voice-powered interactions. The activity stream displays real-time updates from integrated services, showing various activity types. All API keys and endpoints are managed securely as encrypted Replit Secrets.
