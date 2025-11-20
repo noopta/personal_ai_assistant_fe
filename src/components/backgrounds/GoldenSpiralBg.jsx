@@ -1,22 +1,45 @@
 import { motion } from "framer-motion";
 
 export function GoldenSpiralBg() {
-  // Approximating a spiral with particles
   const particles = Array.from({ length: 50 }).map((_, i) => {
-    const angle = i * 0.5; // Golden angle approximation
-    const radius = 5 * Math.sqrt(i); // Growth factor
+    const angle = i * 0.5;
+    const radius = 5 * Math.sqrt(i);
     return { id: i, angle, radius };
   });
 
   return (
-    <div className="absolute inset-0 overflow-hidden bg-background flex items-center justify-center">
-      <div className="absolute inset-0 bg-black/90" />
+    <div style={{
+      position: 'absolute',
+      inset: 0,
+      overflow: 'hidden',
+      background: 'var(--background)',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center'
+    }}>
+      <div style={{ position: 'absolute', inset: 0, background: 'rgba(0, 0, 0, 0.9)' }} />
       
-      <div className="relative w-full h-full max-w-[100vh] max-h-[100vh] flex items-center justify-center">
+      <div style={{
+        position: 'relative',
+        width: '100%',
+        height: '100%',
+        maxWidth: '100vh',
+        maxHeight: '100vh',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center'
+      }}>
         {particles.map((p) => (
           <motion.div
             key={p.id}
-            className="absolute w-1 h-1 rounded-full bg-primary shadow-[0_0_5px_currentColor]"
+            style={{
+              position: 'absolute',
+              width: '4px',
+              height: '4px',
+              borderRadius: '50%',
+              background: 'var(--primary)',
+              boxShadow: '0 0 5px currentColor'
+            }}
             initial={{
               x: Math.cos(p.angle) * p.radius * 5,
               y: Math.sin(p.angle) * p.radius * 5,
@@ -47,16 +70,33 @@ export function GoldenSpiralBg() {
           />
         ))}
 
-        {/* Spiral Lines */}
-        <svg className="absolute inset-0 w-full h-full opacity-10 animate-spin-slow" style={{ animationDuration: '60s' }}>
-           <circle cx="50%" cy="50%" r="10%" fill="none" stroke="currentColor" className="text-accent" strokeWidth="1" />
-           <circle cx="50%" cy="50%" r="20%" fill="none" stroke="currentColor" className="text-accent" strokeWidth="1" />
-           <circle cx="50%" cy="50%" r="35%" fill="none" stroke="currentColor" className="text-accent" strokeWidth="1" />
-           <circle cx="50%" cy="50%" r="55%" fill="none" stroke="currentColor" className="text-accent" strokeWidth="1" />
+        <svg style={{
+          position: 'absolute',
+          inset: 0,
+          width: '100%',
+          height: '100%',
+          opacity: 0.1,
+          animation: 'spin 60s linear infinite'
+        }}>
+           <circle cx="50%" cy="50%" r="10%" fill="none" stroke="var(--accent)" strokeWidth="1" />
+           <circle cx="50%" cy="50%" r="20%" fill="none" stroke="var(--accent)" strokeWidth="1" />
+           <circle cx="50%" cy="50%" r="35%" fill="none" stroke="var(--accent)" strokeWidth="1" />
+           <circle cx="50%" cy="50%" r="55%" fill="none" stroke="var(--accent)" strokeWidth="1" />
         </svg>
+        
+        <style>{`
+          @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+          }
+        `}</style>
       </div>
 
-      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-background/20 to-background" />
+      <div style={{
+        position: 'absolute',
+        inset: 0,
+        background: 'linear-gradient(to bottom, transparent, rgba(var(--background-rgb), 0.2), var(--background))'
+      }} />
     </div>
   );
 }

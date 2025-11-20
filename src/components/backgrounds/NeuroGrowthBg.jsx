@@ -2,28 +2,24 @@ import { motion } from "framer-motion";
 
 export function NeuroGrowthBg() {
   return (
-    <div className="absolute inset-0 overflow-hidden bg-background">
-      <div className="absolute inset-0 bg-black/90" />
+    <div style={{ position: 'absolute', inset: 0, overflow: 'hidden', background: 'var(--background)' }}>
+      <div style={{ position: 'absolute', inset: 0, background: 'rgba(0, 0, 0, 0.9)' }} />
       
-      <svg className="absolute inset-0 w-full h-full">
-        {/* Main Trunk */}
+      <svg style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', color: 'var(--primary)' }}>
         <motion.path
           d="M 50% 100% Q 50% 50% 50% 20%"
           fill="none"
           stroke="currentColor"
-          className="text-primary"
           strokeWidth="3"
           initial={{ pathLength: 0, opacity: 0 }}
           animate={{ pathLength: 1, opacity: 0.6 }}
           transition={{ duration: 2, ease: "easeOut" }}
         />
 
-        {/* Branches Left */}
         <motion.path
           d="M 50% 60% Q 30% 50% 10% 40%"
           fill="none"
           stroke="currentColor"
-          className="text-primary"
           strokeWidth="2"
           initial={{ pathLength: 0, opacity: 0 }}
           animate={{ pathLength: 1, opacity: 0.4 }}
@@ -33,26 +29,22 @@ export function NeuroGrowthBg() {
           d="M 30% 50% Q 20% 30% 15% 10%"
           fill="none"
           stroke="currentColor"
-          className="text-primary"
           strokeWidth="2"
           initial={{ pathLength: 0, opacity: 0 }}
           animate={{ pathLength: 1, opacity: 0.4 }}
           transition={{ duration: 2, delay: 1, ease: "easeOut" }}
         />
 
-        {/* Branches Right */}
         <motion.path
           d="M 50% 70% Q 70% 60% 90% 30%"
           fill="none"
           stroke="currentColor"
-          className="text-primary"
           strokeWidth="2"
           initial={{ pathLength: 0, opacity: 0 }}
           animate={{ pathLength: 1, opacity: 0.4 }}
           transition={{ duration: 2, delay: 0.7, ease: "easeOut" }}
         />
         
-        {/* Synaptic Sparks */}
         <motion.circle
           r="3"
           fill="white"
@@ -89,7 +81,11 @@ export function NeuroGrowthBg() {
         </defs>
       </svg>
 
-      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-background/20 to-background" />
+      <div style={{
+        position: 'absolute',
+        inset: 0,
+        background: 'linear-gradient(to bottom, transparent, rgba(var(--background-rgb), 0.2), var(--background))'
+      }} />
     </div>
   );
 }

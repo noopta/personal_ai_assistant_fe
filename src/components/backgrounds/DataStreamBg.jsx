@@ -9,17 +9,31 @@ export function DataStreamBg() {
   }));
 
   return (
-    <div className="absolute inset-0 overflow-hidden bg-background">
-      <div className="absolute inset-0 bg-black/90" />
+    <div style={{ position: 'absolute', inset: 0, overflow: 'hidden', background: 'var(--background)' }}>
+      <div style={{ position: 'absolute', inset: 0, background: 'rgba(0, 0, 0, 0.9)' }} />
       
       {streams.map((stream) => (
-        <motion.div
-          key={stream.id}
-          className="absolute top-0 w-[1px] bg-gradient-to-b from-transparent via-primary to-transparent opacity-50"
-          style={{ left: `${stream.x}%`, height: "100%" }}
-        >
+        <div key={stream.id} style={{ position: 'absolute', top: 0, width: '1px', height: '100%', left: `${stream.x}%` }}>
+          <div style={{
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            right: 0,
+            height: '100%',
+            background: 'linear-gradient(to bottom, transparent, var(--primary), transparent)',
+            opacity: 0.5
+          }} />
           <motion.div
-            className="absolute top-0 left-1/2 -translate-x-1/2 w-[4px] h-[100px] bg-accent blur-[2px]"
+            style={{
+              position: 'absolute',
+              top: 0,
+              left: '50%',
+              transform: 'translateX(-50%)',
+              width: '4px',
+              height: '100px',
+              background: 'var(--accent)',
+              filter: 'blur(2px)'
+            }}
             initial={{ y: "-100%" }}
             animate={{ y: "100vh" }}
             transition={{
@@ -29,10 +43,14 @@ export function DataStreamBg() {
               delay: stream.delay,
             }}
           />
-        </motion.div>
+        </div>
       ))}
       
-      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-background/20 to-background" />
+      <div style={{
+        position: 'absolute',
+        inset: 0,
+        background: 'linear-gradient(to bottom, transparent, rgba(var(--background-rgb), 0.2), var(--background))'
+      }} />
     </div>
   );
 }

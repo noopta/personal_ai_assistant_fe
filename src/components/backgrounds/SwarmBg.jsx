@@ -2,7 +2,6 @@ import { motion } from "framer-motion";
 import { useMemo } from "react";
 
 export function SwarmBg() {
-  // Create particles that will flow in a "field"
   const particles = useMemo(() => Array.from({ length: 40 }).map((_, i) => ({
     id: i,
     x: Math.random() * 100,
@@ -13,15 +12,19 @@ export function SwarmBg() {
   })), []);
 
   return (
-    <div className="absolute inset-0 overflow-hidden bg-background">
-      <div className="absolute inset-0 bg-black/90" />
+    <div style={{ position: 'absolute', inset: 0, overflow: 'hidden', background: 'var(--background)' }}>
+      <div style={{ position: 'absolute', inset: 0, background: 'rgba(0, 0, 0, 0.9)' }} />
       
-      {/* Flow Field Simulation */}
       {particles.map((p) => (
         <motion.div
           key={p.id}
-          className="absolute rounded-full bg-primary blur-[0px]"
-          style={{ width: p.size * 1.5, height: p.size * 1.5 }}
+          style={{
+            position: 'absolute',
+            borderRadius: '50%',
+            background: 'var(--primary)',
+            width: p.size * 1.5,
+            height: p.size * 1.5
+          }}
           animate={{
             x: [
               `${p.x}%`, 
@@ -46,14 +49,12 @@ export function SwarmBg() {
         />
       ))}
 
-      {/* Connecting Lines for "Cohesion" effect */}
-      <svg className="absolute inset-0 w-full h-full opacity-20">
+      <svg style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', opacity: 0.2 }}>
         {particles.slice(0, 15).map((p, i) => (
            <motion.path
              key={i}
              d={`M ${p.x}% ${p.y}% Q ${(p.x + 50)/2}% ${(p.y + 50)/2}% 50% 50%`}
-             stroke="currentColor"
-             className="text-accent"
+             stroke="var(--accent)"
              strokeWidth="0.5"
              fill="none"
              animate={{
@@ -73,7 +74,11 @@ export function SwarmBg() {
         ))}
       </svg>
 
-      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-background/20 to-background" />
+      <div style={{
+        position: 'absolute',
+        inset: 0,
+        background: 'linear-gradient(to bottom, transparent, rgba(var(--background-rgb), 0.2), var(--background))'
+      }} />
     </div>
   );
 }

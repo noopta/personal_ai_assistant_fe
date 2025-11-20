@@ -3,12 +3,12 @@ import { ArrowRight, Calendar, Mail, Sparkles, Activity, Users, Tornado, Brain, 
 import { useState } from "react";
 
 // Backgrounds
-import { DataStreamBg } from "../backgrounds/DataStreamBg";
-import { SwarmBg } from "../backgrounds/SwarmBg";
-import { SocialClustersBg } from "../backgrounds/SocialClustersBg";
-import { GoldenSpiralBg } from "../backgrounds/GoldenSpiralBg";
-import { NeuroGrowthBg } from "../backgrounds/NeuroGrowthBg";
-import { HexMeshBg } from "../backgrounds/HexMeshBg";
+import { DataStreamBg } from "./backgrounds/DataStreamBg";
+import { SwarmBg } from "./backgrounds/SwarmBg";
+import { SocialClustersBg } from "./backgrounds/SocialClustersBg";
+import { GoldenSpiralBg } from "./backgrounds/GoldenSpiralBg";
+import { NeuroGrowthBg } from "./backgrounds/NeuroGrowthBg";
+import { HexMeshBg } from "./backgrounds/HexMeshBg";
 
 const heroBg = "/images/Abstract_deep_tech_background_with_glowing_nodes_2d45bed3.png";
 
