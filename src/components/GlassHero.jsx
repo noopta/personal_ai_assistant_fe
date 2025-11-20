@@ -136,12 +136,12 @@ export function GlassHero() {
         </motion.div>
 
         {/* Floating Gmail Card */}
-        <div className="animate-float" style={{
+        <div className="animate-float floating-card-left" style={{
           position: 'absolute',
           top: '50%',
           left: '40px',
           display: 'none'
-        }} className="floating-card-left">
+        }}>
           <div className="glass-panel" style={{
             padding: '16px',
             borderRadius: '16px',
@@ -170,12 +170,12 @@ export function GlassHero() {
         </div>
 
         {/* Floating Calendar Card */}
-        <div className="animate-float-delayed" style={{
+        <div className="animate-float-delayed floating-card-right" style={{
           position: 'absolute',
           top: '33.333%',
           right: '40px',
           display: 'none'
-        }} className="floating-card-right">
+        }}>
           <div className="glass-panel" style={{
             padding: '16px',
             borderRadius: '16px',

@@ -1,6 +1,6 @@
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import Navigation from './components/Navigation';
-import LandingPage from './pages/LandingPage';
+import LandingPageGlass from './pages/LandingPageGlass';
 import ProductPage from './pages/ProductPage';
 import IntegrationsPage from './pages/IntegrationsPage';
 import AboutPage from './pages/AboutPage';
@@ -15,10 +15,10 @@ function AppContent() {
 
   return (
     <>
-      <Navigation />
+      {!isLandingPage && <Navigation />}
       <main>
         <Routes>
-          <Route path="/" element={<LandingPage />} />
+          <Route path="/" element={<LandingPageGlass />} />
           <Route path="/product" element={<ProductPage />} />
           <Route path="/integrations" element={<IntegrationsPage />} />
           <Route path="/about" element={<AboutPage />} />
