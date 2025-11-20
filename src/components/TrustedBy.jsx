@@ -6,11 +6,10 @@ const companies = [
 
 export function TrustedBy() {
   return (
-    <section style={{
+    <section className="trustedby-section" style={{
       padding: '2.5rem 0',
       borderTop: '1px solid var(--border)',
       borderBottom: '1px solid var(--border)',
-      background: 'rgba(var(--muted), 0.2)',
       backdropFilter: 'blur(4px)',
       overflow: 'hidden'
     }}>
@@ -89,6 +88,16 @@ export function TrustedBy() {
           </div>
         </div>
       </div>
+      
+      <style>{`
+        .trustedby-section {
+          background: hsl(240 4.8% 95.9% / 0.2);
+        }
+        
+        .dark .trustedby-section {
+          background: hsl(240 3.7% 15.9% / 0.2);
+        }
+      `}</style>
     </section>
   );
 }

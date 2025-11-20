@@ -19,26 +19,36 @@ export function GlassHero() {
         <img 
           src={heroBg} 
           alt="Background" 
+          className="hero-bg-img"
           style={{
             width: '100%',
             height: '100%',
-            objectFit: 'cover',
-            opacity: '0.2',
-            transition: 'opacity 0.5s'
+            objectFit: 'cover'
           }}
-          className="hero-bg-img"
         />
-        <div style={{
-          position: 'absolute',
-          inset: 0,
-          background: 'linear-gradient(to bottom, rgba(var(--background), 0.8), rgba(var(--background), 0.5), var(--background))',
-          zIndex: 10
-        }} />
+        <div className="hero-overlay" />
       </div>
 
       <style>{`
+        .hero-bg-img {
+          opacity: 0.2;
+          transition: opacity 0.5s;
+        }
+        
         .dark .hero-bg-img {
-          opacity: 0.4 !important;
+          opacity: 0.4;
+        }
+        
+        .hero-overlay {
+          position: absolute;
+          inset: 0;
+          background: linear-gradient(to bottom, var(--background) 0%, transparent 40%, var(--background) 100%);
+          opacity: 0.8;
+          z-index: 10;
+        }
+        
+        .dark .hero-overlay {
+          opacity: 0.5;
         }
       `}</style>
 
@@ -82,12 +92,11 @@ export function GlassHero() {
             fontWeight: 'bold',
             letterSpacing: '-0.04em',
             marginBottom: '24px',
-            lineHeight: 1.1,
-            textShadow: '0 2px 20px rgba(0, 0, 0, 0.4)'
+            lineHeight: 1.1
           }}
         >
-          <span className="text-gradient" style={{ display: 'block', color: 'var(--foreground)' }}>Your Life,</span>
-          <span className="text-gradient-primary" style={{ display: 'block', color: 'var(--primary)' }}>Autopilot.</span>
+          <span className="text-gradient" style={{ display: 'block' }}>Your Life,</span>
+          <span className="text-gradient-primary" style={{ display: 'block' }}>Autopilot.</span>
         </motion.h1>
 
         <motion.p 

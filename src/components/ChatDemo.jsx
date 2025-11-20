@@ -102,7 +102,7 @@ export function ChatDemo() {
                   border: '1px solid var(--border)',
                   flexShrink: 0
                 }}>
-                  <AvatarFallback className={msg.role === 'ai' ? 'bg-primary' : 'bg-muted'} style={{
+                  <AvatarFallback style={{
                     background: msg.role === 'ai' ? 'var(--primary)' : 'var(--muted)',
                     color: msg.role === 'ai' ? 'var(--primary-foreground)' : 'var(--foreground)'
                   }}>
@@ -167,12 +167,6 @@ export function ChatDemo() {
         }
         
         .ai-message {
-          background: var(--muted);
-          border: 1px solid var(--border);
-        }
-        
-        /* Theme-specific AI message backgrounds */
-        :root .ai-message {
           background: hsl(252 90% 55% / 0.1);
           border: 1px solid hsl(252 90% 55% / 0.2);
         }
