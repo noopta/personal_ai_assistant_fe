@@ -1,5 +1,5 @@
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
-import Navigation from './components/Navigation';
+import { GlassNav } from './components/GlassNav';
 import LandingPageGlass from './pages/LandingPageGlass';
 import ProductPage from './pages/ProductPage';
 import IntegrationsPage from './pages/IntegrationsPage';
@@ -15,7 +15,7 @@ function AppContent() {
 
   return (
     <>
-      {!isLandingPage && <Navigation />}
+      {!isLandingPage && <GlassNav />}
       <main>
         <Routes>
           <Route path="/" element={<LandingPageGlass />} />

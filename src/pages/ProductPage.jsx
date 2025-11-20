@@ -6,13 +6,409 @@ import AuthStatusIndicator from '../components/AuthStatusIndicator';
 import AuthSetup from '../components/AuthSetup';
 import ModeSelection from '../components/ModeSelection';
 import VoiceMode from '../components/VoiceMode';
-import styles from './ProductPage.module.css';
-import ReactMarkdown from 'react-markdown';
 import Vapi from '@vapi-ai/web';
 import VapiWidget from './VapiWidget.tsx';
-import { generateSecureRandomId, sanitizeInput, validateUrlParam, secureLog, getEnvVar, loggedFetch } from '../utils/securityUtils';
+import { sanitizeInput, validateUrlParam, secureLog, getEnvVar, loggedFetch } from '../utils/securityUtils';
+
+// Glassmorphic inline styles using CSS variables
+const glassStyles = {
+  productPage: {
+    minHeight: '100vh',
+    background: 'var(--background)',
+    color: 'var(--foreground)',
+    display: 'flex',
+    flexDirection: 'column'
+  },
+  modeSelection: {
+    flex: 1,
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: 'clamp(1.5rem, 4vw, 3rem)'
+  },
+  modeContainer: {
+    maxWidth: '1000px',
+    width: '100%',
+    textAlign: 'center'
+  },
+  modeTitle: {
+    fontSize: 'clamp(2rem, 5vw, 3.5rem)',
+    fontWeight: '300',
+    marginBottom: '1rem',
+    letterSpacing: '-0.02em',
+    color: 'var(--foreground)'
+  },
+  modeSubtitle: {
+    fontSize: '1.125rem',
+    color: 'var(--muted-foreground)',
+    marginBottom: '3rem',
+    fontWeight: '300'
+  },
+  modesGrid: {
+    display: 'grid',
+    gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
+    gap: '1.5rem',
+    marginBottom: '2rem'
+  },
+  modeCard: {
+    background: 'rgba(255, 255, 255, 0.03)',
+    backdropFilter: 'blur(20px)',
+    WebkitBackdropFilter: 'blur(20px)',
+    border: '1px solid rgba(255, 255, 255, 0.08)',
+    borderRadius: '16px',
+    padding: '2rem',
+    transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+    cursor: 'pointer',
+    textAlign: 'left',
+    boxShadow: '0 8px 32px 0 rgba(0, 0, 0, 0.1)'
+  },
+  modeIcon: {
+    fontSize: '2.5rem',
+    marginBottom: '1rem',
+    display: 'block'
+  },
+  modeCardTitle: {
+    fontSize: '1.5rem',
+    fontWeight: '500',
+    marginBottom: '0.5rem',
+    color: 'var(--foreground)',
+    letterSpacing: '-0.01em'
+  },
+  modeDescription: {
+    color: 'var(--muted-foreground)',
+    fontSize: '0.9375rem',
+    lineHeight: '1.6',
+    fontWeight: '300'
+  },
+  chatInterface: {
+    flex: 1,
+    display: 'flex',
+    flexDirection: 'column',
+    height: '100vh',
+    maxHeight: '100vh'
+  },
+  topBar: {
+    background: 'rgba(255, 255, 255, 0.02)',
+    backdropFilter: 'blur(16px)',
+    WebkitBackdropFilter: 'blur(16px)',
+    borderBottom: '1px solid rgba(255, 255, 255, 0.08)',
+    padding: '1rem 1.5rem',
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center'
+  },
+  topBarLeft: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: '1rem'
+  },
+  backButton: {
+    background: 'none',
+    border: 'none',
+    color: 'var(--muted-foreground)',
+    fontSize: '1.25rem',
+    cursor: 'pointer',
+    padding: '0.5rem',
+    transition: 'color 0.3s ease',
+    display: 'flex',
+    alignItems: 'center'
+  },
+  modeIndicator: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: '0.5rem',
+    color: 'var(--foreground)',
+    fontWeight: '500'
+  },
+  topBarRight: {
+    display: 'flex',
+    gap: '0.5rem'
+  },
+  authButton: {
+    background: 'rgba(255, 255, 255, 0.03)',
+    backdropFilter: 'blur(8px)',
+    WebkitBackdropFilter: 'blur(8px)',
+    border: '1px solid rgba(255, 255, 255, 0.1)',
+    borderRadius: '24px',
+    color: 'var(--foreground)',
+    padding: '0.5rem 1rem',
+    fontSize: '0.875rem',
+    cursor: 'pointer',
+    transition: 'all 0.3s ease',
+    fontWeight: '500'
+  },
+  authButtonAuthenticated: {
+    borderColor: 'var(--primary)',
+    color: 'var(--primary)',
+    background: 'color-mix(in srgb, var(--primary) 10%, transparent)'
+  },
+  authButtonDisabled: {
+    opacity: 0.5,
+    cursor: 'not-allowed'
+  },
+  mainContent: {
+    flex: 1,
+    display: 'flex',
+    overflow: 'hidden'
+  },
+  chatColumn: {
+    flex: 1,
+    display: 'flex',
+    flexDirection: 'column',
+    borderRight: '1px solid rgba(255, 255, 255, 0.08)',
+    minWidth: 0
+  },
+  messagesContainer: {
+    flex: 1,
+    overflowY: 'auto',
+    padding: '1.5rem',
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '1rem'
+  },
+  emptyState: {
+    flex: 1,
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    textAlign: 'center',
+    padding: '2rem'
+  },
+  emptyStateContent: {
+    maxWidth: '500px'
+  },
+  emptyStateIcon: {
+    fontSize: '4rem',
+    marginBottom: '1.5rem',
+    opacity: 0.3
+  },
+  emptyStateTitle: {
+    fontSize: '1.5rem',
+    fontWeight: '400',
+    marginBottom: '0.5rem',
+    color: 'var(--foreground)'
+  },
+  emptyStateText: {
+    color: 'var(--muted-foreground)',
+    fontSize: '0.9375rem',
+    lineHeight: '1.6'
+  },
+  activityPanel: {
+    width: '350px',
+    background: 'rgba(255, 255, 255, 0.02)',
+    backdropFilter: 'blur(20px)',
+    WebkitBackdropFilter: 'blur(20px)',
+    borderLeft: '1px solid rgba(255, 255, 255, 0.08)',
+    display: 'flex',
+    flexDirection: 'column',
+    overflow: 'hidden'
+  },
+  activityHeader: {
+    padding: '1.5rem',
+    borderBottom: '1px solid rgba(255, 255, 255, 0.08)'
+  },
+  activityTitle: {
+    fontSize: '0.875rem',
+    fontWeight: '600',
+    color: 'var(--muted-foreground)',
+    textTransform: 'uppercase',
+    letterSpacing: '0.05em'
+  },
+  activityFeed: {
+    flex: 1,
+    overflowY: 'auto',
+    padding: '1rem'
+  },
+  activityItem: {
+    padding: '1rem',
+    borderBottom: '1px solid rgba(255, 255, 255, 0.05)',
+    fontSize: '0.875rem',
+    lineHeight: '1.5'
+  },
+  activityTime: {
+    color: 'var(--muted-foreground)',
+    fontSize: '0.75rem',
+    display: 'block',
+    marginTop: '0.5rem'
+  },
+  voiceMode: {
+    flex: 1,
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: '2rem'
+  },
+  voiceContainer: {
+    textAlign: 'center',
+    maxWidth: '600px',
+    width: '100%'
+  },
+  voiceTitle: {
+    fontSize: '2rem',
+    fontWeight: '300',
+    marginBottom: '1.5rem',
+    color: 'var(--foreground)'
+  },
+  voiceControls: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    gap: '1.5rem'
+  },
+  voiceButton: {
+    width: '120px',
+    height: '120px',
+    borderRadius: '50%',
+    border: '2px solid var(--primary)',
+    background: 'rgba(255, 255, 255, 0.03)',
+    backdropFilter: 'blur(12px)',
+    WebkitBackdropFilter: 'blur(12px)',
+    color: 'var(--primary)',
+    fontSize: '3rem',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    cursor: 'pointer',
+    transition: 'all 0.3s ease'
+  },
+  voiceButtonActive: {
+    background: 'var(--primary)',
+    color: 'var(--background)'
+  },
+  voiceStatus: {
+    fontSize: '1.125rem',
+    color: 'var(--muted-foreground)',
+    fontWeight: '300'
+  },
+  transitionOverlay: {
+    position: 'fixed',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    background: 'var(--background)',
+    zIndex: 1000,
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+  transitionText: {
+    fontSize: '1.5rem',
+    fontWeight: '300',
+    color: 'var(--muted-foreground)'
+  },
+  loading: {
+    textAlign: 'center',
+    padding: '1.5rem',
+    color: 'var(--muted-foreground)',
+    fontStyle: 'italic'
+  },
+  integrationStatusSummary: {
+    display: 'flex',
+    gap: '1.5rem',
+    justifyContent: 'center',
+    margin: '1rem 0',
+    fontSize: '0.875rem'
+  },
+  connected: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: '0.5rem',
+    fontWeight: '500',
+    color: 'var(--primary)'
+  },
+  notConnected: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: '0.5rem',
+    fontWeight: '500',
+    color: 'var(--muted-foreground)'
+  },
+  header: {
+    background: 'rgba(255, 255, 255, 0.02)',
+    backdropFilter: 'blur(16px)',
+    WebkitBackdropFilter: 'blur(16px)',
+    borderBottom: '1px solid rgba(255, 255, 255, 0.08)',
+    padding: '2rem 1.5rem',
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    flexWrap: 'wrap',
+    gap: '1rem'
+  },
+  headerContent: {
+    flex: 1,
+    minWidth: '250px'
+  },
+  switchModeButton: {
+    background: 'rgba(255, 255, 255, 0.03)',
+    backdropFilter: 'blur(8px)',
+    WebkitBackdropFilter: 'blur(8px)',
+    border: '1px solid rgba(255, 255, 255, 0.1)',
+    borderRadius: '24px',
+    color: 'var(--foreground)',
+    padding: '0.75rem 1.5rem',
+    fontSize: '0.9375rem',
+    cursor: 'pointer',
+    transition: 'all 0.3s ease',
+    fontWeight: '500'
+  },
+  centeredContainer: {
+    display: 'flex',
+    justifyContent: 'center',
+    padding: '1.5rem'
+  },
+  chatContainer: {
+    flex: 1,
+    display: 'flex',
+    flexDirection: 'column',
+    maxWidth: '900px',
+    margin: '0 auto',
+    width: '100%',
+    padding: '0 1rem 2rem'
+  },
+  messageList: {
+    flex: 1,
+    overflowY: 'auto',
+    marginBottom: '1.5rem',
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '1rem',
+    padding: '1rem',
+    background: 'rgba(255, 255, 255, 0.01)',
+    backdropFilter: 'blur(12px)',
+    WebkitBackdropFilter: 'blur(12px)',
+    borderRadius: '16px',
+    border: '1px solid rgba(255, 255, 255, 0.05)'
+  },
+  authButtons: {
+    display: 'flex',
+    gap: '0.75rem',
+    flexWrap: 'wrap',
+    justifyContent: 'center',
+    marginBottom: '1.5rem'
+  },
+  connectedButton: {
+    borderColor: 'var(--primary)',
+    color: 'var(--primary)',
+    background: 'color-mix(in srgb, var(--primary) 10%, transparent)'
+  },
+  transitionSpinner: {
+    width: '50px',
+    height: '50px',
+    border: '4px solid rgba(255, 255, 255, 0.1)',
+    borderTop: '4px solid var(--primary)',
+    borderRadius: '50%',
+    animation: 'spin 1s linear infinite',
+    marginBottom: '1rem'
+  },
+  fadeIn: {
+    animation: 'fadeIn 0.6s ease-out'
+  }
+};
 
 function ProductPage() {
+  const [hoveredButton, setHoveredButton] = useState(null);
   const [messages, setMessages] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   // Hash IDs managed by backend via HTTP-only cookies
@@ -849,8 +1245,8 @@ function ProductPage() {
   // Show transition overlay
   if (isTransitioning) {
     return (
-      <div className={styles.transitionOverlay}>
-        <div className={styles.transitionSpinner}></div>
+      <div style={glassStyles.transitionOverlay}>
+        <div style={glassStyles.transitionSpinner}></div>
         <p>Switching modes...</p>
       </div>
     );
@@ -859,7 +1255,7 @@ function ProductPage() {
   // Show authentication setup first
   if (currentMode === 'auth') {
     return (
-      <div className={styles.fadeIn}>
+      <div style={glassStyles.fadeIn}>
         <AuthSetup
           onAuthComplete={handleAuthComplete}
           initialGmailAuth={isGmailAuthenticated}
@@ -873,7 +1269,7 @@ function ProductPage() {
   // Show mode selection after authentication
   if (currentMode === 'selection') {
     return (
-      <div className={styles.fadeIn}>
+      <div style={glassStyles.fadeIn}>
         <ModeSelection onModeSelect={handleModeSelect} />
       </div>
     );
@@ -882,7 +1278,7 @@ function ProductPage() {
   // Show voice mode
   if (currentMode === 'voice') {
     return (
-      <div className={styles.fadeIn}>
+      <div style={glassStyles.fadeIn}>
         <VoiceMode 
           onSwitchMode={handleSwitchMode}
           vapiRef={vapiRef}
@@ -898,82 +1294,163 @@ function ProductPage() {
 
   // Show text mode (original chat interface)
   return (
-    <div className={`${styles.productPage} ${styles.fadeIn}`}>
-      <div className={styles.header}>
-        <div className={styles.headerContent}>
-          <h1>AirThreads Assistant</h1>
-          <p>Try our AI-powered task manager. Connect your tools and let AI handle the rest.</p>
-        </div>
-        <button
-          className={styles.switchModeButton}
-          onClick={() => setCurrentMode('selection')}
-        >
-          Switch Mode
-        </button>
-      </div>
-      
-      {/* Authentication Status Indicator */}
-      <div className={styles.centeredContainer}>
-        <AuthStatusIndicator 
-          isGmailAuthenticated={isGmailAuthenticated}
-          isCalendarAuthenticated={isCalendarAuthenticated}
-        />
-      </div>
-      
-      <div className={styles.chatContainer}>
-        <div className={styles.messageList}>
-          {messages.map((message, index) => (
-            <ChatMessage 
-              key={index}
-              type={message.type}
-              content={message.content}
-            />
-          ))}
-          {isLoading && <AILoadingAnimation />}
-        </div>
-        
-        {/* Optional: Add manual authentication buttons */}
-        <div className={styles.authButtons}>
-          <button 
-            onClick={handleManualGmailAuth} 
-            disabled={isLoading || isGmailAuthenticated}
-            className={`${styles.authButton} ${isGmailAuthenticated ? styles.connectedButton : ''}`}
+    <>
+      <div style={{...glassStyles.productPage, ...glassStyles.fadeIn}}>
+        <div style={glassStyles.header}>
+          <div style={glassStyles.headerContent}>
+            <h1 style={{ margin: 0, fontSize: '2rem', fontWeight: '300' }}>AirThreads Assistant</h1>
+            <p style={{ margin: '0.5rem 0 0', color: 'var(--muted-foreground)' }}>
+              Try our AI-powered task manager. Connect your tools and let AI handle the rest.
+            </p>
+          </div>
+          <button
+            style={{
+              ...glassStyles.switchModeButton,
+              ...(hoveredButton === 'switch' && {
+                borderColor: 'var(--primary)',
+                background: 'rgba(255, 255, 255, 0.05)',
+                transform: 'translateY(-1px)'
+              })
+            }}
+            onMouseEnter={() => setHoveredButton('switch')}
+            onMouseLeave={() => setHoveredButton(null)}
+            onClick={() => setCurrentMode('selection')}
           >
-            {isGmailAuthenticated ? '✅ Gmail Connected' : '🔐 Authenticate Gmail'}
-          </button>
-          <button 
-            onClick={handleManualCalendarAuth} 
-            disabled={isLoading || isCalendarAuthenticated}
-            className={`${styles.authButton} ${isCalendarAuthenticated ? styles.connectedButton : ''}`}
-          >
-            {isCalendarAuthenticated ? '✅ Calendar Connected' : '📅 Authenticate Calendar'}
-          </button>
-          <button 
-            onClick={handleCheckGmailStatus} 
-            disabled={isLoading}
-            className={styles.authButton}
-          >
-            ✅ Check Gmail Status
-          </button>
-          <button 
-            onClick={handleCheckCalendarStatus} 
-            disabled={isLoading}
-            className={styles.authButton}
-          >
-            📊 Check Calendar Status
+            Switch Mode
           </button>
         </div>
         
-        <ChatInput 
-          onSendMessage={handleSendMessage} 
-          disabled={isLoading}
-        />
+        {/* Authentication Status Indicator */}
+        <div style={glassStyles.centeredContainer}>
+          <AuthStatusIndicator 
+            isGmailAuthenticated={isGmailAuthenticated}
+            isCalendarAuthenticated={isCalendarAuthenticated}
+          />
+        </div>
+        
+        <div style={glassStyles.chatContainer}>
+          <div style={glassStyles.messageList}>
+            {messages.map((message, index) => (
+              <ChatMessage 
+                key={index}
+                type={message.type}
+                content={message.content}
+              />
+            ))}
+            {isLoading && <AILoadingAnimation />}
+          </div>
+          
+          {/* Optional: Add manual authentication buttons */}
+          <div style={glassStyles.authButtons}>
+            <button 
+              onClick={handleManualGmailAuth} 
+              disabled={isLoading || isGmailAuthenticated}
+              style={{
+                ...glassStyles.authButton,
+                ...(isGmailAuthenticated && glassStyles.connectedButton),
+                ...((isLoading || isGmailAuthenticated) && glassStyles.authButtonDisabled),
+                ...(hoveredButton === 'gmail' && !isGmailAuthenticated && !isLoading && {
+                  borderColor: 'var(--primary)',
+                  background: 'rgba(255, 255, 255, 0.05)',
+                  transform: 'translateY(-1px)'
+                })
+              }}
+              onMouseEnter={() => setHoveredButton('gmail')}
+              onMouseLeave={() => setHoveredButton(null)}
+            >
+              {isGmailAuthenticated ? '✅ Gmail Connected' : '🔐 Authenticate Gmail'}
+            </button>
+            <button 
+              onClick={handleManualCalendarAuth} 
+              disabled={isLoading || isCalendarAuthenticated}
+              style={{
+                ...glassStyles.authButton,
+                ...(isCalendarAuthenticated && glassStyles.connectedButton),
+                ...((isLoading || isCalendarAuthenticated) && glassStyles.authButtonDisabled),
+                ...(hoveredButton === 'calendar' && !isCalendarAuthenticated && !isLoading && {
+                  borderColor: 'var(--primary)',
+                  background: 'rgba(255, 255, 255, 0.05)',
+                  transform: 'translateY(-1px)'
+                })
+              }}
+              onMouseEnter={() => setHoveredButton('calendar')}
+              onMouseLeave={() => setHoveredButton(null)}
+            >
+              {isCalendarAuthenticated ? '✅ Calendar Connected' : '📅 Authenticate Calendar'}
+            </button>
+            <button 
+              onClick={handleCheckGmailStatus} 
+              disabled={isLoading}
+              style={{
+                ...glassStyles.authButton,
+                ...(isLoading && glassStyles.authButtonDisabled),
+                ...(hoveredButton === 'checkGmail' && !isLoading && {
+                  borderColor: 'var(--primary)',
+                  background: 'rgba(255, 255, 255, 0.05)',
+                  transform: 'translateY(-1px)'
+                })
+              }}
+              onMouseEnter={() => setHoveredButton('checkGmail')}
+              onMouseLeave={() => setHoveredButton(null)}
+            >
+              ✅ Check Gmail Status
+            </button>
+            <button 
+              onClick={handleCheckCalendarStatus} 
+              disabled={isLoading}
+              style={{
+                ...glassStyles.authButton,
+                ...(isLoading && glassStyles.authButtonDisabled),
+                ...(hoveredButton === 'checkCalendar' && !isLoading && {
+                  borderColor: 'var(--primary)',
+                  background: 'rgba(255, 255, 255, 0.05)',
+                  transform: 'translateY(-1px)'
+                })
+              }}
+              onMouseEnter={() => setHoveredButton('checkCalendar')}
+              onMouseLeave={() => setHoveredButton(null)}
+            >
+              📊 Check Calendar Status
+            </button>
+          </div>
+          
+          <ChatInput 
+            onSendMessage={handleSendMessage} 
+            disabled={isLoading}
+          />
 
+        </div>
+        {VAPI_ASSISTANT_ID && VAPI_API_KEY && (
+          <VapiWidget assistantId={VAPI_ASSISTANT_ID} apiKey={VAPI_API_KEY} />
+        )}
       </div>
-      {VAPI_ASSISTANT_ID && VAPI_API_KEY && (
-        <VapiWidget assistantId={VAPI_ASSISTANT_ID} apiKey={VAPI_API_KEY} />
-      )}
-    </div>
+      
+      {/* Animations that can't be done inline */}
+      <style>{`
+        @keyframes fadeIn {
+          from { opacity: 0; }
+          to { opacity: 1; }
+        }
+        
+        @keyframes spin {
+          from { transform: rotate(0deg); }
+          to { transform: rotate(360deg); }
+        }
+        
+        @keyframes pulse {
+          0%, 100% { opacity: 1; }
+          50% { opacity: 0.7; }
+        }
+        
+        @media (max-width: 768px) {
+          .glass-header {
+            padding: 1rem !important;
+            flex-direction: column !important;
+            align-items: flex-start !important;
+          }
+        }
+      `}</style>
+    </>
   );
 }
 
