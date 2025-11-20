@@ -1,9 +1,36 @@
-import { motion } from "framer-motion";
-import { ArrowRight, Calendar, Mail, Sparkles } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+import { ArrowRight, Calendar, Mail, Sparkles, Activity, Users, Tornado, Brain, Hexagon, Image as ImageIcon } from "lucide-react";
+import { useState } from "react";
+
+// Backgrounds
+import { DataStreamBg } from "../backgrounds/DataStreamBg";
+import { SwarmBg } from "../backgrounds/SwarmBg";
+import { SocialClustersBg } from "../backgrounds/SocialClustersBg";
+import { GoldenSpiralBg } from "../backgrounds/GoldenSpiralBg";
+import { NeuroGrowthBg } from "../backgrounds/NeuroGrowthBg";
+import { HexMeshBg } from "../backgrounds/HexMeshBg";
 
 const heroBg = "/images/Abstract_deep_tech_background_with_glowing_nodes_2d45bed3.png";
 
+const backgrounds = [
+  { id: 1, type: 'image', src: heroBg, name: "Deep Tech", icon: ImageIcon },
+  { id: 2, type: 'component', component: DataStreamBg, name: "Data Stream", icon: Activity },
+  { id: 3, type: 'component', component: SwarmBg, name: "Swarm Flow", icon: Tornado },
+  { id: 4, type: 'component', component: SocialClustersBg, name: "Social Graph", icon: Users },
+  { id: 5, type: 'component', component: GoldenSpiralBg, name: "Golden Ratio", icon: Tornado },
+  { id: 6, type: 'component', component: NeuroGrowthBg, name: "Neural Path", icon: Brain },
+  { id: 7, type: 'component', component: HexMeshBg, name: "Hive Mind", icon: Hexagon },
+];
+
 export function GlassHero() {
+  const [currentBg, setCurrentBg] = useState(0);
+
+  const nextBackground = () => {
+    setCurrentBg((prev) => (prev + 1) % backgrounds.length);
+  };
+
+  const currentBackground = backgrounds[currentBg];
+
   return (
     <section style={{
       position: 'relative',
@@ -14,19 +41,77 @@ export function GlassHero() {
       overflow: 'hidden',
       paddingTop: '80px'
     }}>
-      {/* Background Image with Overlay */}
+      {/* Background Layer */}
       <div style={{ position: 'absolute', inset: 0, zIndex: 0 }}>
-        <img 
-          src={heroBg} 
-          alt="Background" 
-          className="hero-bg-img"
+        <AnimatePresence mode="wait">
+          {currentBackground.type === 'image' ? (
+            <motion.img 
+              key={currentBackground.id}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 1 }}
+              src={currentBackground.src} 
+              alt="Background" 
+              className="hero-bg-img"
+              style={{
+                width: '100%',
+                height: '100%',
+                objectFit: 'cover',
+                position: 'absolute',
+                inset: 0
+              }}
+            />
+          ) : (
+            <motion.div
+              key={currentBackground.id}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 1 }}
+              style={{ position: 'absolute', inset: 0 }}
+            >
+              {currentBackground.component && <currentBackground.component />}
+            </motion.div>
+          )}
+        </AnimatePresence>
+        
+        {/* Gradient Overlay (Only for images, live bg handles its own) */}
+        {currentBackground.type === 'image' && (
+          <div className="hero-overlay" />
+        )}
+      </div>
+
+      {/* Background Switcher Control */}
+      <div style={{ position: 'absolute', top: '96px', right: '16px', zIndex: 30 }}>
+        <button 
+          onClick={nextBackground}
+          className="glass-button"
           style={{
-            width: '100%',
-            height: '100%',
-            objectFit: 'cover'
+            borderRadius: '9999px',
+            fontSize: '0.75rem',
+            gap: '0.5rem',
+            background: 'rgba(var(--background-rgb), 0.2)',
+            backdropFilter: 'blur(12px)',
+            border: '1px solid rgba(255, 255, 255, 0.1)',
+            padding: '0.5rem 1rem',
+            minWidth: '140px',
+            display: 'flex',
+            alignItems: 'center',
+            cursor: 'pointer',
+            transition: 'all 0.3s',
+            color: 'var(--foreground)'
           }}
-        />
-        <div className="hero-overlay" />
+          onMouseEnter={(e) => {
+            e.currentTarget.style.background = 'rgba(var(--background-rgb), 0.4)';
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.background = 'rgba(var(--background-rgb), 0.2)';
+          }}
+        >
+          {currentBackground.icon && <currentBackground.icon style={{ width: '12px', height: '12px' }} />}
+          <span>{currentBackground.name}</span>
+        </button>
       </div>
 
       <style>{`

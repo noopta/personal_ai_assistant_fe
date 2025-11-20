@@ -142,14 +142,19 @@ export function GlassFeatures() {
                 border: '1px solid var(--border)',
                 boxShadow: '0 20px 50px rgba(var(--primary), 0.2)'
               }}>
-                <div style={{
+                <div className="feature-color-overlay" style={{
                   position: 'absolute',
                   inset: 0,
-                  background: 'linear-gradient(to top right, rgba(var(--primary), 0.2), transparent)',
                   mixBlendMode: 'overlay',
                   zIndex: 20,
                   pointerEvents: 'none'
                 }} />
+                
+                <style>{`
+                  .feature-color-overlay {
+                    background: linear-gradient(to top right, color-mix(in srgb, var(--primary) 20%, transparent), transparent);
+                  }
+                `}</style>
                 <img 
                   src={featureArt} 
                   alt="AI Core" 
