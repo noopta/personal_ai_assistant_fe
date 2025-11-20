@@ -82,11 +82,12 @@ export function GlassHero() {
             fontWeight: 'bold',
             letterSpacing: '-0.04em',
             marginBottom: '24px',
-            lineHeight: 1.1
+            lineHeight: 1.1,
+            textShadow: '0 2px 20px rgba(0, 0, 0, 0.4)'
           }}
         >
-          <span className="text-gradient" style={{ display: 'block' }}>Your Life,</span>
-          <span className="text-gradient-primary" style={{ display: 'block' }}>Autopilot.</span>
+          <span className="text-gradient" style={{ display: 'block', color: 'var(--foreground)' }}>Your Life,</span>
+          <span className="text-gradient-primary" style={{ display: 'block', color: 'var(--primary)' }}>Autopilot.</span>
         </motion.h1>
 
         <motion.p 

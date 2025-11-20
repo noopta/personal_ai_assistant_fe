@@ -154,17 +154,22 @@ body {
 
 /* Gradient Text Utilities */
 .text-gradient {
-  background: linear-gradient(to right, var(--foreground), var(--foreground), rgba(var(--foreground), 0.5));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  color: var(--foreground);
 }
 
 .text-gradient-primary {
-  background: linear-gradient(to right, var(--primary), var(--accent), var(--primary));
+  background: linear-gradient(90deg, var(--primary) 0%, var(--accent) 50%, var(--primary) 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
+  color: var(--primary);
+}
+
+/* Safari fallback */
+@supports not (-webkit-background-clip: text) {
+  .text-gradient-primary {
+    color: var(--primary);
+  }
 }
 
 /* Glow Effect */

@@ -19,7 +19,7 @@ export function ChatDemo() {
   }, []);
 
   return (
-    <section style={{ padding: '6rem 0', position: 'relative', overflow: 'hidden' }}>
+    <section className="chat-demo-section" style={{ padding: '6rem 0', position: 'relative', overflow: 'hidden' }}>
       <div style={{ maxWidth: '64rem', margin: '0 auto', padding: '0 1rem' }}>
         <div style={{ textAlign: 'center', marginBottom: '4rem' }}>
           <h2 style={{
@@ -110,13 +110,11 @@ export function ChatDemo() {
                   </AvatarFallback>
                 </Avatar>
                 
-                <div style={{
+                <div className={msg.role === 'ai' ? 'ai-message' : 'user-message'} style={{
                   borderRadius: '1rem',
                   padding: '1rem',
                   maxWidth: '80%',
-                  background: msg.role === 'user' ? 'var(--muted)' : 'rgba(var(--primary), 0.1)',
                   color: 'var(--foreground)',
-                  border: msg.role === 'user' ? 'none' : '1px solid rgba(var(--primary), 0.2)',
                   borderTopRightRadius: msg.role === 'user' ? '0' : '1rem',
                   borderTopLeftRadius: msg.role === 'ai' ? '0' : '1rem'
                 }}>
@@ -158,6 +156,72 @@ export function ChatDemo() {
           </div>
         </div>
       </div>
+      
+      <style>{`
+        .chat-demo-section {
+          background: transparent;
+        }
+        
+        .user-message {
+          background: var(--muted);
+        }
+        
+        .ai-message {
+          background: var(--muted);
+          border: 1px solid var(--border);
+        }
+        
+        /* Theme-specific AI message backgrounds */
+        :root .ai-message {
+          background: hsl(252 90% 55% / 0.1);
+          border: 1px solid hsl(252 90% 55% / 0.2);
+        }
+        
+        .theme-crimson .ai-message {
+          background: hsl(0 84% 60% / 0.1);
+          border: 1px solid hsl(0 84% 60% / 0.2);
+        }
+        
+        .theme-tangerine .ai-message {
+          background: hsl(24 95% 53% / 0.1);
+          border: 1px solid hsl(24 95% 53% / 0.2);
+        }
+        
+        .theme-canary .ai-message {
+          background: hsl(45 93% 47% / 0.1);
+          border: 1px solid hsl(45 93% 47% / 0.2);
+        }
+        
+        .theme-emerald .ai-message {
+          background: hsl(142 71% 45% / 0.1);
+          border: 1px solid hsl(142 71% 45% / 0.2);
+        }
+        
+        .theme-teal .ai-message {
+          background: hsl(180 100% 40% / 0.1);
+          border: 1px solid hsl(180 100% 40% / 0.2);
+        }
+        
+        .theme-azure .ai-message {
+          background: hsl(217 91% 60% / 0.1);
+          border: 1px solid hsl(217 91% 60% / 0.2);
+        }
+        
+        .theme-indigo .ai-message {
+          background: hsl(240 80% 60% / 0.1);
+          border: 1px solid hsl(240 80% 60% / 0.2);
+        }
+        
+        .theme-violet .ai-message {
+          background: hsl(270 90% 60% / 0.1);
+          border: 1px solid hsl(270 90% 60% / 0.2);
+        }
+        
+        .theme-magenta .ai-message {
+          background: hsl(320 90% 60% / 0.1);
+          border: 1px solid hsl(320 90% 60% / 0.2);
+        }
+      `}</style>
     </section>
   );
 }

@@ -28,11 +28,10 @@ const features = [
 
 export function GlassFeatures() {
   return (
-    <section id="features" style={{
+    <section id="features" className="features-section" style={{
       padding: '96px 0',
       position: 'relative',
-      zIndex: 20,
-      background: 'rgba(var(--muted), 0.3)'
+      zIndex: 20
     }}>
       <div style={{
         maxWidth: '1280px',
@@ -204,6 +203,14 @@ export function GlassFeatures() {
       </div>
 
       <style>{`
+        .features-section {
+          background: hsl(240 4.8% 95.9% / 0.3);
+        }
+        
+        .dark .features-section {
+          background: hsl(240 3.7% 15.9% / 0.3);
+        }
+        
         @media (min-width: 640px) {
           .features-grid {
             grid-template-columns: repeat(2, 1fr) !important;
