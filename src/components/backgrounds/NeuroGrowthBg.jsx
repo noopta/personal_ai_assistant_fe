@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 export function NeuroGrowthBg() {
   return (
     <div style={{ position: 'absolute', inset: 0, overflow: 'hidden', background: 'var(--background)' }}>
-      <div style={{ position: 'absolute', inset: 0, background: 'rgba(0, 0, 0, 0.9)' }} />
+      <div style={{ position: 'absolute', inset: 0, background: 'color-mix(in srgb, var(--background) 90%, black)' }} />
       
       <svg style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', color: 'var(--primary)' }}>
         <motion.path

@@ -9,7 +9,7 @@ export function SocialClustersBg() {
 
   return (
     <div style={{ position: 'absolute', inset: 0, overflow: 'hidden', background: 'var(--background)' }}>
-      <div style={{ position: 'absolute', inset: 0, background: 'rgba(0, 0, 0, 0.9)' }} />
+      <div style={{ position: 'absolute', inset: 0, background: 'color-mix(in srgb, var(--background) 90%, black)' }} />
       
       {clusters.map((cluster, i) => (
         <div key={i} style={{

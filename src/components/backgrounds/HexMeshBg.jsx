@@ -17,7 +17,7 @@ export function HexMeshBg() {
       alignItems: 'center',
       justifyContent: 'center'
     }}>
-      <div style={{ position: 'absolute', inset: 0, background: 'rgba(0, 0, 0, 0.9)' }} />
+      <div style={{ position: 'absolute', inset: 0, background: 'color-mix(in srgb, var(--background) 90%, black)' }} />
       
       <div style={{
         position: 'absolute',

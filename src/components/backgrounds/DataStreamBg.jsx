@@ -10,7 +10,7 @@ export function DataStreamBg() {
 
   return (
     <div style={{ position: 'absolute', inset: 0, overflow: 'hidden', background: 'var(--background)' }}>
-      <div style={{ position: 'absolute', inset: 0, background: 'rgba(0, 0, 0, 0.9)' }} />
+      <div style={{ position: 'absolute', inset: 0, background: 'color-mix(in srgb, var(--background) 90%, black)' }} />
       
       {streams.map((stream) => (
         <div key={stream.id} style={{ position: 'absolute', top: 0, width: '1px', height: '100%', left: `${stream.x}%` }}>
