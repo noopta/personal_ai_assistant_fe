@@ -1,5 +1,7 @@
 import { motion } from "framer-motion";
-import { Calendar, Mail, Mic, Shield } from "lucide-react";
+import { Calendar, Mail, MessageSquare, Mic, Shield } from "lucide-react";
+
+const featureArt = "/images/3D_floating_abstract_AI_core_connecting_to_calendar_icons_d1fa25ad.png";
 
 const features = [
   {
@@ -125,6 +127,79 @@ export function GlassFeatures() {
               </div>
             </motion.div>
           </div>
+
+          <div style={{ width: '100%', position: 'relative' }} className="features-image">
+            <motion.div
+              initial={{ opacity: 0, scale: 0.8, rotate: -5 }}
+              whileInView={{ opacity: 1, scale: 1, rotate: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8 }}
+              style={{ position: 'relative', zIndex: 10 }}
+            >
+              <div style={{
+                position: 'relative',
+                borderRadius: '1.5rem',
+                overflow: 'hidden',
+                border: '1px solid var(--border)',
+                boxShadow: '0 20px 50px rgba(var(--primary), 0.2)'
+              }}>
+                <div style={{
+                  position: 'absolute',
+                  inset: 0,
+                  background: 'linear-gradient(to top right, rgba(var(--primary), 0.2), transparent)',
+                  mixBlendMode: 'overlay',
+                  zIndex: 20,
+                  pointerEvents: 'none'
+                }} />
+                <img 
+                  src={featureArt} 
+                  alt="AI Core" 
+                  style={{
+                    width: '100%',
+                    height: 'auto',
+                    objectFit: 'cover',
+                    transition: 'transform 0.7s'
+                  }}
+                  className="feature-art-img"
+                />
+              </div>
+              
+              <div className="glass-panel animate-float feature-overlay-card" style={{
+                position: 'absolute',
+                bottom: '-2.5rem',
+                left: '-2.5rem',
+                padding: '1rem',
+                borderRadius: '0.75rem',
+                maxWidth: '384px',
+                display: 'none',
+                background: 'rgba(var(--background), 0.8)',
+                backdropFilter: 'blur(12px)'
+              }}>
+                <div style={{ display: 'flex', alignItems: 'flex-start', gap: '12px' }}>
+                  <div style={{
+                    width: '32px',
+                    height: '32px',
+                    borderRadius: '50%',
+                    background: 'rgba(34, 197, 94, 0.2)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    flexShrink: 0
+                  }}>
+                    <MessageSquare style={{ width: '16px', height: '16px', color: 'rgb(34, 197, 94)' }} />
+                  </div>
+                  <div>
+                    <div style={{ fontSize: '0.75rem', color: 'rgb(34, 197, 94)', fontWeight: '500' }}>
+                      Task Completed
+                    </div>
+                    <p style={{ fontSize: '0.875rem', color: 'var(--foreground)', opacity: 0.9, marginTop: '4px' }}>
+                      "I've rescheduled the strategy sync to Tuesday at 2pm as requested."
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+          </div>
         </div>
       </div>
 
@@ -142,6 +217,16 @@ export function GlassFeatures() {
           .features-content {
             width: 50% !important;
           }
+          .features-image {
+            width: 50% !important;
+          }
+          .feature-overlay-card {
+            display: flex !important;
+          }
+        }
+        
+        .feature-art-img:hover {
+          transform: scale(1.05);
         }
         
         .feature-card:hover {

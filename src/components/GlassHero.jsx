@@ -1,6 +1,8 @@
 import { motion } from "framer-motion";
 import { ArrowRight, Calendar, Mail, Sparkles } from "lucide-react";
 
+const heroBg = "/images/Abstract_deep_tech_background_with_glowing_nodes_2d45bed3.png";
+
 export function GlassHero() {
   return (
     <section style={{
@@ -12,14 +14,33 @@ export function GlassHero() {
       overflow: 'hidden',
       paddingTop: '80px'
     }}>
-      {/* Background Gradient */}
-      <div style={{
-        position: 'absolute',
-        inset: 0,
-        zIndex: 0,
-        background: 'linear-gradient(to bottom, var(--background), var(--muted))',
-        opacity: 0.5
-      }} />
+      {/* Background Image with Overlay */}
+      <div style={{ position: 'absolute', inset: 0, zIndex: 0 }}>
+        <img 
+          src={heroBg} 
+          alt="Background" 
+          style={{
+            width: '100%',
+            height: '100%',
+            objectFit: 'cover',
+            opacity: '0.2',
+            transition: 'opacity 0.5s'
+          }}
+          className="hero-bg-img"
+        />
+        <div style={{
+          position: 'absolute',
+          inset: 0,
+          background: 'linear-gradient(to bottom, rgba(var(--background), 0.8), rgba(var(--background), 0.5), var(--background))',
+          zIndex: 10
+        }} />
+      </div>
+
+      <style>{`
+        .dark .hero-bg-img {
+          opacity: 0.4 !important;
+        }
+      `}</style>
 
       <div style={{
         position: 'relative',
@@ -64,8 +85,8 @@ export function GlassHero() {
             lineHeight: 1.1
           }}
         >
-          <span className="text-gradient" style={{ display: 'block' }}>Your Productivity,</span>
-          <span className="text-gradient-primary" style={{ display: 'block' }}>On Autopilot.</span>
+          <span className="text-gradient" style={{ display: 'block' }}>Your Life,</span>
+          <span className="text-gradient-primary" style={{ display: 'block' }}>Autopilot.</span>
         </motion.h1>
 
         <motion.p 

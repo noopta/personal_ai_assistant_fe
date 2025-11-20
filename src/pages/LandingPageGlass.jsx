@@ -1,6 +1,9 @@
 import { GlassNav } from '../components/GlassNav';
 import { GlassHero } from '../components/GlassHero';
 import { GlassFeatures } from '../components/GlassFeatures';
+import { TrustedBy } from '../components/TrustedBy';
+import { ChatDemo } from '../components/ChatDemo';
+import { DesignSwitcher } from '../components/DesignSwitcher';
 
 export default function LandingPageGlass() {
   return (
@@ -8,14 +11,16 @@ export default function LandingPageGlass() {
       <GlassNav />
       <main>
         <GlassHero />
+        <TrustedBy />
         <GlassFeatures />
+        <ChatDemo />
         
         {/* Footer */}
         <footer style={{
           padding: '48px 0',
-          borderTop: '1px solid rgba(0, 0, 0, 0.05)',
-          background: 'rgba(0, 0, 0, 0.02)'
-        }}>
+          borderTop: '1px solid var(--border)',
+          background: 'rgba(0, 0, 0, 0.4)'
+        }} className="footer-section">
           <div style={{
             maxWidth: '1280px',
             padding: '0 16px',
@@ -43,6 +48,8 @@ export default function LandingPageGlass() {
         </footer>
       </main>
 
+      <DesignSwitcher />
+
       <style>{`
         @media (min-width: 768px) {
           .footer-container {
@@ -57,6 +64,11 @@ export default function LandingPageGlass() {
         
         .footer-container a:hover {
           color: var(--foreground) !important;
+        }
+        
+        .dark .footer-section {
+          background: rgba(0, 0, 0, 0.4) !important;
+          border-top-color: var(--border) !important;
         }
       `}</style>
     </div>
