@@ -79,7 +79,10 @@ export function TrustedBy() {
                   fontWeight: 'bold',
                   color: 'var(--foreground)',
                   cursor: 'default',
-                  letterSpacing: '-0.05em'
+                  letterSpacing: '-0.05em',
+                  position: 'relative',
+                  mask: i === 0 ? 'linear-gradient(to right, transparent 0%, black 30%)' : i === companies.length - 1 ? 'linear-gradient(to left, transparent 0%, black 30%)' : 'none',
+                  WebkitMask: i === 0 ? 'linear-gradient(to right, transparent 0%, black 30%)' : i === companies.length - 1 ? 'linear-gradient(to left, transparent 0%, black 30%)' : 'none'
                 }}
               >
                 {company}

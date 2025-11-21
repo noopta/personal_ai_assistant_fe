@@ -78,7 +78,7 @@ export function GlassHero() {
         
         {/* Gradient Overlay (Only for images, live bg handles its own) */}
         {currentBackground.type === 'image' && (
-          <div className="hero-overlay" />
+          <div className="hero-overlay" style={{ opacity: 0.4 }} />
         )}
       </div>
 

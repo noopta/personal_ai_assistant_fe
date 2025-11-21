@@ -6,6 +6,8 @@ import AuthStatusIndicator from '../components/AuthStatusIndicator';
 import AuthSetup from '../components/AuthSetup';
 import ModeSelection from '../components/ModeSelection';
 import VoiceMode from '../components/VoiceMode';
+import { GlassNav } from '../components/GlassNav';
+import MadeInCanada from '../components/MadeInCanada';
 import Vapi from '@vapi-ai/web';
 import VapiWidget from './VapiWidget.tsx';
 import { sanitizeInput, validateUrlParam, secureLog, getEnvVar, loggedFetch } from '../utils/securityUtils';
