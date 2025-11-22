@@ -23,7 +23,8 @@ const backgrounds = [
 ];
 
 export function GlassHero() {
-  const [currentBg, setCurrentBg] = useState(0);
+  // Data Stream is at index 1 (id=2)
+  const [currentBg, setCurrentBg] = useState(1);
 
   const nextBackground = () => {
     setCurrentBg((prev) => (prev + 1) % backgrounds.length);
@@ -82,37 +83,7 @@ export function GlassHero() {
         )}
       </div>
 
-      {/* Background Switcher Control */}
-      <div style={{ position: 'absolute', top: '96px', right: '16px', zIndex: 30 }}>
-        <button 
-          onClick={nextBackground}
-          className="glass-button"
-          style={{
-            borderRadius: '9999px',
-            fontSize: '0.75rem',
-            gap: '0.5rem',
-            background: 'rgba(var(--background-rgb), 0.2)',
-            backdropFilter: 'blur(12px)',
-            border: '1px solid rgba(255, 255, 255, 0.1)',
-            padding: '0.5rem 1rem',
-            minWidth: '140px',
-            display: 'flex',
-            alignItems: 'center',
-            cursor: 'pointer',
-            transition: 'all 0.3s',
-            color: 'var(--foreground)'
-          }}
-          onMouseEnter={(e) => {
-            e.currentTarget.style.background = 'rgba(var(--background-rgb), 0.4)';
-          }}
-          onMouseLeave={(e) => {
-            e.currentTarget.style.background = 'rgba(var(--background-rgb), 0.2)';
-          }}
-        >
-          {currentBackground.icon && <currentBackground.icon style={{ width: '12px', height: '12px' }} />}
-          <span>{currentBackground.name}</span>
-        </button>
-      </div>
+      {/* Background Switcher Control - Hidden */}
 
       <style>{`
         .hero-bg-img {

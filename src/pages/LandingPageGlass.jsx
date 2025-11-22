@@ -19,8 +19,6 @@ export default function LandingPageGlass() {
 
       <MadeInCanada />
 
-      <DesignSwitcher />
-
     </div>
   );
 }

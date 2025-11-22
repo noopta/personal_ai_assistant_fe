@@ -4,6 +4,9 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
+// Initialize dark mode + indigo theme on app load
+document.documentElement.classList.add('dark', 'theme-indigo');
+localStorage.setItem('theme', 'dark');
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
