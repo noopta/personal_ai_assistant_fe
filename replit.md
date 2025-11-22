@@ -29,7 +29,7 @@ The application features a complete Stripe-inspired UI redesign across all pages
 - **User Interface**: Landing, Product (Chat), Integrations, and About pages with consistent design.
 - **Voice Integration**: Vapi AI integration for voice-powered interactions.
 - **Activity Stream**: Displays recent activities with real-time updates from integrated services like Gmail and Calendar, showing activity types such as send, delete, modify for Gmail, and create, update, delete for Calendar.
-- **Beta Testing Feedback System**: Floating feedback button (bottom right) accessible on all pages. Users can submit detailed beta feedback covering bugs, feature requests, enjoyment, problem-solving effectiveness, pricing willingness, convenience vs. manual workflows, and confusing areas. Form data persists in localStorage, can be minimized while navigating, and shows success notification on submission. No backend integration yet (frontend-only implementation).
+- **Beta Testing Feedback System**: Floating feedback button (bottom right) accessible on all pages. Tabbed modal with page-specific feedback sections (Landing, Product, Integrations, About) and general feedback (10 detailed questions). All icons use minimalist SVG line art. Form data persists in localStorage, can be minimized while navigating, and shows success notification on submission. No backend integration yet (frontend-only implementation).
 - **Environment Variables**: All API keys and endpoints are configured as encrypted Replit Secrets (`REACT_APP_VAPI_API_KEY`, `REACT_APP_VAPI_ASSISTANT_ID`, `REACT_APP_GMAIL_API_URL`, `REACT_APP_CALENDAR_API_URL`, `REACT_APP_AGENT_API_URL`, `REACT_APP_OAUTH_CALLBACK_URL`).
 
 ### System Design Choices
@@ -39,20 +39,24 @@ The application features a complete Stripe-inspired UI redesign across all pages
 
 ## Recent Changes
 
-### November 22, 2025: Beta Testing Feedback System Added ✨
-- **Floating Feedback Button:** Purple gradient button fixed to bottom-right corner (chat bubble icon)
+### November 22, 2025: Beta Testing Feedback System with Page-Specific Tabs ✨
+- **Floating Feedback Button:** Purple gradient button fixed to bottom-right corner (minimalist chat bubble icon)
   - Appears on all pages (Landing, Product, Integrations, About)
   - Hover animation expands to show "Beta Feedback" label
   - Mobile-responsive with appropriate sizing and positioning
-- **Comprehensive Feedback Modal:** Beautiful Stripe-inspired modal with detailed questions
-  - 10 focused questions covering bugs, enjoyment, improvements, problem-solving, payment willingness, convenience, feature removal, confusion, and additional thoughts
-  - Auto-saves to localStorage as users type (persistent across sessions)
+- **Tabbed Feedback Modal:** Beautiful Stripe-inspired modal with page-specific and general feedback sections
+  - **5 Tab System:** Landing Page, Product, Integrations, About, General Feedback
+  - **Page-Specific Tabs:** Simple textarea for users to provide feedback specific to each page (layout, bugs, confusing elements, missing features)
+  - **General Feedback Tab:** 10 focused questions covering bugs, enjoyment, improvements, problem-solving, payment willingness, convenience, feature removal, confusion, and additional thoughts
+  - **Minimalist Icons:** All emojis replaced with clean, futuristic SVG line icons (bug, heart, lightbulb, target, dollar, key, zap, trash, alert, message)
+  - Auto-saves all feedback to localStorage as users type (persistent across sessions)
+  - Smart tab switching: opens to the current page tab when modal is launched
   - Minimize feature allows users to continue browsing while maintaining draft
   - Success notification on submission with green checkmark animation
   - No backend yet - logs to console for now
-  - Full mobile responsiveness with optimized layouts
+  - Full mobile responsiveness with icon-only tabs on small screens
 - **Design Features:**
-  - Matches Stripe design system (purple gradients, smooth animations)
+  - Matches Stripe design system (purple gradients, smooth animations, clean lines)
   - Backdrop blur overlay on modal open
   - Accessibility-compliant (ARIA labels, keyboard navigation)
   - Works seamlessly in both light and dark modes
