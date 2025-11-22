@@ -45,12 +45,11 @@ The application features a complete Stripe-inspired UI redesign across all pages
   - Hover animation expands to show "Beta Feedback" label
   - Mobile-responsive with appropriate sizing and positioning
 - **Tabbed Feedback Modal:** Beautiful Stripe-inspired modal with page-specific and general feedback sections
-  - **5 Tab System:** Landing Page, Product, Integrations, About, General Feedback
+  - **5 Tab System:** General Feedback (first), Landing Page, Product, Integrations, About
+  - **General Feedback Tab (Default):** Always opens first with 10 focused questions covering bugs, enjoyment, improvements, problem-solving, payment willingness, convenience, feature removal, confusion, and additional thoughts. Includes tip notification directing users to page-specific tabs.
   - **Page-Specific Tabs:** Simple textarea for users to provide feedback specific to each page (layout, bugs, confusing elements, missing features)
-  - **General Feedback Tab:** 10 focused questions covering bugs, enjoyment, improvements, problem-solving, payment willingness, convenience, feature removal, confusion, and additional thoughts
   - **Minimalist Icons:** All emojis replaced with clean, futuristic SVG line icons (bug, heart, lightbulb, target, dollar, key, zap, trash, alert, message)
   - Auto-saves all feedback to localStorage as users type (persistent across sessions)
-  - Smart tab switching: opens to the current page tab when modal is launched
   - Minimize feature allows users to continue browsing while maintaining draft
   - Success notification on submission with green checkmark animation
   - No backend yet - logs to console for now

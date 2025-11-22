@@ -1,9 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
-import { useLocation } from 'react-router-dom';
 import styles from './FeedbackModal.module.css';
 
 function FeedbackModal({ isOpen, onClose }) {
-  const location = useLocation();
   const [activeTab, setActiveTab] = useState('general');
   const [formData, setFormData] = useState({
     bugs: '',
@@ -51,17 +49,13 @@ function FeedbackModal({ isOpen, onClose }) {
   useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = isMinimized ? 'auto' : 'hidden';
-      const currentPage = location.pathname.substring(1) || 'landing';
-      if (['landing', 'product', 'integrations', 'about'].includes(currentPage)) {
-        setActiveTab(currentPage);
-      }
     } else {
       document.body.style.overflow = 'auto';
     }
     return () => {
       document.body.style.overflow = 'auto';
     };
-  }, [isOpen, isMinimized, location]);
+  }, [isOpen, isMinimized]);
 
   const handleChange = (field, value) => {
     const newData = { ...formData, [field]: value };
@@ -134,11 +128,11 @@ function FeedbackModal({ isOpen, onClose }) {
   }
 
   const tabs = [
+    { id: 'general', label: 'General Feedback', icon: FeedbackIcon },
     { id: 'landing', label: 'Landing Page', icon: HomeIcon },
     { id: 'product', label: 'Product', icon: ProductIcon },
     { id: 'integrations', label: 'Integrations', icon: IntegrationsIcon },
-    { id: 'about', label: 'About', icon: AboutIcon },
-    { id: 'general', label: 'General Feedback', icon: FeedbackIcon }
+    { id: 'about', label: 'About', icon: AboutIcon }
   ];
 
   return (
@@ -215,6 +209,9 @@ function FeedbackModal({ isOpen, onClose }) {
               <p className={styles.intro}>
                 Thank you for being part of our beta! Your honest feedback helps us build a better product. 
                 Feel free to fill this out as you explore—your progress is automatically saved.
+                <br/><br/>
+                <strong>💡 Tip:</strong> Click through the other tabs above (Landing Page, Product, Integrations, About) 
+                to provide page-specific feedback if you have thoughts on any particular page!
               </p>
 
               <form onSubmit={handleSubmit} className={styles.form}>
