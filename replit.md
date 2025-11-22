@@ -38,6 +38,16 @@ Core functionality is a chat interface for task management, integrating with Gma
 ### System Design Choices
 This repository is for the React frontend. The backend, external to this repository, includes a Node.js/Express API server, a Python MCP client, a Google Calendar MCP server, and Redis for session management. The frontend is designed to be functional with placeholder content until backend services are integrated. Deployment is configured for Replit's autoscale deployment.
 
+## Recent Changes (Nov 22, 2025)
+**UI Redesign - Product, Integrations, and About Pages**:
+- **Product Page**: Redesigned as "Connect Your Accounts" onboarding flow with side-by-side Gmail and Google Calendar cards. Features centered layout with clear authentication messaging, permissions info card with security notes, and refresh status button.
+- **Integrations Page**: Completely redesigned with integration cards (Gmail, Google Calendar, Notion) that display inline. Each card includes Quick Setup steps (numbered 1-3), required scopes/permissions, and prominent action buttons. Layout optimized for clarity and scannability.
+- **About Page**: Restructured with "Our Story" section in glass panel, Mission & Vision cards with emoji indicators, Core Values grid (4-column layout), and "Get in Touch" CTA section with email link.
+- All pages maintain glassmorphic design with backdrop-filter blur, use CSS variables for light/dark mode support, and include Framer Motion animations (fade-in, slide animations with staggered delays).
+- Button styling uses gradient backgrounds (#635BFF primary with shadow effects) consistent across all interactive elements.
+- Fixed duplicate navbar issue on Product page by moving GlassNav to single render location.
+- Standardized page spacing and title alignment across all pages for visual symmetry.
+
 ## External Dependencies
 - **Vapi AI**: For voice integration.
 - **Google API Services**: For integration with Gmail and Google Calendar.

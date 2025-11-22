@@ -1,83 +1,77 @@
 import { motion } from "framer-motion";
-import { Target, Rocket, Lock, Star, Zap, HandHeart } from "lucide-react";
-import founderPhoto from '../assets/founder-photo.png';
+import { Mail } from "lucide-react";
+import { GlassNav } from '../components/GlassNav';
+import MadeInCanada from '../components/MadeInCanada';
 
-function AboutPage() {
+export default function AboutPage() {
   return (
     <div style={{
       minHeight: '100vh',
       background: 'var(--background)',
       color: 'var(--foreground)',
-      padding: 'clamp(6rem, 8vw, 8rem) 0'
+      overflowX: 'hidden'
     }}>
-      <div style={{
-        maxWidth: '1024px',
-        margin: '0 auto',
-        padding: '0 16px'
+      <main style={{
+        position: 'relative',
+        padding: 'clamp(2rem, 4vw, 3rem) 1rem',
+        maxWidth: '64rem',
+        margin: '0 auto'
       }}>
-        {/* Hero */}
-        <motion.section
+        {/* Hero Header */}
+        <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
           style={{
-            marginBottom: 'clamp(4rem, 10vw, 6rem)'
+            textAlign: 'center',
+            marginBottom: '5rem'
           }}
         >
-          <div style={{
-            width: '80px',
-            height: '2px',
-            background: 'var(--primary)',
-            marginBottom: '32px',
-            opacity: 0.8
-          }}></div>
           <h1 style={{
-            fontSize: 'clamp(2.5rem, 6vw, 4.5rem)',
-            fontWeight: '300',
-            marginBottom: '16px',
-            letterSpacing: '-0.03em',
+            fontSize: 'clamp(2rem, 6vw, 3.5rem)',
+            fontWeight: 'bold',
+            letterSpacing: '-0.02em',
             color: 'var(--foreground)',
-            lineHeight: 1.1,
-            margin: '0 0 16px 0'
-          }}>About AirThreads</h1>
+            margin: '0 0 1.5rem 0'
+          }}>
+            About AirThreads
+          </h1>
           <p style={{
             fontSize: '1.25rem',
             color: 'var(--muted-foreground)',
-            lineHeight: 1.6,
-            fontWeight: '300',
-            maxWidth: '700px'
+            maxWidth: '48rem',
+            margin: '0 auto',
+            lineHeight: 1.6
           }}>
             Revolutionizing productivity through intelligent task management and seamless integrations
           </p>
-        </motion.section>
+        </motion.div>
 
-        {/* Story */}
-        <motion.section
+        {/* Our Story Section */}
+        <motion.section 
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          style={{ marginBottom: '96px' }}
+          style={{
+            marginBottom: '6rem'
+          }}
         >
           <h2 style={{
-            fontSize: '1.75rem',
-            fontWeight: '400',
-            marginBottom: '32px',
-            color: 'var(--foreground)',
-            letterSpacing: '-0.01em',
-            paddingBottom: '16px',
-            borderBottom: '1px solid var(--border)'
+            fontSize: 'clamp(1.75rem, 4vw, 2rem)',
+            fontWeight: 'bold',
+            textAlign: 'center',
+            marginBottom: '2rem',
+            color: 'var(--foreground)'
           }}>Our Story</h2>
           <div className="glass-panel" style={{
-            background: 'color-mix(in srgb, var(--background) 50%, transparent)',
-            backdropFilter: 'blur(12px)',
-            WebkitBackdropFilter: 'blur(12px)',
-            border: '1px solid color-mix(in srgb, var(--foreground) 8%, transparent)',
-            borderRadius: '16px',
-            padding: '32px',
+            padding: 'clamp(2rem, 4vw, 3rem)',
+            borderRadius: '1.5rem',
+            background: 'rgba(var(--primary-rgb, 99, 91, 255), 0.05)',
+            border: '1px solid var(--border)',
+            backdropFilter: 'blur(20px)',
             display: 'flex',
             flexDirection: 'column',
-            gap: '24px'
+            gap: '1.5rem'
           }}>
             <p style={{
               fontSize: '1.0625rem',
@@ -86,10 +80,7 @@ function AboutPage() {
               fontWeight: '300',
               margin: 0
             }}>
-              AirThreads was founded in 2025 with a simple yet powerful vision: to transform how people 
-              engage with their productivity tools. As an engineer balancing work, multiple projects, and 
-              self-care, I naturally gravitated toward apps to manage my routines—Calendar for event 
-              planning, Gmail for business communications, and Notion for note-taking and thought dumps.
+              AirThreads was founded in 2025 with a simple yet powerful vision: to transform how people engage with their productivity tools. As an engineer balancing work, multiple projects, and self-care, I naturally gravitated toward apps to manage my routines—Calendar for event planning, Gmail for business communications, and Notion for note-taking and thought dumps.
             </p>
             <p style={{
               fontSize: '1.0625rem',
@@ -98,11 +89,7 @@ function AboutPage() {
               fontWeight: '300',
               margin: 0
             }}>
-              However, in a world with countless productivity tools, I found myself spread thin across 
-              different platforms. Notes scattered between iPhone Notes and Notion, duplicate calendar 
-              entries across Google Calendar and my phone—it became overwhelming. The most frustrating 
-              part? These apps had zero cross-sync capabilities, and interacting with them required 
-              constant manual effort.
+              However, in a world with countless productivity tools, I found myself spread thin across different platforms. Notes scattered between iPhone Notes and Notion, duplicate calendar entries across Google Calendar and my phone—it became overwhelming. The most frustrating part? These apps had zero cross-sync capabilities, and interacting with them required constant manual effort.
             </p>
             <p style={{
               fontSize: '1.0625rem',
@@ -111,450 +98,247 @@ function AboutPage() {
               fontWeight: '300',
               margin: 0
             }}>
-              In our increasingly competitive world, I needed a way to use my platforms asynchronously 
-              and share data between them seamlessly. Imagine sifting through Gmail for job opportunities 
-              and instantly blocking calendar time to prepare, while the postings are saved to Notion for 
-              later review. Or creating a to-do list and allocating calendar blocks with a single sentence. 
-              Picture being on a business trip with an unexpected layover—traditionally, you'd manually 
-              email every team member and update your calendar. But what if an app could read that email, 
-              notify your team automatically, and find the next available time slots to reschedule your 
-              meetings? That's the game changer I envisioned.
+              In our increasingly competitive world, I needed a way to use my platforms asynchronously and share data between them seamlessly. Imagine sifting through Gmail for job opportunities and instantly blocking calendar time to prepare, while the postings are saved to Notion for later review. Or creating a to-do list and allocating calendar blocks with a single sentence.
             </p>
           </div>
         </motion.section>
 
         {/* Mission & Vision */}
-        <motion.section
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          style={{ marginBottom: '96px' }}
-        >
-          <h2 style={{
-            fontSize: '1.75rem',
-            fontWeight: '400',
-            marginBottom: '32px',
-            color: 'var(--foreground)',
-            letterSpacing: '-0.01em',
-            paddingBottom: '16px',
-            borderBottom: '1px solid var(--border)'
-          }}>Mission & Vision</h2>
-          <div style={{
-            display: 'grid',
-            gridTemplateColumns: '1fr',
-            gap: '24px'
-          }} className="mission-vision-grid">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.1 }}
-              className="glass-card mission-card"
-              style={{
-                background: 'color-mix(in srgb, var(--background) 50%, transparent)',
-                backdropFilter: 'blur(12px)',
-                WebkitBackdropFilter: 'blur(12px)',
-                border: '1px solid color-mix(in srgb, var(--foreground) 8%, transparent)',
-                borderRadius: '16px',
-                padding: '32px',
-                transition: 'all 0.3s',
-                cursor: 'default'
-              }}
-            >
-              <div style={{
-                width: '48px',
-                height: '48px',
-                borderRadius: '12px',
-                background: 'var(--muted)',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                marginBottom: '20px',
-                transition: 'all 0.3s'
-              }} className="card-icon-container">
-                <Target style={{ width: '24px', height: '24px', color: 'var(--foreground)' }} />
-              </div>
-              <h3 style={{
-                fontSize: '1.25rem',
-                fontWeight: '500',
-                marginBottom: '12px',
-                color: 'var(--foreground)'
-              }}>Mission</h3>
-              <p style={{
-                fontSize: '1rem',
-                lineHeight: 1.7,
-                color: 'var(--muted-foreground)',
-                fontWeight: '300',
-                margin: 0
-              }}>
-                To empower individuals with AI-driven task management that eliminates friction, 
-                reduces cognitive load, and amplifies human potential. I believe technology should work 
-                for you, not against you.
-              </p>
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.2 }}
-              className="glass-card vision-card"
-              style={{
-                background: 'color-mix(in srgb, var(--background) 50%, transparent)',
-                backdropFilter: 'blur(12px)',
-                WebkitBackdropFilter: 'blur(12px)',
-                border: '1px solid color-mix(in srgb, var(--foreground) 8%, transparent)',
-                borderRadius: '16px',
-                padding: '32px',
-                transition: 'all 0.3s',
-                cursor: 'default'
-              }}
-            >
-              <div style={{
-                width: '48px',
-                height: '48px',
-                borderRadius: '12px',
-                background: 'var(--muted)',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                marginBottom: '20px',
-                transition: 'all 0.3s'
-              }} className="card-icon-container">
-                <Rocket style={{ width: '24px', height: '24px', color: 'var(--foreground)' }} />
-              </div>
-              <h3 style={{
-                fontSize: '1.25rem',
-                fontWeight: '500',
-                marginBottom: '12px',
-                color: 'var(--foreground)'
-              }}>Vision</h3>
-              <p style={{
-                fontSize: '1rem',
-                lineHeight: 1.7,
-                color: 'var(--muted-foreground)',
-                fontWeight: '300',
-                margin: 0
-              }}>
-                A world where everyone can focus on meaningful work while AI handles the routine. I 
-                envision seamless productivity ecosystems that understand context, anticipate needs, 
-                and deliver results effortlessly.
-              </p>
-            </motion.div>
-          </div>
-        </motion.section>
-
-        {/* Founder Profile */}
-        <motion.section
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          style={{ marginBottom: '96px' }}
-        >
-          <h2 style={{
-            fontSize: '1.75rem',
-            fontWeight: '400',
-            marginBottom: '32px',
-            color: 'var(--foreground)',
-            letterSpacing: '-0.01em',
-            paddingBottom: '16px',
-            borderBottom: '1px solid var(--border)'
-          }}>Founder</h2>
-          <div className="glass-panel founder-profile" style={{
-            background: 'color-mix(in srgb, var(--background) 50%, transparent)',
-            backdropFilter: 'blur(12px)',
-            WebkitBackdropFilter: 'blur(12px)',
-            border: '1px solid color-mix(in srgb, var(--foreground) 8%, transparent)',
-            borderRadius: '16px',
-            padding: '32px',
-            display: 'grid',
-            gridTemplateColumns: '1fr',
-            gap: '32px',
-            alignItems: 'start'
-          }}>
-            <div style={{ position: 'relative' }} className="photo-container">
-              <img 
-                src={founderPhoto} 
-                alt="Anu I." 
-                style={{
-                  width: '100%',
-                  maxWidth: '250px',
-                  height: 'auto',
-                  borderRadius: '8px',
-                  border: '1px solid var(--border)',
-                  objectFit: 'cover',
-                  display: 'block',
-                  margin: '0 auto'
-                }}
-              />
-            </div>
-            
+        <div style={{
+          display: 'grid',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
+          gap: '2rem',
+          marginBottom: '6rem'
+        }}>
+          <motion.div 
+            initial={{ opacity: 0, x: -20 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            className="glass-panel"
+            style={{
+              padding: '2rem',
+              borderRadius: '0.75rem',
+              borderLeft: '4px solid var(--primary)',
+              border: '1px solid var(--border)',
+              borderLeftWidth: '4px',
+              background: 'rgba(255, 255, 255, 0.02)',
+              backdropFilter: 'blur(20px)'
+            }}
+          >
             <div style={{
+              width: '40px',
+              height: '40px',
+              borderRadius: '50%',
+              background: 'rgba(var(--primary-rgb, 99, 91, 255), 0.2)',
               display: 'flex',
-              flexDirection: 'column',
-              gap: '16px'
+              alignItems: 'center',
+              justifyContent: 'center',
+              marginBottom: '1rem',
+              fontSize: '1.5rem'
+            }}>🎯</div>
+            <h3 style={{
+              fontSize: '1.5rem',
+              fontWeight: 'bold',
+              color: 'var(--foreground)',
+              marginBottom: '0.75rem',
+              margin: '0 0 0.75rem 0'
+            }}>My Mission</h3>
+            <p style={{
+              color: 'var(--muted-foreground)',
+              lineHeight: 1.6,
+              margin: 0
             }}>
-              <h3 style={{
-                fontSize: '1.75rem',
-                fontWeight: '500',
-                color: 'var(--foreground)',
-                margin: 0,
-                letterSpacing: '-0.01em'
-              }}>Anu I.</h3>
-              <span style={{
-                fontSize: '0.9375rem',
-                color: 'var(--muted-foreground)',
-                fontWeight: '400'
-              }}>Founder & Engineer</span>
-              
-              <div style={{
-                display: 'flex',
-                flexDirection: 'column',
-                gap: '12px',
-                marginTop: '16px'
-              }}>
-                <p style={{
-                  fontSize: '1rem',
-                  lineHeight: 1.7,
-                  color: 'var(--muted-foreground)',
-                  margin: 0,
-                  paddingLeft: '16px',
-                  borderLeft: '2px solid var(--border)'
-                }}>Software engineer with a passion for building AI-powered productivity solutions.</p>
-                <p style={{
-                  fontSize: '1rem',
-                  lineHeight: 1.7,
-                  color: 'var(--muted-foreground)',
-                  margin: 0,
-                  paddingLeft: '16px',
-                  borderLeft: '2px solid var(--border)'
-                }}>Experience in full-stack development and system architecture.</p>
-                <p style={{
-                  fontSize: '1rem',
-                  lineHeight: 1.7,
-                  color: 'var(--muted-foreground)',
-                  margin: 0,
-                  paddingLeft: '16px',
-                  borderLeft: '2px solid var(--border)'
-                }}>Focus on creating seamless user experiences that solve real workflow challenges.</p>
-                <p style={{
-                  fontSize: '1rem',
-                  lineHeight: 1.7,
-                  color: 'var(--muted-foreground)',
-                  margin: 0,
-                  paddingLeft: '16px',
-                  borderLeft: '2px solid var(--border)'
-                }}>Based in Toronto, Canada.</p>
-                <p style={{
-                  fontSize: '1rem',
-                  lineHeight: 1.7,
-                  color: 'var(--muted-foreground)',
-                  margin: 0,
-                  paddingLeft: '16px',
-                  borderLeft: '2px solid var(--border)'
-                }}>Built AirThreads to bridge the gap between fragmented productivity tools.</p>
-              </div>
-              
-              <div style={{
-                background: 'color-mix(in srgb, var(--muted) 50%, transparent)',
-                border: '1px solid var(--border)',
-                padding: '16px',
-                marginTop: '16px',
-                borderRadius: '8px'
-              }}>
-                <p style={{
-                  fontSize: '0.9375rem',
-                  fontStyle: 'italic',
-                  color: 'var(--muted-foreground)',
-                  lineHeight: 1.6,
-                  margin: 0
-                }}>
-                  And yes, that is a film photo of me holding a Modelo in a random Mexican spot on Mission Street, 
-                  because I barely have any photos of myself, let alone any formal pictures.
-                </p>
-              </div>
-            </div>
-          </div>
-        </motion.section>
+              To empower individuals with AI-driven task management that eliminates friction, reduces cognitive load, and amplifies human potential. I believe technology should work for you, not against you.
+            </p>
+          </motion.div>
+
+          <motion.div 
+            initial={{ opacity: 0, x: 20 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            className="glass-panel"
+            style={{
+              padding: '2rem',
+              borderLeft: '4px solid var(--accent)',
+              border: '1px solid var(--border)',
+              borderLeftWidth: '4px',
+              background: 'rgba(255, 255, 255, 0.02)',
+              backdropFilter: 'blur(20px)',
+              borderRadius: '0.75rem'
+            }}
+          >
+            <div style={{
+              width: '40px',
+              height: '40px',
+              borderRadius: '50%',
+              background: 'rgba(255, 100, 50, 0.2)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              marginBottom: '1rem',
+              fontSize: '1.5rem'
+            }}>🚀</div>
+            <h3 style={{
+              fontSize: '1.5rem',
+              fontWeight: 'bold',
+              color: 'var(--foreground)',
+              marginBottom: '0.75rem',
+              margin: '0 0 0.75rem 0'
+            }}>My Vision</h3>
+            <p style={{
+              color: 'var(--muted-foreground)',
+              lineHeight: 1.6,
+              margin: 0
+            }}>
+              To become the operating system for personal productivity—a unified AI assistant that understands your workflows, anticipates your needs, and seamlessly orchestrates your digital tools.
+            </p>
+          </motion.div>
+        </div>
 
         {/* Core Values */}
         <motion.section
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          style={{ marginBottom: '96px' }}
+          style={{
+            marginBottom: '6rem'
+          }}
         >
           <h2 style={{
-            fontSize: '1.75rem',
-            fontWeight: '400',
-            marginBottom: '32px',
-            color: 'var(--foreground)',
-            letterSpacing: '-0.01em',
-            paddingBottom: '16px',
-            borderBottom: '1px solid var(--border)'
-          }}>Core Values</h2>
+            fontSize: 'clamp(1.75rem, 4vw, 2rem)',
+            fontWeight: 'bold',
+            textAlign: 'center',
+            marginBottom: '2rem',
+            color: 'var(--foreground)'
+          }}>Our Core Values</h2>
           <div style={{
             display: 'grid',
-            gridTemplateColumns: '1fr',
-            gap: '20px'
-          }} className="values-grid">
+            gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))',
+            gap: '1.5rem'
+          }}>
             {[
-              { icon: Lock, title: 'Privacy First', text: 'Your data belongs to you. AirThreads implements enterprise-grade security measures and transparent privacy practices to protect your information at every step.' },
-              { icon: Star, title: 'User Centric', text: 'Every feature starts with understanding real user needs. AirThreads prioritizes intuitive experiences and meaningful functionality over flashy features.' },
-              { icon: Zap, title: 'Innovation', text: "Technology evolves rapidly, and so does AirThreads. I'm committed to staying at the forefront of AI and productivity tools to deliver cutting-edge solutions." },
-              { icon: HandHeart, title: 'Empowerment', text: "Great products solve real problems. AirThreads is built to empower users with tools that integrate seamlessly into their workflows and adapt to their unique needs." }
-            ].map((value, index) => (
+              { icon: '🔒', title: 'Privacy First', desc: 'Your data is yours. We implement enterprise-grade encryption and never train models on your information.' },
+              { icon: '⚡', title: 'Efficiency', desc: 'Every feature is designed to save you time and eliminate unnecessary friction in your workflow.' },
+              { icon: '💡', title: 'Innovation', desc: 'We continuously push boundaries to bring cutting-edge AI capabilities to productivity tools.' },
+              { icon: '❤️', title: 'User-Centric', desc: 'Every decision is guided by user feedback and a deep understanding of real productivity challenges.' }
+            ].map((value, idx) => (
               <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 20 }}
+                key={idx}
+                initial={{ opacity: 0, y: 10 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ delay: index * 0.1 }}
-                className="glass-card value-card"
+                transition={{ delay: idx * 0.1 }}
+                className="glass-panel"
                 style={{
-                  background: 'color-mix(in srgb, var(--background) 50%, transparent)',
-                  backdropFilter: 'blur(12px)',
-                  WebkitBackdropFilter: 'blur(12px)',
-                  border: '1px solid color-mix(in srgb, var(--foreground) 8%, transparent)',
-                  borderRadius: '12px',
-                  padding: '24px',
-                  transition: 'all 0.3s',
+                  padding: '1.5rem',
+                  borderRadius: '0.75rem',
+                  border: '1px solid var(--border)',
+                  background: 'rgba(255, 255, 255, 0.02)',
+                  backdropFilter: 'blur(20px)',
+                  transition: 'all 0.3s ease',
                   cursor: 'default'
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.background = 'rgba(var(--primary-rgb, 99, 91, 255), 0.05)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.background = 'rgba(255, 255, 255, 0.02)';
                 }}
               >
                 <div style={{
-                  width: '40px',
-                  height: '40px',
-                  borderRadius: '8px',
-                  background: 'var(--muted)',
                   display: 'flex',
                   alignItems: 'center',
-                  justifyContent: 'center',
-                  marginBottom: '16px',
-                  transition: 'all 0.3s'
-                }} className="value-icon-container">
-                  <value.icon style={{ width: '20px', height: '20px', color: 'var(--foreground)', transition: 'all 0.3s' }} />
+                  gap: '0.75rem',
+                  marginBottom: '0.75rem'
+                }}>
+                  <div style={{
+                    width: '32px',
+                    height: '32px',
+                    borderRadius: '0.5rem',
+                    background: 'rgba(var(--primary-rgb, 99, 91, 255), 0.1)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    fontSize: '1.25rem'
+                  }}>
+                    {value.icon}
+                  </div>
+                  <h3 style={{
+                    fontWeight: 'bold',
+                    color: 'var(--foreground)',
+                    fontSize: '1rem',
+                    margin: 0
+                  }}>{value.title}</h3>
                 </div>
-                <h4 style={{
-                  fontSize: '1.125rem',
-                  fontWeight: '500',
-                  marginBottom: '8px',
-                  color: 'var(--foreground)'
-                }}>{value.title}</h4>
                 <p style={{
-                  fontSize: '0.9375rem',
-                  lineHeight: 1.6,
                   color: 'var(--muted-foreground)',
-                  fontWeight: '300',
+                  lineHeight: 1.5,
+                  fontSize: '0.9375rem',
                   margin: 0
-                }}>{value.text}</p>
+                }}>
+                  {value.desc}
+                </p>
               </motion.div>
             ))}
           </div>
         </motion.section>
 
-        {/* Contact */}
-        <motion.section
+        {/* Get in Touch */}
+        <motion.div 
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
+          className="glass-panel"
           style={{
             textAlign: 'center',
-            paddingTop: '64px',
-            marginTop: '64px',
-            borderTop: '1px solid var(--border)'
+            padding: '3rem',
+            borderRadius: '1.5rem',
+            border: '1px solid var(--border)',
+            background: 'rgba(255, 255, 255, 0.02)',
+            backdropFilter: 'blur(20px)'
           }}
         >
           <h2 style={{
             fontSize: '1.75rem',
-            fontWeight: '400',
-            marginBottom: '24px',
+            fontWeight: 'bold',
             color: 'var(--foreground)',
-            letterSpacing: '-0.01em'
+            marginBottom: '1rem',
+            margin: '0 0 1rem 0'
           }}>Get in Touch</h2>
           <p style={{
-            fontSize: '1.0625rem',
-            lineHeight: 1.7,
             color: 'var(--muted-foreground)',
-            margin: '24px auto',
-            fontWeight: '300',
-            maxWidth: '600px'
+            marginBottom: '2rem',
+            maxWidth: '40rem',
+            margin: '0 auto 2rem',
+            lineHeight: 1.6
           }}>
-            I'm always excited to hear from users and potential partners. Whether you have 
-            questions, feedback, or collaboration ideas, don't hesitate to reach out.
+            I'm always excited to hear from users and potential partners. Whether you have questions, feedback, or collaboration ideas, don't hesitate to reach out.
           </p>
-          <a 
-            href="mailto:support@airthreads.ai" 
-            className="contact-link"
-            style={{
-              fontSize: '1.125rem',
-              color: 'var(--primary)',
-              textDecoration: 'none',
-              fontWeight: '500',
-              borderBottom: '2px solid transparent',
-              transition: 'all 0.3s',
-              display: 'inline-block'
-            }}
+          <a href="mailto:support@airthreads.ai" style={{
+            display: 'inline-flex',
+            alignItems: 'center',
+            gap: '0.5rem',
+            color: 'var(--primary)',
+            textDecoration: 'none',
+            fontSize: '1.125rem',
+            fontWeight: '500',
+            transition: 'color 0.3s ease'
+          }}
+          onMouseEnter={(e) => {
+            e.target.style.color = 'var(--foreground)';
+          }}
+          onMouseLeave={(e) => {
+            e.target.style.color = 'var(--primary)';
+          }}
           >
+            <Mail style={{ width: '20px', height: '20px' }} />
             support@airthreads.ai
           </a>
-        </motion.section>
-      </div>
+        </motion.div>
+      </main>
 
-      <style>{`
-        @media (min-width: 768px) {
-          .mission-vision-grid {
-            grid-template-columns: repeat(2, 1fr) !important;
-          }
-          .values-grid {
-            grid-template-columns: repeat(2, 1fr) !important;
-          }
-          .founder-profile {
-            grid-template-columns: 250px 1fr !important;
-          }
-          .photo-container img {
-            margin: 0 !important;
-          }
-        }
-        
-        .glass-card:hover {
-          background: color-mix(in srgb, var(--background) 70%, transparent) !important;
-          border-color: color-mix(in srgb, var(--foreground) 15%, transparent) !important;
-          transform: translateY(-2px);
-          box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-        }
-        
-        .glass-card:hover .card-icon-container {
-          background: color-mix(in srgb, var(--primary) 20%, transparent) !important;
-        }
-        
-        .glass-card:hover .card-icon-container svg {
-          color: var(--primary) !important;
-        }
-        
-        .value-card:hover .value-icon-container {
-          background: color-mix(in srgb, var(--primary) 20%, transparent) !important;
-        }
-        
-        .value-card:hover .value-icon-container svg {
-          color: var(--primary) !important;
-        }
-        
-        .contact-link:hover {
-          border-bottom-color: var(--primary) !important;
-        }
-        
-        .dark .glass-panel,
-        .dark .glass-card {
-          box-shadow: 0 8px 32px rgba(0, 0, 0, 0.37) !important;
-        }
-      `}</style>
+      <GlassNav />
+      <MadeInCanada />
     </div>
   );
 }
-
-export default AboutPage;
