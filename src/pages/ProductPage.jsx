@@ -1257,40 +1257,52 @@ function ProductPage() {
   // Show authentication setup first
   if (currentMode === 'auth') {
     return (
-      <div style={glassStyles.fadeIn}>
-        <AuthSetup
-          onAuthComplete={handleAuthComplete}
-          initialGmailAuth={isGmailAuthenticated}
-          initialCalendarAuth={isCalendarAuthenticated}
-          forceRecheck={forceAuthRecheck}
-        />
-      </div>
+      <>
+        <GlassNav />
+        <div style={glassStyles.fadeIn}>
+          <AuthSetup
+            onAuthComplete={handleAuthComplete}
+            initialGmailAuth={isGmailAuthenticated}
+            initialCalendarAuth={isCalendarAuthenticated}
+            forceRecheck={forceAuthRecheck}
+          />
+        </div>
+        <MadeInCanada />
+      </>
     );
   }
 
   // Show mode selection after authentication
   if (currentMode === 'selection') {
     return (
-      <div style={glassStyles.fadeIn}>
-        <ModeSelection onModeSelect={handleModeSelect} />
-      </div>
+      <>
+        <GlassNav />
+        <div style={glassStyles.fadeIn}>
+          <ModeSelection onModeSelect={handleModeSelect} />
+        </div>
+        <MadeInCanada />
+      </>
     );
   }
 
   // Show voice mode
   if (currentMode === 'voice') {
     return (
-      <div style={glassStyles.fadeIn}>
-        <VoiceMode 
-          onSwitchMode={handleSwitchMode}
-          vapiRef={vapiRef}
-          messages={messages}
-          setMessages={setMessages}
-          isLoading={isLoading}
-          setIsLoading={setIsLoading}
-          vapiSessionToken={vapiSessionToken}
-        />
-      </div>
+      <>
+        <GlassNav />
+        <div style={glassStyles.fadeIn}>
+          <VoiceMode 
+            onSwitchMode={handleSwitchMode}
+            vapiRef={vapiRef}
+            messages={messages}
+            setMessages={setMessages}
+            isLoading={isLoading}
+            setIsLoading={setIsLoading}
+            vapiSessionToken={vapiSessionToken}
+          />
+        </div>
+        <MadeInCanada />
+      </>
     );
   }
 
