@@ -70,33 +70,23 @@ export function GlassNav() {
           </Link>
         </div>
 
-        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
           <ThemeToggle />
-          <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginLeft: '8px' }}>
-            <a href="#" style={{
-              display: 'none',
-              fontSize: '14px',
-              fontWeight: '500',
-              color: 'var(--muted-foreground)',
-              textDecoration: 'none',
-              transition: 'color 0.2s'
-            }} className="sign-in-link">Sign In</a>
-            <button style={{
-              borderRadius: '9999px',
-              background: 'var(--foreground)',
-              color: 'var(--background)',
-              fontWeight: '500',
-              padding: '8px 24px',
-              height: '36px',
-              fontSize: '14px',
-              border: 'none',
-              cursor: 'pointer',
-              transition: 'all 0.2s',
-              boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)'
-            }}>
-              Get Early Access
-            </button>
-          </div>
+          <button style={{
+            borderRadius: '9999px',
+            background: 'var(--foreground)',
+            color: 'var(--background)',
+            fontWeight: '500',
+            padding: '8px 24px',
+            height: '36px',
+            fontSize: '14px',
+            border: 'none',
+            cursor: 'pointer',
+            transition: 'all 0.2s',
+            boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)'
+          }}>
+            Try Now
+          </button>
         </div>
       </div>
 
@@ -105,13 +95,9 @@ export function GlassNav() {
           .nav-links {
             display: flex !important;
           }
-          .sign-in-link {
-            display: block !important;
-          }
         }
         
-        .nav-links a:hover,
-        .sign-in-link:hover {
+        .nav-links a:hover {
           color: var(--foreground) !important;
         }
         
