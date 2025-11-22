@@ -1,4 +1,5 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { useState } from 'react';
 import Navigation from './components/Navigation';
 import LandingPage from './pages/LandingPage';
 import ProductPage from './pages/ProductPage';
@@ -8,9 +9,13 @@ import OAuth2CallbackPage from './pages/OAuth2CallbackPage';
 import { ThemeProvider } from './contexts/ThemeContext';
 import StripeGradient from './components/StripeGradient';
 import MadeInCanada from './components/MadeInCanada';
+import FeedbackButton from './components/FeedbackButton';
+import FeedbackModal from './components/FeedbackModal';
 import './App.css';
 
 function App() {
+  const [isFeedbackOpen, setIsFeedbackOpen] = useState(false);
+
   return (
     <ThemeProvider>
       <Router>
@@ -33,6 +38,11 @@ function App() {
                   </Routes>
                 </main>
                 <MadeInCanada />
+                <FeedbackButton onClick={() => setIsFeedbackOpen(true)} />
+                <FeedbackModal 
+                  isOpen={isFeedbackOpen} 
+                  onClose={() => setIsFeedbackOpen(false)} 
+                />
               </>
             } />
           </Routes>

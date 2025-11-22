@@ -29,6 +29,7 @@ The application features a complete Stripe-inspired UI redesign across all pages
 - **User Interface**: Landing, Product (Chat), Integrations, and About pages with consistent design.
 - **Voice Integration**: Vapi AI integration for voice-powered interactions.
 - **Activity Stream**: Displays recent activities with real-time updates from integrated services like Gmail and Calendar, showing activity types such as send, delete, modify for Gmail, and create, update, delete for Calendar.
+- **Beta Testing Feedback System**: Floating feedback button (bottom right) accessible on all pages. Users can submit detailed beta feedback covering bugs, feature requests, enjoyment, problem-solving effectiveness, pricing willingness, convenience vs. manual workflows, and confusing areas. Form data persists in localStorage, can be minimized while navigating, and shows success notification on submission. No backend integration yet (frontend-only implementation).
 - **Environment Variables**: All API keys and endpoints are configured as encrypted Replit Secrets (`REACT_APP_VAPI_API_KEY`, `REACT_APP_VAPI_ASSISTANT_ID`, `REACT_APP_GMAIL_API_URL`, `REACT_APP_CALENDAR_API_URL`, `REACT_APP_AGENT_API_URL`, `REACT_APP_OAUTH_CALLBACK_URL`).
 
 ### System Design Choices
@@ -37,6 +38,25 @@ The application features a complete Stripe-inspired UI redesign across all pages
 - **Deployment**: Configured for Replit's autoscale deployment using `npm run build` and `npx serve -s build -l 5000`.
 
 ## Recent Changes
+
+### November 22, 2025: Beta Testing Feedback System Added ✨
+- **Floating Feedback Button:** Purple gradient button fixed to bottom-right corner (chat bubble icon)
+  - Appears on all pages (Landing, Product, Integrations, About)
+  - Hover animation expands to show "Beta Feedback" label
+  - Mobile-responsive with appropriate sizing and positioning
+- **Comprehensive Feedback Modal:** Beautiful Stripe-inspired modal with detailed questions
+  - 10 focused questions covering bugs, enjoyment, improvements, problem-solving, payment willingness, convenience, feature removal, confusion, and additional thoughts
+  - Auto-saves to localStorage as users type (persistent across sessions)
+  - Minimize feature allows users to continue browsing while maintaining draft
+  - Success notification on submission with green checkmark animation
+  - No backend yet - logs to console for now
+  - Full mobile responsiveness with optimized layouts
+- **Design Features:**
+  - Matches Stripe design system (purple gradients, smooth animations)
+  - Backdrop blur overlay on modal open
+  - Accessibility-compliant (ARIA labels, keyboard navigation)
+  - Works seamlessly in both light and dark modes
+  - Professional UX with clear hints and placeholders for each question
 
 ### November 17, 2025: Activity Stream Integration Complete ✅
 - **Solution:** Backend now auto-aggregates activities from all linked services
