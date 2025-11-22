@@ -1297,6 +1297,7 @@ function ProductPage() {
   // Show text mode (original chat interface)
   return (
     <>
+      <GlassNav />
       <div style={{...glassStyles.productPage, ...glassStyles.fadeIn}}>
         <div style={glassStyles.header}>
           <div style={glassStyles.headerContent}>
@@ -1452,6 +1453,7 @@ function ProductPage() {
           }
         }
       `}</style>
+      <MadeInCanada />
     </>
   );
 }
