@@ -86,58 +86,40 @@ export function GlassFeatures() {
                     transition={{ delay: index * 0.1 }}
                     className="glass-panel feature-card"
                     style={{
-                      padding: '32px',
+                      padding: '24px',
                       borderRadius: '16px',
-                      transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
-                      cursor: 'pointer',
-                      border: '1px solid rgba(240, 0, 0, 0.1)',
-                      background: 'rgba(255, 255, 255, 0.02)',
-                      backdropFilter: 'blur(16px)',
-                      display: 'flex',
-                      flexDirection: 'column',
-                      height: '100%'
-                    }}
-                    onMouseEnter={(e) => {
-                      e.currentTarget.style.transform = 'translateY(-4px)';
-                      e.currentTarget.style.background = 'rgba(255, 255, 255, 0.04)';
-                      e.currentTarget.style.borderColor = 'rgba(240, 0, 0, 0.3)';
-                    }}
-                    onMouseLeave={(e) => {
-                      e.currentTarget.style.transform = 'translateY(0)';
-                      e.currentTarget.style.background = 'rgba(255, 255, 255, 0.02)';
-                      e.currentTarget.style.borderColor = 'rgba(240, 0, 0, 0.1)';
+                      transition: 'all 0.3s',
+                      cursor: 'default'
                     }}
                   >
                     <div style={{
-                      width: '48px',
-                      height: '48px',
-                      borderRadius: '12px',
-                      background: 'linear-gradient(135deg, rgba(240, 0, 0, 0.2), rgba(100, 0, 200, 0.2))',
+                      width: '40px',
+                      height: '40px',
+                      borderRadius: '8px',
+                      background: 'var(--muted)',
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center',
-                      marginBottom: '20px',
-                      transition: 'all 0.3s',
-                      border: '1px solid rgba(240, 0, 0, 0.2)'
+                      marginBottom: '16px',
+                      transition: 'all 0.3s'
                     }} className="feature-icon">
                       <feature.icon style={{
-                        width: '24px',
-                        height: '24px',
-                        color: 'var(--primary)',
+                        width: '20px',
+                        height: '20px',
+                        color: 'var(--foreground)',
                         transition: 'all 0.3s'
                       }} />
                     </div>
                     <h3 style={{
-                      fontSize: '20px',
-                      fontWeight: '700',
-                      marginBottom: '12px',
+                      fontSize: '18px',
+                      fontWeight: '600',
+                      marginBottom: '8px',
                       color: 'var(--foreground)'
                     }}>{feature.title}</h3>
                     <p style={{
-                      fontSize: '15px',
+                      fontSize: '14px',
                       color: 'var(--muted-foreground)',
-                      lineHeight: 1.6,
-                      flex: 1
+                      lineHeight: 1.5
                     }}>{feature.description}</p>
                   </motion.div>
                 ))}

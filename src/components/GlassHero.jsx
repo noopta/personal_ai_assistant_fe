@@ -140,18 +140,15 @@ export function GlassHero() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.2 }}
           style={{
-            fontSize: 'clamp(2.5rem, 10vw, 6rem)',
-            fontWeight: '900',
-            letterSpacing: '-0.05em',
-            marginBottom: '16px',
-            lineHeight: 1.05,
-            background: 'linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%)',
-            WebkitBackgroundClip: 'text',
-            WebkitTextFillColor: 'transparent',
-            backgroundClip: 'text'
+            fontSize: 'clamp(3rem, 8vw, 5.5rem)',
+            fontWeight: 'bold',
+            letterSpacing: '-0.04em',
+            marginBottom: '24px',
+            lineHeight: 1.1
           }}
         >
-          Your AI Assistant, Always Working
+          <span className="text-gradient" style={{ display: 'block' }}>Your Life,</span>
+          <span className="text-gradient-primary" style={{ display: 'block' }}>Autopilot.</span>
         </motion.h1>
 
         <motion.p 
@@ -159,12 +156,11 @@ export function GlassHero() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.4 }}
           style={{
-            fontSize: 'clamp(0.95rem, 2vw, 1.125rem)',
+            fontSize: 'clamp(1rem, 2vw, 1.25rem)',
             color: 'var(--muted-foreground)',
-            maxWidth: '720px',
-            margin: '0 auto 48px',
-            lineHeight: 1.7,
-            fontWeight: '400'
+            maxWidth: '672px',
+            margin: '0 auto 40px',
+            lineHeight: 1.6
           }}
         >
           Connect your Gmail and Google Calendar to a hyper-intelligent AI assistant. 
@@ -185,40 +181,38 @@ export function GlassHero() {
           className="button-group"
         >
           <button className="glow-effect" style={{
-            borderRadius: '12px',
-            padding: '16px 40px',
-            height: '52px',
-            background: 'linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%)',
+            borderRadius: '9999px',
+            padding: '14px 32px',
+            height: '48px',
+            background: 'var(--primary)',
             color: 'var(--primary-foreground)',
-            fontSize: '16px',
-            fontWeight: '600',
+            fontSize: '18px',
+            fontWeight: '500',
             border: 'none',
             cursor: 'pointer',
             display: 'flex',
             alignItems: 'center',
             gap: '8px',
             width: '100%',
-            maxWidth: '300px',
+            maxWidth: '280px',
             justifyContent: 'center',
-            transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-            boxShadow: '0 10px 30px rgba(240, 0, 0, 0.2)'
+            transition: 'all 0.3s'
           }}>
             Start Automating
             <ArrowRight style={{ width: '16px', height: '16px', marginLeft: '8px' }} />
           </button>
           <button className="glass-button" style={{
-            borderRadius: '12px',
-            padding: '16px 40px',
-            height: '52px',
-            fontSize: '16px',
-            fontWeight: '600',
-            background: 'rgba(255, 255, 255, 0.05)',
+            borderRadius: '9999px',
+            padding: '14px 32px',
+            height: '48px',
+            fontSize: '18px',
+            fontWeight: '500',
+            background: 'transparent',
             color: 'var(--foreground)',
-            border: '1.5px solid var(--border)',
+            border: 'none',
             cursor: 'pointer',
             width: '100%',
-            maxWidth: '300px',
-            transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)'
+            maxWidth: '280px'
           }}>
             View Demo
           </button>

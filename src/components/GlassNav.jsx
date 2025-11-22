@@ -21,17 +21,14 @@ export function GlassNav() {
       }}
     >
       <div className="glass-panel" style={{
-        borderRadius: '16px',
-        padding: '14px 32px',
+        borderRadius: '9999px',
+        padding: '12px 24px',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'space-between',
         width: '100%',
         maxWidth: '1280px',
-        margin: '0 auto',
-        border: '1px solid rgba(240, 0, 0, 0.1)',
-        background: 'rgba(255, 255, 255, 0.02)',
-        backdropFilter: 'blur(20px)'
+        margin: '0 auto'
       }}>
         <Link to="/" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '8px' }}>
           <div style={{
@@ -85,17 +82,17 @@ export function GlassNav() {
               transition: 'color 0.2s'
             }} className="sign-in-link">Sign In</a>
             <button style={{
-              borderRadius: '10px',
-              background: 'linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%)',
-              color: 'var(--primary-foreground)',
-              fontWeight: '600',
-              padding: '10px 28px',
-              height: '40px',
+              borderRadius: '9999px',
+              background: 'var(--foreground)',
+              color: 'var(--background)',
+              fontWeight: '500',
+              padding: '8px 24px',
+              height: '36px',
               fontSize: '14px',
               border: 'none',
               cursor: 'pointer',
-              transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-              boxShadow: '0 6px 20px rgba(240, 0, 0, 0.15)'
+              transition: 'all 0.2s',
+              boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)'
             }}>
               Get Early Access
             </button>
