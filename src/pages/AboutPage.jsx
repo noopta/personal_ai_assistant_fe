@@ -1,405 +1,184 @@
-import { motion } from "framer-motion";
-import { Mail } from "lucide-react";
+import styles from './AboutPage.module.css';
+import founderPhoto from '../assets/founder-photo.png';
 
-export default function AboutPage() {
+function AboutPage() {
   return (
-    <div style={{
-      minHeight: '100vh',
-      background: 'var(--background)',
-      color: 'var(--foreground)',
-      overflowX: 'hidden'
-    }}>
-      <main style={{
-        position: 'relative',
-        padding: '1.5rem 1rem clamp(2rem, 4vw, 3rem)',
-        maxWidth: '64rem',
-        margin: '0 auto'
-      }}>
-        {/* Hero Header */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.3 }}
-          style={{
-            textAlign: 'center',
-            marginBottom: '3rem'
-          }}
-        >
-          <h1 style={{
-            fontSize: 'clamp(2rem, 6vw, 3.5rem)',
-            fontWeight: 'bold',
-            letterSpacing: '-0.02em',
-            color: 'var(--foreground)',
-            margin: '0 0 1.5rem 0'
-          }}>
-            About AirThreads
-          </h1>
-          <p style={{
-            fontSize: '1.25rem',
-            color: 'var(--muted-foreground)',
-            maxWidth: '48rem',
-            margin: '0 auto',
-            lineHeight: 1.6
-          }}>
+    <div className={styles.aboutPage}>
+      <div className={styles.container}>
+        {/* Hero Section */}
+        <section className={styles.hero}>
+          <h1>About AirThreads</h1>
+          <p className={styles.heroSubtitle}>
             Revolutionizing productivity through intelligent task management and seamless integrations
           </p>
-        </motion.div>
+        </section>
 
-        {/* Our Story Section */}
-        <motion.section 
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.3 }}
-          style={{
-            marginBottom: '4rem'
-          }}
-        >
-          <h2 style={{
-            fontSize: 'clamp(1.75rem, 4vw, 2rem)',
-            fontWeight: 'bold',
-            textAlign: 'center',
-            marginBottom: '2rem',
-            color: 'var(--foreground)'
-          }}>Our Story</h2>
-          <div className="glass-panel" style={{
-            padding: 'clamp(2rem, 4vw, 3rem)',
-            borderRadius: '1.5rem',
-            background: 'rgba(0, 0, 0, 0.3)',
-            border: '1px solid rgba(255, 255, 255, 0.1)',
-            backdropFilter: 'blur(20px)',
-            display: 'flex',
-            flexDirection: 'column',
-            gap: '1.5rem'
-          }}>
-            <p style={{
-              fontSize: '1.0625rem',
-              lineHeight: 1.8,
-              color: 'var(--muted-foreground)',
-              fontWeight: '300',
-              margin: 0
-            }}>
-              AirThreads was founded in 2025 with a simple yet powerful vision: to transform how people engage with their productivity tools. As an engineer balancing work, multiple projects, and self-care, I naturally gravitated toward apps to manage my routines—Calendar for event planning, Gmail for business communications, and Notion for note-taking and thought dumps.
+        {/* Company Story */}
+        <section className={styles.section}>
+          <div className={styles.content}>
+            <h2>Our Story</h2>
+            <p>
+              AirThreads was founded in 2025 with a simple yet powerful vision: to transform how people 
+              engage with their productivity tools. As an engineer balancing work, multiple projects, and 
+              self-care, I naturally gravitated toward apps to manage my routines—Calendar for event 
+              planning, Gmail for business communications, and Notion for note-taking and thought dumps.
             </p>
-            <p style={{
-              fontSize: '1.0625rem',
-              lineHeight: 1.8,
-              color: 'var(--muted-foreground)',
-              fontWeight: '300',
-              margin: 0
-            }}>
-              However, in a world with countless productivity tools, I found myself spread thin across different platforms. Notes scattered between iPhone Notes and Notion, duplicate calendar entries across Google Calendar and my phone—it became overwhelming. The most frustrating part? These apps had zero cross-sync capabilities, and interacting with them required constant manual effort.
+            <p>
+              However, in a world with countless productivity tools, I found myself spread thin across 
+              different platforms. Notes scattered between iPhone Notes and Notion, duplicate calendar 
+              entries across Google Calendar and my phone—it became overwhelming. The most frustrating 
+              part? These apps had zero cross-sync capabilities, and interacting with them required 
+              constant manual effort.
             </p>
-            <p style={{
-              fontSize: '1.0625rem',
-              lineHeight: 1.8,
-              color: 'var(--muted-foreground)',
-              fontWeight: '300',
-              margin: 0
-            }}>
-              In our increasingly competitive world, I needed a way to use my platforms asynchronously and share data between them seamlessly. Imagine sifting through Gmail for job opportunities and instantly blocking calendar time to prepare, while the postings are saved to Notion for later review. Or creating a to-do list and allocating calendar blocks with a single sentence.
+            <p>
+              In our increasingly competitive world, I needed a way to use my platforms asynchronously 
+              and share data between them seamlessly. Imagine sifting through Gmail for job opportunities 
+              and instantly blocking calendar time to prepare, while the postings are saved to Notion for 
+              later review. Or creating a to-do list and allocating calendar blocks with a single sentence. 
+              Picture being on a business trip with an unexpected layover—traditionally, you'd manually 
+              email every team member and update your calendar. But what if an app could read that email, 
+              notify your team automatically, and find the next available time slots to reschedule your 
+              meetings? That's the game changer I envisioned.
             </p>
           </div>
-        </motion.section>
+        </section>
 
         {/* Mission & Vision */}
-        <div style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
-          gap: '2rem',
-          marginBottom: '4rem'
-        }}>
-          <motion.div 
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.3 }}
-            className="glass-panel"
-            style={{
-              padding: '2rem',
-              borderRadius: '0.75rem',
-              border: '1px solid rgba(255, 255, 255, 0.1)',
-              background: 'rgba(0, 0, 0, 0.3)',
-              backdropFilter: 'blur(20px)'
-            }}
-          >
-            <div style={{
-              width: '40px',
-              height: '40px',
-              borderRadius: '50%',
-              background: 'rgba(var(--primary-rgb, 99, 91, 255), 0.2)',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              marginBottom: '1rem',
-              fontSize: '1.5rem'
-            }}>🎯</div>
-            <h3 style={{
-              fontSize: '1.5rem',
-              fontWeight: 'bold',
-              color: 'var(--foreground)',
-              marginBottom: '0.75rem',
-              margin: '0 0 0.75rem 0'
-            }}>My Mission</h3>
-            <p style={{
-              color: 'var(--muted-foreground)',
-              lineHeight: 1.6,
-              margin: 0
-            }}>
-              To empower individuals with AI-driven task management that eliminates friction, reduces cognitive load, and amplifies human potential. I believe technology should work for you, not against you.
-            </p>
-          </motion.div>
-
-          <motion.div 
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.3 }}
-            className="glass-panel"
-            style={{
-              padding: '2rem',
-              border: '1px solid rgba(255, 255, 255, 0.1)',
-              background: 'rgba(0, 0, 0, 0.3)',
-              backdropFilter: 'blur(20px)',
-              borderRadius: '0.75rem'
-            }}
-          >
-            <div style={{
-              width: '40px',
-              height: '40px',
-              borderRadius: '50%',
-              background: 'rgba(255, 100, 50, 0.2)',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              marginBottom: '1rem',
-              fontSize: '1.5rem'
-            }}>🚀</div>
-            <h3 style={{
-              fontSize: '1.5rem',
-              fontWeight: 'bold',
-              color: 'var(--foreground)',
-              marginBottom: '0.75rem',
-              margin: '0 0 0.75rem 0'
-            }}>My Vision</h3>
-            <p style={{
-              color: 'var(--muted-foreground)',
-              lineHeight: 1.6,
-              margin: 0
-            }}>
-              To become the operating system for personal productivity—a unified AI assistant that understands your workflows, anticipates your needs, and seamlessly orchestrates your digital tools.
-            </p>
-          </motion.div>
-        </div>
-
-        {/* Core Values */}
-        <motion.section
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.3 }}
-          style={{
-            marginBottom: '4rem'
-          }}
-        >
-          <h2 style={{
-            fontSize: 'clamp(1.75rem, 4vw, 2rem)',
-            fontWeight: 'bold',
-            textAlign: 'center',
-            marginBottom: '2rem',
-            color: 'var(--foreground)'
-          }}>Core Values</h2>
-          <div style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
-            gap: '1.5rem',
-            maxWidth: '56rem',
-            margin: '0 auto'
-          }}>
-            {[
-              { icon: '🔒', title: 'Privacy First', desc: 'Your data is yours. We implement enterprise-grade encryption and never train models on your information.' },
-              { icon: '👤', title: 'User-Centric Design', desc: 'Every feature starts with understanding real user needs. We prioritize intuitive experiences over flashy features.' },
-              { icon: '⚡', title: 'Continuous Innovation', desc: 'Technology evolves rapidly. We\'re committed to staying at the forefront of AI and productivity tools.' },
-              { icon: '❤️', title: 'User Empowerment', desc: 'Every decision is guided by user feedback and a deep understanding of real productivity challenges.' }
-            ].map((value, idx) => (
-              <motion.div
-                key={idx}
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 0.3 }}
-                className="glass-panel"
-                style={{
-                  padding: '1.5rem',
-                  borderRadius: '0.75rem',
-                  border: '1px solid rgba(255, 255, 255, 0.1)',
-                  background: 'rgba(0, 0, 0, 0.3)',
-                  backdropFilter: 'blur(20px)',
-                  transition: 'all 0.3s ease',
-                  cursor: 'default',
-                  display: 'flex',
-                  alignItems: 'flex-start',
-                  gap: '1rem'
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.background = 'rgba(0, 0, 0, 0.4)';
-                  e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.2)';
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.background = 'rgba(0, 0, 0, 0.3)';
-                  e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.1)';
-                }}
-              >
-                <div style={{
-                  width: '40px',
-                  height: '40px',
-                  borderRadius: '0.5rem',
-                  background: 'rgba(var(--primary-rgb, 99, 91, 255), 0.2)',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  fontSize: '1.5rem',
-                  flexShrink: 0
-                }}>
-                  {value.icon}
-                </div>
-                <div style={{ flex: 1 }}>
-                  <h3 style={{
-                    fontWeight: 'bold',
-                    color: 'var(--foreground)',
-                    fontSize: '1.0625rem',
-                    margin: '0 0 0.5rem 0'
-                  }}>{value.title}</h3>
-                  <p style={{
-                    color: 'var(--muted-foreground)',
-                    lineHeight: 1.6,
-                    fontSize: '0.875rem',
-                    margin: 0
-                  }}>
-                    {value.desc}
-                  </p>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-        </motion.section>
-
-        {/* Anu L. Profile Section */}
-        <motion.section
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.3 }}
-          className="glass-panel"
-          style={{
-            padding: '2.5rem',
-            borderRadius: '1rem',
-            border: '1px solid rgba(255, 255, 255, 0.1)',
-            background: 'rgba(0, 0, 0, 0.3)',
-            backdropFilter: 'blur(20px)',
-            marginBottom: '4rem'
-          }}
-        >
-          <div style={{
-            display: 'flex',
-            gap: '2rem',
-            alignItems: 'flex-start',
-            flexWrap: 'wrap'
-          }}>
-            <div style={{
-              width: '120px',
-              height: '120px',
-              borderRadius: '50%',
-              background: 'rgba(100, 100, 100, 0.3)',
-              flexShrink: 0,
-              overflow: 'hidden',
-              border: '2px solid rgba(255, 255, 255, 0.1)'
-            }}>
-              {/* Placeholder for profile image */}
-              <div style={{
-                width: '100%',
-                height: '100%',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                fontSize: '3rem',
-                color: 'var(--muted-foreground)'
-              }}>👤</div>
-            </div>
-            <div style={{ flex: 1, minWidth: '250px' }}>
-              <h3 style={{
-                fontSize: '1.5rem',
-                fontWeight: 'bold',
-                marginBottom: '0.5rem',
-                color: 'var(--foreground)'
-              }}>Anu L.</h3>
-              <p style={{
-                color: 'var(--muted-foreground)',
-                lineHeight: 1.7,
-                marginBottom: '1rem',
-                fontSize: '0.9375rem'
-              }}>
-                I'm a software engineer with a passion for building AI-powered productivity solutions. With experience in full-stack development and system architecture, I focus on creating seamless user experiences that solve real workflow challenges.
+        <section className={styles.section}>
+          <div className={styles.missionVision}>
+            <div className={styles.missionCard}>
+              <div className={styles.cardIcon}>🎯</div>
+              <h3>My Mission</h3>
+              <p>
+                To empower individuals with AI-driven task management that eliminates friction, 
+                reduces cognitive load, and amplifies human potential. I believe technology should work 
+                for you, not against you.
               </p>
-              <p style={{
-                color: 'var(--muted-foreground)',
-                lineHeight: 1.7,
-                fontSize: '0.875rem',
-                fontStyle: 'italic'
-              }}>
-                Founder & Creator of AirThreads — on a mission to transform how people engage with their productivity tools in a Canadian tech space.
+            </div>
+            <div className={styles.visionCard}>
+              <div className={styles.cardIcon}>🚀</div>
+              <h3>My Vision</h3>
+              <p>
+                A world where everyone can focus on meaningful work while AI handles the routine. I 
+                envision seamless productivity ecosystems that understand context, anticipate needs, 
+                and deliver results effortlessly.
               </p>
             </div>
           </div>
-        </motion.section>
+        </section>
 
-        {/* Get in Touch */}
-        <motion.div 
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.3 }}
-          className="glass-panel"
-          style={{
-            textAlign: 'center',
-            padding: '2.5rem',
-            borderRadius: '1rem',
-            border: '1px solid rgba(255, 255, 255, 0.1)',
-            background: 'rgba(0, 0, 0, 0.3)',
-            backdropFilter: 'blur(20px)'
-          }}
-        >
-          <h2 style={{
-            fontSize: '1.75rem',
-            fontWeight: 'bold',
-            color: 'var(--foreground)',
-            marginBottom: '1rem',
-            margin: '0 0 1rem 0'
-          }}>Get in Touch</h2>
-          <p style={{
-            color: 'var(--muted-foreground)',
-            marginBottom: '2rem',
-            maxWidth: '40rem',
-            margin: '0 auto 2rem',
-            lineHeight: 1.6
-          }}>
-            I'm always excited to hear from users and potential partners. Whether you have questions, feedback, or collaboration ideas, don't hesitate to reach out.
+        {/* Values */}
+        <section className={styles.section}>
+          <h2>Core Values</h2>
+          <div className={styles.valuesGrid}>
+            <div className={styles.valueCard}>
+              <div className={styles.valueIcon}>🔒</div>
+              <h4>Privacy First</h4>
+              <p>
+                Your data belongs to you. AirThreads implements enterprise-grade security measures and 
+                transparent privacy practices to protect your information at every step.
+              </p>
+            </div>
+            <div className={styles.valueCard}>
+              <div className={styles.valueIcon}>🌟</div>
+              <h4>User-Centric Design</h4>
+              <p>
+                Every feature starts with understanding real user needs. AirThreads prioritizes 
+                intuitive experiences and meaningful functionality over flashy features.
+              </p>
+            </div>
+            <div className={styles.valueCard}>
+              <div className={styles.valueIcon}>⚡</div>
+              <h4>Continuous Innovation</h4>
+              <p>
+                Technology evolves rapidly, and so does AirThreads. I'm committed to staying at the forefront 
+                of AI and productivity tools to deliver cutting-edge solutions.
+              </p>
+            </div>
+            <div className={styles.valueCard}>
+              <div className={styles.valueIcon}>🤝</div>
+              <h4>User Empowerment</h4>
+              <p>
+                Great products solve real problems. AirThreads is built to empower users with tools 
+                that integrate seamlessly into their workflows and adapt to their unique needs.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        {/* Team Section */}
+        <section className={styles.section}>
+          <h2>Meet the Founder</h2>
+          <p className={styles.teamIntro}>
+            AirThreads was built by an engineer who experienced firsthand the frustration of 
+            juggling multiple productivity tools and saw an opportunity to create something better.
           </p>
-          <a href="mailto:support@airthreads.ai" style={{
-            display: 'inline-flex',
-            alignItems: 'center',
-            gap: '0.5rem',
-            color: 'var(--primary)',
-            textDecoration: 'none',
-            fontSize: '1.125rem',
-            fontWeight: '500',
-            transition: 'color 0.3s ease'
-          }}
-          onMouseEnter={(e) => {
-            e.target.style.color = 'var(--foreground)';
-          }}
-          onMouseLeave={(e) => {
-            e.target.style.color = 'var(--primary)';
-          }}
-          >
-            <Mail style={{ width: '20px', height: '20px' }} />
-            support@airthreads.ai
-          </a>
-        </motion.div>
-      </main>
+          <div className={styles.teamGrid}>
+            <div className={styles.teamMember}>
+              <img src={founderPhoto} alt="Anu I." className={styles.memberPhoto} />
+              <h4>Anu I.</h4>
+              <p className={styles.memberRole}>Founder</p>
+              <p>
+                I'm a software engineer with a passion for building AI-powered productivity solutions. 
+                With experience in full-stack development and system architecture, I focus on creating 
+                seamless user experiences that solve real workflow challenges. Based in Toronto, Canada, 
+                I built AirThreads to bridge the gap between our fragmented productivity tools and create 
+                the unified, intelligent workspace I always wished existed.
+              </p>
+              <p style={{ fontSize: '14px', fontStyle: 'italic', opacity: 0.8, marginTop: '12px' }}>
+                And yes, that is a film photo of me holding a Modelo in a random Mexican spot on Mission Street, 
+                because I barely have any photos of myself, let alone any formal pictures.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        {/* Technology */}
+        <section className={styles.section}>
+          <h2>The Technology</h2>
+          <div className={styles.technologyContent}>
+            <p>
+              AirThreads is built on a cutting-edge technology stack designed for scalability, 
+              security, and performance. The platform leverages advanced natural language processing, 
+              machine learning algorithms, and robust API integrations to deliver seamless experiences.
+            </p>
+            <div className={styles.techHighlights}>
+              <div className={styles.techItem}>
+                <strong>AI-Powered Intelligence:</strong> Advanced language models for understanding 
+                context and intent in natural language commands.
+              </div>
+              <div className={styles.techItem}>
+                <strong>Secure Integration Framework:</strong> OAuth 2.0 and enterprise-grade security 
+                for all third-party service connections.
+              </div>
+              <div className={styles.techItem}>
+                <strong>Real-time Processing:</strong> Low-latency response system for immediate 
+                task execution and feedback.
+              </div>
+              <div className={styles.techItem}>
+                <strong>Scalable Architecture:</strong> Cloud-native infrastructure that grows 
+                with your needs and usage patterns.
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Contact */}
+        <section className={styles.contactSection}>
+          <h2>Get in Touch</h2>
+          <p>
+            I'm always excited to hear from users and potential partners. Whether you have 
+            questions, feedback, or collaboration ideas, don't hesitate to reach out.
+          </p>
+          <div className={styles.contactInfo}>
+            <div className={styles.contactItem}>
+              <strong>Email:</strong> support@airthreads.ai
+            </div>
+          </div>
+        </section>
+      </div>
     </div>
   );
 }
+
+export default AboutPage; 

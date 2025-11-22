@@ -40,8 +40,9 @@ function Navigation() {
         </div>
 
         <div className={styles.ctaSection}>
+          <ThemeToggle />
           <Link to="/product" className={styles.ctaButton}>
-            AI Aseguet
+            Try Now
           </Link>
         </div>
       </div>

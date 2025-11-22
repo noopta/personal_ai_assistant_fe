@@ -4,7 +4,6 @@ expertMode = true
 
 [nix]
 channel = "stable-25_05"
-packages = ["unzip"]
 
 [workflows]
 runButton = "Project"
@@ -39,24 +38,12 @@ localPort = 5001
 externalPort = 5000
 
 [[ports]]
-localPort = 32973
-externalPort = 6800
-
-[[ports]]
 localPort = 33923
 externalPort = 3000
 
 [[ports]]
-localPort = 35237
-externalPort = 8000
-
-[[ports]]
 localPort = 35787
 externalPort = 4200
-
-[[ports]]
-localPort = 36667
-externalPort = 5173
 
 [[ports]]
 localPort = 41853
@@ -65,10 +52,6 @@ externalPort = 3003
 [[ports]]
 localPort = 42537
 externalPort = 3001
-
-[[ports]]
-localPort = 43537
-externalPort = 6000
 
 [[ports]]
 localPort = 46149

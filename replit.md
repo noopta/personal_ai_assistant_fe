@@ -9,54 +9,65 @@ I prefer iterative development, with a focus on clear, concise communication. Pl
 ## System Architecture
 
 ### UI/UX Decisions
-**Complete Glassmorphic Design System**: The entire website uses a unified glassmorphic design system with backdrop-filter blur effects, semi-transparent glass panels, and theme-adaptive styling throughout all pages.
-
-**Landing Page**: Glassmorphic hero section with animated gradient backgrounds (7 options: Deep Tech static + 6 animated), featuring five 3D floating cards with backdrop-filter blur, scattered arrangement using perspective transforms, and subtle floating animations. Two-column hero layout with soft bubble elements and proper z-index layering.
-
-**Interior Pages** (Product, Integrations, About): Fully glassmorphic design matching the landing page aesthetic:
-- **Glass Effects**: Backdrop-filter blur (12-20px) on all cards, panels, and UI elements
-- **Color System**: CSS variables (--background, --foreground, --primary, --border, --glass) for theme consistency
-- **Theme Variants**: Light/dark mode toggle + 9 color palette variants (Original, Crimson, Tangerine, Canary, Emerald, Teal, Azure, Indigo, Violet, Magenta)
-- **Typography**: Clean sans-serif fonts with excellent hierarchy and spacing
-- **UI Components**: Glass navigation (GlassNav), glass cards with hover effects, glass footer with responsive design
-- **Animations**: Smooth transitions, fade-in effects, subtle hover animations
-- **Layout**: Emphasis on whitespace, clean composition, and atmospheric design
-- **Mobile Responsiveness**: Comprehensive responsive design with media queries (13px minimum font, 44px minimum touch targets, single-column layouts <768px)
+The application features a complete Stripe-inspired UI redesign across all pages, characterized by a global design system:
+- **Color Scheme**: Navy blue (#0A2540) for dark themes, cornflower purple (#635BFF) as the accent color, and light backgrounds (#F6F9FC, #FFFFFF) for light themes.
+- **Theming**: Comprehensive theme variables ensure seamless light/dark mode switching, with a fix for theme flashing on page load.
+- **Animations**: Animated mesh gradient background (WebGL/Canvas), scroll-triggered fade-in animations, card-based UI with refined hover interactions (lift, shadow, border glow), and micro-interactions on buttons (scale, shimmer, shadow effects).
+- **Mobile Responsiveness**: Comprehensive mobile-first responsive design ensuring typography accessibility (13px minimum), touch target compliance (44px minimum), and optimized layouts for various mobile and tablet breakpoints without overflow or broken elements.
+- **Activity Feed UI**: Dynamic activity count badges, clean empty states, smooth cubic-bezier animations, subtle scale effects on slide-in, and enhanced hover effects with lift and purple glow.
 
 ### Technical Implementations
-The frontend uses React 19.1.0 (Create React App) with React Router DOM, inline styles with CSS variables for theming (no CSS Modules), `react-markdown`, and `react-syntax-highlighter`. `@vapi-ai/web` is integrated for voice capabilities. An iOS app uses SwiftUI for feature parity. The Replit environment runs the frontend on port 5000.
-
-**Styling Architecture**: Glassmorphic design implemented using inline styles combined with CSS variables for theme switching. All pages use `color-mix(in srgb, var(--background) X%, transparent)` for theme-adaptive glass effects. Media queries embedded in `<style>` tags target className props for responsive behavior.
-
-**Theme System**: Global CSS variables in App.css define theme tokens. ThemeToggle component switches light/dark mode. DesignSwitcher provides 9 color palette variants. All glassmorphic components consume these variables for consistent theming.
-
-Real-time features use Server-Sent Events (SSE) for an activity feed, including de-duplication, display limits, and robust auto-reconnection with exponential backoff. Authentication leverages a Python FastAPI Proxy for secure session management via HTTP-only cookies (`userIDHash`, `gmailHashID`, `calendarHashID`).
+- **Frontend**: React 19.1.0 (Create React App) with React Router DOM 7.6.2 for routing, custom CSS Modules for styling, `react-markdown` for rich text, and `react-syntax-highlighter` for code display. `@vapi-ai/web` is used for voice integration.
+- **iOS App**: A native iOS application built with SwiftUI, replicating the web interface with full feature parity and Stripe-inspired design principles.
+- **Development Environment**: Configured for Replit with frontend running on port 5000, host set to `0.0.0.0`, and host check disabled for Replit proxy compatibility.
+- **Real-time Features**: Integrated real-time activity feed using Server-Sent Events (SSE) for initial load and streaming, with de-duplication, display limits, and auto-reconnection. Activities are fetched via POST to `/api/activity/recent` with `{ userIDHash, limit }` and streamed via EventSource to `/api/activity/stream?userIDHash=...`. The component uses `gmailHashID` (from session) for Gmail activities.
+- **Authentication Flow**: Frontend interacts with a Python FastAPI Proxy (`api.airthreads.ai`) which then communicates with MCP (Model Context Protocol) servers for Gmail/Calendar. The proxy handles HTTP-only cookies (`userIDHash`, `gmailHashID`, `calendarHashID`) for secure session management, with all requests using `credentials: 'include'`. Session data retrieved via `GET /api/user/session`.
 
 ### Feature Specifications
-Core functionality is a chat interface for task management, integrating with Gmail, Google Calendar, and Notion (upcoming). The UI includes Landing, Product (Chat), Integrations, and About pages, all adhering to a consistent minimalist design. Vapi AI enables voice-powered interactions. The activity stream displays real-time updates from integrated services, showing various activity types. All API keys and endpoints are managed securely as encrypted Replit Secrets.
+- **Core Functionality**: Chat interface for task management and integration.
+- **Productivity Tools**: Integrations with Gmail, Google Calendar, and Notion (coming soon).
+- **User Interface**: Landing, Product (Chat), Integrations, and About pages with consistent design.
+- **Voice Integration**: Vapi AI integration for voice-powered interactions.
+- **Activity Stream**: Displays recent activities with real-time updates from integrated services like Gmail and Calendar, showing activity types such as send, delete, modify for Gmail, and create, update, delete for Calendar.
+- **Environment Variables**: All API keys and endpoints are configured as encrypted Replit Secrets (`REACT_APP_VAPI_API_KEY`, `REACT_APP_VAPI_ASSISTANT_ID`, `REACT_APP_GMAIL_API_URL`, `REACT_APP_CALENDAR_API_URL`, `REACT_APP_AGENT_API_URL`, `REACT_APP_OAUTH_CALLBACK_URL`).
 
 ### System Design Choices
-This repository is for the React frontend. The backend, external to this repository, includes a Node.js/Express API server, a Python MCP client, a Google Calendar MCP server, and Redis for session management. The frontend is designed to be functional with placeholder content until backend services are integrated. Deployment is configured for Replit's autoscale deployment.
+- **Frontend-Only Repository**: This repository focuses solely on the React frontend.
+- **Backend Architecture (External to this repo)**: Includes Node.js/Express API server, Python MCP client, Google Calendar MCP server, and Redis for session management. The frontend is designed to function with placeholder content until these backend services are fully integrated.
+- **Deployment**: Configured for Replit's autoscale deployment using `npm run build` and `npx serve -s build -l 5000`.
 
-## Recent Changes (Nov 22, 2025)
-**Complete UI Redesign - All Interior Pages Matching Reference Design**:
-- **Spacing Fix**: Reduced top padding from clamp(3.5rem, 6vw, 4rem) to 1.5rem on all pages (Product, Integrations, About) so titles sit much closer to navbar, matching reference design exactly.
-- **Animation Optimization**: Removed all `whileInView` scroll-triggered animations, replaced with immediate `animate` on page mount. Eliminates perceived delays, all content loads instantly (0.5s transitions with staggered delays 0.1-0.9s).
-- **Product Page**: "Connect Your Accounts" onboarding with Gmail/Calendar cards, permissions info, refresh status button.
-- **Integrations Page**: Integration cards (Gmail, Google Calendar, Notion) with numbered Quick Setup steps (1-3) and required scopes badges.
-- **About Page - Complete Redesign**:
-  - **Our Story**: Single glass panel with dark background (rgba(0,0,0,0.3)), loads immediately
-  - **Mission & Vision**: Darker glass cards (rgba(0,0,0,0.3)) without accent borders, emoji badges
-  - **Core Values**: Horizontal card layout with icon on left, title + description on right in 2x2 grid, dark styling
-  - **Anu L. Profile**: New section with circular profile placeholder, bio text, founder description
-  - **Get in Touch**: Dark glass panel with email link
-- **Navbar Updates**: Removed "Sign In" link, changed "Get Early Access" to "Try Now" button.
-- All pages use darker glass panels (rgba(0,0,0,0.3)) for better contrast, consistent with glassmorphic design system.
+## Recent Changes
+
+### November 17, 2025: Activity Stream Integration Complete ✅
+- **Solution:** Backend now auto-aggregates activities from all linked services
+  - Frontend uses primary `userIDHash` (from session)
+  - Backend automatically includes activities from Gmail, Calendar, and other linked services
+  - No need to track separate hash IDs per service in frontend
+- **Implementation:**
+  - `GET /api/user/session` retrieves `{ authenticated, userIDHash, gmailHashID, calendarHashID }`
+  - POST to `/api/activity/recent` with `{ userIDHash, limit: 20 }` (backend aggregates)
+  - EventSource to `/api/activity/stream?userIDHash=${userIDHash}` with SSE
+  - Dynamic activity count badge, empty states, smooth animations
+  - Comprehensive logging for debugging authentication flow
+- **Robust Reconnection Logic:**
+  - Connection state tracking with visual indicator (🟢 connected / 🔴 disconnected)
+  - Heartbeat timeout monitoring (reconnects if no heartbeat for 60s)
+  - Exponential backoff reconnection (1s, 2s, 4s... up to 30s max)
+  - Race condition prevention (clears all timers before reconnect)
+  - Single EventSource instance guarantee (no duplicate connections)
+  - Proper cleanup on unmount
+- **Backend Integration (VERIFIED):**
+  - ✅ SSE connection working with 24h nginx timeout
+  - ✅ CORS headers configured for all activity endpoints
+  - ✅ Session endpoint returns hash IDs and authentication status
+  - ✅ Backend auto-aggregates activities from all linked services
+  - ✅ Real-time updates tested and confirmed
+  - ✅ Automatic reconnection on connection loss
 
 ## External Dependencies
-- **Vapi AI**: For voice integration.
-- **Google API Services**: For integration with Gmail and Google Calendar.
-- **Notion API**: Planned for future integration.
-- **Backend APIs**: External services for Gmail, Calendar, and AI agent functionalities.
-- **OAuth2**: For user authentication.
-- **NPM Packages**: `react-markdown`, `@vapi-ai/web`, `react-syntax-highlighter`, `serve`.
+- **Vapi AI**: Used for voice integration via `REACT_APP_VAPI_API_KEY` and `REACT_APP_VAPI_ASSISTANT_ID`.
+- **Google API Services**: Integration with Gmail and Google Calendar.
+- **Notion API**: Planned integration (coming soon).
+- **Backend APIs**: Relies on external backend services for Gmail, Calendar, and AI agent functionalities (`REACT_APP_GMAIL_API_URL`, `REACT_APP_CALENDAR_API_URL`, `REACT_APP_AGENT_API_URL`).
+- **OAuth2**: Uses an OAuth callback URL (`REACT_APP_OAUTH_CALLBACK_URL`) for authentication.
+- **NPM Packages**: `react-markdown`, `@vapi-ai/web`, `react-syntax-highlighter`, `serve` (for deployment).

@@ -1,46 +1,40 @@
-import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
-import { GlassNav } from './components/GlassNav';
-import LandingPageGlass from './pages/LandingPageGlass';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Navigation from './components/Navigation';
+import LandingPage from './pages/LandingPage';
 import ProductPage from './pages/ProductPage';
 import IntegrationsPage from './pages/IntegrationsPage';
 import AboutPage from './pages/AboutPage';
 import OAuth2CallbackPage from './pages/OAuth2CallbackPage';
 import { ThemeProvider } from './contexts/ThemeContext';
+import StripeGradient from './components/StripeGradient';
 import MadeInCanada from './components/MadeInCanada';
 import './App.css';
-
-function AppContent() {
-  const location = useLocation();
-  const isLandingPage = location.pathname === '/';
-
-  return (
-    <>
-      {!isLandingPage && <GlassNav />}
-      <main>
-        <Routes>
-          <Route path="/" element={<LandingPageGlass />} />
-          <Route path="/product" element={<ProductPage />} />
-          <Route path="/integrations" element={<IntegrationsPage />} />
-          <Route path="/about" element={<AboutPage />} />
-        </Routes>
-      </main>
-      {/* Only show MadeInCanada footer on non-landing pages */}
-      {!isLandingPage && <MadeInCanada />}
-    </>
-  );
-}
 
 function App() {
   return (
     <ThemeProvider>
       <Router>
         <div className="App">
+          <StripeGradient />
           <Routes>
             {/* OAuth callback route without navigation */}
             <Route path="/oauth2callback" element={<OAuth2CallbackPage />} />
             
             {/* Regular routes with navigation */}
-            <Route path="/*" element={<AppContent />} />
+            <Route path="/*" element={
+              <>
+                <Navigation />
+                <main>
+                  <Routes>
+                    <Route path="/" element={<LandingPage />} />
+                    <Route path="/product" element={<ProductPage />} />
+                    <Route path="/integrations" element={<IntegrationsPage />} />
+                    <Route path="/about" element={<AboutPage />} />
+                  </Routes>
+                </main>
+                <MadeInCanada />
+              </>
+            } />
           </Routes>
         </div>
       </Router>

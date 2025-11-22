@@ -1,269 +1,29 @@
-/* MINIMAL ABOUT PAGE - Blade Runner 2049 Inspired */
-
 .aboutPage {
   min-height: 100vh;
   background: var(--bg-primary);
   color: var(--text-primary);
-  padding: var(--space-3xl) 0;
+  padding: 100px 0 80px;
 }
 
 .container {
-  max-width: 900px;
+  max-width: 1200px;
   margin: 0 auto;
-  padding: 0 var(--space-lg);
+  padding: 0 32px;
 }
 
-/* ==================== HERO ==================== */
+/* Hero Section */
 .hero {
-  margin-bottom: var(--space-3xl);
-  animation: fade-in 0.8s ease-out;
-}
-
-.accentLine {
-  width: 100px;
-  height: 3px;
-  background: var(--accent-primary);
-  margin-bottom: var(--space-xl);
-  opacity: 0.8;
-}
-
-.title {
-  font-size: clamp(2.5rem, 6vw, 4.5rem);
-  font-weight: 300;
-  margin-bottom: var(--space-md);
-  letter-spacing: -0.03em;
-  color: var(--text-primary);
-}
-
-.subtitle {
-  font-size: 1.25rem;
-  color: var(--text-secondary);
-  line-height: 1.6;
-  font-weight: 300;
-  max-width: 700px;
-}
-
-/* ==================== SECTIONS ==================== */
-.section {
-  margin-bottom: var(--space-3xl);
-  animation: slide-up 0.6s ease-out;
-}
-
-.sectionTitle {
-  font-size: 1.75rem;
-  font-weight: 400;
-  margin-bottom: var(--space-xl);
-  color: var(--text-primary);
-  letter-spacing: -0.01em;
-  padding-bottom: var(--space-md);
-  border-bottom: 1px solid var(--border-subtle);
-}
-
-/* Story Content */
-.storyContent {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-lg);
-}
-
-.paragraph {
-  font-size: 1.0625rem;
-  line-height: 1.8;
-  color: var(--text-secondary);
-  font-weight: 300;
-}
-
-/* ==================== CARDS ==================== */
-.cardGrid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: var(--space-xl);
-}
-
-.card {
-  background: var(--bg-tertiary);
-  border: 1px solid var(--border-subtle);
-  padding: var(--space-xl);
-  transition: all var(--transition-smooth);
-}
-
-.card:hover {
-  border-color: var(--accent-border);
-  background: var(--bg-elevated);
-  box-shadow: var(--shadow-sm);
-}
-
-.cardIcon {
-  font-size: 2.5rem;
-  margin-bottom: var(--space-md);
-  display: block;
-}
-
-.cardTitle {
-  font-size: 1.25rem;
-  font-weight: 500;
-  margin-bottom: var(--space-sm);
-  color: var(--text-primary);
-}
-
-.cardText {
-  font-size: 1rem;
-  line-height: 1.7;
-  color: var(--text-secondary);
-  font-weight: 300;
-}
-
-/* ==================== FOUNDER PROFILE ==================== */
-.founderProfile {
-  display: grid;
-  grid-template-columns: 250px 1fr;
-  gap: var(--space-2xl);
-  align-items: start;
-}
-
-.photoContainer {
-  position: relative;
-}
-
-.founderPhoto {
-  width: 100%;
-  height: auto;
-  border-radius: 4px;
-  border: 1px solid var(--border-medium);
-  object-fit: cover;
-}
-
-.founderInfo {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-md);
-}
-
-.founderName {
-  font-size: 1.75rem;
-  font-weight: 500;
-  color: var(--text-primary);
-  margin-bottom: 0;
-  letter-spacing: -0.01em;
-}
-
-.founderRole {
-  font-size: 0.9375rem;
-  color: var(--text-secondary);
-  font-weight: 400;
-}
-
-.founderBio {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-sm);
-  margin-top: var(--space-md);
-}
-
-.founderBio p {
-  font-size: 1rem;
-  line-height: 1.7;
-  color: var(--text-secondary);
-  margin: 0;
-  padding-left: var(--space-md);
-  border-left: 2px solid var(--border-subtle);
-}
-
-.founderNote {
-  background: var(--bg-tertiary);
-  border: 1px solid var(--border-subtle);
-  padding: var(--space-md);
-  margin-top: var(--space-md);
-  border-radius: 4px;
-}
-
-.founderNote p {
-  font-size: 0.9375rem;
-  font-style: italic;
-  color: var(--text-muted);
-  line-height: 1.6;
-  margin: 0;
-}
-
-/* ==================== VALUES GRID ==================== */
-.valuesGrid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: var(--space-lg);
-}
-
-.valueCard {
-  background: var(--bg-tertiary);
-  border: 1px solid var(--border-subtle);
-  padding: var(--space-lg);
-  transition: all var(--transition-smooth);
-}
-
-.valueCard:hover {
-  border-color: var(--accent-border);
-  background: var(--bg-elevated);
-  box-shadow: var(--shadow-sm);
-}
-
-.valueIcon {
-  font-size: 2rem;
-  margin-bottom: var(--space-sm);
-}
-
-.valueTitle {
-  font-size: 1.125rem;
-  font-weight: 500;
-  margin-bottom: var(--space-xs);
-  color: var(--text-primary);
-}
-
-.valueText {
-  font-size: 0.9375rem;
-  line-height: 1.6;
-  color: var(--text-secondary);
-  font-weight: 300;
-}
-
-/* ==================== CONTACT SECTION ==================== */
-.contactSection {
   text-align: center;
-  padding: var(--space-3xl) 0;
-  margin-top: var(--space-3xl);
-  border-top: 1px solid var(--border-subtle);
+  padding: 60px 0 80px;
+  margin-bottom: 80px;
+  opacity: 0;
+  animation: fadeInUp 0.8s ease-out forwards;
 }
 
-.contactText {
-  font-size: 1.0625rem;
-  line-height: 1.7;
-  color: var(--text-secondary);
-  margin: var(--space-lg) 0;
-  font-weight: 300;
-}
-
-.contactLink {
-  font-size: 1.125rem;
-  color: var(--accent-primary);
-  text-decoration: none;
-  font-weight: 500;
-  border-bottom: 2px solid transparent;
-  transition: all var(--transition-smooth);
-  display: inline-block;
-}
-
-.contactLink:hover {
-  border-bottom-color: var(--accent-primary);
-}
-
-/* ==================== ANIMATIONS ==================== */
-@keyframes fade-in {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
-
-@keyframes slide-up {
+@keyframes fadeInUp {
   from {
     opacity: 0;
-    transform: translateY(20px);
+    transform: translateY(30px);
   }
   to {
     opacity: 1;
@@ -271,43 +31,531 @@
   }
 }
 
-/* ==================== RESPONSIVE ==================== */
+.hero h1 {
+  font-size: 56px;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 20px;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+}
+
+.heroSubtitle {
+  font-size: 20px;
+  color: var(--text-secondary);
+  max-width: 700px;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+
+/* Content Sections */
+.section {
+  margin-bottom: 80px;
+}
+
+.content {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.section h2 {
+  font-size: 40px;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 24px;
+  text-align: center;
+  letter-spacing: -0.02em;
+}
+
+.section p {
+  font-size: 18px;
+  line-height: 1.7;
+  color: var(--text-secondary);
+  margin-bottom: 20px;
+}
+
+/* Mission & Vision */
+.missionVision {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 32px;
+  margin-top: 48px;
+}
+
+.missionCard,
+.visionCard {
+  background: var(--bg-card);
+  padding: 40px;
+  border-radius: 16px;
+  text-align: center;
+  border: 1px solid var(--border-color);
+  box-shadow: 0 2px 8px var(--shadow-color);
+  transition: all 0.3s ease;
+}
+
+.missionCard:hover,
+.visionCard:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 32px var(--shadow-color);
+  border-color: var(--border-hover);
+}
+
+.cardIcon {
+  font-size: 3rem;
+  margin-bottom: 20px;
+}
+
+.missionCard h3,
+.visionCard h3 {
+  font-size: 24px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 16px;
+}
+
+.missionCard p,
+.visionCard p {
+  font-size: 16px;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  text-align: left;
+}
+
+/* Values */
+.valuesGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 24px;
+  margin-top: 48px;
+}
+
+.valueCard {
+  background: var(--bg-card);
+  padding: 32px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px var(--shadow-color);
+  border: 1px solid var(--border-color);
+  text-align: center;
+  transition: all 0.3s ease;
+}
+
+.valueCard:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 32px var(--shadow-color);
+  border-color: rgba(99, 91, 255, 0.3);
+}
+
+.valueIcon {
+  font-size: 2.5rem;
+  margin-bottom: 16px;
+}
+
+.valueCard h4 {
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 12px;
+}
+
+.valueCard p {
+  font-size: 15px;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  text-align: left;
+}
+
+/* Team */
+.teamIntro {
+  text-align: center;
+  font-size: 18px;
+  color: var(--text-secondary);
+  margin-bottom: 48px;
+  max-width: 700px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.teamGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 32px;
+  margin-top: 48px;
+}
+
+.teamMember {
+  text-align: center;
+  background: var(--bg-card);
+  padding: 32px;
+  border-radius: 16px;
+  border: 1px solid var(--border-color);
+  box-shadow: 0 2px 8px var(--shadow-color);
+  transition: all 0.3s ease;
+}
+
+.teamMember:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 32px var(--shadow-color);
+  border-color: var(--border-hover);
+}
+
+.memberPhoto {
+  margin-bottom: 20px;
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  margin-left: auto;
+  margin-right: auto;
+  object-fit: cover;
+  border: 3px solid var(--accent-primary);
+  box-shadow: 0 4px 12px var(--shadow-color);
+}
+
+.teamMember h4 {
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 8px;
+}
+
+.memberRole {
+  font-size: 14px;
+  color: var(--accent-primary);
+  font-weight: 500;
+  margin-bottom: 16px;
+}
+
+.teamMember p:last-child {
+  font-size: 15px;
+  color: var(--text-secondary);
+  line-height: 1.5;
+  text-align: left;
+}
+
+/* Technology Section */
+.technologyContent p {
+  color: var(--text-secondary);
+}
+
+.techHighlights {
+  background: var(--bg-secondary);
+  padding: 32px;
+  border-radius: 12px;
+  margin-top: 32px;
+  border: 1px solid var(--border-color);
+  box-shadow: 0 2px 8px var(--shadow-color);
+}
+
+.techItem {
+  margin-bottom: 16px;
+  padding: 16px;
+  background: var(--bg-primary);
+  border-radius: 8px;
+  border-left: 3px solid var(--accent-primary);
+}
+
+.techItem:last-child {
+  margin-bottom: 0;
+}
+
+.techItem strong {
+  color: var(--accent-primary);
+  font-weight: 600;
+  display: block;
+  margin-bottom: 4px;
+}
+
+/* Contact Section */
+.contactSection {
+  background: var(--bg-secondary);
+  padding: 48px;
+  border-radius: 16px;
+  margin-top: 80px;
+  border: 1px solid var(--border-color);
+  box-shadow: 0 2px 8px var(--shadow-color);
+  text-align: center;
+}
+
+.contactSection h2 {
+  color: var(--text-primary);
+  margin-bottom: 16px;
+}
+
+.contactSection p {
+  color: var(--text-secondary);
+  margin-bottom: 32px;
+  max-width: 700px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.contactInfo {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.contactItem {
+  padding: 20px;
+  background: var(--bg-primary);
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
+  transition: all 0.3s ease;
+}
+
+.contactItem:hover {
+  border-color: var(--accent-primary);
+  transform: translateY(-2px);
+}
+
+.contactItem strong {
+  color: var(--accent-primary);
+  display: block;
+  margin-bottom: 8px;
+  font-size: 14px;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .container {
+    padding: 0 24px;
+  }
+
+  .hero h1 {
+    font-size: 48px;
+  }
+
+  .section h2 {
+    font-size: 36px;
+  }
+}
+
 @media (max-width: 768px) {
+  .container {
+    padding: 0 20px;
+  }
+  
   .aboutPage {
-    padding: var(--space-2xl) 0;
+    padding: 60px 0 60px;
   }
-
-  .title {
-    font-size: 2.5rem;
+  
+  .hero {
+    padding: 40px 0 60px;
+    margin-bottom: 48px;
   }
-
-  .founderProfile {
+  
+  .hero h1 {
+    font-size: 36px;
+    line-height: 1.2;
+  }
+  
+  .heroSubtitle {
+    font-size: 17px;
+    line-height: 1.5;
+  }
+  
+  .section {
+    margin-bottom: 48px;
+  }
+  
+  .section h2 {
+    font-size: 28px;
+    line-height: 1.2;
+    margin-bottom: 24px;
+  }
+  
+  .missionVision {
     grid-template-columns: 1fr;
-    gap: var(--space-xl);
+    gap: 20px;
   }
 
-  .photoContainer {
-    max-width: 250px;
-    margin: 0 auto;
+  .missionCard,
+  .visionCard {
+    padding: 28px 24px;
   }
 
-  .cardGrid,
+  .missionCard h3,
+  .visionCard h3 {
+    font-size: 20px;
+  }
+
+  .missionCard p,
+  .visionCard p {
+    font-size: 15px;
+  }
+  
   .valuesGrid {
     grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .valueCard {
+    padding: 28px 24px;
+  }
+
+  .valueCard h3 {
+    font-size: 18px;
+  }
+
+  .valueCard p {
+    font-size: 14px;
+  }
+  
+  .teamGrid {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+
+  .teamMember {
+    padding: 24px;
+  }
+
+  .memberName {
+    font-size: 18px;
+  }
+
+  .memberRole {
+    font-size: 14px;
+  }
+
+  .memberBio {
+    font-size: 14px;
+  }
+  
+  .contactInfo {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+  
+  .contactSection {
+    padding: 48px 24px;
+  }
+
+  .contactSection h2 {
+    font-size: 28px;
   }
 }
 
 @media (max-width: 480px) {
   .container {
-    padding: 0 var(--space-md);
+    padding: 0 16px;
   }
 
-  .title {
-    font-size: 2rem;
+  .aboutPage {
+    padding: 48px 0 48px;
   }
 
-  .card,
+  .hero {
+    padding: 32px 0 48px;
+    margin-bottom: 40px;
+  }
+
+  .hero h1 {
+    font-size: 32px;
+  }
+
+  .heroSubtitle {
+    font-size: 16px;
+  }
+
+  .section {
+    margin-bottom: 40px;
+  }
+
+  .section h2 {
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
+
+  .missionVision {
+    gap: 16px;
+  }
+
+  .missionCard,
+  .visionCard {
+    padding: 24px 20px;
+  }
+
+  .missionCard h3,
+  .visionCard h3 {
+    font-size: 18px;
+  }
+
+  .missionCard p,
+  .visionCard p {
+    font-size: 14px;
+  }
+
+  .valuesGrid {
+    gap: 16px;
+  }
+
   .valueCard {
-    padding: var(--space-md);
+    padding: 24px 20px;
+  }
+
+  .valueCard h3 {
+    font-size: 17px;
+  }
+
+  .valueCard p {
+    font-size: 13px;
+  }
+
+  .teamGrid {
+    gap: 20px;
+  }
+
+  .teamMember {
+    padding: 20px;
+  }
+
+  .avatar {
+    width: 60px;
+    height: 60px;
+    font-size: 24px;
+  }
+
+  .memberName {
+    font-size: 17px;
+  }
+
+  .memberRole {
+    font-size: 13px;
+  }
+
+  .memberBio {
+    font-size: 13px;
+  }
+
+  .contactSection {
+    padding: 40px 20px;
+  }
+
+  .contactSection h2 {
+    font-size: 24px;
+  }
+
+  .contactInfo {
+    gap: 12px;
+  }
+
+  .contactItem {
+    padding: 16px;
+  }
+}
+
+@media (max-width: 390px) {
+  .hero h1 {
+    font-size: 28px;
+  }
+
+  .section h2 {
+    font-size: 22px;
+  }
+
+  .contactSection h2 {
+    font-size: 22px;
   }
 }
