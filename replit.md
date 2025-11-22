@@ -39,14 +39,19 @@ Core functionality is a chat interface for task management, integrating with Gma
 This repository is for the React frontend. The backend, external to this repository, includes a Node.js/Express API server, a Python MCP client, a Google Calendar MCP server, and Redis for session management. The frontend is designed to be functional with placeholder content until backend services are integrated. Deployment is configured for Replit's autoscale deployment.
 
 ## Recent Changes (Nov 22, 2025)
-**UI Redesign - Product, Integrations, and About Pages**:
-- **Product Page**: Redesigned as "Connect Your Accounts" onboarding flow with side-by-side Gmail and Google Calendar cards. Features centered layout with clear authentication messaging, permissions info card with security notes, and refresh status button.
-- **Integrations Page**: Completely redesigned with integration cards (Gmail, Google Calendar, Notion) that display inline. Each card includes Quick Setup steps (numbered 1-3), required scopes/permissions, and prominent action buttons. Layout optimized for clarity and scannability.
-- **About Page**: Restructured with "Our Story" section in glass panel, Mission & Vision cards with emoji indicators, Core Values grid (4-column layout), and "Get in Touch" CTA section with email link.
-- All pages maintain glassmorphic design with backdrop-filter blur, use CSS variables for light/dark mode support, and include Framer Motion animations (fade-in, slide animations with staggered delays).
-- Button styling uses gradient backgrounds (#635BFF primary with shadow effects) consistent across all interactive elements.
-- Fixed duplicate navbar issue on Product page by moving GlassNav to single render location.
-- Standardized page spacing and title alignment across all pages for visual symmetry.
+**Complete UI Redesign - All Interior Pages Matching Reference Design**:
+- **Spacing Fix**: Reduced top padding from clamp(3.5rem, 6vw, 4rem) to 1.5rem on all pages (Product, Integrations, About) so titles sit much closer to navbar, matching reference design exactly.
+- **Animation Optimization**: Removed all `whileInView` scroll-triggered animations, replaced with immediate `animate` on page mount. Eliminates perceived delays, all content loads instantly (0.5s transitions with staggered delays 0.1-0.9s).
+- **Product Page**: "Connect Your Accounts" onboarding with Gmail/Calendar cards, permissions info, refresh status button.
+- **Integrations Page**: Integration cards (Gmail, Google Calendar, Notion) with numbered Quick Setup steps (1-3) and required scopes badges.
+- **About Page - Complete Redesign**:
+  - **Our Story**: Single glass panel with dark background (rgba(0,0,0,0.3)), loads immediately
+  - **Mission & Vision**: Darker glass cards (rgba(0,0,0,0.3)) without accent borders, emoji badges
+  - **Core Values**: Horizontal card layout with icon on left, title + description on right in 2x2 grid, dark styling
+  - **Anu L. Profile**: New section with circular profile placeholder, bio text, founder description
+  - **Get in Touch**: Dark glass panel with email link
+- **Navbar Updates**: Removed "Sign In" link, changed "Get Early Access" to "Try Now" button.
+- All pages use darker glass panels (rgba(0,0,0,0.3)) for better contrast, consistent with glassmorphic design system.
 
 ## External Dependencies
 - **Vapi AI**: For voice integration.

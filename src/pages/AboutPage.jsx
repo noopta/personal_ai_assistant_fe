@@ -17,9 +17,9 @@ export default function AboutPage() {
       }}>
         {/* Hero Header */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.3 }}
           style={{
             textAlign: 'center',
             marginBottom: '3rem'
@@ -47,9 +47,9 @@ export default function AboutPage() {
 
         {/* Our Story Section */}
         <motion.section 
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.2 }}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.3 }}
           style={{
             marginBottom: '4rem'
           }}
@@ -64,8 +64,8 @@ export default function AboutPage() {
           <div className="glass-panel" style={{
             padding: 'clamp(2rem, 4vw, 3rem)',
             borderRadius: '1.5rem',
-            background: 'rgba(var(--primary-rgb, 99, 91, 255), 0.05)',
-            border: '1px solid var(--border)',
+            background: 'rgba(0, 0, 0, 0.3)',
+            border: '1px solid rgba(255, 255, 255, 0.1)',
             backdropFilter: 'blur(20px)',
             display: 'flex',
             flexDirection: 'column',
@@ -109,9 +109,9 @@ export default function AboutPage() {
           marginBottom: '4rem'
         }}>
           <motion.div 
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.3 }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.3 }}
             className="glass-panel"
             style={{
               padding: '2rem',
@@ -149,9 +149,9 @@ export default function AboutPage() {
           </motion.div>
 
           <motion.div 
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.4 }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.3 }}
             className="glass-panel"
             style={{
               padding: '2rem',
@@ -191,9 +191,9 @@ export default function AboutPage() {
 
         {/* Core Values */}
         <motion.section
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.5 }}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.3 }}
           style={{
             marginBottom: '4rem'
           }}
@@ -220,9 +220,9 @@ export default function AboutPage() {
             ].map((value, idx) => (
               <motion.div
                 key={idx}
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.6 + idx * 0.1, duration: 0.4 }}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.3 }}
                 className="glass-panel"
                 style={{
                   padding: '1.5rem',
@@ -231,7 +231,10 @@ export default function AboutPage() {
                   background: 'rgba(0, 0, 0, 0.3)',
                   backdropFilter: 'blur(20px)',
                   transition: 'all 0.3s ease',
-                  cursor: 'default'
+                  cursor: 'default',
+                  display: 'flex',
+                  alignItems: 'flex-start',
+                  gap: '1rem'
                 }}
                 onMouseEnter={(e) => {
                   e.currentTarget.style.background = 'rgba(0, 0, 0, 0.4)';
@@ -243,41 +246,34 @@ export default function AboutPage() {
                 }}
               >
                 <div style={{
+                  width: '40px',
+                  height: '40px',
+                  borderRadius: '0.5rem',
+                  background: 'rgba(var(--primary-rgb, 99, 91, 255), 0.2)',
                   display: 'flex',
-                  alignItems: 'flex-start',
-                  gap: '1rem',
-                  marginBottom: '0.75rem'
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  fontSize: '1.5rem',
+                  flexShrink: 0
                 }}>
-                  <div style={{
-                    width: '40px',
-                    height: '40px',
-                    borderRadius: '0.5rem',
-                    background: 'rgba(var(--primary-rgb, 99, 91, 255), 0.2)',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    fontSize: '1.5rem',
-                    flexShrink: 0
-                  }}>
-                    {value.icon}
-                  </div>
+                  {value.icon}
+                </div>
+                <div style={{ flex: 1 }}>
                   <h3 style={{
                     fontWeight: 'bold',
                     color: 'var(--foreground)',
                     fontSize: '1.0625rem',
-                    margin: 0,
-                    paddingTop: '0.5rem'
+                    margin: '0 0 0.5rem 0'
                   }}>{value.title}</h3>
+                  <p style={{
+                    color: 'var(--muted-foreground)',
+                    lineHeight: 1.6,
+                    fontSize: '0.875rem',
+                    margin: 0
+                  }}>
+                    {value.desc}
+                  </p>
                 </div>
-                <p style={{
-                  color: 'var(--muted-foreground)',
-                  lineHeight: 1.6,
-                  fontSize: '0.875rem',
-                  margin: 0,
-                  paddingLeft: '0rem'
-                }}>
-                  {value.desc}
-                </p>
               </motion.div>
             ))}
           </div>
@@ -285,9 +281,9 @@ export default function AboutPage() {
 
         {/* Anu L. Profile Section */}
         <motion.section
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.8 }}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.3 }}
           className="glass-panel"
           style={{
             padding: '2.5rem',
@@ -353,9 +349,9 @@ export default function AboutPage() {
 
         {/* Get in Touch */}
         <motion.div 
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.9 }}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.3 }}
           className="glass-panel"
           style={{
             textAlign: 'center',
