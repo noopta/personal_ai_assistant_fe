@@ -26,10 +26,6 @@ export function GlassHero() {
   // Data Stream is at index 1 (id=2)
   const [currentBg, setCurrentBg] = useState(1);
 
-  const nextBackground = () => {
-    setCurrentBg((prev) => (prev + 1) % backgrounds.length);
-  };
-
   const currentBackground = backgrounds[currentBg];
 
   return (

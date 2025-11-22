@@ -3,7 +3,6 @@ import { GlassHero } from '../components/GlassHero';
 import { GlassFeatures } from '../components/GlassFeatures';
 import { TrustedBy } from '../components/TrustedBy';
 import { ChatDemo } from '../components/ChatDemo';
-import { DesignSwitcher } from '../components/DesignSwitcher';
 import MadeInCanada from '../components/MadeInCanada';
 
 export default function LandingPageGlass() {
