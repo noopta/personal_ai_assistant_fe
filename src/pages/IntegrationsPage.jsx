@@ -137,9 +137,10 @@ export default function IntegrationsPage() {
       color: 'var(--foreground)',
       overflowX: 'hidden'
     }}>
+      <GlassNav />
       <main style={{
         position: 'relative',
-        padding: 'clamp(2rem, 4vw, 3rem) 1rem',
+        padding: 'clamp(4rem, 6vw, 6rem) 1rem clamp(2rem, 4vw, 3rem)',
         maxWidth: '64rem',
         margin: '0 auto'
       }}>
@@ -379,7 +380,6 @@ export default function IntegrationsPage() {
         </div>
       </main>
 
-      <GlassNav />
       <MadeInCanada />
     </div>
   );
