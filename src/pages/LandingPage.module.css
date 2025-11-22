@@ -44,6 +44,51 @@
   z-index: 10; /* Higher than path (z-index: 1) so content appears on top */
 }
 
+/* Beta Badge */
+.betaBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  background: rgba(99, 91, 255, 0.1);
+  border: 1px solid rgba(99, 91, 255, 0.2);
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  color: var(--accent-primary);
+  margin-bottom: 24px;
+  transition: all 0.3s ease;
+}
+
+.betaBadge:hover {
+  background: rgba(99, 91, 255, 0.15);
+  border-color: rgba(99, 91, 255, 0.3);
+  transform: translateY(-2px);
+}
+
+.betaIcon {
+  color: var(--accent-primary);
+  animation: sparkle 2s ease-in-out infinite;
+}
+
+@keyframes sparkle {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.7;
+    transform: scale(1.1);
+  }
+}
+
+/* Dark mode adjustments */
+[data-theme="light"] .betaBadge {
+  background: rgba(99, 91, 255, 0.08);
+  border-color: rgba(99, 91, 255, 0.25);
+}
+
 .heroTitle {
   font-size: 72px;
   font-weight: 700;
