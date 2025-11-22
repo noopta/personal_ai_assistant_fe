@@ -11,7 +11,7 @@ export default function AboutPage() {
     }}>
       <main style={{
         position: 'relative',
-        padding: 'clamp(3.5rem, 6vw, 4rem) 1rem clamp(2rem, 4vw, 3rem)',
+        padding: '1.5rem 1rem clamp(2rem, 4vw, 3rem)',
         maxWidth: '64rem',
         margin: '0 auto'
       }}>
@@ -19,10 +19,10 @@ export default function AboutPage() {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
+          transition={{ duration: 0.5 }}
           style={{
             textAlign: 'center',
-            marginBottom: '5rem'
+            marginBottom: '3rem'
           }}
         >
           <h1 style={{
@@ -48,10 +48,10 @@ export default function AboutPage() {
         {/* Our Story Section */}
         <motion.section 
           initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.2 }}
           style={{
-            marginBottom: '6rem'
+            marginBottom: '4rem'
           }}
         >
           <h2 style={{
@@ -106,20 +106,18 @@ export default function AboutPage() {
           display: 'grid',
           gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
           gap: '2rem',
-          marginBottom: '6rem'
+          marginBottom: '4rem'
         }}>
           <motion.div 
-            initial={{ opacity: 0, x: -20 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.3 }}
             className="glass-panel"
             style={{
               padding: '2rem',
               borderRadius: '0.75rem',
-              borderLeft: '4px solid var(--primary)',
-              border: '1px solid var(--border)',
-              borderLeftWidth: '4px',
-              background: 'rgba(255, 255, 255, 0.02)',
+              border: '1px solid rgba(255, 255, 255, 0.1)',
+              background: 'rgba(0, 0, 0, 0.3)',
               backdropFilter: 'blur(20px)'
             }}
           >
@@ -151,16 +149,14 @@ export default function AboutPage() {
           </motion.div>
 
           <motion.div 
-            initial={{ opacity: 0, x: 20 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.4 }}
             className="glass-panel"
             style={{
               padding: '2rem',
-              borderLeft: '4px solid var(--accent)',
-              border: '1px solid var(--border)',
-              borderLeftWidth: '4px',
-              background: 'rgba(255, 255, 255, 0.02)',
+              border: '1px solid rgba(255, 255, 255, 0.1)',
+              background: 'rgba(0, 0, 0, 0.3)',
               backdropFilter: 'blur(20px)',
               borderRadius: '0.75rem'
             }}
@@ -196,85 +192,89 @@ export default function AboutPage() {
         {/* Core Values */}
         <motion.section
           initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.5 }}
           style={{
-            marginBottom: '6rem'
+            marginBottom: '4rem'
           }}
         >
           <h2 style={{
             fontSize: 'clamp(1.75rem, 4vw, 2rem)',
             fontWeight: 'bold',
             textAlign: 'center',
-            marginBottom: '3rem',
+            marginBottom: '2rem',
             color: 'var(--foreground)'
           }}>Core Values</h2>
           <div style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(2, 1fr)',
-            gap: '2rem',
-            maxWidth: '48rem',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
+            gap: '1.5rem',
+            maxWidth: '56rem',
             margin: '0 auto'
           }}>
             {[
               { icon: '🔒', title: 'Privacy First', desc: 'Your data is yours. We implement enterprise-grade encryption and never train models on your information.' },
-              { icon: '⚡', title: 'User-Centric Design', desc: 'Every feature is designed to save you time and eliminate unnecessary friction in your workflow.' },
-              { icon: '💡', title: 'Continuous Innovation', desc: 'Technology evolves rapidly. We\'re committed to staying at the forefront of AI and productivity.' },
+              { icon: '👤', title: 'User-Centric Design', desc: 'Every feature starts with understanding real user needs. We prioritize intuitive experiences over flashy features.' },
+              { icon: '⚡', title: 'Continuous Innovation', desc: 'Technology evolves rapidly. We\'re committed to staying at the forefront of AI and productivity tools.' },
               { icon: '❤️', title: 'User Empowerment', desc: 'Every decision is guided by user feedback and a deep understanding of real productivity challenges.' }
             ].map((value, idx) => (
               <motion.div
                 key={idx}
                 initial={{ opacity: 0, y: 10 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: idx * 0.1 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.6 + idx * 0.1, duration: 0.4 }}
                 className="glass-panel"
                 style={{
-                  padding: '2rem',
-                  borderRadius: '1rem',
+                  padding: '1.5rem',
+                  borderRadius: '0.75rem',
                   border: '1px solid rgba(255, 255, 255, 0.1)',
-                  background: 'rgba(255, 255, 255, 0.08)',
+                  background: 'rgba(0, 0, 0, 0.3)',
                   backdropFilter: 'blur(20px)',
                   transition: 'all 0.3s ease',
-                  cursor: 'default',
-                  display: 'flex',
-                  flexDirection: 'column',
-                  alignItems: 'center',
-                  textAlign: 'center',
-                  gap: '1rem'
+                  cursor: 'default'
                 }}
                 onMouseEnter={(e) => {
-                  e.currentTarget.style.background = 'rgba(255, 255, 255, 0.12)';
+                  e.currentTarget.style.background = 'rgba(0, 0, 0, 0.4)';
                   e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.2)';
                 }}
                 onMouseLeave={(e) => {
-                  e.currentTarget.style.background = 'rgba(255, 255, 255, 0.08)';
+                  e.currentTarget.style.background = 'rgba(0, 0, 0, 0.3)';
                   e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.1)';
                 }}
               >
                 <div style={{
-                  width: '48px',
-                  height: '48px',
-                  borderRadius: '0.75rem',
-                  background: 'rgba(var(--primary-rgb, 99, 91, 255), 0.15)',
                   display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  fontSize: '1.75rem'
+                  alignItems: 'flex-start',
+                  gap: '1rem',
+                  marginBottom: '0.75rem'
                 }}>
-                  {value.icon}
+                  <div style={{
+                    width: '40px',
+                    height: '40px',
+                    borderRadius: '0.5rem',
+                    background: 'rgba(var(--primary-rgb, 99, 91, 255), 0.2)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    fontSize: '1.5rem',
+                    flexShrink: 0
+                  }}>
+                    {value.icon}
+                  </div>
+                  <h3 style={{
+                    fontWeight: 'bold',
+                    color: 'var(--foreground)',
+                    fontSize: '1.0625rem',
+                    margin: 0,
+                    paddingTop: '0.5rem'
+                  }}>{value.title}</h3>
                 </div>
-                <h3 style={{
-                  fontWeight: 'bold',
-                  color: 'var(--foreground)',
-                  fontSize: '1.0625rem',
-                  margin: 0
-                }}>{value.title}</h3>
                 <p style={{
                   color: 'var(--muted-foreground)',
                   lineHeight: 1.6,
-                  fontSize: '0.9375rem',
-                  margin: 0
+                  fontSize: '0.875rem',
+                  margin: 0,
+                  paddingLeft: '0rem'
                 }}>
                   {value.desc}
                 </p>
@@ -283,18 +283,86 @@ export default function AboutPage() {
           </div>
         </motion.section>
 
+        {/* Anu L. Profile Section */}
+        <motion.section
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.8 }}
+          className="glass-panel"
+          style={{
+            padding: '2.5rem',
+            borderRadius: '1rem',
+            border: '1px solid rgba(255, 255, 255, 0.1)',
+            background: 'rgba(0, 0, 0, 0.3)',
+            backdropFilter: 'blur(20px)',
+            marginBottom: '4rem'
+          }}
+        >
+          <div style={{
+            display: 'flex',
+            gap: '2rem',
+            alignItems: 'flex-start',
+            flexWrap: 'wrap'
+          }}>
+            <div style={{
+              width: '120px',
+              height: '120px',
+              borderRadius: '50%',
+              background: 'rgba(100, 100, 100, 0.3)',
+              flexShrink: 0,
+              overflow: 'hidden',
+              border: '2px solid rgba(255, 255, 255, 0.1)'
+            }}>
+              {/* Placeholder for profile image */}
+              <div style={{
+                width: '100%',
+                height: '100%',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                fontSize: '3rem',
+                color: 'var(--muted-foreground)'
+              }}>👤</div>
+            </div>
+            <div style={{ flex: 1, minWidth: '250px' }}>
+              <h3 style={{
+                fontSize: '1.5rem',
+                fontWeight: 'bold',
+                marginBottom: '0.5rem',
+                color: 'var(--foreground)'
+              }}>Anu L.</h3>
+              <p style={{
+                color: 'var(--muted-foreground)',
+                lineHeight: 1.7,
+                marginBottom: '1rem',
+                fontSize: '0.9375rem'
+              }}>
+                I'm a software engineer with a passion for building AI-powered productivity solutions. With experience in full-stack development and system architecture, I focus on creating seamless user experiences that solve real workflow challenges.
+              </p>
+              <p style={{
+                color: 'var(--muted-foreground)',
+                lineHeight: 1.7,
+                fontSize: '0.875rem',
+                fontStyle: 'italic'
+              }}>
+                Founder & Creator of AirThreads — on a mission to transform how people engage with their productivity tools in a Canadian tech space.
+              </p>
+            </div>
+          </div>
+        </motion.section>
+
         {/* Get in Touch */}
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.9 }}
           className="glass-panel"
           style={{
             textAlign: 'center',
-            padding: '3rem',
-            borderRadius: '1.5rem',
-            border: '1px solid var(--border)',
-            background: 'rgba(255, 255, 255, 0.02)',
+            padding: '2.5rem',
+            borderRadius: '1rem',
+            border: '1px solid rgba(255, 255, 255, 0.1)',
+            background: 'rgba(0, 0, 0, 0.3)',
             backdropFilter: 'blur(20px)'
           }}
         >
