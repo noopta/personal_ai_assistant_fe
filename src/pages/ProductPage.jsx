@@ -11,7 +11,7 @@ export default function ProductPage() {
     }}>
       <main style={{
         position: 'relative',
-        padding: 'clamp(2rem, 3vw, 2.5rem) 1rem clamp(2rem, 4vw, 3rem)',
+        padding: 'clamp(3.5rem, 6vw, 4rem) 1rem clamp(2rem, 4vw, 3rem)',
         maxWidth: '80rem',
         margin: '0 auto'
       }}>

@@ -11,7 +11,7 @@ export default function AboutPage() {
     }}>
       <main style={{
         position: 'relative',
-        padding: 'clamp(2rem, 3vw, 2.5rem) 1rem clamp(2rem, 4vw, 3rem)',
+        padding: 'clamp(3.5rem, 6vw, 4rem) 1rem clamp(2rem, 4vw, 3rem)',
         maxWidth: '64rem',
         margin: '0 auto'
       }}>
@@ -206,19 +206,21 @@ export default function AboutPage() {
             fontSize: 'clamp(1.75rem, 4vw, 2rem)',
             fontWeight: 'bold',
             textAlign: 'center',
-            marginBottom: '2rem',
+            marginBottom: '3rem',
             color: 'var(--foreground)'
-          }}>Our Core Values</h2>
+          }}>Core Values</h2>
           <div style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))',
-            gap: '1.5rem'
+            gridTemplateColumns: 'repeat(2, 1fr)',
+            gap: '2rem',
+            maxWidth: '48rem',
+            margin: '0 auto'
           }}>
             {[
               { icon: '🔒', title: 'Privacy First', desc: 'Your data is yours. We implement enterprise-grade encryption and never train models on your information.' },
-              { icon: '⚡', title: 'Efficiency', desc: 'Every feature is designed to save you time and eliminate unnecessary friction in your workflow.' },
-              { icon: '💡', title: 'Innovation', desc: 'We continuously push boundaries to bring cutting-edge AI capabilities to productivity tools.' },
-              { icon: '❤️', title: 'User-Centric', desc: 'Every decision is guided by user feedback and a deep understanding of real productivity challenges.' }
+              { icon: '⚡', title: 'User-Centric Design', desc: 'Every feature is designed to save you time and eliminate unnecessary friction in your workflow.' },
+              { icon: '💡', title: 'Continuous Innovation', desc: 'Technology evolves rapidly. We\'re committed to staying at the forefront of AI and productivity.' },
+              { icon: '❤️', title: 'User Empowerment', desc: 'Every decision is guided by user feedback and a deep understanding of real productivity challenges.' }
             ].map((value, idx) => (
               <motion.div
                 key={idx}
@@ -228,49 +230,49 @@ export default function AboutPage() {
                 transition={{ delay: idx * 0.1 }}
                 className="glass-panel"
                 style={{
-                  padding: '1.5rem',
-                  borderRadius: '0.75rem',
-                  border: '1px solid var(--border)',
-                  background: 'rgba(255, 255, 255, 0.02)',
+                  padding: '2rem',
+                  borderRadius: '1rem',
+                  border: '1px solid rgba(255, 255, 255, 0.1)',
+                  background: 'rgba(255, 255, 255, 0.08)',
                   backdropFilter: 'blur(20px)',
                   transition: 'all 0.3s ease',
-                  cursor: 'default'
+                  cursor: 'default',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  textAlign: 'center',
+                  gap: '1rem'
                 }}
                 onMouseEnter={(e) => {
-                  e.currentTarget.style.background = 'rgba(var(--primary-rgb, 99, 91, 255), 0.05)';
+                  e.currentTarget.style.background = 'rgba(255, 255, 255, 0.12)';
+                  e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.2)';
                 }}
                 onMouseLeave={(e) => {
-                  e.currentTarget.style.background = 'rgba(255, 255, 255, 0.02)';
+                  e.currentTarget.style.background = 'rgba(255, 255, 255, 0.08)';
+                  e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.1)';
                 }}
               >
                 <div style={{
+                  width: '48px',
+                  height: '48px',
+                  borderRadius: '0.75rem',
+                  background: 'rgba(var(--primary-rgb, 99, 91, 255), 0.15)',
                   display: 'flex',
                   alignItems: 'center',
-                  gap: '0.75rem',
-                  marginBottom: '0.75rem'
+                  justifyContent: 'center',
+                  fontSize: '1.75rem'
                 }}>
-                  <div style={{
-                    width: '32px',
-                    height: '32px',
-                    borderRadius: '0.5rem',
-                    background: 'rgba(var(--primary-rgb, 99, 91, 255), 0.1)',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    fontSize: '1.25rem'
-                  }}>
-                    {value.icon}
-                  </div>
-                  <h3 style={{
-                    fontWeight: 'bold',
-                    color: 'var(--foreground)',
-                    fontSize: '1rem',
-                    margin: 0
-                  }}>{value.title}</h3>
+                  {value.icon}
                 </div>
+                <h3 style={{
+                  fontWeight: 'bold',
+                  color: 'var(--foreground)',
+                  fontSize: '1.0625rem',
+                  margin: 0
+                }}>{value.title}</h3>
                 <p style={{
                   color: 'var(--muted-foreground)',
-                  lineHeight: 1.5,
+                  lineHeight: 1.6,
                   fontSize: '0.9375rem',
                   margin: 0
                 }}>
