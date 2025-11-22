@@ -92,18 +92,18 @@ function IntegrationsPage() {
   const pageStyle = {
     minHeight: '100vh',
     background: 'var(--background)',
-    padding: 'clamp(3rem, 8vw, 6rem) 0',
+    padding: 'clamp(6rem, 8vw, 8rem) 0',
     color: 'var(--foreground)',
   };
 
   const containerStyle = {
-    maxWidth: '1200px',
+    maxWidth: '1024px',
     margin: '0 auto',
-    padding: '0 2rem',
+    padding: '0 16px',
   };
 
   const headerStyle = {
-    marginBottom: 'clamp(3rem, 8vw, 5rem)',
+    marginBottom: 'clamp(4rem, 10vw, 6rem)',
     animation: 'fadeIn 0.8s ease-out',
   };
 
@@ -111,17 +111,18 @@ function IntegrationsPage() {
     width: '80px',
     height: '2px',
     background: 'var(--primary)',
-    marginBottom: '1.5rem',
+    marginBottom: '32px',
     opacity: 0.8,
   };
 
   const titleStyle = {
-    fontSize: 'clamp(2.5rem, 6vw, 4rem)',
+    fontSize: 'clamp(2.5rem, 6vw, 4.5rem)',
     fontWeight: '300',
-    marginBottom: '1rem',
-    letterSpacing: '-0.02em',
+    marginBottom: '16px',
+    letterSpacing: '-0.03em',
     color: 'var(--foreground)',
-    margin: '0 0 1rem 0',
+    margin: '0 0 16px 0',
+    lineHeight: 1.1
   };
 
   const subtitleStyle = {

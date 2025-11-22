@@ -1258,7 +1258,6 @@ function ProductPage() {
   if (currentMode === 'auth') {
     return (
       <>
-        <GlassNav />
         <div style={glassStyles.fadeIn}>
           <AuthSetup
             onAuthComplete={handleAuthComplete}
@@ -1276,7 +1275,6 @@ function ProductPage() {
   if (currentMode === 'selection') {
     return (
       <>
-        <GlassNav />
         <div style={glassStyles.fadeIn}>
           <ModeSelection onModeSelect={handleModeSelect} />
         </div>
@@ -1289,7 +1287,6 @@ function ProductPage() {
   if (currentMode === 'voice') {
     return (
       <>
-        <GlassNav />
         <div style={glassStyles.fadeIn}>
           <VoiceMode 
             onSwitchMode={handleSwitchMode}
@@ -1309,7 +1306,6 @@ function ProductPage() {
   // Show text mode (original chat interface)
   return (
     <>
-      <GlassNav />
       <div style={{...glassStyles.productPage, ...glassStyles.fadeIn}}>
         <div style={glassStyles.header}>
           <div style={glassStyles.headerContent}>
@@ -1439,6 +1435,7 @@ function ProductPage() {
           <VapiWidget assistantId={VAPI_ASSISTANT_ID} apiKey={VAPI_API_KEY} />
         )}
       </div>
+      <GlassNav />
       
       {/* Animations that can't be done inline */}
       <style>{`

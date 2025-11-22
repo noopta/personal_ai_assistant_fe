@@ -8,8 +8,7 @@ function AboutPage() {
       minHeight: '100vh',
       background: 'var(--background)',
       color: 'var(--foreground)',
-      paddingTop: '120px',
-      paddingBottom: '96px'
+      padding: 'clamp(6rem, 8vw, 8rem) 0'
     }}>
       <div style={{
         maxWidth: '1024px',
@@ -22,12 +21,12 @@ function AboutPage() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
           style={{
-            marginBottom: '96px'
+            marginBottom: 'clamp(4rem, 10vw, 6rem)'
           }}
         >
           <div style={{
-            width: '100px',
-            height: '3px',
+            width: '80px',
+            height: '2px',
             background: 'var(--primary)',
             marginBottom: '32px',
             opacity: 0.8
@@ -38,7 +37,8 @@ function AboutPage() {
             marginBottom: '16px',
             letterSpacing: '-0.03em',
             color: 'var(--foreground)',
-            lineHeight: 1.1
+            lineHeight: 1.1,
+            margin: '0 0 16px 0'
           }}>About AirThreads</h1>
           <p style={{
             fontSize: '1.25rem',
