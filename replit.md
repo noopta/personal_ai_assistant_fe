@@ -13,7 +13,7 @@ The application features a complete Stripe-inspired UI redesign across all pages
 - **Color Scheme**: Navy blue (#0A2540) for dark themes, cornflower purple (#635BFF) as the accent color, and light backgrounds (#F6F9FC, #FFFFFF) for light themes.
 - **Theming**: Comprehensive theme variables ensure seamless light/dark mode switching, with a fix for theme flashing on page load.
 - **Animations**: Animated mesh gradient background (WebGL/Canvas), scroll-triggered fade-in animations, card-based UI with refined hover interactions (lift, shadow, border glow), and micro-interactions on buttons (scale, shimmer, shadow effects).
-- **Mobile Responsiveness**: Comprehensive mobile-first responsive design ensuring typography accessibility (13px minimum), touch target compliance (44px minimum), and optimized layouts for various mobile and tablet breakpoints without overflow or broken elements.
+- **Mobile Responsiveness**: Comprehensive mobile-first responsive design ensuring typography accessibility (13px minimum on mobile, 12px on iPhone 14/smaller), touch target compliance (44px minimum), and optimized layouts for various mobile and tablet breakpoints (390px, 430px, 540px, 768px) without overflow or horizontal scrolling. Navigation bar fully responsive with adaptive spacing, font sizes, and theme toggle sizing for all screen sizes.
 - **Activity Feed UI**: Dynamic activity count badges, clean empty states, smooth cubic-bezier animations, subtle scale effects on slide-in, and enhanced hover effects with lift and purple glow.
 
 ### Technical Implementations
@@ -38,6 +38,17 @@ The application features a complete Stripe-inspired UI redesign across all pages
 - **Deployment**: Configured for Replit's autoscale deployment using `npm run build` and `npx serve -s build -l 5000`.
 
 ## Recent Changes
+
+### November 23, 2025: Mobile Navigation Bar Responsiveness Fix 📱
+- **Problem Solved:** Fixed horizontal scrolling and dark mode toggle going off-screen on iPhone 14 (390px) and smaller devices
+- **Solution Implemented:**
+  - **Progressive Content Hiding:** "Try Now" button hidden on screens ≤540px (redundant with Product nav link). On screens ≤390px, "Integrations" and "About" links also hidden (still accessible via footer and direct navigation)
+  - **Responsive Theme Toggle:** Maintained 44px touch target height while reducing width: 88px (desktop) → 76px (≤540px) → 70px (≤430px) → 68px (≤390px)
+  - **Aggressive Spacing Optimization:** Progressive reduction of container padding, nav link gaps, and horizontal padding across breakpoints (390px, 430px, 540px, 768px)
+  - **Typography Scaling:** Logo font scales from 1.375rem → 0.875rem → 0.8125rem on smallest screens while maintaining 13px minimum for nav links (WCAG compliant)
+  - **Overflow Prevention:** Added `overflow-x: hidden` on html/body to prevent any horizontal scrolling
+  - **Accessibility Maintained:** All touch targets meet 44px minimum height requirement, font sizes meet WCAG minimums
+- **Result:** Clean, professional mobile navbar with no horizontal overflow on all devices (390px, 414px, 430px, 540px+). Users on very small screens (≤390px) see simplified navigation with critical pages still accessible via footer.
 
 ### November 22, 2025: Beta Testing Feedback System with Page-Specific Tabs ✨
 - **Floating Feedback Button:** Purple gradient button fixed to bottom-right corner (minimalist chat bubble icon)
