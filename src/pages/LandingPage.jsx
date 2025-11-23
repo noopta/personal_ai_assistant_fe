@@ -41,7 +41,7 @@ function LandingPage() {
         <div className={styles.container}>
           <div className={`${styles.heroContent} ${isVisible.hero ? styles.fadeInUp : ''}`}>
             <div className={styles.betaBadge}>
-              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" className={styles.betaIcon}>
+              <svg width="12" height="12" viewBox="0 0 16 16" fill="none" className={styles.betaIcon}>
                 <path d="M8 1L9.5 5.5L14 7L9.5 8.5L8 13L6.5 8.5L2 7L6.5 5.5L8 1Z" fill="currentColor"/>
                 <path d="M12 3L12.5 4.5L14 5L12.5 5.5L12 7L11.5 5.5L10 5L11.5 4.5L12 3Z" fill="currentColor"/>
               </svg>
