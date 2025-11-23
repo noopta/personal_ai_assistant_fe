@@ -9,24 +9,24 @@ function IntegrationsPage() {
       description: 'Manage your emails and send messages through AI assistance',
       steps: [
         {
-          title: 'Enable Gmail API',
-          description: 'Go to Google Cloud Console, create or select a project, and enable the Gmail API'
+          title: 'Navigate to Product',
+          description: 'Go to the Product page to start connecting your services'
         },
         {
-          title: 'Create OAuth Credentials',
-          description: 'Navigate to Credentials, create OAuth 2.0 Client ID, and set application type to "Desktop"'
+          title: 'Select Connect to Gmail',
+          description: 'Click the "Connect to Gmail" button to begin authentication'
         },
         {
-          title: 'Configure & Authenticate',
-          description: 'Download credentials.json, place in backend directory, then authenticate via the app'
+          title: 'Sign in with Gmail',
+          description: 'Sign in with your Gmail account and you\'re all set!'
         }
       ],
-      scopes: [
-        'gmail.readonly',
-        'gmail.send',
-        'gmail.modify'
+      capabilities: [
+        'Read and manage emails',
+        'Send emails',
+        'Delete and archive emails'
       ],
-      link: 'https://console.cloud.google.com/'
+      link: '/product'
     },
     {
       id: 'calendar',
@@ -35,23 +35,24 @@ function IntegrationsPage() {
       description: 'Schedule meetings and manage events through natural language',
       steps: [
         {
-          title: 'Enable Calendar API',
-          description: 'Visit Google Cloud Console and enable the Google Calendar API in your project'
+          title: 'Navigate to Product',
+          description: 'Go to the Product page to start connecting your services'
         },
         {
-          title: 'Use OAuth Credentials',
-          description: 'Reuse Gmail credentials or create new OAuth 2.0 credentials following the same process'
+          title: 'Select Connect to Calendar',
+          description: 'Click the "Connect to Calendar" button to begin authentication'
         },
         {
-          title: 'Authorize & Connect',
-          description: 'Click "Authenticate Calendar" in the app and grant calendar permissions'
+          title: 'Sign in with Google',
+          description: 'Sign in with your Google account and you\'re all set!'
         }
       ],
-      scopes: [
-        'calendar',
-        'calendar.events'
+      capabilities: [
+        'View all your calendars',
+        'Create and update events',
+        'Delete and reschedule events'
       ],
-      link: 'https://console.cloud.google.com/'
+      link: '/product'
     },
     {
       id: 'notion',
