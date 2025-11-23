@@ -74,39 +74,58 @@ function FeedbackModal({ isOpen, onClose }) {
     localStorage.setItem('airthreads_beta_feedback', JSON.stringify(newData));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     
-    console.log('Beta Feedback Submitted:', {
+    const feedbackData = {
       timestamp: new Date().toISOString(),
       ...formData
-    });
+    };
 
-    setShowSuccess(true);
-    
-    setTimeout(() => {
-      setShowSuccess(false);
-      setFormData({
-        bugs: '',
-        improvements: '',
-        enjoyedFeatures: '',
-        solvesIssue: '',
-        willingness: '',
-        paymentFactors: '',
-        convenience: '',
-        removeFeatures: '',
-        confusingParts: '',
-        additionalThoughts: '',
-        pageFeedback: {
-          landing: '',
-          product: '',
-          integrations: '',
-          about: ''
-        }
+    try {
+      const response = await fetch('https://api.airthreads.ai/api/feedback', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        credentials: 'include',
+        body: JSON.stringify(feedbackData)
       });
-      localStorage.removeItem('airthreads_beta_feedback');
-      onClose();
-    }, 2500);
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      console.log('✅ Feedback submitted successfully to backend');
+      setShowSuccess(true);
+      
+      setTimeout(() => {
+        setShowSuccess(false);
+        setFormData({
+          bugs: '',
+          improvements: '',
+          enjoyedFeatures: '',
+          solvesIssue: '',
+          willingness: '',
+          paymentFactors: '',
+          convenience: '',
+          removeFeatures: '',
+          confusingParts: '',
+          additionalThoughts: '',
+          pageFeedback: {
+            landing: '',
+            product: '',
+            integrations: '',
+            about: ''
+          }
+        });
+        localStorage.removeItem('airthreads_beta_feedback');
+        onClose();
+      }, 2500);
+    } catch (error) {
+      console.error('❌ Failed to submit feedback:', error);
+      alert('Failed to submit feedback. Please try again or contact support@airthreads.ai');
+    }
   };
 
   if (!isOpen) return null;

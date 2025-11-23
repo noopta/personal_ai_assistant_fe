@@ -29,7 +29,7 @@ The application features a complete Stripe-inspired UI redesign across all pages
 - **User Interface**: Landing, Product (Chat), Integrations, and About pages with consistent design.
 - **Voice Integration**: Vapi AI integration for voice-powered interactions.
 - **Activity Stream**: Displays recent activities with real-time updates from integrated services like Gmail and Calendar, showing activity types such as send, delete, modify for Gmail, and create, update, delete for Calendar.
-- **Beta Testing Feedback System**: Floating feedback button (bottom right) accessible on all pages. Tabbed modal with page-specific feedback sections (Landing, Product, Integrations, About) and general feedback (10 detailed questions). All icons use minimalist SVG line art. Form data persists in localStorage and shows success notification on submission. No backend integration yet (frontend-only implementation).
+- **Beta Testing Feedback System**: Floating feedback button (bottom right) accessible on all pages. Tabbed modal with page-specific feedback sections (Landing, Product, Integrations, About) and general feedback (10 detailed questions). All icons use minimalist SVG line art. Form data persists in localStorage and shows success notification on submission. Backend integrated: POST to `https://api.airthreads.ai/api/feedback` with full JSON structure including timestamp and all form fields.
 - **Environment Variables**: All API keys and endpoints are configured as encrypted Replit Secrets (`REACT_APP_VAPI_API_KEY`, `REACT_APP_VAPI_ASSISTANT_ID`, `REACT_APP_GMAIL_API_URL`, `REACT_APP_CALENDAR_API_URL`, `REACT_APP_AGENT_API_URL`, `REACT_APP_OAUTH_CALLBACK_URL`).
 
 ### System Design Choices
@@ -51,7 +51,7 @@ The application features a complete Stripe-inspired UI redesign across all pages
   - **Minimalist Icons:** All emojis replaced with clean, futuristic SVG line icons (bug, heart, lightbulb, target, dollar, key, zap, trash, alert, message)
   - Auto-saves all feedback to localStorage as users type (persistent across sessions - users can close and reopen without losing progress)
   - Success notification on submission with green checkmark animation
-  - No backend yet - logs to console for now
+  - **Backend Integration:** POST to `https://api.airthreads.ai/api/feedback` with error handling and user notifications
   - Full mobile responsiveness with icon-only tabs on small screens
 - **Design Features:**
   - Matches Stripe design system (purple gradients, smooth animations, clean lines)
