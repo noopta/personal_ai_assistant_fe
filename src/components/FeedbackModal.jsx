@@ -40,7 +40,7 @@ function FeedbackModal({ isOpen, onClose }) {
           }
         });
       } catch (e) {
-        console.error('Failed to parse saved feedback:', e);
+        // Silently fail - localStorage data may be corrupted
       }
     }
   }, []);
@@ -96,7 +96,6 @@ function FeedbackModal({ isOpen, onClose }) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
 
-      console.log('✅ Feedback submitted successfully to backend');
       setShowSuccess(true);
       
       setTimeout(() => {
@@ -123,7 +122,6 @@ function FeedbackModal({ isOpen, onClose }) {
         onClose();
       }, 2500);
     } catch (error) {
-      console.error('❌ Failed to submit feedback:', error);
       alert('Failed to submit feedback. Please try again or contact support@airthreads.ai');
     }
   };

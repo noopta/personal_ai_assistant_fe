@@ -41,16 +41,9 @@ function RecentActivity() {
 
       if (response.ok) {
         const data = await response.json();
-        console.log('📋 Session data received:', {
-          authenticated: data.authenticated,
-          userIDHash: data.userIDHash?.substring(0, 8) + '...',
-          hasGmail: !!data.gmailHashID,
-          hasCalendar: !!data.calendarHashID
-        });
 
         // Check authentication status
         if (!data.authenticated) {
-          console.warn('⚠️ User not authenticated');
           return null;
         }
 
@@ -59,15 +52,11 @@ function RecentActivity() {
         
         if (hashID) {
           setUserIDHash(hashID);
-          console.log('✅ Using primary userIDHash for activities:', hashID.substring(0, 8) + '...');
-          console.log('📌 Backend will automatically aggregate from all linked services');
           return hashID;
         }
       }
-      console.warn('Could not fetch hash ID from backend');
       return null;
     } catch (error) {
-      console.error('Error fetching hash ID:', error);
       return null;
     }
   };
@@ -113,13 +102,11 @@ function RecentActivity() {
       const response = await fetch(`${API_BASE_URL}/api/activity/recent`, requestOptions);
 
       if (!response.ok) {
-        console.warn('⚠️ Failed to fetch activities:', response.status);
         setIsLoading(false);
         return;
       }
 
       const data = await response.json();
-      console.log(`📧 Fetched ${data.activities?.length || 0} activities`);
       
       // Transform activities to match component structure
       const transformedActivities = (data.activities || []).map((activity, index) => ({
@@ -134,7 +121,6 @@ function RecentActivity() {
       setActivities(transformedActivities);
       setIsLoading(false);
     } catch (error) {
-      console.error('❌ Error fetching activities:', error);
       setIsLoading(false);
     }
   };
@@ -146,7 +132,6 @@ function RecentActivity() {
     }
     
     heartbeatTimeoutRef.current = setTimeout(() => {
-      console.warn('⚠️ No heartbeat received for 60 seconds, reconnecting...');
       reconnectStream();
     }, 60000); // 60 seconds
   };
@@ -154,7 +139,6 @@ function RecentActivity() {
   // Reconnect with exponential backoff
   const reconnectStream = () => {
     if (!hashIDRef.current) {
-      console.error('Cannot reconnect: no hash ID available');
       return;
     }
 
@@ -180,7 +164,6 @@ function RecentActivity() {
 
     // Calculate backoff delay (max 30 seconds)
     const delay = Math.min(1000 * Math.pow(2, reconnectAttempts.current), 30000);
-    console.log(`🔄 Reconnecting in ${delay / 1000}s (attempt ${reconnectAttempts.current + 1})...`);
 
     reconnectTimeoutRef.current = setTimeout(() => {
       reconnectAttempts.current += 1;
@@ -191,7 +174,6 @@ function RecentActivity() {
   // Set up real-time EventSource stream with reconnection logic
   const setupEventSource = (hashID) => {
     if (!hashID) {
-      console.warn('No userIDHash available for activity stream');
       return;
     }
 
@@ -204,14 +186,12 @@ function RecentActivity() {
     }
 
     try {
-      console.log('🔌 Opening EventSource connection...');
       const eventSource = new EventSource(
         `${API_BASE_URL}/api/activity/stream?userIDHash=${hashID}`,
         { withCredentials: true }
       );
 
       eventSource.onopen = () => {
-        console.log('✅ Activity stream connected successfully');
         setIsConnected(true);
         reconnectAttempts.current = 0; // Reset reconnect counter on success
         
@@ -232,12 +212,10 @@ function RecentActivity() {
 
           // Ignore heartbeat messages (empty or whitespace-only payloads)
           if (!event.data || event.data.trim() === '' || event.data.includes('heartbeat')) {
-            console.log('💓 Heartbeat');
             return;
           }
           
           const activity = JSON.parse(event.data);
-          console.log('📧 New activity received:', activity.summary);
           
           // Transform and prepend new activity
           const newActivity = {
@@ -257,36 +235,28 @@ function RecentActivity() {
             );
             
             if (isDuplicate) {
-              console.log('⚠️ Duplicate activity detected, skipping');
               return prev;
             }
             
             // Prepend new activity and limit to 50 items
-            console.log('✅ Adding new activity to list');
             return [newActivity, ...prev].slice(0, 50);
           });
         } catch (parseError) {
-          console.error('❌ Error parsing activity event:', parseError, event.data);
+          // Silently fail on parse error
         }
       };
 
       eventSource.onerror = (error) => {
-        console.error('❌ EventSource connection error:', error);
-        console.error('Stream URL:', `${API_BASE_URL}/api/activity/stream?userIDHash=${hashID.substring(0, 8)}...`);
-        console.error('ReadyState:', eventSource.readyState);
-        
         setIsConnected(false);
 
         // EventSource readyState: 0 = CONNECTING, 1 = OPEN, 2 = CLOSED
         if (eventSource.readyState === 2) {
-          console.error('⚠️ Connection closed, attempting manual reconnect...');
           reconnectStream();
         }
       };
 
       eventSourceRef.current = eventSource;
     } catch (error) {
-      console.error('❌ Error setting up EventSource:', error);
       setIsConnected(false);
       reconnectStream();
     }
@@ -295,34 +265,26 @@ function RecentActivity() {
   // Initialize and setup connections
   useEffect(() => {
     const initializeActivity = async () => {
-      console.log('🔍 Initializing Recent Activity component...');
-      
       // Fetch session data to get primary userIDHash
       // Backend now aggregates activities from all linked services
       let hashID = await fetchActivityHashID();
       
       if (!hashID) {
-        console.log('⚠️ No hash ID from backend, trying cookies...');
         hashID = getUserIDHashFromCookie();
         if (hashID) {
-          console.log('✅ Found hash ID in cookies:', hashID.substring(0, 8) + '...');
           setUserIDHash(hashID);
         }
       }
 
       if (!hashID) {
-        console.error('❌ Cannot setup activity stream: No hash ID available');
-        console.error('💡 Tip: Make sure you are authenticated (Gmail/Calendar will be auto-linked)');
         setIsLoading(false);
         return;
       }
 
       // Fetch initial activities with primary userIDHash
-      console.log('📥 Fetching initial activities (from all linked services)...');
       await fetchActivities(hashID);
       
       // Setup real-time stream
-      console.log('🔌 Setting up EventSource stream...');
       setupEventSource(hashID);
     };
 
@@ -330,7 +292,6 @@ function RecentActivity() {
 
     // Cleanup on unmount
     return () => {
-      console.log('🧹 Cleaning up activity stream...');
       
       if (eventSourceRef.current) {
         eventSourceRef.current.close();

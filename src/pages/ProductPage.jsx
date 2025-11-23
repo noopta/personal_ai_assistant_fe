@@ -7,10 +7,9 @@ import AuthSetup from '../components/AuthSetup';
 import ModeSelection from '../components/ModeSelection';
 import VoiceMode from '../components/VoiceMode';
 import styles from './ProductPage.module.css';
-import ReactMarkdown from 'react-markdown';
 import Vapi from '@vapi-ai/web';
 import VapiWidget from './VapiWidget.tsx';
-import { generateSecureRandomId, sanitizeInput, validateUrlParam, secureLog, getEnvVar, loggedFetch } from '../utils/securityUtils';
+import { sanitizeInput, validateUrlParam, secureLog, getEnvVar, loggedFetch } from '../utils/securityUtils';
 
 function ProductPage() {
   const [messages, setMessages] = useState([]);
@@ -20,7 +19,6 @@ function ProductPage() {
   const [isCalendarAuthenticated, setIsCalendarAuthenticated] = useState(false);
   const [currentMode, setCurrentMode] = useState('auth'); // 'auth', 'selection', 'text', 'voice'
   const [isTransitioning, setIsTransitioning] = useState(false);
-  const [vapiMessage, setVapiMessage] = useState('');
   const [oauthWindowOpen, setOauthWindowOpen] = useState(false);
   const [forceAuthRecheck, setForceAuthRecheck] = useState(0); // Counter to trigger rechecks
   const [vapiSessionToken, setVapiSessionToken] = useState(null); // Secure token for Vapi calls
@@ -61,7 +59,6 @@ function ProductPage() {
       setVapiSessionToken(data.session_token);
       return data.session_token;
     } catch (error) {
-      console.error('Error fetching Vapi session token:', error);
       setMessages(prev => [...prev, {
         type: 'assistant',
         content: '⚠️ Failed to initialize voice session. Please try again or contact support.'
@@ -74,44 +71,34 @@ function ProductPage() {
   const initializeVapi = (sessionToken, gmailAuthStatus, calendarAuthStatus) => {
     if (!vapiRef.current) {
       if (!VAPI_API_KEY) {
-        console.error('VAPI_API_KEY not configured - please add to .env.local');
         return;
       }
       vapiRef.current = new Vapi(VAPI_API_KEY);
       
       vapiRef.current.on('message', (message) => {
-        if (message.role === 'assistant' && message.type === 'add-message') {
-          // This is the finalized assistant response
-          console.log('Finalized assistant response:', message.content);
-        }
-        console.log('Message event:', message);
+        // Handle message events
       });
 
       vapiRef.current.on('transcript', (event) => {
         // event.transcript contains the recognized speech text
-        console.log('Transcript:', event.transcript);
       });
 
       vapiRef.current.on('conversation-update', (event) => {
         // event.messages contains the conversation history
         const lastConversation = event.conversation[event.conversation.length - 1];
         if (lastConversation.role === 'assistant') {
-          console.log('Final assistant message from conversation-update:', lastConversation.content);
-          setVapiMessage(lastConversation.content);
           setMessages(prev => [...prev, {
             type: 'assistant',
             content: lastConversation.content
           }]);
           setIsLoading(false);
         }
-        console.log('Conversation messages:', event.messages);
       });
 
       secureLog('VAPI initialization');
 
       // Start the call when voice mode is initialized
       if (!VAPI_ASSISTANT_ID) {
-        console.error('VAPI_ASSISTANT_ID not configured');
         return;
       }
 
@@ -132,8 +119,6 @@ function ProductPage() {
           gmail: gmailAuthStatus ?? isGmailAuthenticated,
           calendar: calendarAuthStatus ?? isCalendarAuthenticated
         });
-      } else {
-        console.warn('No Vapi session token available - voice mode may not work correctly');
       }
 
       vapiRef.current.start(VAPI_ASSISTANT_ID, assistantOverrides);
@@ -209,7 +194,6 @@ function ProductPage() {
   useEffect(() => {
     const handleWindowFocus = () => {
       if (oauthWindowOpen) {
-        console.log('Window focused after OAuth, checking authentication status...');
         setOauthWindowOpen(false);
 
         // Check both Gmail and Calendar status after OAuth
@@ -265,8 +249,6 @@ function ProductPage() {
               }
             }
           } catch (error) {
-            console.error('Error checking authentication status after OAuth:', error);
-
             // Check if this is a CORS error and inform the user
             if (error.message?.includes('CORS') || error.name === 'TypeError') {
               setMessages(prev => [...prev, {
@@ -369,7 +351,6 @@ function ProductPage() {
 
       return false;
     } catch (authError) {
-      console.error('Error during Gmail authentication:', authError);
       setMessages(prev => [...prev, {
         type: 'assistant',
         content: `❌ Gmail authentication failed: ${authError.message}`
@@ -413,7 +394,6 @@ function ProductPage() {
       // Check if we received an auth URL to open
       if (authData.auth_url || authData.authUrl || authData.generatedAuthUrl) {
         const authUrl = authData.auth_url || authData.authUrl || authData.generatedAuthUrl;
-        console.log('Opening Calendar auth URL:', authUrl);
 
         setMessages(prev => [...prev, {
           type: 'assistant',
@@ -421,7 +401,6 @@ function ProductPage() {
         }]);
 
         // Open in a new tab instead of replacing current page
-        console.log('Attempting to open Calendar auth URL in new tab...');
         window.open(authUrl, '_blank');
       }
 
@@ -451,7 +430,6 @@ function ProductPage() {
 
       return false;
     } catch (authError) {
-      console.error('Error during Calendar authentication:', authError);
       setMessages(prev => [...prev, {
         type: 'assistant',
         content: `❌ Google Calendar authentication failed: ${authError.message}`
@@ -520,7 +498,6 @@ function ProductPage() {
             setIsGmailAuthenticated(true);
           }
         } catch (authError) {
-          console.error('Error checking Gmail auth:', authError);
           setMessages(prev => [...prev, {
             type: 'assistant',
             content: `⚠️ Warning: Could not check Gmail authentication status. Proceeding anyway... (${authError.message})`
@@ -561,8 +538,6 @@ function ProductPage() {
             setIsCalendarAuthenticated(true);
           }
         } catch (authError) {
-          console.error('Error checking Calendar auth:', authError);
-
           let errorMessage = `⚠️ Warning: Could not check Google Calendar authentication status.`;
 
           // Check if this is a CORS error
@@ -615,12 +590,8 @@ function ProductPage() {
         })
       });
 
-      // console.log('Response received:', response.status, response.statusText);
-
       if (!response.ok) {
         // Check if it's an authentication error
-        console.log('response.status', response.status);
-        console.log("response wasn't ok triggering auth")
         if (response.status === 401) {
           const errorData = await response.json();
           
@@ -668,8 +639,6 @@ function ProductPage() {
       }]);
 
     } catch (error) {
-      console.error('Error fetching response:', error);
-      
       let errorMessage = `Error: ${error.message || 'Failed to process your request'}`;
       
       // Provide helpful suggestions based on error type
@@ -737,8 +706,6 @@ function ProductPage() {
         content: `${statusMessage}\n\nStatus: ${data.message || 'No additional details'}`
       }]);
     } catch (error) {
-      console.error('Gmail status check error:', error);
-      
       // Check for CORS or network errors
       if (error.name === 'TypeError' || error.message?.includes('Failed to fetch')) {
         setMessages(prev => [...prev, {
@@ -782,8 +749,6 @@ function ProductPage() {
         content: `${statusMessage}\n\nStatus: ${data.message || 'No additional details'}`
       }]);
     } catch (error) {
-      console.error('Calendar status check error:', error);
-      
       // Check for CORS or network errors
       if (error.name === 'TypeError' || error.message?.includes('Failed to fetch')) {
         setMessages(prev => [...prev, {

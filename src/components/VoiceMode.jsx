@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
 import styles from './VoiceMode.module.css';
-import ChatMessage from './ChatMessage';
 import RecentActivity from './RecentActivity';
 
 function VoiceMode({ onSwitchMode, vapiRef, messages, setMessages, isLoading, setIsLoading, vapiSessionToken }) {
@@ -20,8 +19,6 @@ function VoiceMode({ onSwitchMode, vapiRef, messages, setMessages, isLoading, se
       };
 
       const handleMessage = (message) => {
-        console.log('Vapi message event:', message);
-
         if (message.role === 'user' && message.type === 'transcript') {
           // User finished speaking
           setCurrentTranscript('');
@@ -35,26 +32,22 @@ function VoiceMode({ onSwitchMode, vapiRef, messages, setMessages, isLoading, se
       };
 
       const handleSpeechStart = () => {
-        console.log('AI speech started');
         setIsAISpeaking(true);
         setIsLoading(false);
         setIsListening(false);
       };
 
       const handleSpeechEnd = () => {
-        console.log('AI speech ended');
         setIsAISpeaking(false);
       };
 
       const handleCallStart = () => {
-        console.log('Vapi call started in voice mode');
         setIsCallActive(true);
         setIsListening(false);
         setIsAISpeaking(false);
       };
 
       const handleCallEnd = () => {
-        console.log('Vapi call ended in voice mode');
         setIsCallActive(false);
         setIsListening(false);
         setIsLoading(false);
@@ -88,8 +81,6 @@ function VoiceMode({ onSwitchMode, vapiRef, messages, setMessages, isLoading, se
     if (vapiRef.current) {
       // Check if call is active; if not, restart it
       if (!isCallActive) {
-        console.log('Call inactive, restarting...');
-
         // Pass session token for user identification
         const assistantOverrides = {
           recordingEnabled: false
@@ -99,9 +90,6 @@ function VoiceMode({ onSwitchMode, vapiRef, messages, setMessages, isLoading, se
           assistantOverrides.variableValues = {
             session_token: vapiSessionToken
           };
-          console.log('Restarting Vapi with session token');
-        } else {
-          console.warn('No session token available for call restart');
         }
 
         vapiRef.current.start('607939c5-79e1-4de7-bbfa-4e3f0671edef', assistantOverrides);

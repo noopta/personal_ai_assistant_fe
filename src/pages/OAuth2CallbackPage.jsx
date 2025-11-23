@@ -48,7 +48,7 @@ function OAuth2CallbackPage() {
               service = 'Google Service';
             }
           } catch (parseError) {
-            console.error('Error parsing state:', parseError);
+            // Silently fail on parse error
           }
         }
 
@@ -101,7 +101,6 @@ function OAuth2CallbackPage() {
         }
 
       } catch (err) {
-        console.error('OAuth callback error:', err);
         secureLog('OAuth callback error occurred');
         setStatus('error');
         setError(err.message || 'An unexpected error occurred');

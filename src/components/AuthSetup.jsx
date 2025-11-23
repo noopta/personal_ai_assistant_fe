@@ -98,13 +98,10 @@ function AuthSetup({ onAuthComplete, initialGmailAuth = false, initialCalendarAu
           setAuthMessages(prev => [...prev, '✅ Gmail is already connected and ready to use!']);
         }
       } else {
-        const errorText = await gmailResponse.text();
-        console.error('Gmail status check failed:', gmailResponse.status, errorText);
         // Preserve initial auth state if there was an error checking status
         setIsGmailAuthenticated(initialGmailAuth || false);
       }
     } catch (gmailError) {
-      console.error('Error checking Gmail status:', gmailError);
       // Preserve initial auth state if there was an error
       setIsGmailAuthenticated(initialGmailAuth || false);
     }
@@ -142,17 +139,12 @@ function AuthSetup({ onAuthComplete, initialGmailAuth = false, initialCalendarAu
           setAuthMessages(prev => [...prev, '✅ Google Calendar is already connected and ready to use!']);
         }
       } else {
-        const errorText = await calendarResponse.text();
-        console.error('Calendar status check failed:', calendarResponse.status, errorText);
         // Preserve initial auth state if there was an error checking status
         setIsCalendarAuthenticated(initialCalendarAuth || false);
       }
     } catch (calendarError) {
-      console.error('Error checking Calendar status:', calendarError);
-
       // Check if this is a CORS error
       if (calendarError.message?.includes('CORS') || calendarError.name === 'TypeError') {
-        console.warn('CORS error detected for Calendar service. This needs to be fixed on the server side.');
 
         let corsMessage = '⚠️ Calendar service temporarily unavailable due to CORS configuration.';
 
@@ -227,7 +219,6 @@ function AuthSetup({ onAuthComplete, initialGmailAuth = false, initialCalendarAu
         setIsGmailAuthenticated(false);
       }
     } catch (error) {
-      console.error('Error during Gmail authentication:', error);
       setAuthMessages(prev => [...prev, `❌ Gmail authentication failed: ${error.message}`]);
     } finally {
       setIsGmailLoading(false);
@@ -283,7 +274,6 @@ function AuthSetup({ onAuthComplete, initialGmailAuth = false, initialCalendarAu
         setIsCalendarAuthenticated(false);
       }
     } catch (error) {
-      console.error('Error during Calendar authentication:', error);
       setAuthMessages(prev => [...prev, `❌ Google Calendar authentication failed: ${error.message}`]);
     } finally {
       setIsCalendarLoading(false);
