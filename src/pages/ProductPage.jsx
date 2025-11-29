@@ -28,6 +28,18 @@ function ProductPage() {
   const VAPI_ASSISTANT_ID = getEnvVar('REACT_APP_VAPI_ASSISTANT_ID', '607939c5-79e1-4de7-bbfa-4e3f0671edef');
   const API_BASE_URL = getEnvVar('REACT_APP_API_BASE_URL', 'https://api.airthreads.ai');
 
+  // Get cookie values
+  const getCookieValue = (name) => {
+    const cookies = document.cookie.split(';');
+    for (let cookie of cookies) {
+      const [cookieName, value] = cookie.trim().split('=');
+      if (cookieName === name) {
+        return decodeURIComponent(value);
+      }
+    }
+    return null;
+  };
+
 
   // ok so basicalyl we are getting back a series of 
   // "conversation-update" events in the json 
@@ -199,21 +211,20 @@ function ProductPage() {
         // Check both Gmail and Calendar status after OAuth
         setTimeout(async () => {
           try {
-            // Check Gmail status - backend-issued cookies sent automatically
-            const gmailResponse = await loggedFetch(`${API_BASE_URL}/api/gmail-status`, {
+            // Check Gmail status - direct endpoint
+            const gmailHashID = getCookieValue('gmailHashID');
+            const gmailResponse = await loggedFetch('https://api.airthreads.ai:4008/checkGmailStatus', {
               method: 'POST',
               headers: {
                 'Content-Type': 'application/json',
               },
-              credentials: 'include',  // Send cookies with request
-              body: JSON.stringify({})  // Empty body to satisfy preflight
+              credentials: 'include',
+              body: JSON.stringify({ gmailHashID })
             });
 
             if (gmailResponse.ok) {
               const gmailData = await gmailResponse.json();
-              const isGmailAuth = gmailData.needs_auth === false ||
-                                 gmailData.authenticated === true ||
-                                 gmailData.status === true;
+              const isGmailAuth = gmailData.authenticated === true;
               setIsGmailAuthenticated(isGmailAuth);
 
               if (isGmailAuth) {
@@ -224,21 +235,20 @@ function ProductPage() {
               }
             }
 
-            // Check Calendar status - backend-issued cookies sent automatically
-            const calendarResponse = await loggedFetch(`${API_BASE_URL}/api/calendar-status`, {
+            // Check Calendar status - direct endpoint
+            const userIDHash = getCookieValue('userIDHash');
+            const calendarResponse = await loggedFetch('https://api.airthreads.ai:4010/checkCalendarStatus', {
               method: 'POST',
               headers: {
                 'Content-Type': 'application/json',
               },
-              credentials: 'include',  // Send cookies with request
-              body: JSON.stringify({})  // Empty body to satisfy preflight
+              credentials: 'include',
+              body: JSON.stringify({ userIDHash })
             });
 
             if (calendarResponse.ok) {
               const calendarData = await calendarResponse.json();
-              const isCalendarAuth = calendarData.needs_auth === false ||
-                                    calendarData.authenticated === true ||
-                                    calendarData.status === true;
+              const isCalendarAuth = calendarData.authenticated === true;
               setIsCalendarAuthenticated(isCalendarAuth);
 
               if (isCalendarAuth) {
@@ -297,14 +307,15 @@ function ProductPage() {
     try {
       secureLog('Starting Gmail authentication');
 
-      // Backend sets HTTP-only cookies during auth flow
-      const authResponse = await loggedFetch(`${API_BASE_URL}/api/gmail-auth`, {
+      // Direct endpoint for Gmail auth
+      const gmailHashID = getCookieValue('gmailHashID');
+      const authResponse = await loggedFetch('https://api.airthreads.ai:4008/initiate-auth', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        credentials: 'include',  // Send cookies with request
-        body: JSON.stringify({})  // Empty body to satisfy preflight
+        credentials: 'include',
+        body: JSON.stringify({ gmailHashID })
       });
 
       const authData = await authResponse.json();
@@ -312,8 +323,7 @@ function ProductPage() {
       secureLog('Gmail auth response received', { success: authData.success, hasAuthUrl: !!(authData.authUrl || authData.auth_url) });
 
       // Check if we received an auth URL to open
-      if (authData.authUrl || authData.auth_url) {
-        const authUrl = authData.authUrl || authData.auth_url;
+      if (authData.authUrl) {
         secureLog('Opening Gmail auth URL');
 
         setMessages(prev => [...prev, {
@@ -322,10 +332,10 @@ function ProductPage() {
         }]);
 
         // Open in a new tab instead of replacing current page
-        window.open(authUrl, '_blank');
+        window.open(authData.authUrl, '_blank');
       }
 
-      if (authData.success === true) {
+      if (authData.status === 'auth_required' || authData.authUrl) {
         secureLog('Gmail authentication successful');
         setMessages(prev => [...prev, {
           type: 'assistant',
@@ -378,18 +388,19 @@ function ProductPage() {
     try {
       secureLog('Starting Calendar authentication');
 
-      // Backend sets HTTP-only cookies during auth flow
-      const authResponse = await loggedFetch(`${API_BASE_URL}/api/calendar-auth`, {
+      // Direct endpoint for Calendar auth
+      const userIDHash = getCookieValue('userIDHash');
+      const authResponse = await loggedFetch('https://api.airthreads.ai:4010/initiate-auth', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        credentials: 'include',  // Send cookies with request
-        body: JSON.stringify({})  // Empty body to satisfy preflight
+        credentials: 'include',
+        body: JSON.stringify({ userIDHash })
       });
 
       const authData = await authResponse.json();
-      secureLog('Calendar auth response received', { success: authData.success });
+      secureLog('Calendar auth response received', { hasAuthUrl: !!authData.authUrl });
 
       // Check if we received an auth URL to open
       if (authData.auth_url || authData.authUrl || authData.generatedAuthUrl) {
@@ -471,20 +482,20 @@ function ProductPage() {
       // Handle Gmail authentication if needed (only if not already authenticated)
       if (needsGmail && !isGmailAuthenticated) {
         try {
-          // Backend-issued cookies sent automatically
-          const gmailStatusResponse = await loggedFetch(`${API_BASE_URL}/api/gmail-status`, {
+          // Direct endpoint for Gmail status
+          const gmailHashID = getCookieValue('gmailHashID');
+          const gmailStatusResponse = await loggedFetch('https://api.airthreads.ai:4008/checkGmailStatus', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
             },
-            credentials: 'include',  // Send cookies with request
-            body: JSON.stringify({})  // Empty body to satisfy preflight
+            credentials: 'include',
+            body: JSON.stringify({ gmailHashID })
           });
           const gmailStatusData = await gmailStatusResponse.json();
           
-          // Check multiple possible authentication indicators
-          const needsAuth = gmailStatusData.needs_auth ||
-                           (!gmailStatusData.authenticated && gmailStatusData.status !== true);
+          // Check authentication indicator
+          const needsAuth = gmailStatusData.authenticated !== true;
 
           if (needsAuth) {
             const gmailAuthSuccess = await handleGmailAuth();
@@ -509,21 +520,21 @@ function ProductPage() {
       if (needsCalendar && !isCalendarAuthenticated) {
         secureLog('Calendar authentication needed');
         try {
-          // Backend-issued cookies sent automatically
-          const calendarStatusResponse = await loggedFetch(`${API_BASE_URL}/api/calendar-status`, {
+          // Direct endpoint for Calendar status
+          const userIDHash = getCookieValue('userIDHash');
+          const calendarStatusResponse = await loggedFetch('https://api.airthreads.ai:4010/checkCalendarStatus', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
             },
-            credentials: 'include',  // Send cookies with request
-            body: JSON.stringify({})  // Empty body to satisfy preflight
+            credentials: 'include',
+            body: JSON.stringify({ userIDHash })
           });
           const calendarStatusData = await calendarStatusResponse.json();
           secureLog('Calendar status data received');
 
-          // Check multiple possible authentication indicators
-          const needsAuth = calendarStatusData.needs_auth ||
-                           (!calendarStatusData.authenticated && calendarStatusData.status !== true);
+          // Check authentication indicator
+          const needsAuth = calendarStatusData.authenticated !== true;
 
           if (needsAuth) {
             secureLog('Calendar needs auth');

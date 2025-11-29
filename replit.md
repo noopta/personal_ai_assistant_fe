@@ -20,8 +20,12 @@ The application features a complete Stripe-inspired UI redesign across all pages
 - **Frontend**: React 19.1.0 (Create React App) with React Router DOM 7.6.2 for routing, custom CSS Modules for styling, `react-markdown` for rich text, and `react-syntax-highlighter` for code display. `@vapi-ai/web` is used for voice integration.
 - **iOS App**: A native iOS application built with SwiftUI, replicating the web interface with full feature parity and Stripe-inspired design principles.
 - **Development Environment**: Configured for Replit with frontend running on port 5000, host set to `0.0.0.0`, and host check disabled for Replit proxy compatibility.
-- **Real-time Features**: Integrated real-time activity feed using Server-Sent Events (SSE) for initial load and streaming, with de-duplication, display limits, and auto-reconnection. Activities are fetched via POST to `/api/activity/recent` with `{ userIDHash, limit }` and streamed via EventSource to `/api/activity/stream?userIDHash=...`. The component uses `gmailHashID` (from session) for Gmail activities.
-- **Authentication Flow**: Frontend interacts with a Python FastAPI Proxy (`api.airthreads.ai`) which then communicates with MCP (Model Context Protocol) servers for Gmail/Calendar. The proxy handles HTTP-only cookies (`userIDHash`, `gmailHashID`, `calendarHashID`) for secure session management, with all requests using `credentials: 'include'`. Session data retrieved via `GET /api/user/session`.
+- **Authentication Flow (UPDATED Nov 29)**: Frontend now communicates directly with MCP servers on their native ports (no proxy needed):
+  - **Gmail MCP Server**: `https://api.airthreads.ai:4008` - `/initiate-auth` and `/checkGmailStatus` endpoints
+  - **Calendar MCP Server**: `https://api.airthreads.ai:4010` - `/initiate-auth` and `/checkCalendarStatus` endpoints
+  - Request bodies include `gmailHashID` for Gmail and `userIDHash` for Calendar (extracted from cookies)
+  - All requests use `credentials: 'include'` for secure cookie handling
+- **Real-time Features**: Integrated real-time activity feed using Server-Sent Events (SSE) for initial load and streaming, with de-duplication, display limits, and auto-reconnection. Activities are fetched via POST to `/api/activity/recent` with `{ userIDHash, limit }` and streamed via EventSource to `/api/activity/stream?userIDHash=...`.
 
 ### Feature Specifications
 - **Core Functionality**: Chat interface for task management and integration.
@@ -40,6 +44,23 @@ The application features a complete Stripe-inspired UI redesign across all pages
 
 ## Recent Changes
 
+### November 29, 2025: Direct MCP Endpoint Integration 🔌
+- **Architecture Change:** Frontend now uses direct MCP server endpoints instead of proxy pattern
+  - Gmail authentication: `https://api.airthreads.ai:4008/initiate-auth` and `/checkGmailStatus`
+  - Calendar authentication: `https://api.airthreads.ai:4010/initiate-auth` and `/checkCalendarStatus`
+  - Removed dependency on proxy routing (`/api/gmail-auth`, `/api/calendar-auth`, etc.)
+- **Implementation Details:**
+  - Updated AuthSetup.jsx: Direct endpoint calls with `gmailHashID` and `userIDHash` from cookies
+  - Updated ProductPage.jsx: Direct endpoint calls in authentication flows and status checks
+  - Added `getCookieValue()` helper function for extracting hash IDs from HTTP-only cookies
+  - Response parsing aligned with MCP server response format: `{ authenticated, authUrl, status }`
+- **Request Format:**
+  - Gmail: `POST https://api.airthreads.ai:4008/initiate-auth` with `{ gmailHashID }`
+  - Gmail: `POST https://api.airthreads.ai:4008/checkGmailStatus` with `{ gmailHashID }`
+  - Calendar: `POST https://api.airthreads.ai:4010/initiate-auth` with `{ userIDHash }`
+  - Calendar: `POST https://api.airthreads.ai:4010/checkCalendarStatus` with `{ userIDHash }`
+- **Build Status:** Compiles successfully with warnings (minor unused imports in unrelated files)
+
 ### November 23, 2025: Security Audit & Production Code Cleanup 🔒
 - **Console Logging Removal:** Removed all console.log, console.error, console.warn statements from production code
   - Cleaned securityUtils.js: secureLog function now production-ready (logging disabled in production builds)
@@ -55,9 +76,6 @@ The application features a complete Stripe-inspired UI redesign across all pages
   - XSS prevention via sanitizeInput function validation maintained
   - CSRF protection via state parameter validation maintained
 - **Build Status:** App compiles successfully with minimal warnings, ready for production deployment
-  - All unused code removed
-  - Security utilities production-optimized
-  - No critical issues or vulnerabilities
 
 ### November 23, 2025: Mobile Navigation Bar Responsiveness Fix 📱
 - **Problem Solved:** Fixed horizontal scrolling and dark mode toggle going off-screen on iPhone 14 (390px) and smaller devices
@@ -68,7 +86,7 @@ The application features a complete Stripe-inspired UI redesign across all pages
   - **Typography Scaling:** Logo font scales from 1.375rem → 0.875rem → 0.8125rem on smallest screens while maintaining 13px minimum for nav links (WCAG compliant)
   - **Overflow Prevention:** Added `overflow-x: hidden` on html/body to prevent any horizontal scrolling
   - **Accessibility Maintained:** All touch targets meet 44px minimum height requirement, font sizes meet WCAG minimums
-- **Result:** Clean, professional mobile navbar with no horizontal overflow on all devices (390px, 414px, 430px, 540px+). Users on very small screens (≤390px) see simplified navigation with critical pages still accessible via footer.
+- **Result:** Clean, professional mobile navbar with no horizontal overflow on all devices (390px, 414px, 430px, 540px+).
 
 ### November 22, 2025: Beta Testing Feedback System with Page-Specific Tabs ✨
 - **Floating Feedback Button:** Purple gradient button fixed to bottom-right corner (minimalist chat bubble icon)
@@ -77,31 +95,23 @@ The application features a complete Stripe-inspired UI redesign across all pages
   - Mobile-responsive with appropriate sizing and positioning
 - **Tabbed Feedback Modal:** Beautiful Stripe-inspired modal with page-specific and general feedback sections
   - **5 Tab System:** General Feedback (first), Landing Page, Product, Integrations, About
-  - **General Feedback Tab (Default):** Always opens first with 10 focused questions covering bugs, enjoyment, improvements, problem-solving, payment willingness, convenience, feature removal, confusion, and additional thoughts. Includes tip notification directing users to page-specific tabs.
-  - **Page-Specific Tabs:** Simple textarea for users to provide feedback specific to each page (layout, bugs, confusing elements, missing features)
+  - **General Feedback Tab:** 10 focused questions covering bugs, enjoyment, improvements, problem-solving, payment willingness, convenience, feature removal, confusion, and additional thoughts.
+  - **Page-Specific Tabs:** Simple textarea for users to provide feedback specific to each page
   - **Minimalist Icons:** All emojis replaced with clean, futuristic SVG line icons (bug, heart, lightbulb, target, dollar, key, zap, trash, alert, message)
-  - Auto-saves all feedback to localStorage as users type (persistent across sessions - users can close and reopen without losing progress)
+  - Auto-saves feedback to localStorage as users type (persistent across sessions)
   - Success notification on submission with green checkmark animation
-  - **Backend Integration:** POST to `https://api.airthreads.ai/api/feedback` with error handling and user notifications
+  - Backend integration: POST to `https://api.airthreads.ai/api/feedback`
   - Full mobile responsiveness with icon-only tabs on small screens
-- **Design Features:**
-  - Matches Stripe design system (purple gradients, smooth animations, clean lines)
-  - Backdrop blur overlay on modal open
-  - Accessibility-compliant (ARIA labels, keyboard navigation)
-  - Works seamlessly in both light and dark modes
-  - Professional UX with clear hints and placeholders for each question
 
 ### November 17, 2025: Activity Stream Integration Complete ✅
 - **Solution:** Backend now auto-aggregates activities from all linked services
   - Frontend uses primary `userIDHash` (from session)
   - Backend automatically includes activities from Gmail, Calendar, and other linked services
-  - No need to track separate hash IDs per service in frontend
 - **Implementation:**
   - `GET /api/user/session` retrieves `{ authenticated, userIDHash, gmailHashID, calendarHashID }`
   - POST to `/api/activity/recent` with `{ userIDHash, limit: 20 }` (backend aggregates)
   - EventSource to `/api/activity/stream?userIDHash=${userIDHash}` with SSE
   - Dynamic activity count badge, empty states, smooth animations
-  - Comprehensive logging for debugging authentication flow
 - **Robust Reconnection Logic:**
   - Connection state tracking with visual indicator (🟢 connected / 🔴 disconnected)
   - Heartbeat timeout monitoring (reconnects if no heartbeat for 60s)
@@ -109,18 +119,11 @@ The application features a complete Stripe-inspired UI redesign across all pages
   - Race condition prevention (clears all timers before reconnect)
   - Single EventSource instance guarantee (no duplicate connections)
   - Proper cleanup on unmount
-- **Backend Integration (VERIFIED):**
-  - ✅ SSE connection working with 24h nginx timeout
-  - ✅ CORS headers configured for all activity endpoints
-  - ✅ Session endpoint returns hash IDs and authentication status
-  - ✅ Backend auto-aggregates activities from all linked services
-  - ✅ Real-time updates tested and confirmed
-  - ✅ Automatic reconnection on connection loss
 
 ## External Dependencies
 - **Vapi AI**: Used for voice integration via `REACT_APP_VAPI_API_KEY` and `REACT_APP_VAPI_ASSISTANT_ID`.
-- **Google API Services**: Integration with Gmail and Google Calendar.
+- **Google API Services**: Integration with Gmail and Google Calendar via MCP servers.
 - **Notion API**: Planned integration (coming soon).
-- **Backend APIs**: Relies on external backend services for Gmail, Calendar, and AI agent functionalities (`REACT_APP_GMAIL_API_URL`, `REACT_APP_CALENDAR_API_URL`, `REACT_APP_AGENT_API_URL`).
-- **OAuth2**: Uses an OAuth callback URL (`REACT_APP_OAUTH_CALLBACK_URL`) for authentication.
+- **Backend APIs**: Backend services provide MCP servers for Gmail (port 4008) and Calendar (port 4010) on `api.airthreads.ai`.
+- **OAuth2**: Uses OAuth callback for authentication flows.
 - **NPM Packages**: `react-markdown`, `@vapi-ai/web`, `react-syntax-highlighter`, `serve` (for deployment).

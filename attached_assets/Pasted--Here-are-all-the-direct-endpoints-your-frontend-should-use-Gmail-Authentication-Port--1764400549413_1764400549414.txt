@@ -1,0 +1,123 @@
+
+● Here are all the direct endpoints your
+  frontend should use:
+
+  Gmail Authentication - Port 4008
+
+  Auth Initiate:
+  POST https://api.airthreads.ai:4008/initiat
+  e-auth
+
+  Request:
+  {
+    "gmailHashID": "your-user-gmail-hash-id"
+  }
+
+  Response:
+  {
+    "status": "auth_required",
+    "authUrl": "https://accounts.google.com/o
+  /oauth2/v2/auth?...",
+    "callbackPort": 3111,
+    "message": "Please open the provided URL 
+  in your browser to authenticate"
+  }
+
+  ---
+  Gmail Status Check:
+  POST https://api.airthreads.ai:4008/checkGm
+  ailStatus
+
+  Request:
+  {
+    "gmailHashID": "your-user-gmail-hash-id"
+  }
+
+  Response (Authenticated):
+  {
+    "success": true,
+    "authenticated": true,
+    "email": "user@gmail.com"
+  }
+
+  Response (Not Authenticated):
+  {
+    "success": true,
+    "authenticated": false,
+    "message": "Gmail authentication 
+  required"
+  }
+
+  ---
+  Calendar Authentication - Port 4010
+
+  Auth Initiate:
+  POST https://api.airthreads.ai:4010/initiat
+  e-auth
+
+  Request:
+  {
+    "userIDHash":
+  "your-user-calendar-hash-id"
+  }
+
+  Response:
+  {
+    "status": "auth_required",
+    "authUrl": "https://accounts.google.com/o
+  /oauth2/v2/auth?...",
+    "callbackPort": 3101,
+    "message": "Please open the provided URL 
+  in your browser to authenticate"
+  }
+
+  ---
+  Calendar Status Check:
+  POST https://api.airthreads.ai:4010/checkCa
+  lendarStatus
+
+  Request:
+  {
+    "userIDHash":
+  "your-user-calendar-hash-id"
+  }
+
+  Response (Authenticated):
+  {
+    "success": true,
+    "authenticated": true,
+    "calendars": [
+      {
+        "id": "primary",
+        "summary": "Primary Calendar"
+      }
+    ]
+  }
+
+  Response (Not Authenticated):
+  {
+    "success": true,
+    "authenticated": false,
+    "message": "Google Calendar 
+  authentication required"
+  }
+
+  ---
+  Summary Table
+
+  | Service  | Method | Endpoint
+  | Port | Request Param |
+  |----------|--------|----------------------
+  |------|---------------|
+  | Gmail    | POST   | /initiate-auth
+  | 4008 | gmailHashID   |
+  | Gmail    | POST   | /checkGmailStatus
+  | 4008 | gmailHashID   |
+  | Calendar | POST   | /initiate-auth
+  | 4010 | userIDHash    |
+  | Calendar | POST   | /checkCalendarStatus
+  | 4010 | userIDHash    |
+
+  Base URLs:
+  - Gmail: https://api.airthreads.ai:4008
+  - Calendar: https://api.airthreads.ai:4010
