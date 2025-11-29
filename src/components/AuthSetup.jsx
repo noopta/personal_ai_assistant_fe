@@ -287,9 +287,8 @@ function AuthSetup({ onAuthComplete, initialGmailAuth = false, initialCalendarAu
     }
   };
 
-  // Allow proceeding if authentication check is complete (not loading)
-  // User can proceed with or without services authenticated - they're optional
-  const canProceed = !isCheckingStatus;
+  // Allow proceeding only if at least one service is authenticated AND check is complete
+  const canProceed = !isCheckingStatus && (isGmailAuthenticated || isCalendarAuthenticated);
 
   const handleProceed = () => {
     if (canProceed) {
@@ -390,7 +389,7 @@ function AuthSetup({ onAuthComplete, initialGmailAuth = false, initialCalendarAu
             onClick={handleProceed}
             disabled={!canProceed}
           >
-            {canProceed ? 'Continue to Mode Selection' : 'Checking authentication status...'}
+            {isCheckingStatus ? 'Checking authentication status...' : canProceed ? 'Continue to Mode Selection' : 'Please connect at least one service to continue'}
           </button>
         </div>
 
