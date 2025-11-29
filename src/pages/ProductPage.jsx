@@ -26,7 +26,8 @@ function ProductPage() {
   // Get API configuration from environment variables
   const VAPI_API_KEY = getEnvVar('REACT_APP_VAPI_API_KEY', 'cf04b093-6837-4059-8fc0-7996040ab866');
   const VAPI_ASSISTANT_ID = getEnvVar('REACT_APP_VAPI_ASSISTANT_ID', '607939c5-79e1-4de7-bbfa-4e3f0671edef');
-  const API_BASE_URL = getEnvVar('REACT_APP_API_BASE_URL', 'https://api.airthreads.ai');
+  // Python server on port 5001
+  const PYTHON_SERVER_URL = 'https://api.airthreads.ai:5001';
 
   // Get cookie values
   const getCookieValue = (name) => {
@@ -53,7 +54,7 @@ function ProductPage() {
   const fetchVapiSessionToken = async () => {
     try {
       secureLog('Fetching Vapi session token');
-      const response = await loggedFetch(`${API_BASE_URL}/api/vapi-session`, {
+      const response = await loggedFetch(`${PYTHON_SERVER_URL}/vapi-session`, {
         method: 'POST',
         credentials: 'include', // Send HTTP-only cookies for authentication
         headers: {
@@ -589,7 +590,7 @@ function ProductPage() {
       }
 
       // Send query to backend - hash IDs sent via cookies and session token
-      const response = await loggedFetch(`${API_BASE_URL}/api/agent`, {
+      const response = await loggedFetch(`${PYTHON_SERVER_URL}/agent`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -690,14 +691,15 @@ function ProductPage() {
     try {
       secureLog('Checking Gmail status');
 
-      // Backend-issued cookies sent automatically
-      const response = await loggedFetch(`${API_BASE_URL}/api/gmail-status`, {
+      // Direct MCP endpoint
+      const gmailHashID = getCookieValue('gmailHashID');
+      const response = await loggedFetch('https://api.airthreads.ai:4008/checkGmailStatus', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        credentials: 'include',  // Send cookies with request
-        body: JSON.stringify({})  // Empty body to satisfy preflight
+        credentials: 'include',
+        body: JSON.stringify({ gmailHashID })
       });
       
       if (!response.ok) {
@@ -734,14 +736,15 @@ function ProductPage() {
 
   const handleCheckCalendarStatus = async () => {
     try {
-      // Backend-issued cookies sent automatically
-      const response = await loggedFetch(`${API_BASE_URL}/api/calendar-status`, {
+      // Direct MCP endpoint
+      const userIDHash = getCookieValue('userIDHash');
+      const response = await loggedFetch('https://api.airthreads.ai:4010/checkCalendarStatus', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        credentials: 'include',  // Send cookies with request
-        body: JSON.stringify({})  // Empty body to satisfy preflight
+        credentials: 'include',
+        body: JSON.stringify({ userIDHash })
       });
       
       if (!response.ok) {

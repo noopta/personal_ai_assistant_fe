@@ -1,6 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
 import styles from './RecentActivity.module.css';
-import { getEnvVar } from '../utils/securityUtils';
 
 function RecentActivity() {
   const [isLoading, setIsLoading] = useState(true);
@@ -13,7 +12,8 @@ function RecentActivity() {
   const heartbeatTimeoutRef = useRef(null);
   const hashIDRef = useRef(null);
   const reconnectAttempts = useRef(0);
-  const API_BASE_URL = getEnvVar('REACT_APP_API_BASE_URL', 'https://api.airthreads.ai');
+  // Python server on port 5001
+  const PYTHON_SERVER_URL = 'https://api.airthreads.ai:5001';
 
   // Get userIDHash from cookies
   const getUserIDHashFromCookie = () => {
@@ -31,7 +31,7 @@ function RecentActivity() {
   // Backend now aggregates activities from all linked services automatically
   const fetchActivityHashID = async () => {
     try {
-      const response = await fetch(`${API_BASE_URL}/api/user/session`, {
+      const response = await fetch(`${PYTHON_SERVER_URL}/user/session`, {
         method: 'GET',
         credentials: 'include',
         headers: {
@@ -99,7 +99,7 @@ function RecentActivity() {
         }
       };
 
-      const response = await fetch(`${API_BASE_URL}/api/activity/recent`, requestOptions);
+      const response = await fetch(`${PYTHON_SERVER_URL}/activity/recent`, requestOptions);
 
       if (!response.ok) {
         setIsLoading(false);
@@ -187,7 +187,7 @@ function RecentActivity() {
 
     try {
       const eventSource = new EventSource(
-        `${API_BASE_URL}/api/activity/stream?userIDHash=${hashID}`,
+        `${PYTHON_SERVER_URL}/activity/stream?userIDHash=${hashID}`,
         { withCredentials: true }
       );
 
