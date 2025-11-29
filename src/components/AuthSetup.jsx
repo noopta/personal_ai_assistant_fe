@@ -77,39 +77,43 @@ function AuthSetup({ onAuthComplete, initialGmailAuth = false, initialCalendarAu
     try {
       secureLog('Checking Gmail status');
       const gmailHashID = getCookieValue('gmailHashID');
-      const gmailResponse = await loggedFetch('https://api.airthreads.ai:4008/checkGmailStatus', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        credentials: 'include',
-        body: JSON.stringify({ gmailHashID })
-      });
-
-      secureLog('Gmail status response received');
-
-      if (gmailResponse.ok) {
-        const gmailData = await gmailResponse.json();
-        secureLog('Gmail status data received');
-
-        // Check multiple possible authentication indicators
-        const isAuthenticated = gmailData.needs_auth === false ||
-                               gmailData.authenticated === true ||
-                               gmailData.status === true;
-
-        secureLog('Gmail authentication status determined', { isAuthenticated });
-
-        // Update authentication state (merge with initial state)
-        const finalGmailAuth = isAuthenticated || initialGmailAuth;
-        setIsGmailAuthenticated(finalGmailAuth);
-
-        // Add success message if authenticated and no initial auth was provided
-        if (isAuthenticated && !initialGmailAuth) {
-          setAuthMessages(prev => [...prev, '✅ Gmail is already connected and ready to use!']);
-        }
-      } else {
-        // Preserve initial auth state if there was an error checking status
+      
+      // If no hash ID exists, user hasn't authenticated yet - that's ok, mark as not authenticated
+      if (!gmailHashID) {
         setIsGmailAuthenticated(initialGmailAuth || false);
+      } else {
+        const gmailResponse = await loggedFetch('https://api.airthreads.ai:4008/checkGmailStatus', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          credentials: 'include',
+          body: JSON.stringify({ gmailHashID })
+        });
+
+        secureLog('Gmail status response received');
+
+        if (gmailResponse.ok) {
+          const gmailData = await gmailResponse.json();
+          secureLog('Gmail status data received');
+
+          // Check authentication indicator
+          const isAuthenticated = gmailData.authenticated === true;
+
+          secureLog('Gmail authentication status determined', { isAuthenticated });
+
+          // Update authentication state (merge with initial state)
+          const finalGmailAuth = isAuthenticated || initialGmailAuth;
+          setIsGmailAuthenticated(finalGmailAuth);
+
+          // Add success message if authenticated and no initial auth was provided
+          if (isAuthenticated && !initialGmailAuth) {
+            setAuthMessages(prev => [...prev, '✅ Gmail is already connected and ready to use!']);
+          }
+        } else {
+          // Preserve initial auth state if there was an error checking status
+          setIsGmailAuthenticated(initialGmailAuth || false);
+        }
       }
     } catch (gmailError) {
       // Preserve initial auth state if there was an error
@@ -120,38 +124,42 @@ function AuthSetup({ onAuthComplete, initialGmailAuth = false, initialCalendarAu
     try {
       secureLog('Checking Calendar status');
       const userIDHash = getCookieValue('userIDHash');
-      const calendarResponse = await loggedFetch('https://api.airthreads.ai:4010/checkCalendarStatus', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        credentials: 'include',
-        body: JSON.stringify({ userIDHash })
-      });
-
-      secureLog('Calendar status response received');
-
-      if (calendarResponse.ok) {
-        const calendarData = await calendarResponse.json();
-        secureLog('Calendar status data received');
-
-        // Check multiple possible authentication indicators
-        const isAuthenticated = calendarData.needs_auth === false ||
-                               calendarData.authenticated === true ||
-                               calendarData.status === true;
-
-        secureLog('Calendar authentication status determined', { isAuthenticated });
-
-        // Don't merge with initial state - only use server response
-        setIsCalendarAuthenticated(isAuthenticated);
-
-        // Add success message if authenticated and no initial auth was provided
-        if (isAuthenticated && !initialCalendarAuth) {
-          setAuthMessages(prev => [...prev, '✅ Google Calendar is already connected and ready to use!']);
-        }
-      } else {
-        // Preserve initial auth state if there was an error checking status
+      
+      // If no hash ID exists, user hasn't authenticated yet - that's ok, mark as not authenticated
+      if (!userIDHash) {
         setIsCalendarAuthenticated(initialCalendarAuth || false);
+      } else {
+        const calendarResponse = await loggedFetch('https://api.airthreads.ai:4010/checkCalendarStatus', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          credentials: 'include',
+          body: JSON.stringify({ userIDHash })
+        });
+
+        secureLog('Calendar status response received');
+
+        if (calendarResponse.ok) {
+          const calendarData = await calendarResponse.json();
+          secureLog('Calendar status data received');
+
+          // Check authentication indicator
+          const isAuthenticated = calendarData.authenticated === true;
+
+          secureLog('Calendar authentication status determined', { isAuthenticated });
+
+          // Don't merge with initial state - only use server response
+          setIsCalendarAuthenticated(isAuthenticated);
+
+          // Add success message if authenticated and no initial auth was provided
+          if (isAuthenticated && !initialCalendarAuth) {
+            setAuthMessages(prev => [...prev, '✅ Google Calendar is already connected and ready to use!']);
+          }
+        } else {
+          // Preserve initial auth state if there was an error checking status
+          setIsCalendarAuthenticated(initialCalendarAuth || false);
+        }
       }
     } catch (calendarError) {
       // Check if this is a CORS error
@@ -279,7 +287,9 @@ function AuthSetup({ onAuthComplete, initialGmailAuth = false, initialCalendarAu
     }
   };
 
-  const canProceed = isGmailAuthenticated || isCalendarAuthenticated; // Allow proceeding with at least one service
+  // Allow proceeding if authentication check is complete (not loading)
+  // User can proceed with or without services authenticated - they're optional
+  const canProceed = !isCheckingStatus;
 
   const handleProceed = () => {
     if (canProceed) {
@@ -380,7 +390,7 @@ function AuthSetup({ onAuthComplete, initialGmailAuth = false, initialCalendarAu
             onClick={handleProceed}
             disabled={!canProceed}
           >
-            {canProceed ? 'Continue to Mode Selection' : 'Please connect at least one service to continue'}
+            {canProceed ? 'Continue to Mode Selection' : 'Checking authentication status...'}
           </button>
         </div>
 
