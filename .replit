@@ -73,3 +73,8 @@ externalPort = 3002
 deploymentTarget = "autoscale"
 run = ["npm", "run", "serve"]
 build = ["npm", "run", "build"]
+
+[userenv]
+
+[userenv.development]
+REACT_APP_ENABLE_LOGGING = "true"
