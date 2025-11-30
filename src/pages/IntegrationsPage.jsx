@@ -197,17 +197,17 @@ function IntegrationsPage() {
             <div className={styles.helpCard}>
               <div className={styles.helpIcon}>⚡</div>
               <h3>Quick Tips</h3>
-              <p>Ensure all required APIs are enabled in your Google Cloud Console before attempting authentication.</p>
+              <p>Connect at least Gmail or Calendar to unlock the AI assistant. You can add more integrations anytime.</p>
             </div>
             <div className={styles.helpCard}>
               <div className={styles.helpIcon}>🔒</div>
-              <h3>Security</h3>
-              <p>Never share your credentials or tokens publicly. Store them securely in environment variables.</p>
+              <h3>Your Data is Safe</h3>
+              <p>We use secure OAuth authentication. Your password is never shared with us, and you can disconnect anytime.</p>
             </div>
             <div className={styles.helpCard}>
               <div className={styles.helpIcon}>💡</div>
-              <h3>Support</h3>
-              <p>Having trouble? Check that your OAuth consent screen is properly configured with test users.</p>
+              <h3>Need Help?</h3>
+              <p>Having trouble connecting? Try signing out and back in, or use the feedback button to reach our support team.</p>
             </div>
           </div>
         </div>
