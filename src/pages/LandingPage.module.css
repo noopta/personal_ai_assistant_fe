@@ -574,6 +574,189 @@
   color: var(--text-muted);
 }
 
+/* Security & Trust Section */
+.security {
+  padding: 120px 0;
+  position: relative;
+  z-index: 10;
+  background: var(--bg-primary);
+}
+
+.securityBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  background: rgba(34, 197, 94, 0.1);
+  border: 1px solid rgba(34, 197, 94, 0.3);
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  color: #22c55e;
+  margin-bottom: 24px;
+}
+
+.securityBadge svg {
+  color: #22c55e;
+}
+
+[data-theme="light"] .securityBadge {
+  background: rgba(34, 197, 94, 0.08);
+  border-color: rgba(34, 197, 94, 0.25);
+}
+
+.securityGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 24px;
+  margin-bottom: 60px;
+  opacity: 0;
+}
+
+.securityCard {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 16px;
+  padding: 32px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.securityCard:hover {
+  transform: translateY(-4px);
+  border-color: rgba(34, 197, 94, 0.4);
+  box-shadow: 0 12px 32px rgba(34, 197, 94, 0.1);
+}
+
+.securityIcon {
+  width: 52px;
+  height: 52px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(99, 91, 255, 0.1);
+  border-radius: 12px;
+  margin-bottom: 20px;
+  transition: all 0.3s ease;
+}
+
+.securityCard:hover .securityIcon {
+  background: rgba(99, 91, 255, 0.15);
+  transform: scale(1.05);
+}
+
+.securityCard h3 {
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 12px;
+  color: var(--text-primary);
+}
+
+.securityCard p {
+  font-size: 15px;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+.complianceSection {
+  text-align: center;
+  opacity: 0;
+  animation-delay: 0.2s;
+}
+
+.complianceTitle {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 32px;
+}
+
+.complianceBadges {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  flex-wrap: wrap;
+  margin-bottom: 40px;
+}
+
+.complianceBadge {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 24px;
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  text-decoration: none;
+  color: inherit;
+  transition: all 0.3s ease;
+  min-width: 200px;
+}
+
+.complianceBadge:hover {
+  border-color: var(--accent-primary);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(99, 91, 255, 0.15);
+}
+
+.badgeIcon {
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(99, 91, 255, 0.1);
+  border-radius: 10px;
+  color: var(--accent-primary);
+  flex-shrink: 0;
+}
+
+.badgeContent {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  text-align: left;
+}
+
+.badgeName {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.badgeDesc {
+  font-size: 13px;
+  color: var(--text-muted);
+}
+
+.securityNote {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 20px 24px;
+  background: rgba(99, 91, 255, 0.05);
+  border: 1px solid rgba(99, 91, 255, 0.1);
+  border-radius: 12px;
+  text-align: left;
+}
+
+.securityNote svg {
+  color: var(--accent-primary);
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.securityNote p {
+  font-size: 14px;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  margin: 0;
+}
+
 /* CTA Section */
 .cta {
   padding: 120px 0;
@@ -732,8 +915,59 @@
 
   .features,
   .benefits,
+  .security,
   .cta {
     padding: 60px 0;
+  }
+
+  .securityGrid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+    margin-bottom: 40px;
+  }
+
+  .securityCard {
+    padding: 24px;
+  }
+
+  .securityIcon {
+    width: 44px;
+    height: 44px;
+  }
+
+  .securityCard h3 {
+    font-size: 16px;
+  }
+
+  .securityCard p {
+    font-size: 14px;
+  }
+
+  .complianceBadges {
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .complianceBadge {
+    width: 100%;
+    max-width: 280px;
+    padding: 14px 20px;
+  }
+
+  .badgeIcon {
+    width: 40px;
+    height: 40px;
+  }
+
+  .securityNote {
+    padding: 16px;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .securityNote p {
+    font-size: 13px;
   }
 
   .sectionHeader {

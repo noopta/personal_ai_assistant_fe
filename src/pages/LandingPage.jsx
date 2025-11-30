@@ -274,6 +274,140 @@ function LandingPage() {
         </div>
       </section>
 
+      <section 
+        className={styles.security}
+        id="security"
+        ref={el => sectionRefs.current.security = el}
+      >
+        <div className={styles.container}>
+          <div className={styles.sectionHeader}>
+            <div className={styles.securityBadge}>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
+                <path d="M12 2L4 6v6c0 5.55 3.84 10.74 8 12 4.16-1.26 8-6.45 8-12V6l-8-4z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                <path d="M9 12l2 2 4-4" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+              <span>ENTERPRISE-GRADE SECURITY</span>
+            </div>
+            <h2 className={styles.sectionTitle}>
+              Your data privacy is our priority
+            </h2>
+            <p className={styles.sectionSubtitle}>
+              We understand you're trusting us with sensitive emails and calendar data. That's why we've built AirThreads with industry-leading security standards and compliance frameworks.
+            </p>
+          </div>
+
+          <div className={`${styles.securityGrid} ${isVisible.security ? styles.fadeInUp : ''}`}>
+            <div className={styles.securityCard}>
+              <div className={styles.securityIcon}>
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
+                  <path d="M12 2L4 6v6c0 5.55 3.84 10.74 8 12 4.16-1.26 8-6.45 8-12V6l-8-4z" stroke="var(--accent-primary)" strokeWidth="2"/>
+                  <path d="M9 12l2 2 4-4" stroke="var(--accent-primary)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
+              </div>
+              <h3>OAuth 2.0 Secure Authentication</h3>
+              <p>We never see or store your Google password. Authentication happens directly with Google using OAuth 2.0 with PKCE, the industry standard for secure authorization.</p>
+            </div>
+
+            <div className={styles.securityCard}>
+              <div className={styles.securityIcon}>
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
+                  <rect x="3" y="11" width="18" height="11" rx="2" stroke="var(--accent-primary)" strokeWidth="2"/>
+                  <path d="M7 11V7a5 5 0 0110 0v4" stroke="var(--accent-primary)" strokeWidth="2" strokeLinecap="round"/>
+                  <circle cx="12" cy="16" r="1" fill="var(--accent-primary)"/>
+                </svg>
+              </div>
+              <h3>AES-256-GCM Encryption</h3>
+              <p>All data is encrypted at rest using military-grade AES-256-GCM encryption and in transit with TLS 1.2+. Your tokens are stored with secure file permissions.</p>
+            </div>
+
+            <div className={styles.securityCard}>
+              <div className={styles.securityIcon}>
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
+                  <circle cx="12" cy="12" r="10" stroke="var(--accent-primary)" strokeWidth="2"/>
+                  <path d="M12 6v6l4 2" stroke="var(--accent-primary)" strokeWidth="2" strokeLinecap="round"/>
+                </svg>
+              </div>
+              <h3>Minimal Data Retention</h3>
+              <p>We don't store your emails or calendar content. Session tokens expire in 5 minutes, and activity logs are automatically deleted after 24 hours.</p>
+            </div>
+
+            <div className={styles.securityCard}>
+              <div className={styles.securityIcon}>
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
+                  <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8l-6-6z" stroke="var(--accent-primary)" strokeWidth="2"/>
+                  <path d="M14 2v6h6M9 15l2 2 4-4" stroke="var(--accent-primary)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
+              </div>
+              <h3>GDPR & CCPA Compliant</h3>
+              <p>Full compliance with data protection regulations. You have the right to access, export, and delete your data at any time through our privacy controls.</p>
+            </div>
+          </div>
+
+          <div className={`${styles.complianceSection} ${isVisible.security ? styles.fadeInUp : ''}`}>
+            <h3 className={styles.complianceTitle}>Powered by trusted partners</h3>
+            <div className={styles.complianceBadges}>
+              <a href="https://trust.openai.com/" target="_blank" rel="noopener noreferrer" className={styles.complianceBadge}>
+                <div className={styles.badgeIcon}>
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                    <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="2"/>
+                    <path d="M8 12h8M12 8v8" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+                  </svg>
+                </div>
+                <div className={styles.badgeContent}>
+                  <span className={styles.badgeName}>OpenAI</span>
+                  <span className={styles.badgeDesc}>SOC 2 Type II Certified</span>
+                </div>
+              </a>
+
+              <a href="https://openai.com/en-GB/policies/row-privacy-policy/" target="_blank" rel="noopener noreferrer" className={styles.complianceBadge}>
+                <div className={styles.badgeIcon}>
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                    <path d="M12 2L4 6v6c0 5.55 3.84 10.74 8 12 4.16-1.26 8-6.45 8-12V6l-8-4z" stroke="currentColor" strokeWidth="2"/>
+                  </svg>
+                </div>
+                <div className={styles.badgeContent}>
+                  <span className={styles.badgeName}>Privacy First</span>
+                  <span className={styles.badgeDesc}>OpenAI Data Protection</span>
+                </div>
+              </a>
+
+              <div className={styles.complianceBadge}>
+                <div className={styles.badgeIcon}>
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                    <path d="M22 12h-4l-3 9L9 3l-3 9H2" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                  </svg>
+                </div>
+                <div className={styles.badgeContent}>
+                  <span className={styles.badgeName}>Vapi Voice</span>
+                  <span className={styles.badgeDesc}>HIPAA Compliant</span>
+                </div>
+              </div>
+
+              <div className={styles.complianceBadge}>
+                <div className={styles.badgeIcon}>
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                    <rect x="3" y="3" width="18" height="18" rx="2" stroke="currentColor" strokeWidth="2"/>
+                    <path d="M3 9h18M9 21V9" stroke="currentColor" strokeWidth="2"/>
+                  </svg>
+                </div>
+                <div className={styles.badgeContent}>
+                  <span className={styles.badgeName}>Google APIs</span>
+                  <span className={styles.badgeDesc}>OAuth 2.0 Verified</span>
+                </div>
+              </div>
+            </div>
+
+            <div className={styles.securityNote}>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="2"/>
+                <path d="M12 16v-4M12 8h.01" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+              </svg>
+              <p>We never share, sell, or use your data for training AI models. Your emails and calendar events are processed in real-time and never stored on our servers.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
       <section className={styles.cta}>
         <div className={styles.container}>
           <div className={styles.ctaContent}>
