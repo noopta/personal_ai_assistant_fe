@@ -264,7 +264,8 @@ function ProductPage() {
 
             if (calendarResponse.ok) {
               const calendarData = await calendarResponse.json();
-              const isCalendarAuth = calendarData.authenticated === true;
+              // Calendar uses 'status' field per API guide (not 'authenticated')
+              const isCalendarAuth = calendarData.status === true && calendarData.expired !== true;
               setIsCalendarAuthenticated(isCalendarAuth);
 
               if (isCalendarAuth) {
@@ -549,8 +550,9 @@ function ProductPage() {
           const calendarStatusData = await calendarStatusResponse.json();
           secureLog('Calendar status data received');
 
-          // Check authentication indicator
-          const needsAuth = calendarStatusData.authenticated !== true;
+          // Check authentication indicator - Calendar uses 'status' field per API guide
+          const isAuthenticated = calendarStatusData.status === true && calendarStatusData.expired !== true;
+          const needsAuth = !isAuthenticated;
 
           if (needsAuth) {
             secureLog('Calendar needs auth');
@@ -789,7 +791,9 @@ function ProductPage() {
       
       const data = await response.json();
       
-      const statusMessage = data.authenticated 
+      // Calendar uses 'status' and 'expired' fields per API guide
+      const isAuthenticated = data.status === true && data.expired !== true;
+      const statusMessage = isAuthenticated 
         ? '✅ Google Calendar is authenticated and ready to use!'
         : '❌ Google Calendar authentication is required.';
       

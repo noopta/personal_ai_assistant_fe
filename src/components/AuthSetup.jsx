@@ -139,8 +139,9 @@ function AuthSetup({ onAuthComplete, initialGmailAuth = false, initialCalendarAu
         const calendarData = await calendarResponse.json();
         secureLog('Calendar status data received');
 
-        // Check authentication indicator
-        const isAuthenticated = calendarData.authenticated === true;
+        // Check authentication indicator - Calendar uses 'status' field per API guide
+        // Response format: { status: true, expired: false, expiryDate: "...", timeUntilExpiry: ... }
+        const isAuthenticated = calendarData.status === true && calendarData.expired !== true;
 
         secureLog('Calendar authentication status determined', { isAuthenticated });
 
@@ -183,7 +184,7 @@ function AuthSetup({ onAuthComplete, initialGmailAuth = false, initialCalendarAu
     setAuthMessages(prev => [...prev, 'Starting Gmail authentication...']);
 
     try {
-      // Direct endpoint for Gmail auth
+      // Direct endpoint for Gmail auth (per Integration Guide)
       const gmailHashID = getCookieValue('gmailHashID');
       const authResponse = await loggedFetch('https://api.airthreads.ai:4008/initiate-auth', {
         method: 'POST',
@@ -195,42 +196,55 @@ function AuthSetup({ onAuthComplete, initialGmailAuth = false, initialCalendarAu
       });
 
       const authData = await authResponse.json();
+      secureLog('Gmail auth response received', { status: authData.status });
 
-      secureLog('Gmail auth response received', { success: authData.success });
-
-      // Check if we received an auth URL to open
-      if (authData.authUrl || authData.auth_url) {
-        const authUrl = authData.authUrl || authData.auth_url;
-
+      // Handle response per Integration Guide format:
+      // - status: "already_authenticated" - user already has valid tokens
+      // - status: "auth_required" with authUrl - user needs to authenticate
+      
+      if (authData.status === 'already_authenticated') {
+        // User already authenticated - no action needed
+        secureLog('Gmail already authenticated');
+        setAuthMessages(prev => [...prev, `✅ ${authData.message || 'Gmail is already authenticated!'}`]);
+        setIsGmailAuthenticated(true);
+      } else if (authData.status === 'auth_required' && authData.authUrl) {
+        // Open OAuth URL in new tab
         secureLog('Opening Gmail auth URL');
         setAuthMessages(prev => [...prev, '🔐 Opening Gmail authentication page...']);
-
+        
         // Set flag to indicate OAuth window was opened
         setOauthWindowOpen(true);
-
-        // Open in a new tab instead of replacing current page
+        
+        // Open in a new tab
+        window.open(authData.authUrl, '_blank');
+        
+        setAuthMessages(prev => [...prev, '📋 Please complete the Gmail authentication in the new tab']);
+      } else if (authData.authUrl || authData.auth_url) {
+        // Fallback: authUrl provided without status field
+        const authUrl = authData.authUrl || authData.auth_url;
+        secureLog('Opening Gmail auth URL (fallback)');
+        setAuthMessages(prev => [...prev, '🔐 Opening Gmail authentication page...']);
+        setOauthWindowOpen(true);
         window.open(authUrl, '_blank');
-      }
-
-      if (authData.success === true) {
+        setAuthMessages(prev => [...prev, '📋 Please complete the Gmail authentication in the new tab']);
+      } else if (authData.success === true) {
+        // Legacy success response
         secureLog('Gmail authentication successful');
         setAuthMessages(prev => [...prev, `✅ ${authData.message || 'Gmail authentication completed successfully!'}`]);
         setIsGmailAuthenticated(true);
       } else if (authData.timeout) {
         secureLog('Gmail authentication timed out');
         setAuthMessages(prev => [...prev, `⏱️ ${authData.message || 'Gmail authentication timed out. Please try again.'}`]);
-        setIsGmailAuthenticated(false);
-      } else if (!authData.success && authData.error) {
-        secureLog('Gmail authentication failed');
-        let errorMessage = `❌ Gmail authentication failed: ${authData.error}`;
-
+      } else if (authData.status === 'error' || authData.error) {
+        // Error response
+        let errorMessage = authData.message || authData.error || 'Gmail authentication failed';
+        
         // Check for port conflict error
-        if (authData.error?.includes('EADDRINUSE') || authData.error?.includes('address already in use')) {
-          errorMessage = '❌ Gmail OAuth server port conflict detected. Please contact support or try again in a few minutes.';
+        if (errorMessage?.includes('EADDRINUSE') || errorMessage?.includes('address already in use')) {
+          errorMessage = 'Gmail OAuth server port conflict detected. Please contact support or try again in a few minutes.';
         }
-
-        setAuthMessages(prev => [...prev, errorMessage]);
-        setIsGmailAuthenticated(false);
+        
+        setAuthMessages(prev => [...prev, `❌ ${errorMessage}`]);
       }
     } catch (error) {
       setAuthMessages(prev => [...prev, `❌ Gmail authentication failed: ${error.message}`]);
@@ -244,7 +258,7 @@ function AuthSetup({ onAuthComplete, initialGmailAuth = false, initialCalendarAu
     setAuthMessages(prev => [...prev, 'Starting Google Calendar authentication...']);
 
     try {
-      // Direct endpoint for Calendar auth
+      // Direct endpoint for Calendar auth (per Integration Guide)
       const userIDHash = getCookieValue('userIDHash');
       const authResponse = await loggedFetch('https://api.airthreads.ai:4010/initiate-auth', {
         method: 'POST',
@@ -256,23 +270,39 @@ function AuthSetup({ onAuthComplete, initialGmailAuth = false, initialCalendarAu
       });
 
       const authData = await authResponse.json();
-      secureLog('Calendar auth response received', { success: authData.success });
+      secureLog('Calendar auth response received', { status: authData.status });
 
-      // Check if we received an auth URL to open
-      if (authData.authUrl) {
+      // Handle response per Integration Guide format:
+      // - status: "already_authenticated" - user already has valid tokens
+      // - status: "auth_required" with authUrl - user needs to authenticate
+      
+      if (authData.status === 'already_authenticated') {
+        // User already authenticated - no action needed
+        secureLog('Calendar already authenticated');
+        setAuthMessages(prev => [...prev, `✅ ${authData.message || 'Google Calendar is already authenticated!'}`]);
+        setIsCalendarAuthenticated(true);
+      } else if (authData.status === 'auth_required' && authData.authUrl) {
+        // Open OAuth URL in new tab
         secureLog('Opening Calendar auth URL');
         setAuthMessages(prev => [...prev, '🔐 Opening Google Calendar authentication page...']);
-
+        
         // Set flag to indicate OAuth window was opened
         setOauthWindowOpen(true);
-
-        // Open in a new tab instead of replacing current page
+        
+        // Open in a new tab
         window.open(authData.authUrl, '_blank');
-      }
-
-      if (authData.status === 'auth_required' || authData.authUrl) {
-        // Authentication URL provided - user needs to authenticate
+        
         setAuthMessages(prev => [...prev, '📋 Please complete the Google Calendar authentication in the new tab']);
+      } else if (authData.authUrl) {
+        // Fallback: authUrl provided without status field
+        secureLog('Opening Calendar auth URL (fallback)');
+        setAuthMessages(prev => [...prev, '🔐 Opening Google Calendar authentication page...']);
+        setOauthWindowOpen(true);
+        window.open(authData.authUrl, '_blank');
+        setAuthMessages(prev => [...prev, '📋 Please complete the Google Calendar authentication in the new tab']);
+      } else if (authData.status === 'error' || authData.error) {
+        // Error response
+        setAuthMessages(prev => [...prev, `❌ ${authData.message || authData.error || 'Calendar authentication failed'}`]);
       }
     } catch (error) {
       setAuthMessages(prev => [...prev, `❌ Google Calendar authentication failed: ${error.message}`]);
