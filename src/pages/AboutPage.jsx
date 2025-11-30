@@ -172,7 +172,7 @@ function AboutPage() {
           </p>
           <div className={styles.contactInfo}>
             <div className={styles.contactItem}>
-              <strong>Email:</strong> support@airthreads.ai
+              <strong>Email:</strong> team@airthreads.ai
             </div>
           </div>
         </section>
