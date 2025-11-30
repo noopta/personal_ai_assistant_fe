@@ -328,7 +328,7 @@ function LandingPage() {
                 </svg>
               </div>
               <h3>Minimal Data Retention</h3>
-              <p>We don't store your emails or calendar content. Session tokens expire in 5 minutes, and activity logs are automatically deleted after 24 hours.</p>
+              <p>We don't store your emails or calendar content. Activity logs are automatically deleted after 24 hours to protect your privacy.</p>
             </div>
 
             <div className={styles.securityCard}>
@@ -346,53 +346,73 @@ function LandingPage() {
           <div className={`${styles.complianceSection} ${isVisible.security ? styles.fadeInUp : ''}`}>
             <h3 className={styles.complianceTitle}>Powered by trusted partners</h3>
             <div className={styles.complianceBadges}>
-              <a href="https://trust.openai.com/" target="_blank" rel="noopener noreferrer" className={styles.complianceBadge}>
-                <div className={styles.badgeIcon}>
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                    <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="2"/>
-                    <path d="M8 12h8M12 8v8" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
-                  </svg>
-                </div>
-                <div className={styles.badgeContent}>
-                  <span className={styles.badgeName}>OpenAI</span>
-                  <span className={styles.badgeDesc}>SOC 2 Type II Certified</span>
-                </div>
-              </a>
-
-              <a href="https://openai.com/en-GB/policies/row-privacy-policy/" target="_blank" rel="noopener noreferrer" className={styles.complianceBadge}>
-                <div className={styles.badgeIcon}>
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                    <path d="M12 2L4 6v6c0 5.55 3.84 10.74 8 12 4.16-1.26 8-6.45 8-12V6l-8-4z" stroke="currentColor" strokeWidth="2"/>
-                  </svg>
-                </div>
-                <div className={styles.badgeContent}>
-                  <span className={styles.badgeName}>Privacy First</span>
-                  <span className={styles.badgeDesc}>OpenAI Data Protection</span>
-                </div>
-              </a>
-
-              <div className={styles.complianceBadge}>
-                <div className={styles.badgeIcon}>
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                    <path d="M22 12h-4l-3 9L9 3l-3 9H2" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                  </svg>
-                </div>
-                <div className={styles.badgeContent}>
-                  <span className={styles.badgeName}>Vapi Voice</span>
-                  <span className={styles.badgeDesc}>HIPAA Compliant</span>
+              <div className={styles.badgeWrapper}>
+                <a href="https://trust.openai.com/" target="_blank" rel="noopener noreferrer" className={styles.complianceBadge}>
+                  <div className={styles.badgeIcon}>
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                      <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="2"/>
+                      <path d="M8 12h8M12 8v8" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+                    </svg>
+                  </div>
+                  <div className={styles.badgeContent}>
+                    <span className={styles.badgeName}>OpenAI</span>
+                    <span className={styles.badgeDesc}>SOC 2 Type II Certified</span>
+                  </div>
+                </a>
+                <div className={styles.badgeTooltip}>
+                  <strong>SOC 2 Type II</strong> is an auditing standard that verifies a company's security controls are properly designed and operating effectively over time. OpenAI has been independently audited to ensure data security, availability, and confidentiality.
                 </div>
               </div>
 
-              <div className={styles.complianceBadge}>
-                <div className={styles.badgeIcon}>
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                    <rect x="3" y="3" width="18" height="18" rx="2" stroke="currentColor" strokeWidth="2"/>
-                    <path d="M3 9h18M9 21V9" stroke="currentColor" strokeWidth="2"/>
-                  </svg>
+              <div className={styles.badgeWrapper}>
+                <a href="https://openai.com/en-GB/policies/row-privacy-policy/" target="_blank" rel="noopener noreferrer" className={styles.complianceBadge}>
+                  <div className={styles.badgeIcon}>
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                      <path d="M12 2L4 6v6c0 5.55 3.84 10.74 8 12 4.16-1.26 8-6.45 8-12V6l-8-4z" stroke="currentColor" strokeWidth="2"/>
+                    </svg>
+                  </div>
+                  <div className={styles.badgeContent}>
+                    <span className={styles.badgeName}>Privacy First</span>
+                    <span className={styles.badgeDesc}>OpenAI Data Protection</span>
+                  </div>
+                </a>
+                <div className={styles.badgeTooltip}>
+                  <strong>OpenAI's Privacy Policy</strong> ensures your data is not used for training AI models. API requests are processed securely and not stored beyond what's needed for the service.
                 </div>
-                <div className={styles.badgeContent}>
-                  <span className={styles.badgeName}>Google APIs</span>
-                  <span className={styles.badgeDesc}>OAuth 2.0 Verified</span>
+              </div>
+
+              <div className={styles.badgeWrapper}>
+                <div className={styles.complianceBadge}>
+                  <div className={styles.badgeIcon}>
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                      <path d="M22 12h-4l-3 9L9 3l-3 9H2" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                    </svg>
+                  </div>
+                  <div className={styles.badgeContent}>
+                    <span className={styles.badgeName}>Vapi Voice</span>
+                    <span className={styles.badgeDesc}>HIPAA Compliant</span>
+                  </div>
+                </div>
+                <div className={styles.badgeTooltip}>
+                  <strong>HIPAA Compliance</strong> means Vapi meets the strict security and privacy requirements for handling protected health information. Voice conversations are processed with healthcare-grade security standards.
+                </div>
+              </div>
+
+              <div className={styles.badgeWrapper}>
+                <div className={styles.complianceBadge}>
+                  <div className={styles.badgeIcon}>
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                      <rect x="3" y="3" width="18" height="18" rx="2" stroke="currentColor" strokeWidth="2"/>
+                      <path d="M3 9h18M9 21V9" stroke="currentColor" strokeWidth="2"/>
+                    </svg>
+                  </div>
+                  <div className={styles.badgeContent}>
+                    <span className={styles.badgeName}>Google APIs</span>
+                    <span className={styles.badgeDesc}>OAuth 2.0 Verified</span>
+                  </div>
+                </div>
+                <div className={styles.badgeTooltip}>
+                  <strong>OAuth 2.0 Verified</strong> means our Google integration has been reviewed by Google. We use secure authentication without ever seeing your password, and you can revoke access anytime.
                 </div>
               </div>
             </div>

@@ -681,6 +681,62 @@
   margin-bottom: 40px;
 }
 
+.badgeWrapper {
+  position: relative;
+}
+
+.badgeTooltip {
+  position: absolute;
+  bottom: calc(100% + 12px);
+  left: 50%;
+  transform: translateX(-50%);
+  width: 280px;
+  padding: 16px;
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.15);
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--text-secondary);
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.2s ease;
+  z-index: 100;
+  pointer-events: none;
+}
+
+.badgeTooltip::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 8px solid transparent;
+  border-top-color: var(--bg-card);
+}
+
+.badgeTooltip::before {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 9px solid transparent;
+  border-top-color: var(--border-color);
+}
+
+.badgeTooltip strong {
+  color: var(--text-primary);
+  font-weight: 600;
+}
+
+.badgeWrapper:hover .badgeTooltip {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(-50%) translateY(-4px);
+}
+
 .complianceBadge {
   display: flex;
   align-items: center;
@@ -949,6 +1005,11 @@
     gap: 12px;
   }
 
+  .badgeWrapper {
+    width: 100%;
+    max-width: 280px;
+  }
+
   .complianceBadge {
     width: 100%;
     max-width: 280px;
@@ -958,6 +1019,12 @@
   .badgeIcon {
     width: 40px;
     height: 40px;
+  }
+
+  .badgeTooltip {
+    width: 240px;
+    padding: 12px;
+    font-size: 12px;
   }
 
   .securityNote {
