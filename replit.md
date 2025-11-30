@@ -42,6 +42,27 @@ The application features a complete Stripe-inspired UI redesign across all pages
 
 ## Recent Changes
 
+### November 30, 2025: Auth Check & Vapi Initialization Optimization 🎯
+- **Auth Check Fix:** Eliminated "Checking authentication status" flash when clicking "Continue to mode selection"
+  - Added `hasInitialCheckDone` ref to track if initial check is complete
+  - Auth status only checked on: (1) First page load, (2) OAuth return
+  - Prop changes no longer trigger redundant status checks
+- **Vapi Initialization Separation:** Split into two distinct phases
+  - `setupVapi()` - Creates Vapi instance and event listeners (called on "Continue to mode selection")
+  - `startVapi()` - Starts the actual voice call (called ONLY when voice mode is selected)
+  - Text mode no longer initializes or starts Vapi
+- **Files Updated:** `AuthSetup.jsx`, `ProductPage.jsx`
+- **Build Status:** ✅ Compiles successfully
+
+### November 30, 2025: Detailed API Logging System 📊
+- **Enhanced Logging:** Comprehensive API call logging with request/response tracking
+  - Each request gets unique ID for correlation (e.g., `[ABC123]`)
+  - Logs: method, endpoint, timing (ms), status, credentials usage
+  - Automatic sensitive data redaction (tokens, hash IDs, passwords)
+  - Status indicators: ✅ success, ❌ errors
+- **Control:** Enabled in development or via `REACT_APP_ENABLE_LOGGING=true`
+- **Files Updated:** `src/utils/securityUtils.js`
+
 ### November 30, 2025: OAuth Flow & Agent Endpoint Fixes 🔐
 - **OAuth Flow Fix:** Auth handlers now correctly block premature `/agent` calls during OAuth
   - `status: "already_authenticated"` → Set authenticated=true, return true (proceed with request)
