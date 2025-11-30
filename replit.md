@@ -42,14 +42,18 @@ The application features a complete Stripe-inspired UI redesign across all pages
 
 ## Recent Changes
 
-### November 30, 2025: Frontend API Integration Alignment 🔧
+### November 30, 2025: OAuth Flow & Agent Endpoint Fixes 🔐
+- **OAuth Flow Fix:** Auth handlers now correctly block premature `/agent` calls during OAuth
+  - `status: "already_authenticated"` → Set authenticated=true, return true (proceed with request)
+  - `status: "auth_required"` → Open OAuth URL, set `oauthWindowOpen=true`, return false (stop request flow)
+  - Previously was returning true on auth_required which caused premature backend calls
+  - Window focus handler now properly detects OAuth completion and updates auth state
 - **Calendar Status Check Fix:** All Calendar status checks now use `status === true && expired !== true` per Integration Guide
   - Previously incorrectly checked for `authenticated === true` (only Gmail uses `authenticated`)
   - Updated in: `AuthSetup.jsx`, `ProductPage.jsx` (window focus handler, handleSendMessage, handleCheckCalendarStatus)
-- **Auth Handler Improvements:** Gmail and Calendar auth handlers now properly handle guide's response format
-  - Handle `status: "already_authenticated"` - mark as authenticated immediately
-  - Handle `status: "auth_required"` with `authUrl` - open OAuth URL
-  - Proper error handling for `status: "error"` responses
+- **Session Token Flow Verified:**
+  - `/agent` endpoint receives: `{ query, session_token }` in request body
+  - Vapi receives via variableValues: `{ session_token, gmail_authenticated, calendar_authenticated }`
 - **Files Updated:** `AuthSetup.jsx`, `ProductPage.jsx`
 - **Build Status:** ✅ Compiles successfully, fully aligned with Backend Integration Guide v2.0
 
