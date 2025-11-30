@@ -42,6 +42,23 @@ The application features a complete Stripe-inspired UI redesign across all pages
 
 ## Recent Changes
 
+### November 30, 2025: Complete /vapi-session Auth Gate Fix 🔐
+- **Critical Fix:** `/vapi-session` now ONLY called after Gmail OAuth completes
+  - Removed `fetchVapiSessionToken()` from `handleAuthComplete` - no token fetch on "Continue to mode selection"
+  - All mode entry points now gate on Gmail authentication before fetching session token
+- **Voice Mode:** `handleModeSelect` and `handleSwitchMode` check `isGmailAuthenticated` first
+  - If not authenticated → shows message, falls back to text mode
+  - If authenticated → fetches token, starts Vapi
+- **Text Mode:** `handleSendMessage` now checks Gmail auth before fetching session token
+  - If not authenticated → shows message asking user to connect Gmail
+  - If authenticated → fetches token, sends to /agent
+- **Correct Flow:**
+  1. User connects Gmail → `/initiate-auth` → OAuth → cookies set
+  2. User clicks "Continue" → NO /vapi-session call (just updates mode)
+  3. User selects mode → Gmail auth check → THEN fetch token
+- **Files Updated:** `ProductPage.jsx`
+- **Build Status:** ✅ Compiles successfully, 401 errors resolved
+
 ### November 30, 2025: Auth Check & Vapi Initialization Optimization 🎯
 - **Auth Check Fix:** Eliminated "Checking authentication status" flash when clicking "Continue to mode selection"
   - Added `hasInitialCheckDone` ref to track if initial check is complete
