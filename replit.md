@@ -42,6 +42,17 @@ The application features a complete Stripe-inspired UI redesign across all pages
 
 ## Recent Changes
 
+### November 30, 2025: Frontend API Integration Alignment 🔧
+- **Calendar Status Check Fix:** All Calendar status checks now use `status === true && expired !== true` per Integration Guide
+  - Previously incorrectly checked for `authenticated === true` (only Gmail uses `authenticated`)
+  - Updated in: `AuthSetup.jsx`, `ProductPage.jsx` (window focus handler, handleSendMessage, handleCheckCalendarStatus)
+- **Auth Handler Improvements:** Gmail and Calendar auth handlers now properly handle guide's response format
+  - Handle `status: "already_authenticated"` - mark as authenticated immediately
+  - Handle `status: "auth_required"` with `authUrl` - open OAuth URL
+  - Proper error handling for `status: "error"` responses
+- **Files Updated:** `AuthSetup.jsx`, `ProductPage.jsx`
+- **Build Status:** ✅ Compiles successfully, fully aligned with Backend Integration Guide v2.0
+
 ### November 30, 2025: Rate Limit Error Handling & Airbnb Integration 🚦
 - **429 Rate Limit Handling:** Comprehensive user-friendly error handling for all API rate limits
   - `fetchVapiSessionToken`: Returns 'rate_limited' sentinel value on 429, shows friendly message
