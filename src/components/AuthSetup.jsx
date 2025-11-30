@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import styles from './AuthSetup.module.css';
 import { secureLog, loggedFetch } from '../utils/securityUtils';
 
@@ -10,6 +10,10 @@ function AuthSetup({ onAuthComplete, initialGmailAuth = false, initialCalendarAu
   const [authMessages, setAuthMessages] = useState([]);
   const [isCheckingStatus, setIsCheckingStatus] = useState(true);
   const [oauthWindowOpen, setOauthWindowOpen] = useState(false);
+  
+  // Track if initial auth check has been done to avoid redundant checks
+  const hasInitialCheckDone = useRef(false);
+  const lastForceRecheck = useRef(forceRecheck);
 
   // Get cookie values
   const getCookieValue = (name) => {
@@ -36,8 +40,20 @@ function AuthSetup({ onAuthComplete, initialGmailAuth = false, initialCalendarAu
       setAuthMessages(prev => [...prev, '✅ Google Calendar authentication completed successfully!']);
     }
 
-    // Check authentication status - cookies handled automatically
-    checkAuthenticationStatus();
+    // Only check auth status on:
+    // 1. Initial mount (first time)
+    // 2. When forceRecheck changes (OAuth return)
+    // NOT when auth props change (to avoid "Checking authentication status" flash)
+    const shouldCheck = !hasInitialCheckDone.current || forceRecheck !== lastForceRecheck.current;
+    
+    if (shouldCheck) {
+      hasInitialCheckDone.current = true;
+      lastForceRecheck.current = forceRecheck;
+      checkAuthenticationStatus();
+    } else {
+      // Skip the check, just mark as done
+      setIsCheckingStatus(false);
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [initialGmailAuth, initialCalendarAuth, forceRecheck]);
 

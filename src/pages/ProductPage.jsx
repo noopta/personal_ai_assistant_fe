@@ -93,62 +93,76 @@ function ProductPage() {
     }
   };
 
-  // Initialize Vapi when voice mode is selected
-  const initializeVapi = (sessionToken, gmailAuthStatus, calendarAuthStatus) => {
-    if (!vapiRef.current) {
-      if (!VAPI_API_KEY) {
-        return;
-      }
-      vapiRef.current = new Vapi(VAPI_API_KEY);
-      
-      vapiRef.current.on('message', (message) => {
-        // Handle message events
-      });
-
-      vapiRef.current.on('transcript', (event) => {
-        // event.transcript contains the recognized speech text
-      });
-
-      vapiRef.current.on('conversation-update', (event) => {
-        // event.messages contains the conversation history
-        const lastConversation = event.conversation[event.conversation.length - 1];
-        if (lastConversation.role === 'assistant') {
-          setMessages(prev => [...prev, {
-            type: 'assistant',
-            content: lastConversation.content
-          }]);
-          setIsLoading(false);
-        }
-      });
-
-      secureLog('VAPI initialization');
-
-      // Start the call when voice mode is initialized
-      if (!VAPI_ASSISTANT_ID) {
-        return;
-      }
-
-      // Pass session token and authentication status to Vapi
-      const assistantOverrides = {
-        recordingEnabled: false
-      };
-
-      // Use passed token parameter or fall back to state
-      const token = sessionToken || vapiSessionToken;
-      if (token) {
-        assistantOverrides.variableValues = {
-          session_token: token,
-          gmail_authenticated: gmailAuthStatus ?? isGmailAuthenticated,
-          calendar_authenticated: calendarAuthStatus ?? isCalendarAuthenticated
-        };
-        secureLog('Starting Vapi with session token and auth status', {
-          gmail: gmailAuthStatus ?? isGmailAuthenticated,
-          calendar: calendarAuthStatus ?? isCalendarAuthenticated
-        });
-      }
-
-      vapiRef.current.start(VAPI_ASSISTANT_ID, assistantOverrides);
+  // Setup Vapi instance and event listeners (called on "Continue to mode selection")
+  // This does NOT start the call - that happens only when voice mode is selected
+  const setupVapi = () => {
+    if (vapiRef.current) {
+      secureLog('VAPI already initialized');
+      return; // Already initialized
     }
+    
+    if (!VAPI_API_KEY) {
+      secureLog('VAPI API key not configured');
+      return;
+    }
+    
+    vapiRef.current = new Vapi(VAPI_API_KEY);
+    
+    vapiRef.current.on('message', (message) => {
+      // Handle message events
+    });
+
+    vapiRef.current.on('transcript', (event) => {
+      // event.transcript contains the recognized speech text
+    });
+
+    vapiRef.current.on('conversation-update', (event) => {
+      // event.messages contains the conversation history
+      const lastConversation = event.conversation[event.conversation.length - 1];
+      if (lastConversation.role === 'assistant') {
+        setMessages(prev => [...prev, {
+          type: 'assistant',
+          content: lastConversation.content
+        }]);
+        setIsLoading(false);
+      }
+    });
+
+    secureLog('VAPI instance created and listeners attached');
+  };
+
+  // Start Vapi call (called ONLY when voice mode is selected)
+  const startVapi = (sessionToken, gmailAuthStatus, calendarAuthStatus) => {
+    if (!vapiRef.current) {
+      secureLog('Cannot start Vapi - not initialized');
+      return;
+    }
+    
+    if (!VAPI_ASSISTANT_ID) {
+      secureLog('VAPI Assistant ID not configured');
+      return;
+    }
+
+    // Pass session token and authentication status to Vapi
+    const assistantOverrides = {
+      recordingEnabled: false
+    };
+
+    // Use passed token parameter or fall back to state
+    const token = sessionToken || vapiSessionToken;
+    if (token) {
+      assistantOverrides.variableValues = {
+        session_token: token,
+        gmail_authenticated: gmailAuthStatus ?? isGmailAuthenticated,
+        calendar_authenticated: calendarAuthStatus ?? isCalendarAuthenticated
+      };
+      secureLog('Starting Vapi call with session token and auth status', {
+        gmail: gmailAuthStatus ?? isGmailAuthenticated,
+        calendar: calendarAuthStatus ?? isCalendarAuthenticated
+      });
+    }
+
+    vapiRef.current.start(VAPI_ASSISTANT_ID, assistantOverrides);
   };
 
   // Clean up Vapi call
@@ -836,18 +850,18 @@ function ProductPage() {
   const handleModeSelect = async (mode) => {
     setIsTransitioning(true);
     setTimeout(async () => {
-      // Initialize Vapi when voice mode is selected
+      // Start Vapi call ONLY when voice mode is selected
       if (mode === 'voice') {
         // Ensure we have the token, or fetch it if not available
         const token = vapiSessionToken || await fetchVapiSessionToken();
-        // Skip initialization if rate limited (message already shown)
+        // Skip if rate limited (message already shown)
         if (token && token !== 'rate_limited') {
-          // Pass authentication status flags to Vapi
-          initializeVapi(token, isGmailAuthenticated, isCalendarAuthenticated);
+          // Start the Vapi call with auth status flags
+          startVapi(token, isGmailAuthenticated, isCalendarAuthenticated);
         }
       } else {
-        // Clean up Vapi when switching away from voice mode
-        cleanupVapi();
+        // Text mode - no Vapi needed, but don't clean up the instance
+        // (instance was created in handleAuthComplete)
       }
       setCurrentMode(mode);
       setIsTransitioning(false);
@@ -857,17 +871,17 @@ function ProductPage() {
   const handleSwitchMode = async (mode) => {
     setIsTransitioning(true);
     setTimeout(async () => {
-      // Initialize Vapi when voice mode is selected
+      // Start Vapi call when switching TO voice mode
       if (mode === 'voice') {
         // Ensure we have the token, or fetch it if not available
         const token = vapiSessionToken || await fetchVapiSessionToken();
-        // Skip initialization if rate limited (message already shown)
+        // Skip if rate limited (message already shown)
         if (token && token !== 'rate_limited') {
-          // Pass authentication status flags to Vapi
-          initializeVapi(token, isGmailAuthenticated, isCalendarAuthenticated);
+          // Start the Vapi call with auth status flags
+          startVapi(token, isGmailAuthenticated, isCalendarAuthenticated);
         }
       } else {
-        // Clean up Vapi when switching away from voice mode
+        // Switching away from voice mode - stop the call but keep instance
         cleanupVapi();
       }
       setCurrentMode(mode);
@@ -883,6 +897,9 @@ function ProductPage() {
     // This token contains the user's hash IDs for multi-user isolation
     // Ignore rate_limited return - message already shown
     await fetchVapiSessionToken();
+    
+    // Initialize Vapi instance (but don't start call yet - that happens on voice mode select)
+    setupVapi();
     
     setCurrentMode('selection');
   };
