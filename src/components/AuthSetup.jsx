@@ -64,6 +64,19 @@ function AuthSetup({ onAuthComplete, initialGmailAuth = false, initialCalendarAu
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [oauthWindowOpen]);
 
+  // Helper function to wait for hash ID in cookies (with retries)
+  const waitForHashID = async (hashIDName, maxAttempts = 5) => {
+    for (let i = 0; i < maxAttempts; i++) {
+      const hashID = getCookieValue(hashIDName);
+      if (hashID) {
+        return hashID;
+      }
+      // Wait 500ms before retrying
+      await new Promise(resolve => setTimeout(resolve, 500));
+    }
+    return null;
+  };
+
   const checkAuthenticationStatus = async () => {
     setIsCheckingStatus(true);
 
@@ -76,7 +89,8 @@ function AuthSetup({ onAuthComplete, initialGmailAuth = false, initialCalendarAu
     // Check Gmail status - direct endpoint
     try {
       secureLog('Checking Gmail status');
-      const gmailHashID = getCookieValue('gmailHashID');
+      // Wait for hash ID to appear in cookies (it gets set by backend after OAuth)
+      const gmailHashID = await waitForHashID('gmailHashID');
       
       // If no hash ID exists, user hasn't authenticated yet - that's ok, mark as not authenticated
       if (!gmailHashID) {
@@ -123,7 +137,8 @@ function AuthSetup({ onAuthComplete, initialGmailAuth = false, initialCalendarAu
     // Check Calendar status - direct endpoint
     try {
       secureLog('Checking Calendar status');
-      const userIDHash = getCookieValue('userIDHash');
+      // Wait for hash ID to appear in cookies (it gets set by backend after OAuth)
+      const userIDHash = await waitForHashID('userIDHash');
       
       // If no hash ID exists, user hasn't authenticated yet - that's ok, mark as not authenticated
       if (!userIDHash) {
