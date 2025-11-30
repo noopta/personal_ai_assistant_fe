@@ -337,29 +337,42 @@ function ProductPage() {
 
       const authData = await authResponse.json();
 
-      secureLog('Gmail auth response received', { success: authData.success, hasAuthUrl: !!(authData.authUrl || authData.auth_url) });
+      secureLog('Gmail auth response received', { status: authData.status, hasAuthUrl: !!authData.authUrl });
 
-      // Check if we received an auth URL to open
-      if (authData.authUrl) {
-        secureLog('Opening Gmail auth URL');
-
+      // Handle response based on status per Integration Guide
+      if (authData.status === 'already_authenticated') {
+        // User is already authenticated - update state immediately
+        secureLog('Gmail already authenticated');
         setMessages(prev => [...prev, {
           type: 'assistant',
-          content: '🔐 Opening Gmail authentication page in new tab...'
-        }]);
-
-        // Open in a new tab instead of replacing current page
-        window.open(authData.authUrl, '_blank');
-      }
-
-      if (authData.status === 'auth_required' || authData.authUrl) {
-        secureLog('Gmail authentication successful');
-        setMessages(prev => [...prev, {
-          type: 'assistant',
-          content: `✅ ${authData.message || 'Gmail authentication completed successfully!'}`
+          content: `✅ ${authData.message || 'Gmail is already connected and ready to use!'}`
         }]);
         setIsGmailAuthenticated(true);
         return true;
+      } else if (authData.status === 'auth_required' && authData.authUrl) {
+        // OAuth flow required - open URL and wait for user to complete
+        secureLog('Opening Gmail auth URL');
+        setMessages(prev => [...prev, {
+          type: 'assistant',
+          content: '🔐 Opening Gmail authentication page in new tab. Please complete the sign-in and return here, then try your request again.'
+        }]);
+        
+        // Set flag so window focus handler will check status when user returns
+        setOauthWindowOpen(true);
+        
+        // Open in a new tab
+        window.open(authData.authUrl, '_blank');
+        
+        // Return false to stop the current request flow - user must complete OAuth first
+        // The window focus handler will update isGmailAuthenticated when user returns
+        return false;
+      } else if (authData.status === 'error' || authData.error) {
+        secureLog('Gmail authentication error');
+        setMessages(prev => [...prev, {
+          type: 'assistant',
+          content: `❌ ${authData.message || authData.error || 'Gmail authentication failed'}`
+        }]);
+        return false;
       } else if (authData.timeout) {
         secureLog('Gmail authentication timed out');
         setMessages(prev => [...prev, {
@@ -367,15 +380,10 @@ function ProductPage() {
           content: `⏱️ ${authData.message || 'Gmail authentication timed out. Please try again.'}`
         }]);
         return false;
-      } else if (!authData.success && (authData.error || authData.message)) {
-        secureLog('Gmail authentication failed');
-        setMessages(prev => [...prev, {
-          type: 'assistant',
-          content: `❌ ${authData.message || authData.error || 'Gmail authentication failed'}`
-        }]);
-        return false;
       }
 
+      // Unknown response - log and fail gracefully
+      secureLog('Gmail auth: unexpected response format');
       return false;
     } catch (authError) {
       setMessages(prev => [...prev, {
@@ -417,29 +425,42 @@ function ProductPage() {
       });
 
       const authData = await authResponse.json();
-      secureLog('Calendar auth response received', { hasAuthUrl: !!authData.authUrl });
+      secureLog('Calendar auth response received', { status: authData.status, hasAuthUrl: !!authData.authUrl });
 
-      // Check if we received an auth URL to open
-      if (authData.auth_url || authData.authUrl || authData.generatedAuthUrl) {
-        const authUrl = authData.auth_url || authData.authUrl || authData.generatedAuthUrl;
-
+      // Handle response based on status per Integration Guide
+      if (authData.status === 'already_authenticated') {
+        // User is already authenticated - update state immediately
+        secureLog('Calendar already authenticated');
         setMessages(prev => [...prev, {
           type: 'assistant',
-          content: '🔐 Opening Google Calendar authentication page in new tab...'
-        }]);
-
-        // Open in a new tab instead of replacing current page
-        window.open(authUrl, '_blank');
-      }
-
-      if (authData.success === true) {
-        // Authentication completed successfully
-        setMessages(prev => [...prev, {
-          type: 'assistant',
-          content: `✅ ${authData.message || 'Google Calendar authentication completed successfully!'}`
+          content: `✅ ${authData.message || 'Google Calendar is already connected and ready to use!'}`
         }]);
         setIsCalendarAuthenticated(true);
         return true;
+      } else if (authData.status === 'auth_required' && authData.authUrl) {
+        // OAuth flow required - open URL and wait for user to complete
+        secureLog('Opening Calendar auth URL');
+        setMessages(prev => [...prev, {
+          type: 'assistant',
+          content: '🔐 Opening Google Calendar authentication page in new tab. Please complete the sign-in and return here, then try your request again.'
+        }]);
+        
+        // Set flag so window focus handler will check status when user returns
+        setOauthWindowOpen(true);
+        
+        // Open in a new tab
+        window.open(authData.authUrl, '_blank');
+        
+        // Return false to stop the current request flow - user must complete OAuth first
+        // The window focus handler will update isCalendarAuthenticated when user returns
+        return false;
+      } else if (authData.status === 'error' || authData.error) {
+        secureLog('Calendar authentication error');
+        setMessages(prev => [...prev, {
+          type: 'assistant',
+          content: `❌ ${authData.message || authData.error || 'Google Calendar authentication failed'}`
+        }]);
+        return false;
       } else if (authData.timeout) {
         // Authentication timed out
         setMessages(prev => [...prev, {
@@ -447,15 +468,10 @@ function ProductPage() {
           content: `⏱️ ${authData.message || 'Calendar authentication timed out. Please try again.'}`
         }]);
         return false;
-      } else if (!authData.success && authData.message) {
-        // Authentication failed with message
-        setMessages(prev => [...prev, {
-          type: 'assistant',
-          content: `❌ ${authData.message}`
-        }]);
-        return false;
       }
 
+      // Unknown response - log and fail gracefully
+      secureLog('Calendar auth: unexpected response format');
       return false;
     } catch (authError) {
       setMessages(prev => [...prev, {
