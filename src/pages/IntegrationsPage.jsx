@@ -81,6 +81,34 @@ function IntegrationsPage() {
         'Update properties and metadata'
       ],
       link: 'https://www.notion.so/my-integrations'
+    },
+    {
+      id: 'airbnb',
+      icon: '🏠',
+      name: 'Airbnb',
+      comingSoon: true,
+      description: 'Manage your Airbnb listings, bookings, and guest communications with AI assistance (Coming Soon)',
+      steps: [
+        {
+          title: 'Connect Account',
+          description: 'Link your Airbnb host account to AirThreads securely'
+        },
+        {
+          title: 'Authorize Access',
+          description: 'Grant permissions to manage listings and communicate with guests'
+        },
+        {
+          title: 'Start Managing',
+          description: 'Use natural language to handle bookings, respond to guests, and update listings'
+        }
+      ],
+      capabilities: [
+        'View and manage listings',
+        'Respond to guest messages',
+        'Update availability and pricing',
+        'Track booking requests'
+      ],
+      link: '#'
     }
   ];
 

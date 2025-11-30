@@ -171,6 +171,20 @@ function LandingPage() {
                 Learn more →
               </Link>
             </div>
+
+            <div className={styles.featureCard}>
+              <div className={styles.featureIcon}>
+                <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+                  <path d="M16 4L6 10v12l10 6 10-6V10L16 4z" stroke="var(--accent-primary)" strokeWidth="2" strokeLinejoin="round"/>
+                  <path d="M6 10l10 6 10-6M16 16v12" stroke="var(--accent-primary)" strokeWidth="2" strokeLinejoin="round"/>
+                </svg>
+              </div>
+              <h3>Airbnb <span className={styles.comingSoonBadge}>Coming Soon</span></h3>
+              <p>Manage your listings, respond to guests, and track bookings through intelligent AI assistance.</p>
+              <Link to="/integrations" className={styles.featureLink}>
+                Learn more →
+              </Link>
+            </div>
           </div>
         </div>
       </section>

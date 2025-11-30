@@ -122,7 +122,11 @@ function FeedbackModal({ isOpen, onClose }) {
         onClose();
       }, 2500);
     } catch (error) {
-      alert('Failed to submit feedback. Please try again or contact support@airthreads.ai');
+      if (error.message?.includes('429') || error.message?.includes('rate_limit')) {
+        alert('Please wait a moment before submitting feedback again.');
+      } else {
+        alert('Failed to submit feedback. Please try again or contact support@airthreads.ai');
+      }
     }
   };
 

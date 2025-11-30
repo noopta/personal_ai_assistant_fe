@@ -52,6 +52,7 @@ function ProductPage() {
 
   // Fetch Vapi session token from backend
   const fetchVapiSessionToken = async () => {
+    let rateLimitHandled = false;
     try {
       secureLog('Fetching Vapi session token');
       const response = await loggedFetch(`${PYTHON_SERVER_URL}/vapi-session`, {
@@ -64,6 +65,15 @@ function ProductPage() {
       });
 
       if (!response.ok) {
+        // Handle rate limit errors with user-friendly message
+        if (response.status === 429) {
+          rateLimitHandled = true;
+          setMessages(prev => [...prev, {
+            type: 'assistant',
+            content: '⏳ Too many requests. Please wait a moment before trying voice mode again.'
+          }]);
+          return 'rate_limited'; // Special value to indicate rate limiting (don't show duplicate error)
+        }
         throw new Error(`Failed to fetch Vapi session token: ${response.status}`);
       }
 
@@ -72,11 +82,14 @@ function ProductPage() {
       setVapiSessionToken(data.session_token);
       return data.session_token;
     } catch (error) {
-      setMessages(prev => [...prev, {
-        type: 'assistant',
-        content: '⚠️ Failed to initialize voice session. Please try again or contact support.'
-      }]);
-      return null;
+      // Only show generic error if rate limit wasn't already handled
+      if (!rateLimitHandled) {
+        setMessages(prev => [...prev, {
+          type: 'assistant',
+          content: '⚠️ Failed to initialize voice session. Please try again or contact support.'
+        }]);
+      }
+      return rateLimitHandled ? 'rate_limited' : null;
     }
   };
 
@@ -582,6 +595,12 @@ function ProductPage() {
       const token = vapiSessionToken || await fetchVapiSessionToken();
       
       // Verify we have a valid token before proceeding
+      // 'rate_limited' is a special value indicating 429 - message already shown, just return
+      if (token === 'rate_limited') {
+        setIsLoading(false);
+        return;
+      }
+      
       if (!token) {
         setMessages(prev => [...prev, {
           type: 'assistant',
@@ -605,6 +624,16 @@ function ProductPage() {
       });
 
       if (!response.ok) {
+        // Handle rate limit errors with user-friendly message
+        if (response.status === 429) {
+          setMessages(prev => [...prev, {
+            type: 'assistant',
+            content: '⏳ Please slow down a bit! You\'re sending messages too quickly. Wait a moment and try again.'
+          }]);
+          setIsLoading(false);
+          return;
+        }
+        
         // Check if it's an authentication error
         if (response.status === 401) {
           const errorData = await response.json();
@@ -655,8 +684,12 @@ function ProductPage() {
     } catch (error) {
       let errorMessage = `Error: ${error.message || 'Failed to process your request'}`;
       
+      // Handle rate limit errors with user-friendly message
+      if (error.message?.includes('429') || error.message?.includes('rate_limit') || error.message?.includes('Too many requests')) {
+        errorMessage = '⏳ Please slow down a bit! You\'re sending messages too quickly. Wait a moment and try again.';
+      }
       // Provide helpful suggestions based on error type
-      if (error.message.includes('Authentication required') || error.message.includes('authenticate')) {
+      else if (error.message?.includes('Authentication required') || error.message?.includes('authenticate')) {
         errorMessage += '\n\n💡 Try sending a message that includes "gmail", "email", "calendar", or "event" to trigger automatic authentication.';
       }
       
@@ -787,8 +820,11 @@ function ProductPage() {
       if (mode === 'voice') {
         // Ensure we have the token, or fetch it if not available
         const token = vapiSessionToken || await fetchVapiSessionToken();
-        // Pass authentication status flags to Vapi
-        initializeVapi(token, isGmailAuthenticated, isCalendarAuthenticated);
+        // Skip initialization if rate limited (message already shown)
+        if (token && token !== 'rate_limited') {
+          // Pass authentication status flags to Vapi
+          initializeVapi(token, isGmailAuthenticated, isCalendarAuthenticated);
+        }
       } else {
         // Clean up Vapi when switching away from voice mode
         cleanupVapi();
@@ -805,8 +841,11 @@ function ProductPage() {
       if (mode === 'voice') {
         // Ensure we have the token, or fetch it if not available
         const token = vapiSessionToken || await fetchVapiSessionToken();
-        // Pass authentication status flags to Vapi
-        initializeVapi(token, isGmailAuthenticated, isCalendarAuthenticated);
+        // Skip initialization if rate limited (message already shown)
+        if (token && token !== 'rate_limited') {
+          // Pass authentication status flags to Vapi
+          initializeVapi(token, isGmailAuthenticated, isCalendarAuthenticated);
+        }
       } else {
         // Clean up Vapi when switching away from voice mode
         cleanupVapi();
@@ -822,6 +861,7 @@ function ProductPage() {
     
     // Fetch Vapi session token for voice mode
     // This token contains the user's hash IDs for multi-user isolation
+    // Ignore rate_limited return - message already shown
     await fetchVapiSessionToken();
     
     setCurrentMode('selection');
