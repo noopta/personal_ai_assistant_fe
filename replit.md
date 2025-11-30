@@ -42,6 +42,17 @@ The application features a complete Stripe-inspired UI redesign across all pages
 
 ## Recent Changes
 
+### November 30, 2025: HTTP-Only Cookie Authentication Fix 🔐
+- **Issue:** Auth status check endpoints were not being called on page load - UI showed "Checking Authentication" then immediately displayed "Connect to Gmail/Calendar" buttons
+- **Root Cause:** Hash IDs (`gmailHashID`, `userIDHash`) are stored as HTTP-only cookies by the backend, meaning JavaScript cannot read them via `document.cookie`
+- **Solution:** 
+  - Removed the `waitForHashID()` function that was blocking API calls when hash IDs weren't found in cookies
+  - Now call endpoints unconditionally with `credentials: 'include'`
+  - Backend uses HTTP-only cookies for authentication, frontend passes hash ID only if readable (for backwards compatibility)
+  - Updated all endpoint calls to use `{ gmailHashID: gmailHashID || undefined }` pattern
+- **Files Updated:** `AuthSetup.jsx`, `ProductPage.jsx`
+- **Build Status:** ✅ Compiles successfully
+
 ### November 29, 2025: Frontend Endpoint Alignment with Python Server 🔌
 - **Architecture Update:** Frontend endpoints now correctly aligned with backend infrastructure
   - **MCP Servers (Ports 4008/4010):** Direct auth endpoints for Gmail and Calendar
@@ -56,6 +67,7 @@ The application features a complete Stripe-inspired UI redesign across all pages
   - Gmail: Direct endpoints at `:4008/initiate-auth` and `:checkGmailStatus` with `gmailHashID`
   - Calendar: Direct endpoints at `:4010/initiate-auth` and `:checkCalendarStatus` with `userIDHash`
   - Python server: All endpoints use `credentials: 'include'` for secure cookie handling
+  - **Critical:** Hash IDs are HTTP-only cookies - cannot be read via JS, backend uses cookies sent with `credentials: 'include'`
 - **Build Status:** ✅ Compiles successfully, ready for production
 
 ### November 23, 2025: Security Audit & Production Code Cleanup 🔒

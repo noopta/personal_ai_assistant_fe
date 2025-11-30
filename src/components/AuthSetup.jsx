@@ -64,19 +64,6 @@ function AuthSetup({ onAuthComplete, initialGmailAuth = false, initialCalendarAu
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [oauthWindowOpen]);
 
-  // Helper function to wait for hash ID in cookies (with retries)
-  const waitForHashID = async (hashIDName, maxAttempts = 5) => {
-    for (let i = 0; i < maxAttempts; i++) {
-      const hashID = getCookieValue(hashIDName);
-      if (hashID) {
-        return hashID;
-      }
-      // Wait 500ms before retrying
-      await new Promise(resolve => setTimeout(resolve, 500));
-    }
-    return null;
-  };
-
   const checkAuthenticationStatus = async () => {
     setIsCheckingStatus(true);
 
@@ -87,47 +74,43 @@ function AuthSetup({ onAuthComplete, initialGmailAuth = false, initialCalendarAu
     }
 
     // Check Gmail status - direct endpoint
+    // Note: gmailHashID is stored as HTTP-only cookie, so we can't read it with JS
+    // Backend will use the cookie sent with credentials: 'include'
     try {
       secureLog('Checking Gmail status');
-      // Wait for hash ID to appear in cookies (it gets set by backend after OAuth)
-      const gmailHashID = await waitForHashID('gmailHashID');
+      const gmailHashID = getCookieValue('gmailHashID'); // May be null if HTTP-only
       
-      // If no hash ID exists, user hasn't authenticated yet - that's ok, mark as not authenticated
-      if (!gmailHashID) {
-        setIsGmailAuthenticated(initialGmailAuth || false);
-      } else {
-        const gmailResponse = await loggedFetch('https://api.airthreads.ai:4008/checkGmailStatus', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          credentials: 'include',
-          body: JSON.stringify({ gmailHashID })
-        });
+      const gmailResponse = await loggedFetch('https://api.airthreads.ai:4008/checkGmailStatus', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        credentials: 'include', // Backend uses HTTP-only cookies for auth
+        body: JSON.stringify({ gmailHashID: gmailHashID || undefined })
+      });
 
-        secureLog('Gmail status response received');
+      secureLog('Gmail status response received');
 
-        if (gmailResponse.ok) {
-          const gmailData = await gmailResponse.json();
-          secureLog('Gmail status data received');
+      if (gmailResponse.ok) {
+        const gmailData = await gmailResponse.json();
+        secureLog('Gmail status data received');
 
-          // Check authentication indicator
-          const isAuthenticated = gmailData.authenticated === true;
+        // Check authentication indicator
+        const isAuthenticated = gmailData.authenticated === true;
 
-          secureLog('Gmail authentication status determined', { isAuthenticated });
+        secureLog('Gmail authentication status determined', { isAuthenticated });
 
-          // Update authentication state (merge with initial state)
-          const finalGmailAuth = isAuthenticated || initialGmailAuth;
-          setIsGmailAuthenticated(finalGmailAuth);
+        // Update authentication state (merge with initial state)
+        const finalGmailAuth = isAuthenticated || initialGmailAuth;
+        setIsGmailAuthenticated(finalGmailAuth);
 
-          // Add success message if authenticated and no initial auth was provided
-          if (isAuthenticated && !initialGmailAuth) {
-            setAuthMessages(prev => [...prev, '✅ Gmail is already connected and ready to use!']);
-          }
-        } else {
-          // Preserve initial auth state if there was an error checking status
-          setIsGmailAuthenticated(initialGmailAuth || false);
+        // Add success message if authenticated and no initial auth was provided
+        if (isAuthenticated && !initialGmailAuth) {
+          setAuthMessages(prev => [...prev, '✅ Gmail is already connected and ready to use!']);
         }
+      } else {
+        // Preserve initial auth state if there was an error checking status
+        setIsGmailAuthenticated(initialGmailAuth || false);
       }
     } catch (gmailError) {
       // Preserve initial auth state if there was an error
@@ -135,46 +118,42 @@ function AuthSetup({ onAuthComplete, initialGmailAuth = false, initialCalendarAu
     }
 
     // Check Calendar status - direct endpoint
+    // Note: userIDHash is stored as HTTP-only cookie, so we can't read it with JS
+    // Backend will use the cookie sent with credentials: 'include'
     try {
       secureLog('Checking Calendar status');
-      // Wait for hash ID to appear in cookies (it gets set by backend after OAuth)
-      const userIDHash = await waitForHashID('userIDHash');
+      const userIDHash = getCookieValue('userIDHash'); // May be null if HTTP-only
       
-      // If no hash ID exists, user hasn't authenticated yet - that's ok, mark as not authenticated
-      if (!userIDHash) {
-        setIsCalendarAuthenticated(initialCalendarAuth || false);
-      } else {
-        const calendarResponse = await loggedFetch('https://api.airthreads.ai:4010/checkCalendarStatus', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          credentials: 'include',
-          body: JSON.stringify({ userIDHash })
-        });
+      const calendarResponse = await loggedFetch('https://api.airthreads.ai:4010/checkCalendarStatus', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        credentials: 'include', // Backend uses HTTP-only cookies for auth
+        body: JSON.stringify({ userIDHash: userIDHash || undefined })
+      });
 
-        secureLog('Calendar status response received');
+      secureLog('Calendar status response received');
 
-        if (calendarResponse.ok) {
-          const calendarData = await calendarResponse.json();
-          secureLog('Calendar status data received');
+      if (calendarResponse.ok) {
+        const calendarData = await calendarResponse.json();
+        secureLog('Calendar status data received');
 
-          // Check authentication indicator
-          const isAuthenticated = calendarData.authenticated === true;
+        // Check authentication indicator
+        const isAuthenticated = calendarData.authenticated === true;
 
-          secureLog('Calendar authentication status determined', { isAuthenticated });
+        secureLog('Calendar authentication status determined', { isAuthenticated });
 
-          // Don't merge with initial state - only use server response
-          setIsCalendarAuthenticated(isAuthenticated);
+        // Don't merge with initial state - only use server response
+        setIsCalendarAuthenticated(isAuthenticated);
 
-          // Add success message if authenticated and no initial auth was provided
-          if (isAuthenticated && !initialCalendarAuth) {
-            setAuthMessages(prev => [...prev, '✅ Google Calendar is already connected and ready to use!']);
-          }
-        } else {
-          // Preserve initial auth state if there was an error checking status
-          setIsCalendarAuthenticated(initialCalendarAuth || false);
+        // Add success message if authenticated and no initial auth was provided
+        if (isAuthenticated && !initialCalendarAuth) {
+          setAuthMessages(prev => [...prev, '✅ Google Calendar is already connected and ready to use!']);
         }
+      } else {
+        // Preserve initial auth state if there was an error checking status
+        setIsCalendarAuthenticated(initialCalendarAuth || false);
       }
     } catch (calendarError) {
       // Check if this is a CORS error
@@ -212,7 +191,7 @@ function AuthSetup({ onAuthComplete, initialGmailAuth = false, initialCalendarAu
           'Content-Type': 'application/json',
         },
         credentials: 'include',
-        body: JSON.stringify({ gmailHashID })
+        body: JSON.stringify({ gmailHashID: gmailHashID || undefined })
       });
 
       const authData = await authResponse.json();
@@ -273,7 +252,7 @@ function AuthSetup({ onAuthComplete, initialGmailAuth = false, initialCalendarAu
           'Content-Type': 'application/json',
         },
         credentials: 'include',
-        body: JSON.stringify({ userIDHash })
+        body: JSON.stringify({ userIDHash: userIDHash || undefined })
       });
 
       const authData = await authResponse.json();

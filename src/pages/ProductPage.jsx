@@ -213,6 +213,7 @@ function ProductPage() {
         setTimeout(async () => {
           try {
             // Check Gmail status - direct endpoint
+            // Note: gmailHashID may be HTTP-only, backend uses cookies with credentials: 'include'
             const gmailHashID = getCookieValue('gmailHashID');
             const gmailResponse = await loggedFetch('https://api.airthreads.ai:4008/checkGmailStatus', {
               method: 'POST',
@@ -220,7 +221,7 @@ function ProductPage() {
                 'Content-Type': 'application/json',
               },
               credentials: 'include',
-              body: JSON.stringify({ gmailHashID })
+              body: JSON.stringify({ gmailHashID: gmailHashID || undefined })
             });
 
             if (gmailResponse.ok) {
@@ -237,6 +238,7 @@ function ProductPage() {
             }
 
             // Check Calendar status - direct endpoint
+            // Note: userIDHash may be HTTP-only, backend uses cookies with credentials: 'include'
             const userIDHash = getCookieValue('userIDHash');
             const calendarResponse = await loggedFetch('https://api.airthreads.ai:4010/checkCalendarStatus', {
               method: 'POST',
@@ -244,7 +246,7 @@ function ProductPage() {
                 'Content-Type': 'application/json',
               },
               credentials: 'include',
-              body: JSON.stringify({ userIDHash })
+              body: JSON.stringify({ userIDHash: userIDHash || undefined })
             });
 
             if (calendarResponse.ok) {
@@ -316,7 +318,7 @@ function ProductPage() {
           'Content-Type': 'application/json',
         },
         credentials: 'include',
-        body: JSON.stringify({ gmailHashID })
+        body: JSON.stringify({ gmailHashID: gmailHashID || undefined })
       });
 
       const authData = await authResponse.json();
@@ -397,7 +399,7 @@ function ProductPage() {
           'Content-Type': 'application/json',
         },
         credentials: 'include',
-        body: JSON.stringify({ userIDHash })
+        body: JSON.stringify({ userIDHash: userIDHash || undefined })
       });
 
       const authData = await authResponse.json();
@@ -491,7 +493,7 @@ function ProductPage() {
               'Content-Type': 'application/json',
             },
             credentials: 'include',
-            body: JSON.stringify({ gmailHashID })
+            body: JSON.stringify({ gmailHashID: gmailHashID || undefined })
           });
           const gmailStatusData = await gmailStatusResponse.json();
           
@@ -529,7 +531,7 @@ function ProductPage() {
               'Content-Type': 'application/json',
             },
             credentials: 'include',
-            body: JSON.stringify({ userIDHash })
+            body: JSON.stringify({ userIDHash: userIDHash || undefined })
           });
           const calendarStatusData = await calendarStatusResponse.json();
           secureLog('Calendar status data received');
@@ -699,7 +701,7 @@ function ProductPage() {
           'Content-Type': 'application/json',
         },
         credentials: 'include',
-        body: JSON.stringify({ gmailHashID })
+        body: JSON.stringify({ gmailHashID: gmailHashID || undefined })
       });
       
       if (!response.ok) {
@@ -744,7 +746,7 @@ function ProductPage() {
           'Content-Type': 'application/json',
         },
         credentials: 'include',
-        body: JSON.stringify({ userIDHash })
+        body: JSON.stringify({ userIDHash: userIDHash || undefined })
       });
       
       if (!response.ok) {
