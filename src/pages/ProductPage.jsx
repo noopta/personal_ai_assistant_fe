@@ -70,11 +70,14 @@ function ProductPage() {
           rateLimitHandled = true;
           setMessages(prev => [...prev, {
             type: 'assistant',
-            content: '⏳ Too many requests. Please wait a moment before trying voice mode again.'
+            content: '⏳ Too many requests. Please wait a moment before trying again.'
           }]);
           return 'rate_limited'; // Special value to indicate rate limiting (don't show duplicate error)
         }
-        throw new Error(`Failed to fetch Vapi session token: ${response.status}`);
+        // Log response details for debugging
+        const errorText = await response.text().catch(() => 'No response body');
+        secureLog('Vapi session token error', { status: response.status, error: errorText });
+        throw new Error(`Session initialization failed (${response.status})`);
       }
 
       const data = await response.json();
@@ -82,11 +85,12 @@ function ProductPage() {
       setVapiSessionToken(data.session_token);
       return data.session_token;
     } catch (error) {
+      secureLog('fetchVapiSessionToken error', { message: error.message });
       // Only show generic error if rate limit wasn't already handled
       if (!rateLimitHandled) {
         setMessages(prev => [...prev, {
           type: 'assistant',
-          content: '⚠️ Failed to initialize voice session. Please try again or contact support.'
+          content: '⚠️ Unable to connect to the server. Please check your internet connection and try again.'
         }]);
       }
       return rateLimitHandled ? 'rate_limited' : null;
