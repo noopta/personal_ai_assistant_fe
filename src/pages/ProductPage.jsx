@@ -623,7 +623,18 @@ function ProductPage() {
       // Now proceed with the original query - cookies sent automatically
       secureLog('Sending request to agent endpoint');
 
-      // Ensure we have a session token for the agent endpoint
+      // Session token requires Gmail authentication (cookies set by /initiate-auth)
+      // Check if Gmail is authenticated before fetching session token
+      if (!isGmailAuthenticated) {
+        setMessages(prev => [...prev, {
+          type: 'assistant',
+          content: '🔐 Please connect your Gmail account first to use the assistant. Click "Connect to Gmail" on the previous screen.'
+        }]);
+        setIsLoading(false);
+        return;
+      }
+
+      // Gmail authenticated - now we can fetch session token (cookies exist)
       const token = vapiSessionToken || await fetchVapiSessionToken();
       
       // Verify we have a valid token before proceeding
@@ -852,17 +863,33 @@ function ProductPage() {
     setTimeout(async () => {
       // Start Vapi call ONLY when voice mode is selected
       if (mode === 'voice') {
-        // Ensure we have the token, or fetch it if not available
+        // Voice mode requires Gmail authentication (cookies must exist for /vapi-session)
+        if (!isGmailAuthenticated) {
+          setMessages(prev => [...prev, {
+            type: 'assistant',
+            content: '🔐 Voice mode requires Gmail authentication. Please connect your Gmail account first, then try voice mode again.'
+          }]);
+          setIsTransitioning(false);
+          setCurrentMode('text'); // Fall back to text mode
+          return;
+        }
+        
+        // Gmail authenticated - now we can fetch session token (cookies exist)
         const token = vapiSessionToken || await fetchVapiSessionToken();
-        // Skip if rate limited (message already shown)
+        // Skip if rate limited or failed (message already shown)
         if (token && token !== 'rate_limited') {
+          // Setup Vapi instance if not already done
+          setupVapi();
           // Start the Vapi call with auth status flags
           startVapi(token, isGmailAuthenticated, isCalendarAuthenticated);
+        } else {
+          // Token fetch failed - fall back to text mode
+          setCurrentMode('text');
+          setIsTransitioning(false);
+          return;
         }
-      } else {
-        // Text mode - no Vapi needed, but don't clean up the instance
-        // (instance was created in handleAuthComplete)
       }
+      // Text mode - no Vapi needed
       setCurrentMode(mode);
       setIsTransitioning(false);
     }, 300);
@@ -873,12 +900,28 @@ function ProductPage() {
     setTimeout(async () => {
       // Start Vapi call when switching TO voice mode
       if (mode === 'voice') {
-        // Ensure we have the token, or fetch it if not available
+        // Voice mode requires Gmail authentication (cookies must exist for /vapi-session)
+        if (!isGmailAuthenticated) {
+          setMessages(prev => [...prev, {
+            type: 'assistant',
+            content: '🔐 Voice mode requires Gmail authentication. Please connect your Gmail account first.'
+          }]);
+          setIsTransitioning(false);
+          return; // Stay in current mode
+        }
+        
+        // Gmail authenticated - now we can fetch session token (cookies exist)
         const token = vapiSessionToken || await fetchVapiSessionToken();
-        // Skip if rate limited (message already shown)
+        // Skip if rate limited or failed (message already shown)
         if (token && token !== 'rate_limited') {
+          // Setup Vapi instance if not already done
+          setupVapi();
           // Start the Vapi call with auth status flags
           startVapi(token, isGmailAuthenticated, isCalendarAuthenticated);
+        } else {
+          // Token fetch failed - stay in current mode
+          setIsTransitioning(false);
+          return;
         }
       } else {
         // Switching away from voice mode - stop the call but keep instance
@@ -893,13 +936,10 @@ function ProductPage() {
     setIsGmailAuthenticated(authStatus.isGmailAuthenticated);
     setIsCalendarAuthenticated(authStatus.isCalendarAuthenticated);
     
-    // Fetch Vapi session token for voice mode
-    // This token contains the user's hash IDs for multi-user isolation
-    // Ignore rate_limited return - message already shown
-    await fetchVapiSessionToken();
-    
-    // Initialize Vapi instance (but don't start call yet - that happens on voice mode select)
-    setupVapi();
+    // Note: Do NOT fetch Vapi session token here!
+    // /vapi-session requires userIDHash and gmailHashID cookies
+    // Those cookies are only set AFTER completing OAuth via /initiate-auth
+    // Token will be fetched when user selects voice mode (if Gmail is authenticated)
     
     setCurrentMode('selection');
   };
