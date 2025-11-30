@@ -43,19 +43,19 @@ The application features a complete Stripe-inspired UI redesign across all pages
 ## Recent Changes
 
 ### November 30, 2025: Complete /vapi-session Auth Gate Fix 🔐
-- **Critical Fix:** `/vapi-session` now ONLY called after Gmail OAuth completes
+- **Critical Fix:** `/vapi-session` now ONLY called after OAuth completes (Gmail OR Calendar)
   - Removed `fetchVapiSessionToken()` from `handleAuthComplete` - no token fetch on "Continue to mode selection"
-  - All mode entry points now gate on Gmail authentication before fetching session token
-- **Voice Mode:** `handleModeSelect` and `handleSwitchMode` check `isGmailAuthenticated` first
-  - If not authenticated → shows message, falls back to text mode
-  - If authenticated → fetches token, starts Vapi
-- **Text Mode:** `handleSendMessage` now checks Gmail auth before fetching session token
-  - If not authenticated → shows message asking user to connect Gmail
-  - If authenticated → fetches token, sends to /agent
+  - All mode entry points now gate on authentication (Gmail OR Calendar) before fetching session token
+- **Voice Mode:** `handleModeSelect` and `handleSwitchMode` check `isGmailAuthenticated || isCalendarAuthenticated`
+  - If neither authenticated → shows message, falls back to text mode
+  - If at least one authenticated → fetches token, starts Vapi
+- **Text Mode:** `handleSendMessage` now checks auth before fetching session token
+  - If neither Gmail nor Calendar authenticated → shows message asking user to connect
+  - If at least one authenticated → fetches token, sends to /agent
 - **Correct Flow:**
-  1. User connects Gmail → `/initiate-auth` → OAuth → cookies set
+  1. User connects Gmail OR Calendar → `/initiate-auth` → OAuth → cookies set
   2. User clicks "Continue" → NO /vapi-session call (just updates mode)
-  3. User selects mode → Gmail auth check → THEN fetch token
+  3. User selects mode → Auth check (Gmail OR Calendar) → THEN fetch token
 - **Files Updated:** `ProductPage.jsx`
 - **Build Status:** ✅ Compiles successfully, 401 errors resolved
 
