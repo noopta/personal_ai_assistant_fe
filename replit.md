@@ -42,22 +42,23 @@ The application features a complete Stripe-inspired UI redesign across all pages
 
 ## Recent Changes
 
-### November 30, 2025: Complete /vapi-session Auth Gate Fix 🔐
-- **Critical Fix:** `/vapi-session` now ONLY called after OAuth completes (Gmail OR Calendar)
-  - Removed `fetchVapiSessionToken()` from `handleAuthComplete` - no token fetch on "Continue to mode selection"
-  - All mode entry points now gate on authentication (Gmail OR Calendar) before fetching session token
-- **Voice Mode:** `handleModeSelect` and `handleSwitchMode` check `isGmailAuthenticated || isCalendarAuthenticated`
-  - If neither authenticated → shows message, falls back to text mode
-  - If at least one authenticated → fetches token, starts Vapi
-- **Text Mode:** `handleSendMessage` now checks auth before fetching session token
-  - If neither Gmail nor Calendar authenticated → shows message asking user to connect
-  - If at least one authenticated → fetches token, sends to /agent
+### November 30, 2025: Session Token Architecture Fix 🔐
+- **Critical Fix:** Session token now fetched ONCE on "Continue to mode selection", reused by both modes
+  - `/vapi-session` called in `handleAuthComplete` when user clicks "Continue" (if Gmail OR Calendar authenticated)
+  - Token stored in `vapiSessionToken` state and reused - NO re-fetching
+- **Voice Mode:** Uses cached `vapiSessionToken` to start Vapi
+  - If no cached token → shows message, falls back to text mode
+  - If token exists → starts Vapi call immediately
+- **Text Mode:** Uses cached `vapiSessionToken` for `/agent` endpoint
+  - Does NOT call `/vapi-session` at all - uses pre-fetched token
+  - If no cached token → shows message asking user to re-authenticate
 - **Correct Flow:**
-  1. User connects Gmail OR Calendar → `/initiate-auth` → OAuth → cookies set
-  2. User clicks "Continue" → NO /vapi-session call (just updates mode)
-  3. User selects mode → Auth check (Gmail OR Calendar) → THEN fetch token
+  1. User connects Gmail OR Calendar → OAuth → cookies set
+  2. User clicks "Continue to mode selection" → `/vapi-session` called → token cached → Vapi instance setup
+  3. User selects Voice mode → uses cached token → starts Vapi call
+  4. User selects Text mode → uses cached token for `/agent` → no Vapi interaction
 - **Files Updated:** `ProductPage.jsx`
-- **Build Status:** ✅ Compiles successfully, 401 errors resolved
+- **Build Status:** ✅ Compiles successfully
 
 ### November 30, 2025: Auth Check & Vapi Initialization Optimization 🎯
 - **Auth Check Fix:** Eliminated "Checking authentication status" flash when clicking "Continue to mode selection"
