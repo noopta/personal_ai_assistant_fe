@@ -42,6 +42,16 @@ The application features a complete Stripe-inspired UI redesign across all pages
 
 ## Recent Changes
 
+### November 30, 2025: Rate Limit Error Handling & Airbnb Integration 🚦
+- **429 Rate Limit Handling:** Comprehensive user-friendly error handling for all API rate limits
+  - `fetchVapiSessionToken`: Returns 'rate_limited' sentinel value on 429, shows friendly message
+  - All callers (handleSendMessage, handleModeSelect, handleSwitchMode) check for 'rate_limited' and skip further processing
+  - Uses `rateLimitHandled` flag to prevent duplicate error messages in catch blocks
+  - Agent endpoint (`/agent`) also checks for 429 with friendly messaging
+- **Airbnb Integration (Coming Soon):** Added Airbnb as upcoming integration in IntegrationsPage and LandingPage features section
+- **Files Updated:** `ProductPage.jsx`, `IntegrationsPage.jsx`, `LandingPage.jsx`
+- **Build Status:** ✅ Compiles successfully
+
 ### November 30, 2025: HTTP-Only Cookie Authentication Fix 🔐
 - **Issue:** Auth status check endpoints were not being called on page load - UI showed "Checking Authentication" then immediately displayed "Connect to Gmail/Calendar" buttons
 - **Root Cause:** Hash IDs (`gmailHashID`, `userIDHash`) are stored as HTTP-only cookies by the backend, meaning JavaScript cannot read them via `document.cookie`
