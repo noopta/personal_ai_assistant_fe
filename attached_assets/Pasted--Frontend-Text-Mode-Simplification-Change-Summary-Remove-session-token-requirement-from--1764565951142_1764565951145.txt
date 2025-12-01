@@ -1,0 +1,197 @@
+# Frontend Text Mode Simplification
+
+## Change Summary
+
+Remove `session_token` requirement from the `/agent` endpoint call in text mode. The Python server already extracts authentication from cookies, which the browser sends automatically with `credentials: 'include'`.
+
+---
+
+## Current Code (❌ Problematic)
+
+```javascript
+// OLD: Unnecessary session token requirement
+const response = await loggedFetch(`${PYTHON_SERVER_URL}/agent`, {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+  },
+  credentials: 'include',  // Send cookies with request
+  body: JSON.stringify({
+    query: message,
+    session_token: vapiSessionToken  // ❌ NOT NEEDED FOR TEXT MODE
+  })
+});
+```
+
+### Issues with Current Approach:
+1. **Unnecessary complexity** - Session tokens are only for voice mode (third-party AI)
+2. **Token expiration** - If `vapiSessionToken` expires, text mode breaks even though cookies are still valid
+3. **Potential null values** - If `vapiSessionToken` is `null`/`undefined`, it sends `"session_token": null` in JSON
+4. **Extra dependency** - Tightly couples text mode to voice mode token lifecycle
+
+---
+
+## New Code (✅ Simplified)
+
+```javascript
+// NEW: Let cookies handle authentication
+const response = await loggedFetch(`${PYTHON_SERVER_URL}/agent`, {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+  },
+  credentials: 'include',  // Browser auto-sends userIDHash, gmailHashID cookies
+  body: JSON.stringify({
+    query: message
+    // No session_token - cookies have everything needed
+  })
+});
+```
+
+---
+
+## How It Works
+
+### Old Flow (with session token):
+1. Frontend has `vapiSessionToken`
+2. Sends to `/agent` with `session_token` param
+3. Python server tries session token first
+4. Falls back to cookies if token invalid/expired
+5. Extracts `userIDHash`, `gmailHashID`, `calendarHashID`
+6. ❌ 401 if token expired AND cookies not set properly
+
+### New Flow (cookies only):
+1. Browser sends request with `credentials: 'include'`
+2. Browser auto-includes `userIDHash`, `gmailHashID`, `calendarHashID` cookies
+3. Python server reads from `request.cookies`
+4. Extracts `userIDHash`, `gmailHashID`, `calendarHashID`
+5. ✅ Works reliably as long as cookies are set
+
+---
+
+## Backend Verification
+
+The Python server's `get_hash_ids_from_request()` function (lines 245-275 in main.py):
+
+```python
+def get_hash_ids_from_request():
+    """Extract hash identifiers from cookies, JSON payload, or session token"""
+    # 1️⃣ PRIMARY: Extract from cookies
+    user_id_hash = request.cookies.get('userIDHash')
+    gmail_hash_id = request.cookies.get('gmailHashID')
+    calendar_hash_id = request.cookies.get('calendarHashID')
+
+    data = request.get_json(silent=True)
+    session_token = None
+
+    # 2️⃣ FALLBACK: Extract from request body
+    if isinstance(data, dict):
+        session_token = data.get('session_token') or data.get('sessionToken')
+        # ... also checks body for direct userIDHash, gmailHashID, etc.
+
+    # 3️⃣ LAST RESORT: Decode from session token if provided
+    if session_token:
+        try:
+            payload = decode_session_token(session_token)
+            user_id_hash = payload.get('userIDHash') or payload.get('sub') or user_id_hash
+            gmail_hash_id = payload.get('gmailHashID') or gmail_hash_id
+            calendar_hash_id = payload.get('calendarHashID') or calendar_hash_id
+        except ValueError as token_error:
+            logger.warning(f"Invalid session token provided: {token_error}")
+
+    return user_id_hash, gmail_hash_id, calendar_hash_id
+```
+
+**For text mode**, cookies (step 1) are sufficient. No session token needed.
+
+---
+
+## When to Use Session Tokens (Voice Mode Only)
+
+Session tokens are **ONLY** for voice mode because:
+
+```
+VOICE MODE ARCHITECTURE:
+┌─────────────────────────┐
+│  Third-party Voice AI   │  ← Can't use HTTP-only cookies
+│  (no cookie support)    │
+└────────────┬────────────┘
+             │ Calls with session_token param
+             ↓
+┌─────────────────────────┐
+│  /initiate-auth         │
+│  /checkGmailStatus      │  ← Parse session_token from query/body
+│  /checkCalendarStatus   │
+└────────────┬────────────┘
+             │ Session token extracted
+             ↓
+┌─────────────────────────┐
+│ Use gmailHashID from    │
+│ decoded JWT token       │  ← Load OAuth tokens
+└─────────────────────────┘
+```
+
+**For text mode**, the browser is the client and HTTP-only cookies are perfect:
+
+```
+TEXT MODE ARCHITECTURE:
+┌──────────────┐
+│   Browser    │  ← Automatic cookie handling
+└────────┬─────┘
+         │ credentials: 'include'
+         ↓
+┌──────────────┐
+│ /agent       │  ← Extract from request.cookies
+└────────┬─────┘
+         │ Cookies = userIDHash, gmailHashID
+         ↓
+┌──────────────┐
+│ Use hashes   │
+│ from cookies │  ← Load OAuth tokens
+└──────────────┘
+```
+
+---
+
+## Benefits of This Change
+
+✅ **Simpler code** - Remove session token handling from text mode
+✅ **More reliable** - Not dependent on token expiration
+✅ **Better separation** - Voice mode (tokens) ≠ Text mode (cookies)
+✅ **Standard auth pattern** - Using HTTP-only cookies for web apps
+✅ **Fewer edge cases** - No null/undefined token values to handle
+
+---
+
+## Implementation Steps
+
+1. **Find the `/agent` call** in your frontend code
+2. **Remove the `session_token` from the request body**
+3. **Keep `credentials: 'include'`** to ensure cookies are sent
+4. **Test** - Make sure authentication still works
+
+---
+
+## Testing Checklist
+
+After making the change:
+
+- [ ] Text mode requests still authenticate successfully
+- [ ] Browser DevTools → Network tab shows `userIDHash` and `gmailHashID` cookies in request
+- [ ] No 401 errors from `/agent` endpoint
+- [ ] Agent can call Gmail and Calendar MCP tools
+- [ ] Voice mode still works with session tokens (should be unchanged)
+
+---
+
+## Code Locations
+
+**Frontend:** Your client application (separate repo)
+- Find the `/agent` POST request
+- Remove `session_token: vapiSessionToken` from body
+
+**Backend:** `/home/ubuntu/mcp/python-server/main.py`
+- Line 1523: `/agent` endpoint (no changes needed)
+- Lines 245-275: `get_hash_ids_from_request()` (no changes needed)
+- Already handles cookie extraction correctly ✅
+

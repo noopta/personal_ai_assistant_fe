@@ -627,27 +627,15 @@ function ProductPage() {
       // Now proceed with the original query - cookies sent automatically
       secureLog('Sending request to agent endpoint');
 
-      // Use cached session token (fetched on "Continue to mode selection")
-      // Text mode does NOT call /vapi-session - it uses the pre-fetched token
-      if (!vapiSessionToken) {
-        setMessages(prev => [...prev, {
-          type: 'assistant',
-          content: '🔐 Session not initialized. Please go back and click "Continue to mode selection" again after connecting Gmail or Calendar.'
-        }]);
-        setIsLoading(false);
-        return;
-      }
-
-      // Send query to backend - hash IDs sent via cookies and session token
+      // Send query to backend - cookies handle authentication automatically
       const response = await loggedFetch(`${PYTHON_SERVER_URL}/agent`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        credentials: 'include',  // Send cookies with request
+        credentials: 'include',  // Browser auto-sends userIDHash, gmailHashID, calendarHashID cookies
         body: JSON.stringify({
-          query: message,
-          session_token: vapiSessionToken  // Use cached session token
+          query: message
         })
       });
 
