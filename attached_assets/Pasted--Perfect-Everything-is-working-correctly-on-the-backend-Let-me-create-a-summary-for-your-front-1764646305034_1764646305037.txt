@@ -1,0 +1,111 @@
+ Perfect! Everything is working correctly on the backend. Let me create
+   a summary for your frontend team:
+
+  ✅ Backend Status - Activity Stream is Ready
+
+  Good news: All backend endpoints are working perfectly. The issue is
+  not with the backend.
+
+  What's Working on Backend:
+
+  1. ✅ GET /user/session endpoint exists and returns userIDHash +
+  authentication status
+    - Response: {authenticated: true, userIDHash: "...", gmailHashID: 
+  "..."}
+    - CORS headers correct for https://airthreads.ai
+  2. ✅ GET /activity/stream (SSE endpoint) working perfectly
+    - Returns real-time activity events
+    - CORS headers properly configured for https://airthreads.ai
+    - Sending heartbeats every 15 seconds
+    - Activities are flowing through the system
+  3. ✅ GET /activity/recent returns historical activities
+  4. ✅ CORS Configuration - https://airthreads.ai is whitelisted
+    - Access-Control-Allow-Origin: https://airthreads.ai ✅
+    - Access-Control-Allow-Credentials: true ✅
+    - Cookie support enabled ✅
+
+  ---
+  🔍 What Frontend Needs to Do
+
+  The issue is likely on the frontend side. Check these things:
+
+  1. Verify Cookies Are Being Set
+
+  When the user authenticates, ensure cookies are set:
+  // These cookies MUST be present:
+  // - userIDHash
+  // - gmailHashID
+
+  // Check in browser DevTools:
+  // Application → Cookies → https://airthreads.ai
+
+  2. Verify Fetch Requests Include Credentials
+
+  Your code has this, which is correct:
+  credentials: 'include'  // ✅ Correct
+
+  However, make sure ALL fetch calls to the backend use this.
+
+  3. Check Error Handling
+
+  The /user/session endpoint might be failing. Add logging:
+  const response = await fetch(`${PYTHON_SERVER_URL}/user/session`, {
+    method: 'GET',
+    credentials: 'include',  // Include cookies
+    headers: { 'Accept': 'application/json' }
+  });
+
+  console.log('Session endpoint status:', response.status);
+  console.log('Session endpoint response:', await response.json());
+
+  If response is 401, the cookies aren't being sent properly.
+
+  4. Verify PYTHON_SERVER_URL
+
+  Make sure it's pointing to the correct backend:
+  - Should be: https://api.airthreads.ai:5001 (via NGINX)
+  - NOT: http://127.0.0.1:8001 (internal only)
+
+  5. Browser Console Checks
+
+  1. Open DevTools → Network tab
+  2. Look for requests to /user/session - what status code?
+  3. Look for requests to /activity/stream - does it establish SSE
+  connection?
+  4. Check for CORS errors in console
+
+  6. Test the Flow
+
+  Run this in the browser console to test manually:
+  // Step 1: Get session
+  fetch('https://api.airthreads.ai:5001/user/session', {
+    credentials: 'include'
+  })
+  .then(r => r.json())
+  .then(data => {
+    console.log('Session:', data);
+    if (data.userIDHash) {
+      // Step 2: Connect to stream
+      const es = new EventSource(
+        `https://api.airthreads.ai:5001/activity/stream?userIDHash=${dat
+  a.userIDHash}`,
+        { withCredentials: true }
+      );
+      es.onmessage = (e) => console.log('Activity:', e.data);
+      es.onerror = (e) => console.log('Stream error:', e);
+    }
+  });
+
+  ---
+  🎯 Most Likely Issue
+
+  The frontend is probably not sending cookies because:
+  1. Cookies aren't being set during authentication
+  2. The domain mismatch (e.g., frontend on different subdomain)
+  3. HTTPS/HTTP mismatch
+  4. SameSite cookie attribute blocking
+
+  Check: Do your auth cookies have SameSite=None; Secure attributes?
+
+  The backend is ready. Let me know what your frontend team finds in the
+   console!
