@@ -1,0 +1,451 @@
+# Feedback API Documentation
+
+## Overview
+
+The Feedback API provides two endpoints for managing anonymous user feedback. Feedback is stored in Redis with a maximum of 50 entries. New entries automatically push out the oldest ones, ensuring a rolling window of recent feedback.
+
+**Base URL:** `https://luciuslab.xyz` or `https://api.airthreads.ai`
+**Port:** `5001` (via nginx SSL)
+
+---
+
+## Endpoints
+
+### 1. Submit Feedback
+
+**Endpoint:** `POST /api/feedback`
+
+**Description:** Submit new feedback anonymously. The feedback is stored in Redis and automatically timestamped.
+
+**Request Format:**
+
+```json
+{
+  "bugs": "string (optional) - Bug reports or issues encountered",
+  "enjoyedFeatures": "string (optional) - Features user enjoyed",
+  "improvements": "string (optional) - Suggested improvements",
+  "solvesIssue": "string (optional) - Description of how it solves issues",
+  "willingness": "string (optional) - Pricing/payment willingness",
+  "paymentFactors": "string (optional) - Factors influencing payment decision",
+  "convenience": "string (optional) - Convenience feedback",
+  "removeFeatures": "string (optional) - Features to remove",
+  "confusingParts": "string (optional) - Confusing aspects of the product",
+  "additionalThoughts": "string (optional) - General thoughts",
+  "pageFeedback": {
+    "landing": "string (optional)",
+    "product": "string (optional)",
+    "integrations": "string (optional)",
+    "about": "string (optional)"
+  },
+  "timestamp": "string (optional) - ISO 8601 format. If omitted, server will add it"
+}
+```
+
+**Response Format (Success - 201):**
+
+```json
+{
+  "status": "success",
+  "message": "Feedback stored successfully",
+  "timestamp": "2025-12-04T15:30:45.123456Z"
+}
+```
+
+**Response Format (Error - 4xx/5xx):**
+
+```json
+{
+  "error": "Error message describing what went wrong"
+}
+```
+
+**Example cURL Request:**
+
+```bash
+curl -X POST https://luciuslab.xyz:5001/api/feedback \
+  -H "Content-Type: application/json" \
+  -d '{
+    "bugs": "Calendar loading takes too long",
+    "enjoyedFeatures": "Love the chat interface",
+    "improvements": "Would like dark mode",
+    "additionalThoughts": "Overall great product!"
+  }'
+```
+
+**HTTP Status Codes:**
+
+- `201` - Feedback stored successfully
+- `400` - Bad request (invalid JSON or missing data)
+- `503` - Feedback service unavailable (Redis connection issue)
+- `500` - Server error
+
+---
+
+### 2. Retrieve Feedback
+
+**Endpoint:** `GET /api/feedback/data`
+
+**Description:** Retrieve all stored feedback with optional filtering by type and date range.
+
+**Query Parameters:**
+
+| Parameter | Type | Description | Example |
+|-----------|------|-------------|---------|
+| `type` | string | Filter by feedback type: `bug`, `feature`, `general`, `page` | `?type=bug` |
+| `start_date` | string | Filter by start date (ISO format) | `?start_date=2025-12-01` |
+| `end_date` | string | Filter by end date (ISO format) | `?end_date=2025-12-05` |
+
+**Type Filtering Logic:**
+
+- `bug` - Returns feedback with non-empty `bugs` field
+- `feature` - Returns feedback with non-empty `improvements` field
+- `general` - Returns feedback with non-empty `additionalThoughts` field
+- `page` - Returns feedback with non-empty `pageFeedback` object
+
+**Response Format (Success - 200):**
+
+```json
+{
+  "feedback": [
+    {
+      "timestamp": "2025-12-04T15:30:45.123456Z",
+      "bugs": "Calendar loading takes too long",
+      "enjoyedFeatures": "Love the chat interface",
+      "improvements": "Would like dark mode",
+      "solvesIssue": "Yes, saves 30 minutes daily",
+      "willingness": "$15-20/month",
+      "paymentFactors": "Team collaboration features",
+      "convenience": "Great for simple tasks",
+      "removeFeatures": "Confusing voice button placement",
+      "confusingParts": "Unclear authentication flow",
+      "additionalThoughts": "Overall impressed with the product",
+      "pageFeedback": {
+        "landing": "Beautiful but unclear what product does",
+        "product": "Clean interface",
+        "integrations": "Very clear instructions",
+        "about": "Love the personal story"
+      }
+    },
+    {
+      "timestamp": "2025-12-04T14:20:30.654321Z",
+      "bugs": "Voice mode button doesn't respond sometimes",
+      "additionalThoughts": "Great experience overall"
+    }
+  ],
+  "count": 2,
+  "total_available": 2
+}
+```
+
+**Response Format (Error - 4xx/5xx):**
+
+```json
+{
+  "error": "Error message describing what went wrong"
+}
+```
+
+**Example cURL Requests:**
+
+```bash
+# Get all feedback
+curl https://luciuslab.xyz:5001/api/feedback/data
+
+# Get only bug reports
+curl "https://luciuslab.xyz:5001/api/feedback/data?type=bug"
+
+# Get feature requests from December 2025
+curl "https://luciuslab.xyz:5001/api/feedback/data?type=feature&start_date=2025-12-01&end_date=2025-12-31"
+
+# Get general feedback from a specific date
+curl "https://luciuslab.xyz:5001/api/feedback/data?type=general&start_date=2025-12-04"
+```
+
+**HTTP Status Codes:**
+
+- `200` - Success (returns feedback, may be empty list)
+- `503` - Feedback service unavailable (Redis connection issue)
+- `500` - Server error
+
+---
+
+## Frontend Integration
+
+### JavaScript/TypeScript Example
+
+```typescript
+// Submit feedback
+async function submitFeedback(feedbackData: {
+  bugs?: string;
+  enjoyedFeatures?: string;
+  improvements?: string;
+  additionalThoughts?: string;
+  [key: string]: any;
+}) {
+  try {
+    const response = await fetch('/api/feedback', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(feedbackData),
+    });
+
+    if (response.status === 201) {
+      const data = await response.json();
+      console.log('Feedback submitted:', data.timestamp);
+      return true;
+    } else {
+      const error = await response.json();
+      console.error('Failed to submit feedback:', error.error);
+      return false;
+    }
+  } catch (error) {
+    console.error('Submission error:', error);
+    return false;
+  }
+}
+
+// Retrieve feedback with filtering
+async function getFeedback(options?: {
+  type?: 'bug' | 'feature' | 'general' | 'page';
+  startDate?: string;
+  endDate?: string;
+}) {
+  try {
+    const params = new URLSearchParams();
+    if (options?.type) params.append('type', options.type);
+    if (options?.startDate) params.append('start_date', options.startDate);
+    if (options?.endDate) params.append('end_date', options.endDate);
+
+    const queryString = params.toString() ? `?${params.toString()}` : '';
+    const response = await fetch(`/api/feedback/data${queryString}`);
+
+    if (response.status === 200) {
+      const data = await response.json();
+      return data.feedback;
+    } else {
+      const error = await response.json();
+      console.error('Failed to fetch feedback:', error.error);
+      return [];
+    }
+  } catch (error) {
+    console.error('Fetch error:', error);
+    return [];
+  }
+}
+
+// Usage examples
+async function main() {
+  // Submit feedback
+  await submitFeedback({
+    bugs: 'Calendar takes time to load',
+    enjoyedFeatures: 'Chat interface is smooth',
+    improvements: 'Add dark mode',
+  });
+
+  // Get all feedback
+  const allFeedback = await getFeedback();
+  console.log(`Total feedback: ${allFeedback.length}`);
+
+  // Get only bug reports
+  const bugs = await getFeedback({ type: 'bug' });
+  console.log(`Bug reports: ${bugs.length}`);
+
+  // Get feature requests from last 7 days
+  const today = new Date();
+  const sevenDaysAgo = new Date(today.getTime() - 7 * 24 * 60 * 60 * 1000);
+
+  const recentFeatures = await getFeedback({
+    type: 'feature',
+    startDate: sevenDaysAgo.toISOString().split('T')[0],
+    endDate: today.toISOString().split('T')[0],
+  });
+  console.log(`Recent feature requests: ${recentFeatures.length}`);
+}
+```
+
+### React Component Example
+
+```jsx
+import React, { useState, useEffect } from 'react';
+
+export function FeedbackPage() {
+  const [feedback, setFeedback] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [filter, setFilter] = useState('');
+  const [dateRange, setDateRange] = useState({ start: '', end: '' });
+
+  // Load feedback on mount and when filters change
+  useEffect(() => {
+    loadFeedback();
+  }, [filter, dateRange]);
+
+  const loadFeedback = async () => {
+    setLoading(true);
+    try {
+      const params = new URLSearchParams();
+      if (filter) params.append('type', filter);
+      if (dateRange.start) params.append('start_date', dateRange.start);
+      if (dateRange.end) params.append('end_date', dateRange.end);
+
+      const queryString = params.toString() ? `?${params.toString()}` : '';
+      const response = await fetch(`/api/feedback/data${queryString}`);
+      const data = await response.json();
+
+      setFeedback(data.feedback || []);
+    } catch (error) {
+      console.error('Failed to load feedback:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <div className="feedback-page">
+      <h1>User Feedback</h1>
+
+      <div className="filters">
+        <select value={filter} onChange={(e) => setFilter(e.target.value)}>
+          <option value="">All Types</option>
+          <option value="bug">Bugs</option>
+          <option value="feature">Features</option>
+          <option value="general">General</option>
+          <option value="page">Page Feedback</option>
+        </select>
+
+        <input
+          type="date"
+          value={dateRange.start}
+          onChange={(e) =>
+            setDateRange({ ...dateRange, start: e.target.value })
+          }
+          placeholder="Start Date"
+        />
+
+        <input
+          type="date"
+          value={dateRange.end}
+          onChange={(e) =>
+            setDateRange({ ...dateRange, end: e.target.value })
+          }
+          placeholder="End Date"
+        />
+      </div>
+
+      {loading ? (
+        <div>Loading...</div>
+      ) : feedback.length === 0 ? (
+        <div>No feedback found</div>
+      ) : (
+        <div className="feedback-list">
+          {feedback.map((item, idx) => (
+            <div key={idx} className="feedback-card">
+              <div className="timestamp">
+                {new Date(item.timestamp).toLocaleDateString()}
+              </div>
+
+              {item.bugs && (
+                <div className="feedback-section">
+                  <h3>Bugs</h3>
+                  <p>{item.bugs}</p>
+                </div>
+              )}
+
+              {item.enjoyedFeatures && (
+                <div className="feedback-section">
+                  <h3>Enjoyed Features</h3>
+                  <p>{item.enjoyedFeatures}</p>
+                </div>
+              )}
+
+              {item.improvements && (
+                <div className="feedback-section">
+                  <h3>Improvements</h3>
+                  <p>{item.improvements}</p>
+                </div>
+              )}
+
+              {item.additionalThoughts && (
+                <div className="feedback-section">
+                  <h3>Additional Thoughts</h3>
+                  <p>{item.additionalThoughts}</p>
+                </div>
+              )}
+
+              {item.pageFeedback && Object.keys(item.pageFeedback).length > 0 && (
+                <div className="feedback-section">
+                  <h3>Page Feedback</h3>
+                  {Object.entries(item.pageFeedback).map(([page, comment]) => (
+                    <div key={page}>
+                      <strong>{page}:</strong> {comment}
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+```
+
+---
+
+## Redis Storage Details
+
+**Key:** `feedback:all` (Redis list)
+
+**Storage Mechanism:**
+- New feedback is pushed to the front of the list using `LPUSH`
+- List is trimmed to maximum 50 entries using `LTRIM`
+- Oldest entries are automatically removed when limit is exceeded
+
+**TTL:** None - feedback persists indefinitely
+
+**Memory Estimate:**
+- Average feedback size: ~2KB
+- Maximum stored: 50 entries
+- Max memory usage: ~100KB
+
+---
+
+## Error Handling
+
+| Error | Status | Cause | Solution |
+|-------|--------|-------|----------|
+| `Feedback service unavailable` | 503 | Redis connection failed | Check Redis server status |
+| `No feedback data provided` | 400 | Empty request body | Include valid JSON |
+| `Invalid JSON` | 400 | Malformed JSON | Fix JSON syntax |
+| `Failed to store feedback` | 500 | Unknown server error | Check server logs |
+| `Failed to retrieve feedback` | 500 | Unknown server error | Check server logs |
+
+---
+
+## Testing
+
+Use the test feedback data from `/home/ubuntu/mcp/feedback_system/test_feedback.py` to test the endpoints:
+
+```bash
+# Test submission
+curl -X POST https://luciuslab.xyz:5001/api/feedback \
+  -H "Content-Type: application/json" \
+  -d @test_feedback.json
+
+# Test retrieval
+curl https://luciuslab.xyz:5001/api/feedback/data
+```
+
+---
+
+## Implementation Notes
+
+- Feedback is **anonymous** - no user identification is stored
+- All fields are **optional** - send only the fields you have data for
+- Timestamp is **auto-generated** if not provided (UTC timezone)
+- Type filtering is based on **field presence** - not an explicit type field
+- Date filtering uses **lexicographic comparison** - ensure ISO format
+- Maximum of **50 entries** stored at any time
+- No **TTL/expiration** - feedback persists until manually removed
