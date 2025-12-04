@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import styles from './FeedbackDashboard.module.css';
 
-const PYTHON_SERVER_URL = 'https://api.airthreads.ai';
+const PYTHON_SERVER_URL = 'https://api.airthreads.ai:5001';
 
 const FEEDBACK_CATEGORIES = [
   { key: 'bugs', label: 'Bug Reports', icon: '🐛', description: 'Issues and problems reported by users' },
