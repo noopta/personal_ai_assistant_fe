@@ -83,7 +83,7 @@ function FeedbackModal({ isOpen, onClose }) {
     };
 
     try {
-      const response = await fetch('https://api.airthreads.ai:5001/feedback', {
+      const response = await fetch('https://api.airthreads.ai:5001/api/feedback', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
