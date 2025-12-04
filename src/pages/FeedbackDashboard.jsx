@@ -41,7 +41,6 @@ function FeedbackDashboard() {
     try {
       const response = await fetch(`${PYTHON_SERVER_URL}/api/feedback/data`, {
         method: 'GET',
-        credentials: 'include',
         headers: {
           'Accept': 'application/json',
         },

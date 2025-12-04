@@ -88,7 +88,6 @@ function FeedbackModal({ isOpen, onClose }) {
         headers: {
           'Content-Type': 'application/json',
         },
-        credentials: 'include',
         body: JSON.stringify(feedbackData)
       });
 
