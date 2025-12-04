@@ -6,6 +6,7 @@ import ProductPage from './pages/ProductPage';
 import IntegrationsPage from './pages/IntegrationsPage';
 import AboutPage from './pages/AboutPage';
 import OAuth2CallbackPage from './pages/OAuth2CallbackPage';
+import FeedbackDashboard from './pages/FeedbackDashboard';
 import { ThemeProvider } from './contexts/ThemeContext';
 import StripeGradient from './components/StripeGradient';
 import MadeInCanada from './components/MadeInCanada';
@@ -24,6 +25,9 @@ function App() {
           <Routes>
             {/* OAuth callback route without navigation */}
             <Route path="/oauth2callback" element={<OAuth2CallbackPage />} />
+            
+            {/* Hidden feedback dashboard - no navigation */}
+            <Route path="/hidden-feedback" element={<FeedbackDashboard />} />
             
             {/* Regular routes with navigation */}
             <Route path="/*" element={
