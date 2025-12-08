@@ -107,12 +107,11 @@ function AboutPage() {
 
         {/* Team Section */}
         <section className={styles.section}>
-          <h2>Meet the Founder</h2>
+          <h2>Built from Experience</h2>
           <p className={styles.teamIntro}>
             AirThreads was built by an engineer who experienced firsthand the frustration of 
             juggling multiple productivity tools and saw an opportunity to create something better.
           </p>
-{/* Founder card hidden for now */}
         </section>
 
         {/* Technology */}
