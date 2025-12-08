@@ -1,5 +1,4 @@
 import styles from './AboutPage.module.css';
-import founderPhoto from '../assets/founder-photo.png';
 
 function AboutPage() {
   return (
@@ -115,19 +114,21 @@ function AboutPage() {
           </p>
           <div className={styles.teamGrid}>
             <div className={styles.teamMember}>
-              <img src={founderPhoto} alt="Anu I." className={styles.memberPhoto} />
-              <h4>Anu I.</h4>
-              <p className={styles.memberRole}>Founder</p>
+              <div className={styles.memberAvatar}>
+                <svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <circle cx="40" cy="40" r="40" fill="#E8E8F0"/>
+                  <circle cx="40" cy="32" r="14" fill="#635BFF"/>
+                  <ellipse cx="40" cy="62" rx="22" ry="14" fill="#635BFF"/>
+                </svg>
+              </div>
+              <h4>Solo Founder</h4>
+              <p className={styles.memberRole}>Engineer & Creator</p>
               <p>
-                I'm a software engineer with a passion for building AI-powered productivity solutions. 
-                With experience in full-stack development and system architecture, I focus on creating 
+                A software engineer with a passion for building AI-powered productivity solutions. 
+                With experience in full-stack development and system architecture, the focus is on creating 
                 seamless user experiences that solve real workflow challenges. Based in Toronto, Canada, 
-                I built AirThreads to bridge the gap between our fragmented productivity tools and create 
-                the unified, intelligent workspace I always wished existed.
-              </p>
-              <p style={{ fontSize: '14px', fontStyle: 'italic', opacity: 0.8, marginTop: '12px' }}>
-                And yes, that is a film photo of me holding a Modelo in a random Mexican spot on Mission Street, 
-                because I barely have any photos of myself, let alone any formal pictures.
+                AirThreads was built to bridge the gap between fragmented productivity tools and create 
+                the unified, intelligent workspace that was always needed.
               </p>
             </div>
           </div>
