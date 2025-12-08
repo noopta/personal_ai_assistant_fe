@@ -112,26 +112,7 @@ function AboutPage() {
             AirThreads was built by an engineer who experienced firsthand the frustration of 
             juggling multiple productivity tools and saw an opportunity to create something better.
           </p>
-          <div className={styles.teamGrid}>
-            <div className={styles.teamMember}>
-              <div className={styles.memberAvatar}>
-                <svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <circle cx="40" cy="40" r="40" fill="#E8E8F0"/>
-                  <circle cx="40" cy="32" r="14" fill="#635BFF"/>
-                  <ellipse cx="40" cy="62" rx="22" ry="14" fill="#635BFF"/>
-                </svg>
-              </div>
-              <h4>Solo Founder</h4>
-              <p className={styles.memberRole}>Engineer & Creator</p>
-              <p>
-                A software engineer with a passion for building AI-powered productivity solutions. 
-                With experience in full-stack development and system architecture, the focus is on creating 
-                seamless user experiences that solve real workflow challenges. Based in Toronto, Canada, 
-                AirThreads was built to bridge the gap between fragmented productivity tools and create 
-                the unified, intelligent workspace that was always needed.
-              </p>
-            </div>
-          </div>
+{/* Founder card hidden for now */}
         </section>
 
         {/* Technology */}
