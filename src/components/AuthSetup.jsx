@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import styles from './AuthSetup.module.css';
 import { secureLog, loggedFetch } from '../utils/securityUtils';
 import GoogleSignInButton from './GoogleSignInButton';
+import { GmailIcon, GoogleCalendarIcon } from './icons';
 
 function AuthSetup({ onAuthComplete, initialGmailAuth = false, initialCalendarAuth = false, forceRecheck = false }) {
   const [isGmailAuthenticated, setIsGmailAuthenticated] = useState(initialGmailAuth);
@@ -363,7 +364,7 @@ function AuthSetup({ onAuthComplete, initialGmailAuth = false, initialCalendarAu
 
         <div className={styles.authServices}>
           <div className={`${styles.serviceCard} ${isGmailAuthenticated ? styles.authenticated : ''}`}>
-            <div className={styles.serviceIcon}>📧</div>
+            <div className={styles.serviceIcon}><GmailIcon size={32} /></div>
             <div className={styles.serviceContent}>
               <h3>Gmail</h3>
               <p>Connect your Gmail account to manage emails and get email-related assistance</p>
@@ -380,7 +381,7 @@ function AuthSetup({ onAuthComplete, initialGmailAuth = false, initialCalendarAu
           </div>
 
           <div className={`${styles.serviceCard} ${isCalendarAuthenticated ? styles.authenticated : ''}`}>
-            <div className={styles.serviceIcon}>📅</div>
+            <div className={styles.serviceIcon}><GoogleCalendarIcon size={32} /></div>
             <div className={styles.serviceContent}>
               <h3>Google Calendar</h3>
               <p>Connect your Google Calendar to manage events, meetings, and scheduling</p>

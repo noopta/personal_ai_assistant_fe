@@ -1,10 +1,11 @@
 import styles from './IntegrationsPage.module.css';
+import { GmailIcon, GoogleCalendarIcon } from '../components/icons';
 
 function IntegrationsPage() {
   const integrations = [
     {
       id: 'gmail',
-      icon: '📧',
+      icon: <GmailIcon size={28} />,
       name: 'Gmail',
       description: 'Manage your emails and send messages through AI assistance',
       steps: [
@@ -30,7 +31,7 @@ function IntegrationsPage() {
     },
     {
       id: 'calendar',
-      icon: '📅',
+      icon: <GoogleCalendarIcon size={28} />,
       name: 'Google Calendar',
       description: 'Schedule meetings and manage events through natural language',
       steps: [

@@ -1,5 +1,6 @@
 import React from 'react';
 import styles from './AuthStatusIndicator.module.css';
+import { GmailIcon, GoogleCalendarIcon } from './icons';
 
 const AuthStatusIndicator = ({ isGmailAuthenticated, isCalendarAuthenticated }) => {
   return (
@@ -12,7 +13,7 @@ const AuthStatusIndicator = ({ isGmailAuthenticated, isCalendarAuthenticated }) 
       <div className={styles.statusGrid}>
         <div className={`${styles.statusItem} ${isGmailAuthenticated ? styles.connected : styles.disconnected}`}>
           <div className={styles.serviceIcon}>
-            {isGmailAuthenticated ? '📧' : '📧'}
+            <GmailIcon size={24} />
           </div>
           <div className={styles.serviceInfo}>
             <div className={styles.serviceName}>Gmail</div>
@@ -27,7 +28,7 @@ const AuthStatusIndicator = ({ isGmailAuthenticated, isCalendarAuthenticated }) 
         
         <div className={`${styles.statusItem} ${isCalendarAuthenticated ? styles.connected : styles.disconnected}`}>
           <div className={styles.serviceIcon}>
-            {isCalendarAuthenticated ? '📅' : '📅'}
+            <GoogleCalendarIcon size={24} />
           </div>
           <div className={styles.serviceInfo}>
             <div className={styles.serviceName}>Google Calendar</div>

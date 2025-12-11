@@ -10,6 +10,7 @@ import styles from './ProductPage.module.css';
 import Vapi from '@vapi-ai/web';
 import VapiWidget from './VapiWidget.tsx';
 import { sanitizeInput, validateUrlParam, secureLog, getEnvVar, loggedFetch } from '../utils/securityUtils';
+import { GmailIcon, GoogleCalendarIcon } from '../components/icons';
 
 function ProductPage() {
   const [messages, setMessages] = useState([]);
@@ -995,28 +996,28 @@ function ProductPage() {
             disabled={isLoading || isGmailAuthenticated}
             className={`${styles.authButton} ${isGmailAuthenticated ? styles.connectedButton : ''}`}
           >
-            {isGmailAuthenticated ? '✅ Gmail Connected' : '🔐 Authenticate Gmail'}
+            {isGmailAuthenticated ? <><span style={{marginRight: '6px'}}>✅</span> Gmail Connected</> : <><GmailIcon size={16} /> <span style={{marginLeft: '6px'}}>Authenticate Gmail</span></>}
           </button>
           <button 
             onClick={handleManualCalendarAuth} 
             disabled={isLoading || isCalendarAuthenticated}
             className={`${styles.authButton} ${isCalendarAuthenticated ? styles.connectedButton : ''}`}
           >
-            {isCalendarAuthenticated ? '✅ Calendar Connected' : '📅 Authenticate Calendar'}
+            {isCalendarAuthenticated ? <><span style={{marginRight: '6px'}}>✅</span> Calendar Connected</> : <><GoogleCalendarIcon size={16} /> <span style={{marginLeft: '6px'}}>Authenticate Calendar</span></>}
           </button>
           <button 
             onClick={handleCheckGmailStatus} 
             disabled={isLoading}
             className={styles.authButton}
           >
-            ✅ Check Gmail Status
+            <GmailIcon size={16} /> <span style={{marginLeft: '6px'}}>Check Gmail Status</span>
           </button>
           <button 
             onClick={handleCheckCalendarStatus} 
             disabled={isLoading}
             className={styles.authButton}
           >
-            📊 Check Calendar Status
+            <GoogleCalendarIcon size={16} /> <span style={{marginLeft: '6px'}}>Check Calendar Status</span>
           </button>
         </div>
         

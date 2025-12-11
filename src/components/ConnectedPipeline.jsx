@@ -1,9 +1,10 @@
 import { useRef, useState, useEffect } from 'react';
 import styles from './AnimatedPipeline.module.css';
+import { GmailIcon, GoogleCalendarIcon } from './icons';
 
 const NODES = [
-  { label: 'Gmail', icon: '📧' },
-  { label: 'Calendar', icon: '📅' },
+  { label: 'Gmail', icon: <GmailIcon size={24} /> },
+  { label: 'Calendar', icon: <GoogleCalendarIcon size={24} /> },
   { label: 'Notion', icon: '📝' },
 ];
 
