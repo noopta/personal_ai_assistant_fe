@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import styles from './AuthSetup.module.css';
 import { secureLog, loggedFetch } from '../utils/securityUtils';
+import GoogleSignInButton from './GoogleSignInButton';
 
 function AuthSetup({ onAuthComplete, initialGmailAuth = false, initialCalendarAuth = false, forceRecheck = false }) {
   const [isGmailAuthenticated, setIsGmailAuthenticated] = useState(initialGmailAuth);
@@ -367,17 +368,13 @@ function AuthSetup({ onAuthComplete, initialGmailAuth = false, initialCalendarAu
               <h3>Gmail</h3>
               <p>Connect your Gmail account to manage emails and get email-related assistance</p>
               <div className={styles.serviceStatus}>
-                {isGmailAuthenticated ? (
-                  <span className={styles.statusConnected}>✅ Connected</span>
-                ) : (
-                  <button
-                    className={styles.authButton}
-                    onClick={handleGmailAuth}
-                    disabled={isGmailLoading}
-                  >
-                    {isGmailLoading ? 'Connecting...' : 'Connect Gmail'}
-                  </button>
-                )}
+                <GoogleSignInButton
+                  onClick={handleGmailAuth}
+                  disabled={isGmailLoading}
+                  loading={isGmailLoading}
+                  connected={isGmailAuthenticated}
+                  service="Gmail"
+                />
               </div>
             </div>
           </div>
@@ -388,17 +385,13 @@ function AuthSetup({ onAuthComplete, initialGmailAuth = false, initialCalendarAu
               <h3>Google Calendar</h3>
               <p>Connect your Google Calendar to manage events, meetings, and scheduling</p>
               <div className={styles.serviceStatus}>
-                {isCalendarAuthenticated ? (
-                  <span className={styles.statusConnected}>✅ Connected</span>
-                ) : (
-                  <button
-                    className={styles.authButton}
-                    onClick={handleCalendarAuth}
-                    disabled={isCalendarLoading}
-                  >
-                    {isCalendarLoading ? 'Connecting...' : 'Connect Calendar'}
-                  </button>
-                )}
+                <GoogleSignInButton
+                  onClick={handleCalendarAuth}
+                  disabled={isCalendarLoading}
+                  loading={isCalendarLoading}
+                  connected={isCalendarAuthenticated}
+                  service="Calendar"
+                />
               </div>
             </div>
           </div>
