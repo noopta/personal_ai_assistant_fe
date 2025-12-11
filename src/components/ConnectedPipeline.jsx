@@ -1,11 +1,11 @@
 import { useRef, useState, useEffect } from 'react';
 import styles from './AnimatedPipeline.module.css';
-import { GmailIcon, GoogleCalendarIcon } from './icons';
+import { GmailIcon, GoogleCalendarIcon, NotionIcon } from './icons';
 
 const NODES = [
   { label: 'Gmail', icon: <GmailIcon size={24} /> },
   { label: 'Calendar', icon: <GoogleCalendarIcon size={24} /> },
-  { label: 'Notion', icon: '📝' },
+  { label: 'Notion', icon: <NotionIcon size={24} /> },
 ];
 
 const NODE_POSITIONS = [0.1, 0.5, 0.9]; // As a percentage of rail length

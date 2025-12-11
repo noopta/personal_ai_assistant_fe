@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import styles from './AnimatedPipeline.module.css';
-import { GmailIcon, GoogleCalendarIcon } from './icons';
+import { GmailIcon, GoogleCalendarIcon, NotionIcon } from './icons';
 
 const AnimatedPipeline = ({ direction = 'vertical' }) => {
   const [scrollProgress, setScrollProgress] = useState(0);
@@ -133,7 +133,7 @@ const AnimatedPipeline = ({ direction = 'vertical' }) => {
               transform: `scale(${scrollProgress > 0.8 ? 1.1 : 1})`
             }}
           >
-            <div className={styles.iconBackground}>📝</div>
+            <div className={styles.iconBackground}><NotionIcon size={28} /></div>
             <div className={styles.iconLabel}>Notion</div>
           </div>
         </div>

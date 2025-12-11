@@ -1,5 +1,5 @@
 import styles from './IntegrationsPage.module.css';
-import { GmailIcon, GoogleCalendarIcon } from '../components/icons';
+import { GmailIcon, GoogleCalendarIcon, NotionIcon, AirbnbIcon } from '../components/icons';
 
 function IntegrationsPage() {
   const integrations = [
@@ -57,7 +57,7 @@ function IntegrationsPage() {
     },
     {
       id: 'notion',
-      icon: '📝',
+      icon: <NotionIcon size={28} />,
       name: 'Notion',
       comingSoon: true,
       description: 'Create notes, manage projects, and organize knowledge seamlessly (Coming Soon)',
@@ -85,7 +85,7 @@ function IntegrationsPage() {
     },
     {
       id: 'airbnb',
-      icon: '🏠',
+      icon: <AirbnbIcon size={28} />,
       name: 'Airbnb',
       comingSoon: true,
       description: 'Manage your Airbnb listings, bookings, and guest communications with AI assistance (Coming Soon)',
