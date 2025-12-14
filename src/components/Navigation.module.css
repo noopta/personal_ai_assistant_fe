@@ -27,6 +27,13 @@
   text-decoration: none;
   display: flex;
   align-items: center;
+  gap: 10px;
+}
+
+.logoImage {
+  height: 32px;
+  width: auto;
+  object-fit: contain;
 }
 
 .logoText {
