@@ -1,7 +1,6 @@
 import { Link, useLocation } from 'react-router-dom';
 import styles from './Navigation.module.css';
 import ThemeToggle from './ThemeToggle';
-import logoImage from '../assets/airthreads-logo.png';
 
 function Navigation() {
   const location = useLocation();
@@ -10,7 +9,6 @@ function Navigation() {
     <nav className={styles.navbar}>
       <div className={styles.container}>
         <Link to="/" className={styles.logo}>
-          <img src={logoImage} alt="AirThreads" className={styles.logoImage} />
           <span className={styles.logoText}>AirThreads</span>
         </Link>
         
