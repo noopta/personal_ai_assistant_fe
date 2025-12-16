@@ -32,6 +32,12 @@ function Navigation() {
             Integrations
           </Link>
           <Link 
+            to="/demos" 
+            className={`${styles.navLink} ${location.pathname === '/demos' ? styles.active : ''}`}
+          >
+            Demos
+          </Link>
+          <Link 
             to="/about" 
             className={`${styles.navLink} ${location.pathname === '/about' ? styles.active : ''}`}
           >

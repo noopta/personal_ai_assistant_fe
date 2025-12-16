@@ -5,6 +5,7 @@ import LandingPage from './pages/LandingPage';
 import ProductPage from './pages/ProductPage';
 import IntegrationsPage from './pages/IntegrationsPage';
 import AboutPage from './pages/AboutPage';
+import DemosPage from './pages/DemosPage';
 import OAuth2CallbackPage from './pages/OAuth2CallbackPage';
 import FeedbackDashboard from './pages/FeedbackDashboard';
 import { ThemeProvider } from './contexts/ThemeContext';
@@ -39,6 +40,7 @@ function App() {
                     <Route path="/product" element={<ProductPage />} />
                     <Route path="/integrations" element={<IntegrationsPage />} />
                     <Route path="/about" element={<AboutPage />} />
+                    <Route path="/demos" element={<DemosPage />} />
                   </Routes>
                 </main>
                 <MadeInCanada />
