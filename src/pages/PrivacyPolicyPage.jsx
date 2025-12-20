@@ -74,11 +74,10 @@ To maintain secure access to your Google accounts, we collect and store:
 - **Retention:** Tokens are immediately deleted when you revoke access or delete your account
 
 **Session Identifiers:**
-- **User Hash IDs:** Unique identifiers generated for each user to isolate session data
-- **Gmail Hash IDs:** Service-specific identifiers for Gmail authentication
-- **Calendar Hash IDs:** Service-specific identifiers for Calendar authentication
-- **Session Tokens:** JWT (JSON Web Tokens) signed with HMAC-SHA256, valid for 1 hour
-- **Purpose:** These identifiers ensure your data remains isolated and secure from other users
+- **Unique User IDs:** We assign each user a unique identifier (similar to an account number) to keep your data separate and secure
+- **Session Tokens:** Secure, temporary tokens (valid for 1 hour) that authenticate your requests
+- **Purpose:** These identifiers ensure your conversations, emails, and calendar data remain private and isolated from other users
+- **Technical Details:** Identifiers use cryptographic hashing (HMAC-SHA256) and cannot be reverse-engineered to reveal personal information
 
 ### 2.3 User Conversations & Interaction Data
 
