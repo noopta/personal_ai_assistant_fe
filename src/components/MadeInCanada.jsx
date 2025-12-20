@@ -20,6 +20,7 @@ const MadeInCanada = () => (
           <div className={styles.footerColumn}>
             <h4 className={styles.columnTitle}>Company</h4>
             <a href="/about" className={styles.footerLink}>About</a>
+            <a href="/privacy" className={styles.footerLink}>Privacy Policy</a>
           </div>
           
           <div className={styles.footerColumn}>
