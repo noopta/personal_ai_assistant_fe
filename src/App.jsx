@@ -7,6 +7,7 @@ import IntegrationsPage from './pages/IntegrationsPage';
 import AboutPage from './pages/AboutPage';
 import DemosPage from './pages/DemosPage';
 import PrivacyPolicyPage from './pages/PrivacyPolicyPage';
+import TermsOfServicePage from './pages/TermsOfServicePage';
 import OAuth2CallbackPage from './pages/OAuth2CallbackPage';
 import FeedbackDashboard from './pages/FeedbackDashboard';
 import { ThemeProvider } from './contexts/ThemeContext';
@@ -43,6 +44,7 @@ function App() {
                     <Route path="/about" element={<AboutPage />} />
                     <Route path="/demos" element={<DemosPage />} />
                     <Route path="/privacy" element={<PrivacyPolicyPage />} />
+                    <Route path="/terms" element={<TermsOfServicePage />} />
                   </Routes>
                 </main>
                 <MadeInCanada />

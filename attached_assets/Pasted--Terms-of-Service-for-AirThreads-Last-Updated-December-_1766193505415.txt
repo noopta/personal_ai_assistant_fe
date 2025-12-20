@@ -1,0 +1,996 @@
+# **Terms of Service for AirThreads**
+
+**Last Updated:** December 20, 2025
+**Effective Date:** December 20, 2025
+**Version:** 1.0
+
+**Domain:** [https://airthreads.ai](https://airthreads.ai/)
+**Application Name:** AirThreads
+**Contact:** anuptaislam33@gmail.com
+
+---
+
+## **IMPORTANT - PLEASE READ CAREFULLY**
+
+**THESE TERMS OF SERVICE ("TERMS", "AGREEMENT") CONSTITUTE A LEGALLY BINDING AGREEMENT BETWEEN YOU ("USER", "YOU", "YOUR") AND AIRTHREADS ("WE", "US", "OUR", "COMPANY", "SERVICE") GOVERNING YOUR ACCESS TO AND USE OF THE AIRTHREADS SERVICE.**
+
+**BY ACCESSING OR USING THE SERVICE, CREATING AN ACCOUNT, OR CLICKING "I ACCEPT" OR "I AGREE" TO THESE TERMS, YOU ACKNOWLEDGE THAT YOU HAVE READ, UNDERSTOOD, AND AGREE TO BE BOUND BY THESE TERMS AND OUR PRIVACY POLICY. IF YOU DO NOT AGREE TO THESE TERMS, YOU MUST NOT ACCESS OR USE THE SERVICE.**
+
+---
+
+## **Table of Contents**
+
+1. [Acceptance of Terms](#1-acceptance-of-terms)
+2. [Description of Service](#2-description-of-service)
+3. [Eligibility & Account Requirements](#3-eligibility--account-requirements)
+4. [User Responsibilities & Acceptable Use](#4-user-responsibilities--acceptable-use)
+5. [Prohibited Activities](#5-prohibited-activities)
+6. [Third-Party Services & Integrations](#6-third-party-services--integrations)
+7. [AI-Generated Content & Accuracy](#7-ai-generated-content--accuracy)
+8. [Data Privacy & Security](#8-data-privacy--security)
+9. [Intellectual Property Rights](#9-intellectual-property-rights)
+10. [User Content & License](#10-user-content--license)
+11. [Disclaimers of Warranties](#11-disclaimers-of-warranties)
+12. [Limitation of Liability](#12-limitation-of-liability)
+13. [Indemnification](#13-indemnification)
+14. [Termination & Suspension](#14-termination--suspension)
+15. [Modifications to Service & Terms](#15-modifications-to-service--terms)
+16. [Dispute Resolution & Arbitration](#16-dispute-resolution--arbitration)
+17. [Governing Law & Jurisdiction](#17-governing-law--jurisdiction)
+18. [Miscellaneous Provisions](#18-miscellaneous-provisions)
+19. [Contact Information](#19-contact-information)
+
+---
+
+## **1. Acceptance of Terms**
+
+### **1.1 Binding Agreement**
+
+By accessing, browsing, or using the AirThreads service (including but not limited to the website, web application, voice interface, API, and any associated services), you agree to be bound by:
+
+1. These Terms of Service
+2. Our [Privacy Policy](https://airthreads.ai/privacy) (incorporated by reference)
+3. Any additional terms, policies, or guidelines posted on the Service
+
+### **1.2 Modifications to Terms**
+
+We reserve the right to modify, amend, or update these Terms at any time, in our sole discretion, with or without notice. Modifications will be effective immediately upon posting unless otherwise stated. Your continued use of the Service after modifications constitutes acceptance of the updated Terms.
+
+**You are responsible for reviewing these Terms periodically.** If you do not agree to any modification, you must immediately discontinue use of the Service.
+
+### **1.3 Agreement to Arbitration**
+
+**THESE TERMS CONTAIN AN ARBITRATION CLAUSE AND CLASS ACTION WAIVER (SECTION 16). BY AGREEING TO THESE TERMS, YOU AGREE TO RESOLVE DISPUTES THROUGH BINDING INDIVIDUAL ARBITRATION RATHER THAN IN COURT, AND YOU WAIVE YOUR RIGHT TO PARTICIPATE IN A CLASS ACTION LAWSUIT OR CLASS-WIDE ARBITRATION.**
+
+---
+
+## **2. Description of Service**
+
+### **2.1 Service Overview**
+
+AirThreads is an AI-powered productivity assistant that enables users to interact with third-party services (including Gmail and Google Calendar) through natural language text and voice commands. The Service uses:
+
+- **Claude AI** (developed by Anthropic) for natural language processing and task execution
+- **Model Context Protocol (MCP)** for integration with external services
+- **OAuth 2.0** for secure authentication with third-party services
+
+### **2.2 Service Availability**
+
+- The Service is provided on an **"AS IS"** and **"AS AVAILABLE"** basis
+- We do not guarantee uninterrupted, timely, secure, or error-free operation
+- The Service may be temporarily unavailable due to maintenance, updates, or technical issues
+- We reserve the right to modify, suspend, or discontinue any part of the Service at any time without notice
+
+### **2.3 Beta & Experimental Features**
+
+- Certain features may be designated as "beta", "experimental", "preview", or similar
+- Such features are provided for testing and feedback purposes only
+- Beta features may be unstable, incomplete, or may not function as intended
+- We may discontinue beta features at any time without notice
+
+### **2.4 Service Limitations**
+
+- The Service has rate limits and usage quotas (which may change without notice)
+- We reserve the right to limit, throttle, or restrict access to prevent abuse or ensure fair usage
+- Free tier users may experience additional limitations compared to paid users (if applicable)
+
+---
+
+## **3. Eligibility & Account Requirements**
+
+### **3.1 Age Requirement**
+
+You must be at least **13 years of age** (or the age of digital consent in your jurisdiction, whichever is higher) to use the Service. If you are under 18, you represent that you have obtained parental or guardian consent to use the Service.
+
+**We do not knowingly collect information from children under 13.** If we discover that a user is under 13, we will terminate the account immediately.
+
+### **3.2 Account Creation**
+
+To access certain features, you may be required to:
+
+- Create an account or authenticate via a third-party service (e.g., Google OAuth)
+- Provide accurate, current, and complete information
+- Maintain and update your information to keep it accurate
+
+### **3.3 Account Security**
+
+You are responsible for:
+
+- Maintaining the confidentiality of your account credentials and OAuth tokens
+- All activities that occur under your account, whether or not authorized by you
+- Immediately notifying us of any unauthorized access or security breaches
+
+**We are not liable for any loss or damage arising from unauthorized account access due to your failure to maintain security.**
+
+### **3.4 Account Restrictions**
+
+- You may only create one account unless expressly authorized by us
+- You may not share your account credentials with others
+- You may not use another person's account without permission
+- Accounts are non-transferable and may not be sold, traded, or gifted
+
+---
+
+## **4. User Responsibilities & Acceptable Use**
+
+### **4.1 Lawful Use**
+
+You agree to use the Service only for lawful purposes and in accordance with these Terms. You are solely responsible for:
+
+- Your conduct while using the Service
+- Any content you create, transmit, or display through the Service
+- Compliance with all applicable laws, regulations, and third-party terms
+
+### **4.2 Your Obligations**
+
+You agree to:
+
+- Use the Service in a manner consistent with its intended purpose
+- Respect the rights of other users and third parties
+- Comply with all instructions, policies, and guidelines provided by us
+- Ensure that your use does not violate any Google API Services User Data Policy or third-party terms
+
+### **4.3 Professional Advice Disclaimer**
+
+**THE SERVICE IS NOT A SUBSTITUTE FOR PROFESSIONAL ADVICE.** The Service does not provide:
+
+- Legal, financial, medical, or other professional advice
+- Human judgment, verification, or oversight of AI-generated actions
+- Guarantees of accuracy, completeness, or suitability for any purpose
+
+**You are solely responsible for:**
+- Reviewing all AI-generated content before acting upon it
+- Verifying the accuracy of information provided by the Service
+- Making your own independent decisions based on professional judgment
+- Consulting qualified professionals for advice in specialized areas
+
+### **4.4 Third-Party Services Compliance**
+
+When using third-party integrations (Gmail, Calendar, etc.), you agree to:
+
+- Comply with the terms of service of those third-party providers
+- Obtain all necessary permissions and authorizations
+- Respect usage limits and policies imposed by third parties
+- Understand that we are not responsible for third-party service failures or changes
+
+---
+
+## **5. Prohibited Activities**
+
+You agree **NOT** to engage in any of the following prohibited activities:
+
+### **5.1 Service Abuse**
+
+- **Interference:** Interfering with, disrupting, or creating an undue burden on the Service or networks connected to the Service
+- **Reverse Engineering:** Reverse engineering, decompiling, disassembling, or attempting to derive source code from the Service
+- **Circumvention:** Bypassing, disabling, or interfering with security features, rate limits, or access controls
+- **Scraping:** Using automated means (bots, scrapers, crawlers) to access the Service without express written permission
+- **Overloading:** Sending excessive requests, creating artificial load, or engaging in DDoS attacks
+
+### **5.2 Unauthorized Access**
+
+- Accessing accounts, data, or systems you are not authorized to access
+- Attempting to gain unauthorized access through hacking, password mining, or other means
+- Probing, scanning, or testing vulnerabilities without written permission
+- Impersonating another person or entity
+
+### **5.3 Malicious Activities**
+
+- Uploading or transmitting viruses, malware, trojans, or other malicious code
+- Engaging in phishing, spoofing, or social engineering attacks
+- Using the Service to distribute spam, unsolicited communications, or chain letters
+- Conducting illegal activities or facilitating violations of law
+
+### **5.4 Harmful Content**
+
+- Creating, transmitting, or storing content that is:
+  - Illegal, fraudulent, defamatory, or obscene
+  - Infringing on intellectual property rights
+  - Harassing, threatening, or promoting violence
+  - Discriminatory based on race, religion, gender, sexual orientation, disability, or other protected characteristics
+  - Exploitative of minors in any way
+
+### **5.5 Commercial Misuse**
+
+- Using the Service for unauthorized commercial purposes without a commercial license
+- Reselling, sublicensing, or redistributing the Service without permission
+- Using the Service to compete with us or develop competing products
+- Extracting data for use in competing services
+
+### **5.6 AI Misuse**
+
+- Attempting to manipulate, "jailbreak", or bypass AI safety filters
+- Using the Service to generate harmful, misleading, or illegal content
+- Intentionally providing false or misleading information to the AI
+- Using the AI to impersonate others or create deepfakes
+
+**Violation of these prohibitions may result in immediate termination of your account and potential legal action.**
+
+---
+
+## **6. Third-Party Services & Integrations**
+
+### **6.1 Third-Party Dependencies**
+
+The Service integrates with third-party services, including but not limited to:
+
+- **Google APIs** (Gmail, Google Calendar)
+- **Anthropic (Claude AI)** for AI processing
+- **Amazon Web Services (AWS)** for infrastructure
+
+### **6.2 No Liability for Third-Party Services**
+
+**WE ARE NOT RESPONSIBLE FOR:**
+
+- The availability, functionality, or performance of third-party services
+- Changes, interruptions, or discontinuation of third-party services
+- Data loss, corruption, or security breaches caused by third-party services
+- Violations of third-party terms of service by you
+- Actions or omissions of third-party service providers
+
+### **6.3 Third-Party Terms**
+
+Your use of third-party services through AirThreads is subject to those providers' terms of service and privacy policies, including:
+
+- [Google Terms of Service](https://policies.google.com/terms)
+- [Google API Services User Data Policy](https://developers.google.com/terms/api-services-user-data-policy)
+- [Anthropic Terms of Service](https://www.anthropic.com/legal/terms)
+- [AWS Customer Agreement](https://aws.amazon.com/agreement/)
+
+**You are solely responsible for compliance with third-party terms.**
+
+### **6.4 OAuth Authorization**
+
+When you authorize AirThreads to access third-party services via OAuth:
+
+- You grant us permission to access only the scopes you explicitly authorize
+- You acknowledge that we act on your behalf when accessing third-party data
+- You can revoke authorization at any time through the third-party provider
+- We are not responsible for data loss or service interruption resulting from revoked authorization
+
+### **6.5 Service Changes**
+
+Third-party services may:
+
+- Change their APIs, features, or terms without notice
+- Discontinue service or impose new restrictions
+- Require additional authorizations or payments
+
+**We are not liable for any impact on the Service caused by third-party changes.**
+
+---
+
+## **7. AI-Generated Content & Accuracy**
+
+### **7.1 AI Limitations**
+
+**CRITICAL: THE SERVICE USES ARTIFICIAL INTELLIGENCE (AI), WHICH HAS INHERENT LIMITATIONS:**
+
+- **Not Always Accurate:** AI may generate incorrect, incomplete, misleading, or nonsensical responses
+- **No Verification:** AI responses are not verified by humans before delivery
+- **Context Dependent:** AI performance varies based on input quality, phrasing, and context
+- **Hallucinations:** AI may "hallucinate" or fabricate information that appears plausible but is false
+- **Bias:** AI may reflect biases present in training data
+- **Evolving Technology:** AI capabilities and limitations change over time
+
+### **7.2 No Guarantees**
+
+**WE DO NOT GUARANTEE THAT:**
+
+- AI-generated responses will be accurate, complete, or suitable for your purpose
+- The Service will correctly interpret your commands
+- Actions performed by the Service will match your intentions
+- The Service will detect or prevent errors, conflicts, or unintended consequences
+
+### **7.3 User Verification Required**
+
+**YOU ARE SOLELY RESPONSIBLE FOR:**
+
+- **Reviewing all AI outputs before relying on them**
+- **Verifying the accuracy of AI-generated content**
+- **Checking emails before sending** (subject lines, recipients, content, attachments)
+- **Reviewing calendar events before creation** (dates, times, attendees, locations)
+- **Confirming that AI actions match your intent**
+- **Implementing safeguards to prevent unintended actions**
+
+### **7.4 No Liability for AI Errors**
+
+**WE ARE NOT LIABLE FOR:**
+
+- Errors, inaccuracies, or omissions in AI-generated content
+- Emails sent to wrong recipients or with incorrect content
+- Calendar events created with wrong dates, times, or attendees
+- Missed deadlines, appointments, or opportunities due to AI errors
+- Financial loss, reputational damage, or other harm caused by AI mistakes
+- Actions taken by you or others in reliance on AI-generated content
+
+### **7.5 Email & Calendar Risks**
+
+**SPECIFIC RISKS YOU ACKNOWLEDGE:**
+
+**Email Risks:**
+- Emails may be sent to unintended recipients (including sensitive information sent to wrong people)
+- Email content may be incorrect, inappropriate, or harmful
+- Email attachments may be missing, incorrect, or corrupted
+- Email threading and replies may be misdirected
+
+**Calendar Risks:**
+- Events may be created with incorrect dates, times, or timezones
+- Meeting invitations may be sent to wrong attendees
+- Conflicting events may be scheduled
+- Events may be accidentally deleted or modified
+
+**YOU ACCEPT ALL RISKS ASSOCIATED WITH AI-GENERATED EMAIL AND CALENDAR ACTIONS.**
+
+### **7.6 Professional Judgment Required**
+
+**THE SERVICE IS A TOOL, NOT A REPLACEMENT FOR HUMAN JUDGMENT.**
+
+You must:
+- Exercise professional judgment when using the Service
+- Not rely solely on AI for critical, time-sensitive, or high-stakes decisions
+- Implement manual review processes for important communications
+- Maintain backups and alternative methods for critical tasks
+
+---
+
+## **8. Data Privacy & Security**
+
+### **8.1 Privacy Policy**
+
+Our collection, use, and protection of your data is governed by our [Privacy Policy](https://airthreads.ai/privacy), which is incorporated into these Terms by reference.
+
+### **8.2 Data Security**
+
+While we implement industry-standard security measures, **we cannot guarantee absolute security**:
+
+- No system is completely secure from unauthorized access, hacking, or data breaches
+- Data transmission over the internet is inherently insecure
+- You transmit data to the Service at your own risk
+
+### **8.3 User Responsibility for Data**
+
+**YOU ARE RESPONSIBLE FOR:**
+
+- Maintaining backups of your important data (emails, calendar events, etc.)
+- Not transmitting highly sensitive or confidential information unless you accept the risks
+- Understanding that we access your Google data on your behalf and at your direction
+- Revoking access immediately if you suspect unauthorized use
+
+### **8.4 Data Breach**
+
+In the event of a data breach:
+
+- We will notify you in accordance with applicable law (typically within 72 hours)
+- We are not liable for damages resulting from the breach unless caused by our gross negligence or willful misconduct
+- You agree to cooperate with investigation and remediation efforts
+
+### **8.5 Data Processing**
+
+By using the Service, you consent to:
+
+- Processing of your data as described in the Privacy Policy
+- Transfer of data to third-party processors (Anthropic, AWS, Google)
+- Storage of data in the United States
+- Use of your interactions to improve the Service (subject to Privacy Policy)
+
+---
+
+## **9. Intellectual Property Rights**
+
+### **9.1 Our Intellectual Property**
+
+All intellectual property rights in the Service, including but not limited to:
+
+- Software, code, algorithms, and architecture
+- Trademarks, logos, brand names, and service marks
+- User interface, design, and layout
+- Documentation, content, and materials
+- AI models, training data, and methodologies (where owned by us)
+
+are owned by AirThreads or our licensors and are protected by copyright, trademark, patent, trade secret, and other intellectual property laws.
+
+### **9.2 Limited License to Use**
+
+Subject to these Terms, we grant you a limited, non-exclusive, non-transferable, non-sublicensable, revocable license to:
+
+- Access and use the Service for your personal or internal business purposes
+- Use the Service in accordance with these Terms and applicable laws
+
+**This license does NOT permit you to:**
+- Reproduce, modify, or create derivative works of the Service
+- Distribute, sell, lease, or sublicense the Service
+- Remove or alter any proprietary notices or labels
+- Use our trademarks or branding without written permission
+
+### **9.3 Reservation of Rights**
+
+All rights not expressly granted to you are reserved by AirThreads. No implied licenses are granted.
+
+### **9.4 Feedback & Suggestions**
+
+If you provide feedback, suggestions, or ideas about the Service:
+
+- You grant us a worldwide, perpetual, irrevocable, royalty-free license to use, implement, and commercialize such feedback without compensation or attribution
+- You waive any moral rights or claims related to such feedback
+- You represent that your feedback does not violate any third-party rights
+
+### **9.5 Third-Party IP**
+
+Certain components of the Service may be subject to third-party open-source licenses. Your use of such components is governed by the applicable open-source licenses, which are provided separately.
+
+---
+
+## **10. User Content & License**
+
+### **10.1 Your Content**
+
+"User Content" means any content you create, submit, transmit, or store through the Service, including:
+
+- Queries, commands, and instructions to the AI
+- Conversations and chat history
+- Feedback and comments
+- Data you import or upload
+
+**You retain ownership of your User Content.**
+
+### **10.2 License Grant to Us**
+
+By submitting User Content, you grant AirThreads a worldwide, non-exclusive, royalty-free, sublicensable, transferable license to:
+
+- Use, reproduce, store, and process your User Content to provide the Service
+- Transmit your User Content to third-party processors (Anthropic, Google, AWS) as necessary
+- Create derivative works (e.g., anonymized analytics) for service improvement
+- Display your User Content back to you in the Service interface
+
+**This license terminates when you delete your User Content or close your account, except:**
+- Copies retained in backups (deleted within 30 days)
+- Anonymized or aggregated data (retained indefinitely)
+- Data we are required to retain by law
+
+### **10.3 Your Representations**
+
+You represent and warrant that:
+
+- You own or have the necessary rights to submit your User Content
+- Your User Content does not violate any third-party rights (intellectual property, privacy, publicity, etc.)
+- Your User Content complies with these Terms and applicable laws
+- You have obtained all necessary consents and authorizations
+
+### **10.4 Prohibited Content**
+
+You may not submit User Content that:
+
+- Is illegal, fraudulent, defamatory, obscene, or harmful
+- Infringes intellectual property rights
+- Contains malware, viruses, or malicious code
+- Violates privacy rights or contains unauthorized personal information
+- Is spam, unsolicited advertising, or promotional material
+
+### **10.5 Content Monitoring**
+
+We have the right, but not the obligation, to:
+
+- Monitor, review, or screen User Content
+- Remove or refuse to display User Content that violates these Terms
+- Investigate suspected violations and take appropriate action
+
+**We do not pre-screen User Content and are not responsible for User Content posted by you or others.**
+
+### **10.6 Third-Party Content**
+
+The Service may display content from third parties (e.g., emails from your Gmail). Such content is the responsibility of the originating party, not AirThreads.
+
+---
+
+## **11. Disclaimers of Warranties**
+
+**TO THE MAXIMUM EXTENT PERMITTED BY APPLICABLE LAW, THE SERVICE IS PROVIDED ON AN "AS IS" AND "AS AVAILABLE" BASIS WITHOUT WARRANTIES OF ANY KIND, WHETHER EXPRESS, IMPLIED, STATUTORY, OR OTHERWISE.**
+
+### **11.1 No Warranties**
+
+**WE EXPRESSLY DISCLAIM ALL WARRANTIES, INCLUDING BUT NOT LIMITED TO:**
+
+- **Implied Warranties of Merchantability:** The Service is not guaranteed to be suitable for any particular purpose
+- **Implied Warranties of Fitness for a Particular Purpose:** The Service may not meet your specific needs or expectations
+- **Implied Warranties of Non-Infringement:** We do not warrant that the Service does not infringe third-party rights
+- **Warranties of Accuracy or Reliability:** AI-generated content may be inaccurate, incomplete, or unreliable
+- **Warranties of Availability:** The Service may experience downtime, interruptions, or errors
+- **Warranties of Security:** Data transmission and storage are not guaranteed to be completely secure
+- **Warranties of Compatibility:** The Service may not be compatible with all devices, browsers, or systems
+
+### **11.2 No Guarantee of Results**
+
+**WE DO NOT WARRANT OR GUARANTEE:**
+
+- That the Service will meet your requirements or expectations
+- That the Service will be uninterrupted, timely, secure, or error-free
+- That results obtained from the Service will be accurate or reliable
+- That defects or errors will be corrected
+- That the Service is free of viruses or harmful components
+
+### **11.3 Third-Party Services**
+
+We disclaim all warranties related to third-party services (Google APIs, Anthropic, AWS, etc.). We are not responsible for the performance, availability, or security of third-party services.
+
+### **11.4 AI-Specific Disclaimers**
+
+**WE SPECIFICALLY DISCLAIM ANY WARRANTY THAT:**
+
+- AI-generated content will be accurate, complete, or suitable for your purpose
+- The AI will correctly understand or execute your commands
+- The AI will not make errors or cause unintended consequences
+- The Service is suitable for critical, time-sensitive, or high-stakes applications
+
+### **11.5 Beta Features**
+
+Beta or experimental features are provided "AS IS" with no warranties whatsoever. Such features may be incomplete, unstable, or may not function as expected.
+
+### **11.6 Jurisdictional Variations**
+
+Some jurisdictions do not allow the exclusion of implied warranties. If such laws apply to you, some or all of the above exclusions may not apply, and you may have additional rights.
+
+---
+
+## **12. Limitation of Liability**
+
+**TO THE MAXIMUM EXTENT PERMITTED BY APPLICABLE LAW, AIRTHREADS, ITS AFFILIATES, OFFICERS, DIRECTORS, EMPLOYEES, AGENTS, LICENSORS, AND SERVICE PROVIDERS (COLLECTIVELY, "AIRTHREADS PARTIES") SHALL NOT BE LIABLE FOR ANY DAMAGES ARISING FROM OR RELATED TO YOUR USE OF THE SERVICE.**
+
+### **12.1 Exclusion of Damages**
+
+**THE AIRTHREADS PARTIES SHALL NOT BE LIABLE FOR:**
+
+**Indirect Damages:**
+- Indirect, incidental, special, consequential, or punitive damages
+- Loss of profits, revenue, business, or anticipated savings
+- Loss of data, goodwill, or reputation
+- Business interruption or lost opportunities
+
+**Even if we have been advised of the possibility of such damages.**
+
+**Direct Damages (Examples):**
+- Damages caused by AI errors (emails sent to wrong recipients, incorrect calendar events, etc.)
+- Damages caused by service downtime or unavailability
+- Damages caused by data breaches or security incidents (unless caused by gross negligence)
+- Damages caused by third-party service failures (Google, Anthropic, AWS, etc.)
+- Damages caused by your reliance on AI-generated content
+- Damages caused by unauthorized access to your account
+- Damages from bugs, defects, or vulnerabilities in the Service
+
+### **12.2 Cap on Liability**
+
+**IN NO EVENT SHALL THE TOTAL AGGREGATE LIABILITY OF THE AIRTHREADS PARTIES EXCEED THE GREATER OF:**
+
+1. **$100 USD**, OR
+2. **The amount you paid to AirThreads in the 12 months preceding the claim** (if any)
+
+**This cap applies regardless of the theory of liability** (contract, tort, negligence, strict liability, or otherwise).
+
+### **12.3 Specific Limitations**
+
+**The AirThreads Parties are not liable for:**
+
+**AI-Related Damages:**
+- Errors in AI-generated emails, calendar events, or other content
+- Unintended actions taken by the AI on your behalf
+- Misinterpretation of your commands or instructions
+- Confidential information accidentally disclosed due to AI error
+- Reputational damage from AI-generated communications
+
+**Third-Party Service Failures:**
+- Google API outages or rate limiting
+- Anthropic service disruptions or errors
+- AWS infrastructure failures
+- Changes to third-party terms or pricing
+
+**User Actions:**
+- Damages caused by your violation of these Terms
+- Damages caused by your failure to verify AI outputs
+- Damages caused by your unauthorized disclosure of credentials
+- Damages caused by your use of the Service for prohibited purposes
+
+**Force Majeure:**
+- Events beyond our reasonable control (natural disasters, war, terrorism, pandemics, government actions, etc.)
+
+### **12.4 Essential Purpose**
+
+You acknowledge that these limitations of liability are fundamental elements of the agreement between you and AirThreads. The Service would not be provided without these limitations.
+
+### **12.5 Jurisdictional Variations**
+
+Some jurisdictions do not allow the exclusion or limitation of certain damages. If such laws apply to you, some or all of the above limitations may not apply, and you may have additional rights.
+
+### **12.6 Statutory Rights**
+
+Nothing in these Terms limits your statutory rights that cannot be waived or limited by contract (e.g., consumer protection laws).
+
+---
+
+## **13. Indemnification**
+
+### **13.1 Your Indemnification Obligation**
+
+**You agree to indemnify, defend, and hold harmless the AirThreads Parties from and against any and all claims, liabilities, damages, losses, costs, expenses, fees (including reasonable attorneys' fees), and judgments arising from or related to:**
+
+1. **Your Use of the Service:**
+   - Your violation of these Terms
+   - Your violation of any applicable law or regulation
+   - Your violation of third-party terms (Google, Anthropic, etc.)
+   - Your negligence or willful misconduct
+
+2. **Your Content:**
+   - User Content you submit, transmit, or store
+   - Claims that your User Content infringes third-party rights
+   - Unauthorized or illegal content you create or distribute
+
+3. **Third-Party Claims:**
+   - Claims by third parties arising from your use of the Service (e.g., someone claims you sent them a defamatory email via the Service)
+   - Claims related to emails sent or calendar events created on your behalf
+   - Claims related to data you accessed, modified, or shared via the Service
+
+4. **AI Actions on Your Behalf:**
+   - Actions taken by the AI following your instructions
+   - Errors or mistakes in AI-generated content you approved or sent
+   - Unintended consequences of commands you issued
+
+5. **Account Misuse:**
+   - Unauthorized use of your account (if caused by your failure to maintain security)
+   - Actions taken by others using your account credentials
+
+### **13.2 Indemnification Process**
+
+If we seek indemnification from you:
+
+1. We will promptly notify you of the claim
+2. You will cooperate with us in the defense
+3. You may not settle any claim without our prior written consent
+4. We reserve the right to assume exclusive defense and control of any matter subject to indemnification
+
+### **13.3 Survival**
+
+This indemnification obligation survives termination of these Terms and your use of the Service.
+
+---
+
+## **14. Termination & Suspension**
+
+### **14.1 Termination by You**
+
+You may terminate your account at any time by:
+
+- Contacting us at anuptaislam33@gmail.com with a termination request
+- Following the account deletion process in the Service (if available)
+- Revoking OAuth access via [Google Account Permissions](https://myaccount.google.com/permissions)
+
+**Effect of Termination:**
+- Your access to the Service will be terminated immediately or within 30 days
+- Your data will be deleted according to our Privacy Policy (30-day deletion period)
+- You remain liable for any obligations incurred before termination
+
+### **14.2 Termination by Us**
+
+We may terminate or suspend your account and access to the Service, immediately and without notice, for any reason, including but not limited to:
+
+1. **Violation of Terms:**
+   - Breach of any provision of these Terms
+   - Violation of our Acceptable Use Policy
+   - Engaging in prohibited activities (Section 5)
+
+2. **Legal or Regulatory Reasons:**
+   - Compliance with legal obligations or government requests
+   - Protection of our legal rights or property
+   - Risk of legal liability
+
+3. **Security or Safety:**
+   - Suspected fraudulent, abusive, or illegal activity
+   - Security threats or vulnerabilities
+   - Protection of other users or third parties
+
+4. **Service Changes:**
+   - Discontinuation of the Service or certain features
+   - Business decisions (e.g., exit from certain markets)
+
+5. **Payment Issues:**
+   - Non-payment of fees (if applicable)
+   - Chargeback or payment disputes
+
+6. **Inactivity:**
+   - Prolonged account inactivity (typically 12+ months)
+
+### **14.3 Effect of Termination**
+
+Upon termination or suspension:
+
+- Your right to access and use the Service immediately ceases
+- We may delete your account and data (subject to retention obligations)
+- We may retain data as required by law or for legitimate business purposes
+- Outstanding obligations (indemnification, payment, etc.) survive termination
+- Sections of these Terms that by their nature should survive (disclaimers, limitations of liability, indemnification, dispute resolution) will continue to apply
+
+### **14.4 No Refunds**
+
+**We do not provide refunds for any fees paid** (if applicable), except as required by law or expressly stated in a separate agreement.
+
+### **14.5 Data Retrieval**
+
+If you wish to retrieve your data before termination, you must do so before terminating your account. We are not obligated to provide data after termination, except as required by law.
+
+---
+
+## **15. Modifications to Service & Terms**
+
+### **15.1 Service Modifications**
+
+We reserve the right to modify, suspend, or discontinue the Service (or any part thereof) at any time, with or without notice, for any reason, including:
+
+- Adding, removing, or changing features or functionality
+- Updating integrations or third-party services
+- Implementing new technologies or architectures
+- Complying with legal or regulatory requirements
+- Addressing security vulnerabilities or performance issues
+
+**We are not liable for any modification, suspension, or discontinuation of the Service.**
+
+### **15.2 Terms Modifications**
+
+We may modify these Terms at any time by:
+
+- Posting the updated Terms on our website with a new "Last Updated" date
+- Notifying you via email (for material changes)
+- Displaying a notice in the Service
+
+**Material changes will be effective 30 days after notice** (unless a shorter period is required by law or the change is made for legal, regulatory, or security reasons).
+
+**Non-material changes are effective immediately upon posting.**
+
+**Your continued use of the Service after modifications constitutes acceptance.**
+
+### **15.3 Pricing Changes**
+
+If we introduce fees or change pricing (for currently free features):
+
+- We will provide at least 30 days' notice
+- You may terminate your account before the change takes effect
+- Continued use after the effective date constitutes acceptance of the new pricing
+
+---
+
+## **16. Dispute Resolution & Arbitration**
+
+**PLEASE READ THIS SECTION CAREFULLY. IT AFFECTS YOUR LEGAL RIGHTS, INCLUDING YOUR RIGHT TO FILE A LAWSUIT IN COURT.**
+
+### **16.1 Informal Dispute Resolution**
+
+**Before initiating arbitration or litigation, you agree to first attempt to resolve any dispute informally by:**
+
+1. Sending a written notice to anuptaislam33@gmail.com describing:
+   - The nature of the dispute
+   - The relief you seek
+   - Your contact information
+
+2. Engaging in good-faith negotiations for at least **30 days**
+
+**If the dispute is not resolved within 30 days, either party may initiate arbitration.**
+
+### **16.2 Binding Arbitration**
+
+**You and AirThreads agree that any dispute, claim, or controversy arising out of or relating to these Terms or the Service (collectively, "Disputes") will be resolved through binding individual arbitration, rather than in court, except as set forth below.**
+
+**Arbitration Rules:**
+- Arbitration will be conducted by the **American Arbitration Association (AAA)** under its **Consumer Arbitration Rules** (available at [www.adr.org](https://www.adr.org))
+- The arbitration will be conducted by a single arbitrator
+- The arbitrator's decision will be final and binding
+- Judgment on the arbitration award may be entered in any court with jurisdiction
+
+**Location:**
+- Arbitration hearings will take place in the federal judicial district of your residence, or via telephone/video conference if mutually agreed
+
+**Costs:**
+- Each party will bear their own costs and attorneys' fees, unless the arbitrator awards fees to the prevailing party as permitted by law
+- If your claim is for less than $10,000, we will reimburse AAA filing fees and pay arbitrator fees (you pay your own attorneys' fees unless you prevail and are awarded fees)
+
+### **16.3 Class Action Waiver**
+
+**YOU AND AIRTHREADS AGREE THAT DISPUTES WILL BE RESOLVED ONLY ON AN INDIVIDUAL BASIS AND NOT AS A CLASS ACTION, CLASS ARBITRATION, OR CONSOLIDATED ARBITRATION.**
+
+- You waive any right to participate in a class action lawsuit or class-wide arbitration
+- The arbitrator may not consolidate claims or conduct class arbitrations
+- The arbitrator may award relief only to individual parties
+
+**IF THIS CLASS ACTION WAIVER IS FOUND TO BE UNENFORCEABLE, THE ENTIRE ARBITRATION PROVISION (SECTION 16.2) SHALL BE VOID, AND DISPUTES WILL BE RESOLVED IN COURT.**
+
+### **16.4 Exceptions to Arbitration**
+
+The following disputes are **not subject to arbitration** and may be brought in court:
+
+1. **Small Claims Court:** Disputes within the jurisdiction of small claims court may be brought there instead of arbitration
+2. **Injunctive Relief:** Claims seeking injunctive or equitable relief for intellectual property infringement or misuse of the Service
+3. **Opt-Out:** If you opt out of arbitration (see Section 16.5)
+
+### **16.5 Opt-Out Right**
+
+**You may opt out of this arbitration agreement by sending written notice to anuptaislam33@gmail.com within 30 days of first accepting these Terms.**
+
+Your opt-out notice must include:
+- Your name and email address
+- A statement that you opt out of the arbitration agreement
+
+**If you opt out, you and AirThreads will resolve disputes through litigation (subject to Section 17).**
+
+### **16.6 Future Changes**
+
+If we make material changes to this arbitration provision (other than changes to the notice address), you may reject the changes by sending written notice within 30 days of the change. Rejection constitutes opt-out under Section 16.5.
+
+---
+
+## **17. Governing Law & Jurisdiction**
+
+### **17.1 Governing Law**
+
+These Terms and any disputes arising from or relating to the Service shall be governed by and construed in accordance with the laws of the **State of [YOUR STATE]**, United States, **without regard to its conflict of law principles**.
+
+**Federal Law:** Where federal law applies (e.g., copyright, trademark), federal law governs.
+
+### **17.2 Jurisdiction & Venue**
+
+**If arbitration does not apply** (e.g., due to opt-out, small claims, or injunctive relief exceptions):
+
+- You agree to submit to the exclusive personal jurisdiction of the state and federal courts located in **[YOUR COUNTY], [YOUR STATE]**
+- You waive any objection to venue in such courts
+- You waive any claim that such courts are an inconvenient forum
+
+### **17.3 International Users**
+
+If you access the Service from outside the United States:
+
+- You do so at your own risk and are responsible for compliance with local laws
+- These Terms are governed by U.S. law regardless of your location
+- You consent to jurisdiction in U.S. courts (subject to arbitration provisions)
+
+### **17.4 UN Convention**
+
+The United Nations Convention on Contracts for the International Sale of Goods does not apply to these Terms.
+
+---
+
+## **18. Miscellaneous Provisions**
+
+### **18.1 Entire Agreement**
+
+These Terms, together with the Privacy Policy and any additional terms referenced herein, constitute the entire agreement between you and AirThreads regarding the Service and supersede all prior or contemporaneous agreements, communications, and proposals (whether oral, written, or electronic).
+
+### **18.2 Severability**
+
+If any provision of these Terms is found to be invalid, illegal, or unenforceable:
+
+- The provision will be modified to the minimum extent necessary to make it valid and enforceable
+- If modification is not possible, the provision will be severed
+- The remaining provisions will remain in full force and effect
+
+### **18.3 Waiver**
+
+Our failure to enforce any right or provision of these Terms does not constitute a waiver of that right or provision. Any waiver must be in writing and signed by us.
+
+### **18.4 Assignment**
+
+- **You may not assign or transfer** these Terms or your rights hereunder without our prior written consent
+- **We may assign or transfer** these Terms, in whole or in part, without restriction (e.g., in connection with a merger, acquisition, or sale of assets)
+- Any purported assignment in violation of this section is void
+
+### **18.5 No Third-Party Beneficiaries**
+
+These Terms do not create any third-party beneficiary rights, except that the AirThreads Parties (as defined in Section 12) are third-party beneficiaries of Sections 11, 12, and 13.
+
+### **18.6 Force Majeure**
+
+We are not liable for any delay or failure to perform due to events beyond our reasonable control, including:
+
+- Natural disasters (earthquakes, floods, fires, pandemics)
+- War, terrorism, civil unrest, government actions
+- Labor disputes, strikes
+- Internet or telecommunications failures
+- Third-party service outages (Google, Anthropic, AWS, etc.)
+
+### **18.7 Notice**
+
+**Notices to You:**
+- We may provide notices to you via email, in-app notifications, or by posting on our website
+- Notices are effective when sent or posted
+
+**Notices to Us:**
+- You must send notices to anuptaislam33@gmail.com
+- Include "Legal Notice" in the subject line for fastest processing
+
+### **18.8 Export Compliance**
+
+You agree to comply with all applicable export and import laws and regulations. You may not use the Service if you are located in a country subject to U.S. embargo or if you are on a U.S. government prohibited or restricted party list.
+
+### **18.9 U.S. Government Users**
+
+If you are a U.S. government entity, the Service is a "Commercial Item" as defined in 48 C.F.R. §2.101 and is provided with only those rights granted to non-government users.
+
+### **18.10 Headings**
+
+Section headings are for convenience only and do not affect the interpretation of these Terms.
+
+### **18.11 Interpretation**
+
+- "Including" means "including but not limited to"
+- Singular includes plural and vice versa
+- "Or" is not exclusive (unless context requires otherwise)
+
+### **18.12 Survival**
+
+The following sections survive termination of these Terms: 7 (AI Content & Accuracy), 9 (Intellectual Property), 10 (User Content), 11 (Disclaimers), 12 (Limitation of Liability), 13 (Indemnification), 16 (Dispute Resolution), 17 (Governing Law), and 18 (Miscellaneous).
+
+---
+
+## **19. Contact Information**
+
+For questions, concerns, or notices regarding these Terms, please contact:
+
+**Email:** anuptaislam33@gmail.com
+**Subject Line:** Include "Terms of Service" for fastest response
+**Response Time:** We aim to respond within 5 business days
+
+**Mailing Address:**
+AirThreads
+[If you have a physical address, include it here]
+
+---
+
+## **ACKNOWLEDGMENT**
+
+**BY USING THE SERVICE, YOU ACKNOWLEDGE THAT:**
+
+1. ✅ You have read and understood these Terms of Service
+2. ✅ You agree to be bound by these Terms
+3. ✅ You understand the limitations and risks of AI-generated content
+4. ✅ You agree to verify all AI outputs before acting on them
+5. ✅ You accept the disclaimers of warranties and limitations of liability
+6. ✅ You agree to binding individual arbitration and waive class actions
+7. ✅ You understand that the Service is provided "AS IS" without guarantees
+8. ✅ You are solely responsible for your use of the Service and any consequences
+
+**IF YOU DO NOT AGREE TO THESE TERMS, YOU MUST IMMEDIATELY DISCONTINUE USE OF THE SERVICE.**
+
+---
+
+**End of Terms of Service**
+
+---
+
+**Document Control:**
+- **Policy Owner:** AirThreads Legal Team
+- **Last Reviewed:** December 20, 2025
+- **Next Review:** June 20, 2026 (or sooner if material changes occur)
+- **Version:** 1.0
+
+---
+
+**IMPORTANT LEGAL NOTICES:**
+
+- These Terms are legally binding
+- Consult with an attorney if you have questions about your rights or obligations
+- Print or save a copy of these Terms for your records
+- Check for updates periodically as Terms may change
