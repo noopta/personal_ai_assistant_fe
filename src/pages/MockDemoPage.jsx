@@ -129,9 +129,14 @@ Would you like me to send this, or would you like to make any changes?`
 function MockDemoPage() {
   const [selectedEmail, setSelectedEmail] = useState(null);
   const [isClosing, setIsClosing] = useState(false);
+  const [composeMode, setComposeMode] = useState(null);
+  const [composeData, setComposeData] = useState({ to: '', cc: '', subject: '', body: '' });
+  const [showSuccess, setShowSuccess] = useState(false);
+  const [successMessage, setSuccessMessage] = useState('');
 
   const handleViewEmail = (emailId) => {
     setSelectedEmail(mockEmails[emailId]);
+    setComposeMode(null);
   };
 
   const handleCloseEmail = () => {
@@ -139,7 +144,49 @@ function MockDemoPage() {
     setTimeout(() => {
       setSelectedEmail(null);
       setIsClosing(false);
+      setComposeMode(null);
     }, 250);
+  };
+
+  const handleReply = () => {
+    setComposeData({
+      to: selectedEmail.from.email,
+      cc: '',
+      subject: `Re: ${selectedEmail.subject}`,
+      body: `\n\n---\nOn ${selectedEmail.date}, ${selectedEmail.from.name} wrote:\n\n${selectedEmail.body}`
+    });
+    setComposeMode('reply');
+  };
+
+  const handleForward = () => {
+    setComposeData({
+      to: '',
+      cc: '',
+      subject: `Fwd: ${selectedEmail.subject}`,
+      body: `\n\n---\nForwarded message:\nFrom: ${selectedEmail.from.name} <${selectedEmail.from.email}>\nDate: ${selectedEmail.date}\nSubject: ${selectedEmail.subject}\nTo: ${selectedEmail.to.map(r => r.email).join(', ')}\n\n${selectedEmail.body}`
+    });
+    setComposeMode('forward');
+  };
+
+  const handleCancelCompose = () => {
+    setComposeMode(null);
+    setComposeData({ to: '', cc: '', subject: '', body: '' });
+  };
+
+  const handleSend = () => {
+    const action = composeMode === 'reply' ? 'Reply sent' : 'Email forwarded';
+    setSuccessMessage(action);
+    setShowSuccess(true);
+    setComposeMode(null);
+    setComposeData({ to: '', cc: '', subject: '', body: '' });
+    
+    setTimeout(() => {
+      setShowSuccess(false);
+    }, 3000);
+  };
+
+  const handleInputChange = (field, value) => {
+    setComposeData(prev => ({ ...prev, [field]: value }));
   };
 
   return (
@@ -148,6 +195,15 @@ function MockDemoPage() {
         <h1 className={styles.title}>Email Integration Demo</h1>
         <p className={styles.subtitle}>Click "View email" links to see inline email viewing</p>
       </div>
+
+      {showSuccess && (
+        <div className={styles.successToast}>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+            <polyline points="20 6 9 17 4 12"></polyline>
+          </svg>
+          {successMessage} successfully (demo mode)
+        </div>
+      )}
 
       <div className={styles.container}>
         <div className={`${styles.chatPanel} ${selectedEmail ? styles.chatPanelWithEmail : ''}`}>
@@ -203,7 +259,9 @@ function MockDemoPage() {
         {selectedEmail && (
           <div className={`${styles.emailPanel} ${isClosing ? styles.emailPanelClosing : ''}`}>
             <div className={styles.emailHeader}>
-              <h3 className={styles.emailTitle}>Email</h3>
+              <h3 className={styles.emailTitle}>
+                {composeMode === 'reply' ? 'Reply' : composeMode === 'forward' ? 'Forward' : 'Email'}
+              </h3>
               <button className={styles.closeBtn} onClick={handleCloseEmail}>
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                   <line x1="18" y1="6" x2="6" y2="18"></line>
@@ -212,60 +270,125 @@ function MockDemoPage() {
               </button>
             </div>
 
-            <div className={styles.emailContent}>
-              <h2 className={styles.emailSubject}>{selectedEmail.subject}</h2>
-              
-              <div className={styles.emailMeta}>
-                <div className={styles.emailFrom}>
-                  <div className={styles.avatar}>
-                    {selectedEmail.from.name.split(' ').map(n => n[0]).join('')}
+            {!composeMode ? (
+              <div className={styles.emailContent}>
+                <h2 className={styles.emailSubject}>{selectedEmail.subject}</h2>
+                
+                <div className={styles.emailMeta}>
+                  <div className={styles.emailFrom}>
+                    <div className={styles.avatar}>
+                      {selectedEmail.from.name.split(' ').map(n => n[0]).join('')}
+                    </div>
+                    <div className={styles.emailFromDetails}>
+                      <span className={styles.fromName}>{selectedEmail.from.name}</span>
+                      <span className={styles.fromEmail}>&lt;{selectedEmail.from.email}&gt;</span>
+                    </div>
                   </div>
-                  <div className={styles.emailFromDetails}>
-                    <span className={styles.fromName}>{selectedEmail.from.name}</span>
-                    <span className={styles.fromEmail}>&lt;{selectedEmail.from.email}&gt;</span>
+                  <div className={styles.emailDate}>{selectedEmail.date}</div>
+                </div>
+
+                <div className={styles.emailRecipients}>
+                  <span className={styles.recipientLabel}>To:</span>
+                  <span className={styles.recipientList}>
+                    {selectedEmail.to.map(r => r.name).join(', ')}
+                  </span>
+                  {selectedEmail.cc.length > 0 && (
+                    <>
+                      <span className={styles.recipientLabel}>Cc:</span>
+                      <span className={styles.recipientList}>
+                        {selectedEmail.cc.map(r => r.name).join(', ')}
+                      </span>
+                    </>
+                  )}
+                </div>
+
+                <div className={styles.emailBody}>
+                  {selectedEmail.body.split('\n').map((line, i) => (
+                    <p key={i}>{line || <br />}</p>
+                  ))}
+                </div>
+
+                <div className={styles.emailActions}>
+                  <button className={styles.emailActionBtn} onClick={handleReply}>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                      <polyline points="9 17 4 12 9 7"></polyline>
+                      <path d="M20 18v-2a4 4 0 0 0-4-4H4"></path>
+                    </svg>
+                    Reply
+                  </button>
+                  <button className={styles.emailActionBtn} onClick={handleForward}>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                      <polyline points="15 17 20 12 15 7"></polyline>
+                      <path d="M4 18v-2a4 4 0 0 1 4-4h12"></path>
+                    </svg>
+                    Forward
+                  </button>
+                </div>
+              </div>
+            ) : (
+              <div className={styles.composeContent}>
+                <div className={styles.composeForm}>
+                  <div className={styles.composeField}>
+                    <label className={styles.composeLabel}>To</label>
+                    <input
+                      type="text"
+                      className={styles.composeInput}
+                      value={composeData.to}
+                      onChange={(e) => handleInputChange('to', e.target.value)}
+                      placeholder="recipient@example.com"
+                    />
+                  </div>
+                  
+                  <div className={styles.composeField}>
+                    <label className={styles.composeLabel}>Cc</label>
+                    <input
+                      type="text"
+                      className={styles.composeInput}
+                      value={composeData.cc}
+                      onChange={(e) => handleInputChange('cc', e.target.value)}
+                      placeholder="cc@example.com (optional)"
+                    />
+                  </div>
+
+                  <div className={styles.composeField}>
+                    <label className={styles.composeLabel}>Subject</label>
+                    <input
+                      type="text"
+                      className={styles.composeInput}
+                      value={composeData.subject}
+                      onChange={(e) => handleInputChange('subject', e.target.value)}
+                    />
+                  </div>
+
+                  <div className={styles.composeFieldBody}>
+                    <label className={styles.composeLabel}>Message</label>
+                    <textarea
+                      className={styles.composeTextarea}
+                      value={composeData.body}
+                      onChange={(e) => handleInputChange('body', e.target.value)}
+                      placeholder="Write your message..."
+                    />
                   </div>
                 </div>
-                <div className={styles.emailDate}>{selectedEmail.date}</div>
-              </div>
 
-              <div className={styles.emailRecipients}>
-                <span className={styles.recipientLabel}>To:</span>
-                <span className={styles.recipientList}>
-                  {selectedEmail.to.map(r => r.name).join(', ')}
-                </span>
-                {selectedEmail.cc.length > 0 && (
-                  <>
-                    <span className={styles.recipientLabel}>Cc:</span>
-                    <span className={styles.recipientList}>
-                      {selectedEmail.cc.map(r => r.name).join(', ')}
-                    </span>
-                  </>
-                )}
+                <div className={styles.composeActions}>
+                  <button className={styles.cancelBtn} onClick={handleCancelCompose}>
+                    Cancel
+                  </button>
+                  <button 
+                    className={styles.sendEmailBtn} 
+                    onClick={handleSend}
+                    disabled={!composeData.to.trim()}
+                  >
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                      <line x1="22" y1="2" x2="11" y2="13"></line>
+                      <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+                    </svg>
+                    {composeMode === 'reply' ? 'Send Reply' : 'Forward'}
+                  </button>
+                </div>
               </div>
-
-              <div className={styles.emailBody}>
-                {selectedEmail.body.split('\n').map((line, i) => (
-                  <p key={i}>{line || <br />}</p>
-                ))}
-              </div>
-
-              <div className={styles.emailActions}>
-                <button className={styles.emailActionBtn}>
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                    <polyline points="9 17 4 12 9 7"></polyline>
-                    <path d="M20 18v-2a4 4 0 0 0-4-4H4"></path>
-                  </svg>
-                  Reply
-                </button>
-                <button className={styles.emailActionBtn}>
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                    <polyline points="15 17 20 12 15 7"></polyline>
-                    <path d="M4 18v-2a4 4 0 0 1 4-4h12"></path>
-                  </svg>
-                  Forward
-                </button>
-              </div>
-            </div>
+            )}
           </div>
         )}
       </div>
