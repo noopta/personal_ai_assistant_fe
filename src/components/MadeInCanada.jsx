@@ -22,6 +22,7 @@ const MadeInCanada = () => (
             <a href="/about" className={styles.footerLink}>About</a>
             <a href="/privacy" className={styles.footerLink}>Privacy Policy</a>
             <a href="/terms" className={styles.footerLink}>Terms of Service</a>
+            <a href="/mock-demo" className={styles.footerLink}>Email Demo</a>
           </div>
           
           <div className={styles.footerColumn}>
