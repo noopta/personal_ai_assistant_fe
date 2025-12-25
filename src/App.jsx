@@ -11,6 +11,7 @@ import TermsOfServicePage from './pages/TermsOfServicePage';
 import MockDemoPage from './pages/MockDemoPage';
 import MockDemoAltPage from './pages/MockDemoAltPage';
 import MockDemoCalendarPage from './pages/MockDemoCalendarPage';
+import MockDemoFullPage from './pages/MockDemoFullPage';
 import OAuth2CallbackPage from './pages/OAuth2CallbackPage';
 import FeedbackDashboard from './pages/FeedbackDashboard';
 import { ThemeProvider } from './contexts/ThemeContext';
@@ -51,6 +52,7 @@ function App() {
                     <Route path="/mock-demo" element={<MockDemoPage />} />
                     <Route path="/mock-demo-alt" element={<MockDemoAltPage />} />
                     <Route path="/mock-demo-calendar" element={<MockDemoCalendarPage />} />
+                    <Route path="/mock-demo-full" element={<MockDemoFullPage />} />
                   </Routes>
                 </main>
                 <MadeInCanada />
