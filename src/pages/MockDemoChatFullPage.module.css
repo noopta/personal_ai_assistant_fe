@@ -1,0 +1,647 @@
+.demoPage {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+  padding: 100px 20px 40px;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.title {
+  font-size: 32px;
+  font-weight: 700;
+  color: #0A2540;
+  margin: 0 0 8px;
+}
+
+.subtitle {
+  font-size: 16px;
+  color: #64748b;
+  margin: 0;
+}
+
+.chatContainer {
+  max-width: 720px;
+  margin: 0 auto;
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 4px 24px rgba(10, 37, 64, 0.08);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  min-height: 620px;
+}
+
+.chatHeader {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 16px 20px;
+  background: #fafbfc;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.chatIcon {
+  width: 32px;
+  height: 32px;
+  background: linear-gradient(135deg, #635BFF 0%, #7c6cf7 100%);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+}
+
+.chatHeader > span {
+  font-weight: 600;
+  color: #0A2540;
+}
+
+.integrations {
+  display: flex;
+  gap: 6px;
+  margin-left: auto;
+}
+
+.integrationTag {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 10px;
+  background: #f1f5f9;
+  border-radius: 12px;
+  font-size: 11px;
+  font-weight: 500;
+  color: #64748b;
+}
+
+.messages {
+  flex: 1;
+  padding: 20px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.message {
+  display: flex;
+  flex-direction: column;
+}
+
+.message.user {
+  align-items: flex-end;
+}
+
+.message.assistant {
+  align-items: flex-start;
+}
+
+.bubble {
+  max-width: 85%;
+  padding: 12px 16px;
+  border-radius: 16px;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.user .bubble {
+  background: linear-gradient(135deg, #635BFF 0%, #7c6cf7 100%);
+  color: #fff;
+  border-bottom-right-radius: 4px;
+}
+
+.assistant .bubble {
+  background: #f1f5f9;
+  color: #334155;
+  border-bottom-left-radius: 4px;
+}
+
+.bubble p {
+  margin: 0;
+}
+
+.emailCard {
+  width: 100%;
+  max-width: 540px;
+  background: #fff;
+  border: 2px solid #e2e8f0;
+  border-radius: 12px;
+  overflow: hidden;
+  transition: all 0.2s ease;
+}
+
+.emailCard:hover {
+  border-color: #cbd5e1;
+}
+
+.emailCard.expanded {
+  border-color: #635BFF;
+  box-shadow: 0 4px 16px rgba(99, 91, 255, 0.15);
+}
+
+.emailCardHeader {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.emailCardHeader:hover {
+  background: #fafbfc;
+}
+
+.avatar {
+  width: 40px;
+  height: 40px;
+  min-width: 40px;
+  background: linear-gradient(135deg, #635BFF 0%, #7c6cf7 100%);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.emailInfo {
+  flex: 1;
+  min-width: 0;
+}
+
+.emailTop {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 4px;
+}
+
+.fromName {
+  font-size: 14px;
+  font-weight: 600;
+  color: #0A2540;
+}
+
+.badges {
+  display: flex;
+  gap: 4px;
+}
+
+.calendarBadge, .notionBadge {
+  width: 20px;
+  height: 20px;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+}
+
+.calendarBadge {
+  background: #10b981;
+}
+
+.notionBadge {
+  background: #a855f7;
+}
+
+.subject {
+  font-size: 13px;
+  color: #64748b;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.chevron {
+  color: #94a3b8;
+}
+
+.emailBody {
+  border-top: 1px solid #e2e8f0;
+  animation: slideDown 0.2s ease;
+}
+
+@keyframes slideDown {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.emailContent {
+  padding: 16px;
+  font-size: 13px;
+  line-height: 1.6;
+  color: #334155;
+  max-height: 160px;
+  overflow-y: auto;
+  background: #fafbfc;
+}
+
+.emailContent p {
+  margin: 0 0 6px;
+}
+
+.smartActions {
+  padding: 14px;
+  background: #fff;
+  border-top: 1px solid #f1f5f9;
+}
+
+.actionRow {
+  display: flex;
+  gap: 12px;
+}
+
+.actionCard {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px;
+  border-radius: 10px;
+  border: 1px solid;
+}
+
+.calendarCard {
+  background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%);
+  border-color: #a7f3d0;
+}
+
+.notionCard {
+  background: linear-gradient(135deg, #faf5ff 0%, #f3e8ff 100%);
+  border-color: #e9d5ff;
+}
+
+.actionIcon {
+  width: 36px;
+  height: 36px;
+  min-width: 36px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+}
+
+.calendarCard .actionIcon {
+  background: #10b981;
+}
+
+.notionCard .actionIcon {
+  background: #a855f7;
+}
+
+.actionInfo {
+  flex: 1;
+  min-width: 0;
+}
+
+.actionTitle {
+  display: block;
+  font-size: 12px;
+  font-weight: 600;
+  color: #0A2540;
+}
+
+.actionSub {
+  font-size: 11px;
+  color: #64748b;
+}
+
+.calendarBtn, .notionBtn {
+  padding: 8px 12px;
+  border: none;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 600;
+  color: #fff;
+  cursor: pointer;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+
+.calendarBtn {
+  background: #10b981;
+}
+
+.calendarBtn:hover {
+  background: #059669;
+}
+
+.notionBtn {
+  background: #a855f7;
+}
+
+.notionBtn:hover {
+  background: #9333ea;
+}
+
+.inputArea {
+  display: flex;
+  gap: 10px;
+  padding: 16px 20px;
+  border-top: 1px solid #e2e8f0;
+  background: #fafbfc;
+}
+
+.inputArea input {
+  flex: 1;
+  padding: 12px 16px;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  font-size: 14px;
+  color: #0A2540;
+  background: #fff;
+}
+
+.inputArea input:disabled {
+  background: #f1f5f9;
+  cursor: not-allowed;
+}
+
+.inputArea button {
+  width: 44px;
+  height: 44px;
+  background: linear-gradient(135deg, #635BFF 0%, #7c6cf7 100%);
+  border: none;
+  border-radius: 10px;
+  color: #fff;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.inputArea button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.modalOverlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(10, 37, 64, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 20px;
+  animation: fadeIn 0.2s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.modal {
+  width: 100%;
+  max-width: 460px;
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 20px 60px rgba(10, 37, 64, 0.2);
+  animation: modalIn 0.25s ease;
+}
+
+@keyframes modalIn {
+  from { opacity: 0; transform: scale(0.95) translateY(10px); }
+  to { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+.modalHeader {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 20px;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.modalIcon {
+  width: 42px;
+  height: 42px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+}
+
+.calendarModalIcon {
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+}
+
+.notionModalIcon {
+  background: linear-gradient(135deg, #a855f7 0%, #7c3aed 100%);
+}
+
+.modalHeader h2 {
+  flex: 1;
+  font-size: 17px;
+  font-weight: 600;
+  color: #0A2540;
+  margin: 0;
+}
+
+.closeBtn {
+  width: 34px;
+  height: 34px;
+  background: none;
+  border: none;
+  border-radius: 8px;
+  color: #94a3b8;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.closeBtn:hover {
+  background: #f1f5f9;
+  color: #64748b;
+}
+
+.modalBody {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.field label {
+  font-size: 11px;
+  font-weight: 600;
+  color: #64748b;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.field input, .field select, .field textarea {
+  padding: 10px 12px;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  font-size: 14px;
+  font-family: inherit;
+  color: #0A2540;
+}
+
+.field input:focus, .field select:focus, .field textarea:focus {
+  outline: none;
+  border-color: #635BFF;
+  box-shadow: 0 0 0 3px rgba(99, 91, 255, 0.1);
+}
+
+.field textarea {
+  resize: none;
+}
+
+.fieldRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 10px;
+}
+
+.highlights {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 12px;
+  background: #faf5ff;
+  border-radius: 8px;
+}
+
+.highlightItem {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  font-size: 13px;
+  color: #6b21a8;
+}
+
+.highlightItem svg {
+  flex-shrink: 0;
+  margin-top: 2px;
+  color: #a855f7;
+}
+
+.modalFooter {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  padding: 16px 20px;
+  border-top: 1px solid #e2e8f0;
+  background: #fafbfc;
+  border-radius: 0 0 16px 16px;
+}
+
+.cancelBtn {
+  padding: 10px 18px;
+  background: #fff;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #64748b;
+  cursor: pointer;
+}
+
+.cancelBtn:hover {
+  background: #f1f5f9;
+}
+
+.saveBtn {
+  padding: 10px 18px;
+  border: none;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #fff;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.calendarSaveBtn {
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+}
+
+.notionSaveBtn {
+  background: linear-gradient(135deg, #a855f7 0%, #7c3aed 100%);
+}
+
+.saveBtn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.successToast {
+  position: fixed;
+  top: 100px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 24px;
+  background: #10b981;
+  color: #fff;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 500;
+  box-shadow: 0 8px 24px rgba(16, 185, 129, 0.3);
+  z-index: 1001;
+  animation: toastIn 0.3s ease;
+}
+
+@keyframes toastIn {
+  from { opacity: 0; transform: translateX(-50%) translateY(-20px); }
+  to { opacity: 1; transform: translateX(-50%) translateY(0); }
+}
+
+@media (max-width: 700px) {
+  .demoPage {
+    padding: 80px 12px 24px;
+  }
+
+  .title {
+    font-size: 24px;
+  }
+
+  .chatContainer {
+    border-radius: 12px;
+    min-height: auto;
+  }
+
+  .integrations {
+    display: none;
+  }
+
+  .bubble {
+    max-width: 95%;
+  }
+
+  .emailCard {
+    max-width: 100%;
+  }
+
+  .actionRow {
+    flex-direction: column;
+  }
+
+  .fieldRow {
+    grid-template-columns: 1fr;
+  }
+
+  .modal {
+    margin: 0 12px;
+  }
+}
