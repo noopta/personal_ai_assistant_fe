@@ -9,6 +9,7 @@ import DemosPage from './pages/DemosPage';
 import PrivacyPolicyPage from './pages/PrivacyPolicyPage';
 import TermsOfServicePage from './pages/TermsOfServicePage';
 import MockDemoPage from './pages/MockDemoPage';
+import MockDemoAltPage from './pages/MockDemoAltPage';
 import OAuth2CallbackPage from './pages/OAuth2CallbackPage';
 import FeedbackDashboard from './pages/FeedbackDashboard';
 import { ThemeProvider } from './contexts/ThemeContext';
@@ -47,6 +48,7 @@ function App() {
                     <Route path="/privacy" element={<PrivacyPolicyPage />} />
                     <Route path="/terms" element={<TermsOfServicePage />} />
                     <Route path="/mock-demo" element={<MockDemoPage />} />
+                    <Route path="/mock-demo-alt" element={<MockDemoAltPage />} />
                   </Routes>
                 </main>
                 <MadeInCanada />
