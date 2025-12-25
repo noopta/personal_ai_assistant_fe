@@ -12,7 +12,6 @@ I prefer iterative development, with a focus on clear, concise communication. Pl
 The application features a Stripe-inspired UI with a global design system including:
 - **Color Scheme**: Navy blue, cornflower purple accent, and light backgrounds.
 - **Theming**: Comprehensive theme variables for light/dark mode with flash prevention.
-- **Glassmorphic Chat Interface**: Text mode features frosted glass effects with backdrop-filter blur, semi-transparent backgrounds, subtle borders, and minimal shadows for a clean, modern aesthetic.
 - **Animations**: Animated mesh gradient background, scroll-triggered fade-ins, card-based UI with hover effects, and button micro-interactions.
 - **Mobile Responsiveness**: Mobile-first design ensuring typography accessibility (13px min on mobile), touch target compliance (44px min), and optimized layouts for various breakpoints (390px, 430px, 540px, 768px) without overflow.
 - **Activity Feed UI**: Dynamic activity count badges, clean empty states, smooth animations, and enhanced hover effects.

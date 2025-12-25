@@ -16,29 +16,28 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background: radial-gradient(circle at 30% 20%, var(--shadow-accent) 0%, transparent 50%),
-              radial-gradient(circle at 70% 80%, var(--shadow-accent) 0%, transparent 50%);
+  background: linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-secondary) 100%);
+  opacity: 0.1;
   z-index: 0;
 }
 
 .container {
-  background: rgba(255, 255, 255, 0.03);
-  border-radius: 24px;
+  background: var(--bg-card);
+  border-radius: 20px;
   padding: 3rem;
   max-width: 800px;
   width: 100%;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
-  animation: slideIn 0.5s ease-out;
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 20px 40px var(--shadow-color);
+  animation: slideIn 0.6s ease-out;
+  border: 1px solid var(--border-color);
   position: relative;
   z-index: 1;
-  backdrop-filter: blur(40px);
 }
 
 @keyframes slideIn {
   from {
     opacity: 0;
-    transform: translateY(20px);
+    transform: translateY(30px);
   }
   to {
     opacity: 1;
@@ -48,30 +47,29 @@
 
 .header {
   text-align: center;
-  margin-bottom: 2.5rem;
+  margin-bottom: 3rem;
 }
 
 .header h2 {
   color: var(--text-primary);
-  font-size: 2.25rem;
-  margin-bottom: 0.75rem;
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
   font-weight: 700;
 }
 
 .header p {
   color: var(--text-secondary);
-  font-size: 1.05rem;
+  font-size: 1.1rem;
   line-height: 1.6;
   max-width: 600px;
   margin: 0 auto;
-  opacity: 0.8;
 }
 
 .spinner {
-  width: 36px;
-  height: 36px;
-  border: 3px solid rgba(255, 255, 255, 0.1);
-  border-top: 3px solid var(--accent-primary);
+  width: 40px;
+  height: 40px;
+  border: 4px solid var(--bg-tertiary);
+  border-top: 4px solid var(--accent-primary);
   border-radius: 50%;
   animation: spin 1s linear infinite;
   margin: 2rem auto;
@@ -85,39 +83,40 @@
 .authServices {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 1.5rem;
+  gap: 2rem;
   margin-bottom: 2rem;
 }
 
 @media (max-width: 768px) {
   .authServices {
     grid-template-columns: 1fr;
-    gap: 1.25rem;
+    gap: 1.5rem;
   }
 }
 
 .serviceCard {
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  border: 2px solid var(--border-color);
   border-radius: 16px;
   padding: 2rem;
   text-align: center;
-  transition: all 0.2s ease;
-  background: rgba(255, 255, 255, 0.03);
+  transition: all 0.3s ease;
+  background: var(--bg-secondary);
   display: flex;
   flex-direction: column;
   height: 100%;
-  min-height: 300px;
-  backdrop-filter: blur(20px);
+  min-height: 320px;
 }
 
 .serviceCard:hover {
   transform: translateY(-2px);
-  border-color: rgba(255, 255, 255, 0.12);
+  box-shadow: 0 8px 25px var(--shadow-color);
+  border-color: var(--border-hover);
 }
 
 .serviceCard.authenticated {
-  border-color: rgba(34, 197, 94, 0.3);
-  background: rgba(34, 197, 94, 0.05);
+  border-color: var(--success);
+  background: var(--bg-tertiary);
+  box-shadow: 0 0 20px rgba(34, 197, 94, 0.1);
 }
 
 .serviceIcon {
@@ -133,18 +132,17 @@
 
 .serviceContent h3 {
   color: var(--text-primary);
-  font-size: 1.35rem;
+  font-size: 1.5rem;
   margin-bottom: 0.5rem;
   font-weight: 600;
 }
 
 .serviceContent p {
   color: var(--text-secondary);
-  font-size: 0.9rem;
+  font-size: 0.95rem;
   line-height: 1.5;
   margin-bottom: auto;
   flex: 1;
-  opacity: 0.8;
 }
 
 .serviceStatus {
@@ -154,54 +152,53 @@
 }
 
 .statusConnected {
-  color: #22c55e;
+  color: var(--success);
   font-weight: 600;
-  font-size: 1rem;
+  font-size: 1.1rem;
 }
 
 .authButton {
   background: linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-secondary) 100%);
   color: white;
   border: none;
-  border-radius: 12px;
+  border-radius: 10px;
   padding: 0.75rem 2rem;
   font-size: 1rem;
   font-weight: 600;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all 0.3s ease;
 }
 
 .authButton:hover:not(:disabled) {
-  transform: translateY(-1px);
-  box-shadow: 0 4px 16px rgba(99, 91, 255, 0.3);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px var(--shadow-accent);
 }
 
 .authButton:disabled {
-  opacity: 0.5;
+  opacity: 0.6;
   cursor: not-allowed;
   transform: none;
 }
 
 .messages {
-  background: rgba(255, 255, 255, 0.03);
+  background: var(--bg-tertiary);
   border-radius: 12px;
-  padding: 1.25rem;
-  margin-bottom: 1.5rem;
-  border-left: 3px solid var(--accent-primary);
-  backdrop-filter: blur(10px);
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+  border-left: 4px solid var(--accent-primary);
 }
 
 .messages h4 {
   color: var(--text-primary);
-  margin-bottom: 0.75rem;
-  font-size: 1rem;
+  margin-bottom: 1rem;
+  font-size: 1.1rem;
 }
 
 .message {
   color: var(--text-secondary);
   margin-bottom: 0.5rem;
-  padding: 0.35rem 0;
-  font-size: 0.9rem;
+  padding: 0.5rem 0;
+  font-size: 0.95rem;
   line-height: 1.4;
 }
 
@@ -224,72 +221,70 @@
 }
 
 .refreshButton {
-  background: rgba(255, 255, 255, 0.05);
+  background: var(--bg-quaternary);
   color: var(--text-primary);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 12px;
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
   padding: 0.75rem 1.5rem;
   font-size: 1rem;
   font-weight: 500;
   cursor: pointer;
-  transition: all 0.2s ease;
-  backdrop-filter: blur(10px);
+  transition: all 0.3s ease;
 }
 
 .refreshButton:hover:not(:disabled) {
-  background: rgba(255, 255, 255, 0.08);
-  border-color: rgba(255, 255, 255, 0.15);
+  background: var(--bg-tertiary);
+  border-color: var(--border-hover);
+  transform: translateY(-1px);
 }
 
 .refreshButton:disabled {
-  opacity: 0.5;
+  opacity: 0.6;
   cursor: not-allowed;
   transform: none;
 }
 
 .proceedButton {
   border: none;
-  border-radius: 12px;
-  padding: 0.875rem 2rem;
-  font-size: 1.05rem;
+  border-radius: 10px;
+  padding: 0.75rem 2rem;
+  font-size: 1.1rem;
   font-weight: 600;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all 0.3s ease;
   min-width: 250px;
 }
 
 .proceedButton.enabled {
-  background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
+  background: linear-gradient(135deg, var(--success) 0%, #059669 100%);
   color: white;
 }
 
 .proceedButton.enabled:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 4px 16px rgba(34, 197, 94, 0.3);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(34, 197, 94, 0.3);
 }
 
 .proceedButton.disabled {
-  background: rgba(255, 255, 255, 0.05);
+  background: var(--bg-quaternary);
   color: var(--text-muted);
   cursor: not-allowed;
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  border: 1px solid var(--border-color);
 }
 
 .footer {
-  background: rgba(255, 255, 255, 0.02);
+  background: var(--bg-tertiary);
   border-radius: 12px;
-  padding: 1.25rem;
-  margin-top: 1.5rem;
-  border: 1px solid rgba(255, 255, 255, 0.06);
-  backdrop-filter: blur(10px);
+  padding: 1.5rem;
+  margin-top: 2rem;
+  border: 1px solid var(--border-color);
 }
 
 .footer p {
   color: var(--text-secondary);
-  font-size: 0.85rem;
+  font-size: 0.9rem;
   line-height: 1.5;
-  margin-bottom: 0.35rem;
-  opacity: 0.8;
+  margin-bottom: 0.5rem;
 }
 
 .footer p:last-child {
@@ -301,89 +296,27 @@
 }
 
 .footer ul {
-  margin: 0.35rem 0;
+  margin: 0.5rem 0;
   padding-left: 1.5rem;
   color: var(--text-secondary);
-  font-size: 0.85rem;
+  font-size: 0.9rem;
 }
 
 .footer li {
-  margin-bottom: 0.2rem;
-}
-
-/* Light mode glassmorphism */
-[data-theme="light"] .container {
-  background: rgba(255, 255, 255, 0.6);
-  border-color: rgba(255, 255, 255, 0.5);
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
-}
-
-[data-theme="light"] .serviceCard {
-  background: rgba(255, 255, 255, 0.5);
-  border-color: rgba(0, 0, 0, 0.06);
-}
-
-[data-theme="light"] .serviceCard:hover {
-  border-color: rgba(0, 0, 0, 0.1);
-}
-
-[data-theme="light"] .serviceCard.authenticated {
-  background: rgba(34, 197, 94, 0.08);
-  border-color: rgba(34, 197, 94, 0.2);
-}
-
-[data-theme="light"] .messages {
-  background: rgba(255, 255, 255, 0.4);
-}
-
-[data-theme="light"] .refreshButton {
-  background: rgba(255, 255, 255, 0.5);
-  border-color: rgba(0, 0, 0, 0.08);
-}
-
-[data-theme="light"] .proceedButton.disabled {
-  background: rgba(0, 0, 0, 0.04);
-  border-color: rgba(0, 0, 0, 0.06);
-}
-
-[data-theme="light"] .footer {
-  background: rgba(255, 255, 255, 0.4);
-  border-color: rgba(0, 0, 0, 0.06);
+  margin-bottom: 0.25rem;
 }
 
 @media (max-width: 768px) {
   .container {
     padding: 2rem;
     margin: 1rem;
-    border-radius: 20px;
   }
 
   .header h2 {
-    font-size: 1.75rem;
+    font-size: 2rem;
   }
 
   .header p {
-    font-size: 0.95rem;
-  }
-  
-  .serviceCard {
-    min-height: 280px;
-    padding: 1.5rem;
-  }
-}
-
-@media (max-width: 480px) {
-  .container {
-    padding: 1.5rem;
-    border-radius: 16px;
-  }
-
-  .header h2 {
-    font-size: 1.5rem;
-  }
-
-  .serviceCard {
-    min-height: 260px;
-    padding: 1.25rem;
+    font-size: 1rem;
   }
 }
