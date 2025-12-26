@@ -583,6 +583,221 @@
   }
 }
 
+.mainContainer {
+  max-width: 700px;
+  margin: 0 auto;
+  transition: all 0.3s ease;
+}
+
+.mainContainer.withPanel {
+  max-width: 1200px;
+  display: grid;
+  grid-template-columns: 1fr 420px;
+  gap: 24px;
+}
+
+.viewFullBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  width: 100%;
+  padding: 10px;
+  margin-top: 12px;
+  background: transparent;
+  border: 1px dashed #e2e8f0;
+  border-radius: 8px;
+  font-size: 13px;
+  color: #94a3b8;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.viewFullBtn:hover {
+  border-color: #635BFF;
+  color: #635BFF;
+  background: rgba(99, 91, 255, 0.04);
+}
+
+.sidePanel {
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 4px 24px rgba(10, 37, 64, 0.08);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  animation: slideInPanel 0.3s ease;
+  max-height: calc(100vh - 180px);
+}
+
+@keyframes slideInPanel {
+  from {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.panelHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
+  border-bottom: 1px solid #e2e8f0;
+  flex-shrink: 0;
+}
+
+.panelHeader h3 {
+  font-size: 16px;
+  font-weight: 600;
+  color: #0A2540;
+  margin: 0;
+}
+
+.closePanel {
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f8fafc;
+  border: none;
+  border-radius: 8px;
+  color: #64748b;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.closePanel:hover {
+  background: #f1f5f9;
+  color: #0A2540;
+}
+
+.panelContent {
+  flex: 1;
+  overflow-y: auto;
+  padding: 20px;
+}
+
+.panelEmailHeader {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+
+.panelEmailMeta {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.panelAvatar {
+  width: 40px;
+  height: 40px;
+  min-width: 40px;
+  background: linear-gradient(135deg, #635BFF 0%, #7c6cf7 100%);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.panelFrom {
+  font-size: 15px;
+  font-weight: 600;
+  color: #0A2540;
+}
+
+.panelEmail {
+  font-size: 13px;
+  color: #94a3b8;
+}
+
+.panelDate {
+  font-size: 13px;
+  color: #94a3b8;
+}
+
+.panelSubjectRow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+.panelSubject {
+  font-size: 16px;
+  font-weight: 600;
+  color: #0A2540;
+  margin: 0;
+  flex: 1;
+}
+
+.meetingBadgeLarge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  background: #fdf4f3;
+  color: #9a6b63;
+  font-size: 12px;
+  font-weight: 500;
+  border-radius: 12px;
+  flex-shrink: 0;
+}
+
+.panelBody {
+  font-size: 14px;
+  line-height: 1.7;
+  color: #334155;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #e2e8f0;
+  margin-bottom: 20px;
+}
+
+.panelBody p {
+  margin: 0 0 8px 0;
+}
+
+.panelActions {
+  display: flex;
+  gap: 10px;
+}
+
+@media (max-width: 900px) {
+  .mainContainer.withPanel {
+    grid-template-columns: 1fr;
+  }
+
+  .sidePanel {
+    position: fixed;
+    inset: 0;
+    border-radius: 0;
+    z-index: 100;
+    max-height: 100vh;
+    animation: slideUpPanel 0.3s ease;
+  }
+
+  @keyframes slideUpPanel {
+    from {
+      opacity: 0;
+      transform: translateY(100%);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+}
+
 @media (max-width: 768px) {
   .demoPage {
     padding: 80px 12px 24px;

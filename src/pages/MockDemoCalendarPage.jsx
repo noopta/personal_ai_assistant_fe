@@ -76,6 +76,16 @@ function MockDemoCalendarPage() {
   const [calendarData, setCalendarData] = useState(null);
   const [showSuccess, setShowSuccess] = useState(false);
   const [successMessage, setSuccessMessage] = useState('');
+  const [sidePanelEmail, setSidePanelEmail] = useState(null);
+
+  const handleViewFullEmail = (e, emailId) => {
+    e.stopPropagation();
+    setSidePanelEmail(mockEmails[emailId]);
+  };
+
+  const closeSidePanel = () => {
+    setSidePanelEmail(null);
+  };
 
   const toggleEmail = (emailId) => {
     setExpandedEmail(expandedEmail === emailId ? null : emailId);
@@ -180,6 +190,18 @@ function MockDemoCalendarPage() {
                 </button>
               </div>
             )}
+
+            <button 
+              className={styles.viewFullBtn}
+              onClick={(e) => handleViewFullEmail(e, emailId)}
+            >
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                <polyline points="15 3 21 3 21 9"></polyline>
+                <line x1="10" y1="14" x2="21" y2="3"></line>
+              </svg>
+              View full email
+            </button>
           </div>
         )}
       </div>
@@ -308,6 +330,7 @@ function MockDemoCalendarPage() {
         </div>
       )}
 
+      <div className={`${styles.mainContainer} ${sidePanelEmail ? styles.withPanel : ''}`}>
       <div className={styles.chatContainer}>
         <div className={styles.chatHeader}>
           <div className={styles.chatHeaderIcon}>
@@ -382,6 +405,73 @@ function MockDemoCalendarPage() {
             </svg>
           </button>
         </div>
+      </div>
+
+      {sidePanelEmail && (
+        <div className={styles.sidePanel}>
+          <div className={styles.panelHeader}>
+            <h3>Full Email</h3>
+            <button className={styles.closePanel} onClick={closeSidePanel}>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <line x1="18" y1="6" x2="6" y2="18"></line>
+                <line x1="6" y1="6" x2="18" y2="18"></line>
+              </svg>
+            </button>
+          </div>
+
+          <div className={styles.panelContent}>
+            <div className={styles.panelEmailHeader}>
+              <div className={styles.panelEmailMeta}>
+                <div className={styles.panelAvatar}>
+                  {sidePanelEmail.from.name.split(' ').map(n => n[0]).join('')}
+                </div>
+                <div>
+                  <div className={styles.panelFrom}>{sidePanelEmail.from.name}</div>
+                  <div className={styles.panelEmail}>{sidePanelEmail.from.email}</div>
+                </div>
+              </div>
+              <div className={styles.panelDate}>{sidePanelEmail.date}</div>
+            </div>
+
+            <div className={styles.panelSubjectRow}>
+              <h4 className={styles.panelSubject}>{sidePanelEmail.subject}</h4>
+              {sidePanelEmail.detectedMeeting && (
+                <div className={styles.meetingBadgeLarge}>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                    <line x1="16" y1="2" x2="16" y2="6"></line>
+                    <line x1="8" y1="2" x2="8" y2="6"></line>
+                    <line x1="3" y1="10" x2="21" y2="10"></line>
+                  </svg>
+                  Meeting detected
+                </div>
+              )}
+            </div>
+
+            <div className={styles.panelBody}>
+              {sidePanelEmail.body.split('\n').map((line, i) => (
+                <p key={i}>{line || <br />}</p>
+              ))}
+            </div>
+
+            {sidePanelEmail.detectedMeeting && (
+              <div className={styles.panelActions}>
+                <button className={styles.createEventBtn} onClick={() => handleCreateEvent(sidePanelEmail)}>
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                    <line x1="16" y1="2" x2="16" y2="6"></line>
+                    <line x1="8" y1="2" x2="8" y2="6"></line>
+                    <line x1="3" y1="10" x2="21" y2="10"></line>
+                    <line x1="12" y1="14" x2="12" y2="18"></line>
+                    <line x1="10" y1="16" x2="14" y2="16"></line>
+                  </svg>
+                  Create Event
+                </button>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
       </div>
     </div>
   );
