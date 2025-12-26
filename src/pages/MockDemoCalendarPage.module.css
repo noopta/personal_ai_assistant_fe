@@ -310,21 +310,22 @@
   align-items: center;
   gap: 6px;
   padding: 10px 16px;
-  background: linear-gradient(135deg, #635BFF 0%, #7c6cf7 100%);
-  border: none;
+  background: #fdf4f3;
+  border: 1px solid #e8d5d2;
   border-radius: 8px;
   font-size: 13px;
   font-weight: 500;
-  color: #fff;
+  color: #9a6b63;
   cursor: pointer;
   transition: all 0.2s ease;
   white-space: nowrap;
 }
 
 .createEventBtn:hover {
-  background: linear-gradient(135deg, #5046e5 0%, #6b5de6 100%);
+  background: #f9e8e5;
+  border-color: #d4bbb6;
   transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(99, 91, 255, 0.3);
+  box-shadow: 0 4px 12px rgba(154, 107, 99, 0.15);
 }
 
 .inputArea {
