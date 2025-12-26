@@ -13,6 +13,7 @@ import MockDemoAltPage from './pages/MockDemoAltPage';
 import MockDemoCalendarPage from './pages/MockDemoCalendarPage';
 import MockDemoFullPage from './pages/MockDemoFullPage';
 import MockDemoChatFullPage from './pages/MockDemoChatFullPage';
+import MockDemoMeetingPage from './pages/MockDemoMeetingPage';
 import OAuth2CallbackPage from './pages/OAuth2CallbackPage';
 import FeedbackDashboard from './pages/FeedbackDashboard';
 import { ThemeProvider } from './contexts/ThemeContext';
@@ -55,6 +56,7 @@ function App() {
                     <Route path="/mock-demo-calendar" element={<MockDemoCalendarPage />} />
                     <Route path="/mock-demo-full" element={<MockDemoFullPage />} />
                     <Route path="/mock-demo-chat-full" element={<MockDemoChatFullPage />} />
+                    <Route path="/mock-demo-meeting" element={<MockDemoMeetingPage />} />
                   </Routes>
                 </main>
                 <MadeInCanada />
