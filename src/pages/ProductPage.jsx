@@ -11,6 +11,7 @@ import Vapi from '@vapi-ai/web';
 import VapiWidget from './VapiWidget.tsx';
 import { sanitizeInput, validateUrlParam, secureLog, getEnvVar, loggedFetch } from '../utils/securityUtils';
 import { GmailIcon, GoogleCalendarIcon } from '../components/icons';
+import { parseMeetingMetadata } from '../utils/meetingParser';
 
 function ProductPage() {
   const [messages, setMessages] = useState([]);
@@ -691,11 +692,14 @@ function ProductPage() {
       // Extract the text directly from results field
       const aiMessage = data.result || 'No response received';
 
-      // Add AI response
+      // Parse meeting metadata if present
+      const { textContent, meetingData } = parseMeetingMetadata(aiMessage);
+
+      // Add AI response with optional meeting data
       setMessages(prev => [...prev, {
         type: 'assistant',
-        // content: "This is a placeholder response from the AI assistant. The backend server is currently unreachable."
-        content: aiMessage
+        content: textContent,
+        meetingData: meetingData
       }]);
 
     } catch (error) {
@@ -984,6 +988,7 @@ function ProductPage() {
               key={index}
               type={message.type}
               content={message.content}
+              meetingData={message.meetingData}
             />
           ))}
           {isLoading && <AILoadingAnimation />}

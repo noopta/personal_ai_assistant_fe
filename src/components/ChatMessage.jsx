@@ -6,11 +6,11 @@ import { vs } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import styles from './ChatMessage.module.css';
 import { useTheme } from '../contexts/ThemeContext';
 import Typewriter from './Typewriter';
+import EmailCard from './EmailCard';
 
-function ChatMessage({ type, content }) {
+function ChatMessage({ type, content, meetingData }) {
   const { theme, isDark } = useTheme();
 
-  // Custom components for ReactMarkdown with better styling
   const components = {
     code({ node, inline, className, children, ...props }) {
       const match = /language-(\w+)/.exec(className || '');
@@ -78,6 +78,12 @@ function ChatMessage({ type, content }) {
     }
   };
 
+  const handleCreateEvent = (email) => {
+    console.log('Create event for:', email);
+  };
+
+  const hasEmails = meetingData?.meetingDetection?.emails?.length > 0;
+
   if (type === 'assistant') {
     return (
       <div className={`${styles.message} ${styles[type]}`}>
@@ -92,12 +98,28 @@ function ChatMessage({ type, content }) {
             components={components}
             speed={15}
           />
+          
+          {hasEmails && (
+            <div className={styles.emailCards}>
+              {meetingData.meetingDetection.meetingsDetected > 0 && (
+                <div className={styles.meetingSummary}>
+                  Found {meetingData.meetingDetection.meetingsDetected} meeting request{meetingData.meetingDetection.meetingsDetected > 1 ? 's' : ''} in {meetingData.meetingDetection.processed} email{meetingData.meetingDetection.processed > 1 ? 's' : ''}
+                </div>
+              )}
+              {meetingData.meetingDetection.emails.map((email, idx) => (
+                <EmailCard 
+                  key={idx}
+                  email={email}
+                  onCreateEvent={handleCreateEvent}
+                />
+              ))}
+            </div>
+          )}
         </div>
       </div>
     );
   }
 
-  // For user messages
   return (
     <div className={`${styles.message} ${styles[type]}`}>
       <div className={styles.avatar}>
