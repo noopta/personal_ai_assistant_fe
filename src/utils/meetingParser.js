@@ -19,7 +19,7 @@ export function parseMeetingMetadata(response) {
     return { textContent, meetingData };
   } catch (error) {
     console.error('Failed to parse meeting metadata JSON:', error);
-    return { textContent: response, meetingData: null };
+    return { textContent, meetingData: null };
   }
 }
 

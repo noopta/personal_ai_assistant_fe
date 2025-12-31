@@ -1,5 +1,4 @@
 import React from 'react';
-import ReactMarkdown from 'react-markdown';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import { vs } from 'react-syntax-highlighter/dist/esm/styles/prism';
@@ -9,7 +8,7 @@ import Typewriter from './Typewriter';
 import EmailCard from './EmailCard';
 
 function ChatMessage({ type, content, meetingData }) {
-  const { theme, isDark } = useTheme();
+  const { isDark } = useTheme();
 
   const components = {
     code({ node, inline, className, children, ...props }) {
@@ -101,9 +100,9 @@ function ChatMessage({ type, content, meetingData }) {
           
           {hasEmails && (
             <div className={styles.emailCards}>
-              {meetingData.meetingDetection.meetingsDetected > 0 && (
+              {(meetingData.meetingDetection.meetingsDetected || 0) > 0 && (
                 <div className={styles.meetingSummary}>
-                  Found {meetingData.meetingDetection.meetingsDetected} meeting request{meetingData.meetingDetection.meetingsDetected > 1 ? 's' : ''} in {meetingData.meetingDetection.processed} email{meetingData.meetingDetection.processed > 1 ? 's' : ''}
+                  Found {meetingData.meetingDetection.meetingsDetected || 0} meeting request{(meetingData.meetingDetection.meetingsDetected || 0) > 1 ? 's' : ''} in {meetingData.meetingDetection.processed || meetingData.meetingDetection.emails?.length || 0} email{(meetingData.meetingDetection.processed || 1) > 1 ? 's' : ''}
                 </div>
               )}
               {meetingData.meetingDetection.emails.map((email, idx) => (
