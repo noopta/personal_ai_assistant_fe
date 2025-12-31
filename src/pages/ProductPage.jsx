@@ -693,6 +693,14 @@ function ProductPage() {
       // Extract the text directly from results field
       const aiMessage = data.result || 'No response received';
       const relevantEmails = data.relevantEmails || null;
+      
+      // Debug: Log email structure to verify meeting detection data
+      if (relevantEmails?.length > 0) {
+        console.log('🔍 Email data structure:', JSON.stringify(relevantEmails[0], null, 2));
+        console.log('📧 Total emails:', relevantEmails.length);
+        console.log('📅 Emails with eventRelated:', relevantEmails.filter(e => e.eventRelated).length);
+        console.log('📅 Emails with detectedMeeting:', relevantEmails.filter(e => e.detectedMeeting).length);
+      }
 
       // Add AI response with optional email data
       setMessages(prev => [...prev, {
