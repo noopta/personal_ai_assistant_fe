@@ -1,0 +1,211 @@
+.emailCard {
+  background: #fff;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  overflow: hidden;
+  transition: all 0.2s ease;
+  margin: 8px 0;
+  max-width: 100%;
+}
+
+.emailCard:hover {
+  border-color: #cbd5e1;
+}
+
+.emailCard.hasMeeting {
+  border-color: #c7d2fe;
+}
+
+.emailCard.expanded {
+  box-shadow: 0 4px 12px rgba(10, 37, 64, 0.08);
+}
+
+.emailCardHeader {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 16px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.emailCardHeader:hover {
+  background: #f8fafc;
+}
+
+.emailCardAvatar {
+  width: 36px;
+  height: 36px;
+  min-width: 36px;
+  background: linear-gradient(135deg, #635BFF 0%, #7c6cf7 100%);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.emailCardInfo {
+  flex: 1;
+  min-width: 0;
+}
+
+.emailCardTop {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.emailCardFrom {
+  font-size: 14px;
+  font-weight: 600;
+  color: #0A2540;
+}
+
+.meetingBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 8px;
+  background: #eef2ff;
+  color: #6366f1;
+  font-size: 10px;
+  font-weight: 500;
+  border-radius: 10px;
+  letter-spacing: 0.2px;
+}
+
+.emailCardSubject {
+  font-size: 13px;
+  color: #64748b;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-top: 2px;
+}
+
+.emailCardChevron {
+  color: #94a3b8;
+  flex-shrink: 0;
+  transition: transform 0.2s ease;
+}
+
+.expanded .emailCardChevron {
+  transform: rotate(180deg);
+}
+
+.emailCardBody {
+  padding: 0 16px 16px;
+  border-top: 1px solid #f1f5f9;
+}
+
+.emailFullContent {
+  font-size: 14px;
+  line-height: 1.6;
+  color: #334155;
+  padding: 16px 0;
+}
+
+.emailFullContent p {
+  margin: 0 0 8px 0;
+}
+
+.smartAction {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 14px;
+  background: #f8fafc;
+  border-radius: 10px;
+  border-top: 1px solid #e2e8f0;
+}
+
+.smartActionIcon {
+  width: 40px;
+  height: 40px;
+  min-width: 40px;
+  background: #eef2ff;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #6366f1;
+}
+
+.smartActionContent {
+  flex: 1;
+  min-width: 0;
+}
+
+.smartActionTitle {
+  font-size: 14px;
+  font-weight: 600;
+  color: #0A2540;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.confidence {
+  font-size: 11px;
+  font-weight: 400;
+  color: #94a3b8;
+}
+
+.smartActionDetails {
+  font-size: 13px;
+  color: #64748b;
+  margin-top: 4px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.slots {
+  font-size: 12px;
+  color: #94a3b8;
+}
+
+.createEventBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 16px;
+  background: #eef2ff;
+  border: 1px solid #c7d2fe;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #6366f1;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.createEventBtn:hover {
+  background: #e0e7ff;
+  border-color: #a5b4fc;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.15);
+}
+
+@media (max-width: 768px) {
+  .emailCard {
+    max-width: 100%;
+  }
+
+  .smartAction {
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .createEventBtn {
+    width: 100%;
+    justify-content: center;
+    margin-top: 4px;
+  }
+}
