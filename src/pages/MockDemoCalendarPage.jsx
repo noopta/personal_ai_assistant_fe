@@ -1,74 +1,79 @@
 import { useState } from 'react';
 import styles from './MockDemoCalendarPage.module.css';
 
-const mockEmails = {
-  email1: {
-    id: 'email1',
-    subject: 'Coffee Chat Request - Summer Intern',
-    from: { name: 'Alex Rivera', email: 'alex.rivera@company.com' },
-    to: [{ name: 'You', email: 'you@company.com' }],
-    date: 'Dec 24, 2025 at 9:15 AM',
-    body: `Hi!
-
-I'm Alex, one of the summer interns on the product team. I've been really impressed with the AI features you've been building and would love to learn more about your work.
-
-Would you be open to a quick 15-minute coffee chat sometime this week? I'm flexible and can work around your schedule. 
-
-I'm particularly interested in:
-- How you approach AI/ML product decisions
-- Your journey to becoming a founder
-- Any advice for someone early in their career
-
-No pressure at all if you're too busy - I know everyone has a lot on their plate!
-
-Thanks,
-Alex`,
+// Mock data matching backend /agent response format
+const mockEmails = [
+  {
+    id: '19b732f1bdd35008',
+    threadId: '19b732f1bdd35008',
+    subject: 'Coffee Chat',
+    snippet: "Hey Anupta,\r\n\r\nMy name is Bob and I am a third year computer science student. I was inspired by your LinkedIn profile and wanted to maybe have a 15 minute coff",
+    body: "Hey Anupta,\r\n\r\nMy name is Bob and I am a third year computer science student. I was inspired by your LinkedIn profile and wanted to maybe have a 15 minute coffee chat with you whenever you are available to learn more about your career path, advices, and more.\r\n\r\nThank you,\nBob",
+    from: {
+      name: 'Anupta Islam',
+      email: 'team@airthreads.ai'
+    },
+    to: ['anuptaislam33@gmail.com'],
+    receivedAt: 'Wed, 31 Dec 2025 01:53:34 -0500',
+    eventRelated: true,
     detectedMeeting: {
       type: 'coffee_chat',
+      confidence: 0.95,
       duration: 15,
-      requestor: 'Alex Rivera',
-      flexibility: 'this week',
-      suggestedTitle: 'Coffee Chat with Alex Rivera'
+      suggestedTitle: 'Coffee Chat with Bob',
+      proposedSlots: [],
+      location: null,
+      platform: null,
+      reasoning: 'Email explicitly requests a 15-minute coffee chat to learn about career path',
+      flexibility: 'whenever you are available'
     }
   },
-  email2: {
-    id: 'email2',
-    subject: 'Re: Q1 Planning - Let\'s sync',
-    from: { name: 'Jordan Lee', email: 'jordan.lee@company.com' },
-    to: [{ name: 'You', email: 'you@company.com' }],
-    date: 'Dec 24, 2025 at 8:30 AM',
-    body: `Hey,
-
-Following up on the Q1 planning doc I shared. I think we need to align on the roadmap priorities before the holidays.
-
-Can we do a 30-minute sync on Thursday afternoon? I'm free 2-4pm.
-
-Thanks,
-Jordan`,
+  {
+    id: '19b731c4bb8acba5',
+    threadId: '19b731c4bb8acba5',
+    subject: 'Request for coffee chat',
+    snippet: "Hi Anupta,\n\nI hope this email finds you well! My name is Nayalash, and I'm reaching out to see if you'd be open to grabbing a coffee chat sometime this week",
+    body: "Hi Anupta,\n\nI hope this email finds you well! My name is Nayalash, and I'm reaching out to see if you'd be open to grabbing a coffee chat sometime this week.\n\nI'd love to learn more about your experience and insights in your field. I believe a conversation with you would be incredibly valuable for my professional development, and I'd genuinely appreciate the opportunity to connect.\n\nWould you have any availability for a 20-30 minute coffee chat this week? I'm flexible and can meet Monday through Friday, anytime between 10 AM - 4 PM EST.\n\nLooking forward to hearing from you!\n\nBest regards,\nNayalash",
+    from: {
+      name: 'anuptaislam33@gmail.com',
+      email: 'anuptaislam33@gmail.com'
+    },
+    to: ['anuptaislam33@gmail.com'],
+    receivedAt: 'Tue, 30 Dec 2025 22:33:12 -0800',
+    eventRelated: true,
     detectedMeeting: {
-      type: 'sync',
-      duration: 30,
-      requestor: 'Jordan Lee',
-      flexibility: 'Thursday 2-4pm',
-      suggestedTitle: 'Q1 Planning Sync with Jordan'
+      type: 'coffee_chat',
+      confidence: 0.92,
+      duration: 25,
+      suggestedTitle: 'Coffee Chat with Nayalash',
+      proposedSlots: [
+        { dateTime: '2026-01-06T10:00:00-05:00', confidence: 0.8 },
+        { dateTime: '2026-01-06T14:00:00-05:00', confidence: 0.8 },
+        { dateTime: '2026-01-07T10:00:00-05:00', confidence: 0.8 },
+        { dateTime: '2026-01-07T14:00:00-05:00', confidence: 0.8 }
+      ],
+      location: null,
+      platform: null,
+      reasoning: 'Email requests 20-30 minute coffee chat with specific availability windows',
+      flexibility: 'Monday through Friday, anytime between 10 AM - 4 PM EST'
     }
   },
-  email3: {
-    id: 'email3',
+  {
+    id: '19b730a1cc7def12',
+    threadId: '19b730a1cc7def12',
     subject: 'Team lunch next week?',
-    from: { name: 'Priya Sharma', email: 'priya.sharma@company.com' },
-    to: [{ name: 'Product Team', email: 'product@company.com' }],
-    date: 'Dec 23, 2025 at 4:12 PM',
-    body: `Hey team!
-
-Since we'll all be back in office next Tuesday, want to do a team lunch? I was thinking that new Thai place on King St.
-
-Let me know if you're interested!
-
-Priya`,
+    snippet: "Hey team!\n\nSince we'll all be back in office next Tuesday, want to do a team lunch? I was thinking that new Thai place on King St.",
+    body: "Hey team!\n\nSince we'll all be back in office next Tuesday, want to do a team lunch? I was thinking that new Thai place on King St.\n\nLet me know if you're interested!\n\nPriya",
+    from: {
+      name: 'Priya Sharma',
+      email: 'priya.sharma@company.com'
+    },
+    to: ['product@company.com'],
+    receivedAt: 'Mon, 29 Dec 2025 16:12:00 -0500',
+    eventRelated: false,
     detectedMeeting: null
   }
-};
+];
 
 function MockDemoCalendarPage() {
   const [expandedEmail, setExpandedEmail] = useState(null);
@@ -78,31 +83,42 @@ function MockDemoCalendarPage() {
   const [successMessage, setSuccessMessage] = useState('');
   const [sidePanelEmail, setSidePanelEmail] = useState(null);
 
-  const handleViewFullEmail = (e, emailId) => {
+  const handleViewFullEmail = (e, email) => {
     e.stopPropagation();
-    setSidePanelEmail(mockEmails[emailId]);
+    setSidePanelEmail(email);
   };
 
   const closeSidePanel = () => {
     setSidePanelEmail(null);
   };
 
-  const toggleEmail = (emailId) => {
-    setExpandedEmail(expandedEmail === emailId ? null : emailId);
+  const toggleEmail = (email) => {
+    setExpandedEmail(expandedEmail === email.id ? null : email.id);
   };
 
   const handleCreateEvent = (email) => {
     const meeting = email.detectedMeeting;
-    const tomorrow = new Date();
-    tomorrow.setDate(tomorrow.getDate() + 1);
+    let eventDate, eventTime;
+    
+    if (meeting.proposedSlots && meeting.proposedSlots.length > 0) {
+      const slot = new Date(meeting.proposedSlots[0].dateTime);
+      eventDate = slot.toISOString().split('T')[0];
+      eventTime = slot.toTimeString().slice(0, 5);
+    } else {
+      const tomorrow = new Date();
+      tomorrow.setDate(tomorrow.getDate() + 1);
+      eventDate = tomorrow.toISOString().split('T')[0];
+      eventTime = '10:00';
+    }
     
     setCalendarData({
       title: meeting.suggestedTitle,
-      date: tomorrow.toISOString().split('T')[0],
-      time: '10:00',
+      date: eventDate,
+      time: eventTime,
       duration: meeting.duration,
       attendee: email.from.email,
-      location: meeting.type === 'coffee_chat' ? 'Coffee Bar - 2nd Floor' : 'Conference Room A',
+      location: meeting.location || (meeting.type === 'coffee_chat' ? 'Coffee Bar - 2nd Floor' : 'Conference Room A'),
+      platform: meeting.platform,
       notes: `Re: ${email.subject}`
     });
     setShowCalendarModal(true);
@@ -115,16 +131,28 @@ function MockDemoCalendarPage() {
     setTimeout(() => setShowSuccess(false), 3000);
   };
 
-  const renderEmailCard = (emailId) => {
-    const email = mockEmails[emailId];
-    const isExpanded = expandedEmail === emailId;
-    const hasMeeting = email.detectedMeeting !== null;
+  const formatSlotTime = (slot) => {
+    if (!slot || !slot.dateTime) return '';
+    const date = new Date(slot.dateTime);
+    return date.toLocaleString(undefined, {
+      weekday: 'short',
+      month: 'short',
+      day: 'numeric',
+      hour: 'numeric',
+      minute: '2-digit',
+      hour12: true
+    });
+  };
+
+  const renderEmailCard = (email) => {
+    const isExpanded = expandedEmail === email.id;
+    const hasMeeting = email.eventRelated && email.detectedMeeting;
 
     return (
-      <div className={`${styles.emailCard} ${isExpanded ? styles.expanded : ''} ${hasMeeting ? styles.hasMeeting : ''}`}>
-        <div className={styles.emailCardHeader} onClick={() => toggleEmail(emailId)}>
+      <div key={email.id} className={`${styles.emailCard} ${isExpanded ? styles.expanded : ''} ${hasMeeting ? styles.hasMeeting : ''}`}>
+        <div className={styles.emailCardHeader} onClick={() => toggleEmail(email)}>
           <div className={styles.emailCardAvatar}>
-            {email.from.name.split(' ').map(n => n[0]).join('')}
+            {email.from.name.split(' ').map(n => n[0]).join('').slice(0, 2)}
           </div>
           <div className={styles.emailCardInfo}>
             <div className={styles.emailCardTop}>
@@ -171,10 +199,22 @@ function MockDemoCalendarPage() {
                   </svg>
                 </div>
                 <div className={styles.smartActionContent}>
-                  <div className={styles.smartActionTitle}>Meeting Request Detected</div>
+                  <div className={styles.smartActionTitle}>
+                    {email.detectedMeeting.type.replace('_', ' ').replace(/\b\w/g, l => l.toUpperCase())} Request
+                    {email.detectedMeeting.confidence && (
+                      <span className={styles.confidence}>{Math.round(email.detectedMeeting.confidence * 100)}% confidence</span>
+                    )}
+                  </div>
                   <div className={styles.smartActionDetails}>
-                    <span>{email.detectedMeeting.requestor} is requesting a {email.detectedMeeting.duration}-minute {email.detectedMeeting.type.replace('_', ' ')}</span>
-                    <span className={styles.flexibility}>Available: {email.detectedMeeting.flexibility}</span>
+                    <span>{email.detectedMeeting.duration} minutes{email.detectedMeeting.platform && ` via ${email.detectedMeeting.platform}`}</span>
+                    {email.detectedMeeting.flexibility && (
+                      <span className={styles.flexibility}>Flexibility: {email.detectedMeeting.flexibility}</span>
+                    )}
+                    {email.detectedMeeting.proposedSlots && email.detectedMeeting.proposedSlots.length > 0 && (
+                      <span className={styles.slots}>
+                        Suggested: {email.detectedMeeting.proposedSlots.slice(0, 2).map(formatSlotTime).join(', ')}
+                      </span>
+                    )}
                   </div>
                 </div>
                 <button className={styles.createEventBtn} onClick={() => handleCreateEvent(email)}>
@@ -193,7 +233,7 @@ function MockDemoCalendarPage() {
 
             <button 
               className={styles.viewFullBtn}
-              onClick={(e) => handleViewFullEmail(e, emailId)}
+              onClick={(e) => handleViewFullEmail(e, email)}
             >
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                 <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
@@ -368,25 +408,19 @@ function MockDemoCalendarPage() {
 
           <div className={`${styles.message} ${styles.assistant}`}>
             <div className={styles.messageContent}>
-              <p>I found 3 recent emails. <strong>2 of them contain meeting requests</strong> that I've highlighted for you:</p>
+              <p>I found {mockEmails.length} recent emails. <strong>{mockEmails.filter(e => e.eventRelated).length} of them contain meeting requests</strong> that I've highlighted for you:</p>
             </div>
           </div>
 
-          <div className={`${styles.message} ${styles.assistant}`}>
-            {renderEmailCard('email1')}
-          </div>
-
-          <div className={`${styles.message} ${styles.assistant}`}>
-            {renderEmailCard('email2')}
-          </div>
-
-          <div className={`${styles.message} ${styles.assistant}`}>
-            {renderEmailCard('email3')}
-          </div>
+          {mockEmails.map(email => (
+            <div key={email.id} className={`${styles.message} ${styles.assistant}`}>
+              {renderEmailCard(email)}
+            </div>
+          ))}
 
           <div className={`${styles.message} ${styles.assistant}`}>
             <div className={styles.messageContent}>
-              <p>Alex's coffee chat request seems like a good opportunity - they're an intern interested in your AI work. Would you like me to suggest some available time slots from your calendar?</p>
+              <p>Bob's coffee chat request seems like a good opportunity - he's a CS student interested in your career path. Would you like me to suggest some available time slots from your calendar?</p>
             </div>
           </div>
         </div>
@@ -430,12 +464,12 @@ function MockDemoCalendarPage() {
                   <div className={styles.panelEmail}>{sidePanelEmail.from.email}</div>
                 </div>
               </div>
-              <div className={styles.panelDate}>{sidePanelEmail.date}</div>
+              <div className={styles.panelDate}>{sidePanelEmail.receivedAt}</div>
             </div>
 
             <div className={styles.panelSubjectRow}>
               <h4 className={styles.panelSubject}>{sidePanelEmail.subject}</h4>
-              {sidePanelEmail.detectedMeeting && (
+              {sidePanelEmail.eventRelated && sidePanelEmail.detectedMeeting && (
                 <div className={styles.meetingBadgeLarge}>
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                     <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
@@ -454,7 +488,7 @@ function MockDemoCalendarPage() {
               ))}
             </div>
 
-            {sidePanelEmail.detectedMeeting && (
+            {sidePanelEmail.eventRelated && sidePanelEmail.detectedMeeting && (
               <div className={styles.panelActions}>
                 <button className={styles.createEventBtn} onClick={() => handleCreateEvent(sidePanelEmail)}>
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
