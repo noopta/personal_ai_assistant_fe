@@ -11,7 +11,7 @@ import Vapi from '@vapi-ai/web';
 import VapiWidget from './VapiWidget.tsx';
 import { sanitizeInput, validateUrlParam, secureLog, getEnvVar, loggedFetch } from '../utils/securityUtils';
 import { GmailIcon, GoogleCalendarIcon } from '../components/icons';
-import { parseMeetingMetadata } from '../utils/meetingParser';
+// Meeting metadata now comes as separate relevantEmails field in JSON response
 
 function ProductPage() {
   const [messages, setMessages] = useState([]);
@@ -128,7 +128,8 @@ function ProductPage() {
       if (lastConversation.role === 'assistant') {
         setMessages(prev => [...prev, {
           type: 'assistant',
-          content: lastConversation.content
+          content: lastConversation.content,
+          relevantEmails: null // Voice mode doesn't include email metadata
         }]);
         setIsLoading(false);
       }
@@ -691,15 +692,13 @@ function ProductPage() {
 
       // Extract the text directly from results field
       const aiMessage = data.result || 'No response received';
+      const relevantEmails = data.relevantEmails || null;
 
-      // Parse meeting metadata if present
-      const { textContent, meetingData } = parseMeetingMetadata(aiMessage);
-
-      // Add AI response with optional meeting data
+      // Add AI response with optional email data
       setMessages(prev => [...prev, {
         type: 'assistant',
-        content: textContent,
-        meetingData: meetingData
+        content: aiMessage,
+        relevantEmails: relevantEmails
       }]);
 
     } catch (error) {
@@ -988,7 +987,7 @@ function ProductPage() {
               key={index}
               type={message.type}
               content={message.content}
-              meetingData={message.meetingData}
+              relevantEmails={message.relevantEmails}
             />
           ))}
           {isLoading && <AILoadingAnimation />}

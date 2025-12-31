@@ -7,7 +7,7 @@ import { useTheme } from '../contexts/ThemeContext';
 import Typewriter from './Typewriter';
 import EmailCard from './EmailCard';
 
-function ChatMessage({ type, content, meetingData }) {
+function ChatMessage({ type, content, relevantEmails }) {
   const { isDark } = useTheme();
 
   const components = {
@@ -81,7 +81,8 @@ function ChatMessage({ type, content, meetingData }) {
     console.log('Create event for:', email);
   };
 
-  const hasEmails = meetingData?.meetingDetection?.emails?.length > 0;
+  const hasEmails = relevantEmails?.length > 0;
+  const meetingsDetected = relevantEmails?.filter(e => e.eventRelated && e.detectedMeeting)?.length || 0;
 
   if (type === 'assistant') {
     return (
@@ -100,14 +101,14 @@ function ChatMessage({ type, content, meetingData }) {
           
           {hasEmails && (
             <div className={styles.emailCards}>
-              {(meetingData.meetingDetection.meetingsDetected || 0) > 0 && (
+              {meetingsDetected > 0 && (
                 <div className={styles.meetingSummary}>
-                  Found {meetingData.meetingDetection.meetingsDetected || 0} meeting request{(meetingData.meetingDetection.meetingsDetected || 0) > 1 ? 's' : ''} in {meetingData.meetingDetection.processed || meetingData.meetingDetection.emails?.length || 0} email{(meetingData.meetingDetection.processed || 1) > 1 ? 's' : ''}
+                  Found {meetingsDetected} meeting request{meetingsDetected > 1 ? 's' : ''} in {relevantEmails.length} email{relevantEmails.length > 1 ? 's' : ''}
                 </div>
               )}
-              {meetingData.meetingDetection.emails.map((email, idx) => (
+              {relevantEmails.map((email, idx) => (
                 <EmailCard 
-                  key={idx}
+                  key={email.id || idx}
                   email={email}
                   onCreateEvent={handleCreateEvent}
                 />

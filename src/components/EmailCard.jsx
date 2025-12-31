@@ -1,11 +1,11 @@
 import { useState } from 'react';
 import styles from './EmailCard.module.css';
-import { getInitials, parseFromString, getMeetingTypeLabel, formatLocalTime } from '../utils/meetingParser';
+import { getInitials, parseFromField, getMeetingTypeLabel, formatLocalTime } from '../utils/meetingParser';
 
 function EmailCard({ email, onCreateEvent }) {
   const [isExpanded, setIsExpanded] = useState(false);
 
-  const fromInfo = parseFromString(email.from);
+  const fromInfo = parseFromField(email.from);
   const hasMeeting = email.eventRelated && email.detectedMeeting;
 
   const handleCreateEvent = (e) => {

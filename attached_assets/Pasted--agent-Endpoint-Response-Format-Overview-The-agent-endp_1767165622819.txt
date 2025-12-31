@@ -1,0 +1,454 @@
+# /agent Endpoint Response Format
+
+## Overview
+
+The `/agent` endpoint returns a JSON response with two main keys:
+1. `result` - The agent's natural language response to the user
+2. `relevantEmails` - Array of emails with meeting detection metadata (only present for meeting-related queries)
+
+---
+
+## Response Structure
+
+```typescript
+interface AgentResponse {
+  result: string;
+  relevantEmails?: EmailWithMeeting[];
+}
+
+interface EmailWithMeeting {
+  id: string;
+  threadId: string;
+  subject: string;
+  snippet: string;
+  body: string;
+  from: {
+    name: string;
+    email: string;
+  };
+  to: string[];
+  receivedAt: string;  // ISO 8601 date string
+  eventRelated: boolean;
+  detectedMeeting?: MeetingMetadata;
+}
+
+interface MeetingMetadata {
+  type: "coffee_chat" | "interview" | "sync" | "one_on_one" | "group_meeting" | "event" | "follow_up" | "reschedule" | "general_meeting";
+  confidence: number;  // 0.0 to 1.0
+  duration: number;  // in minutes
+  suggestedTitle: string;
+  proposedSlots: TimeSlot[];
+  location: string | null;
+  platform: "zoom" | "google_meet" | "teams" | "in_person" | "phone" | null;
+  reasoning: string;
+  flexibility: string | null;
+}
+
+interface TimeSlot {
+  dateTime: string;  // ISO 8601 timestamp or null if vague
+  confidence: number;  // 0.0 to 1.0
+}
+```
+
+---
+
+## Example Response (Meeting-Related Query)
+
+### Request
+```json
+POST /agent
+{
+  "query": "check my emails and let me know if anyone wants to meet",
+  "gmailHashID": "dd613a607733bd05",
+  "userIDHash": "77fa6ac2de309ef5"
+}
+```
+
+### Response
+```json
+{
+  "result": "## 📧 Meeting Request Check:\n\n**Yes! You have meeting requests:**\n\n1. **\"Coffee Chat\"** - From Bob (team@airthreads.ai)\n   - Date received: Wednesday, December 31, 2025 at 1:53 AM\n   - Request: A 15-minute coffee chat to learn about your career path and get advice\n   - Availability: He's flexible\n\n2. **\"Request for coffee chat\"** - From Nayalash (anuptaislam33@gmail.com)\n   - Date received: Tuesday, December 30, 2025 at 10:33 PM\n   - Request: 20-30 minute coffee chat about your experience\n   - Availability: Monday-Friday, 10 AM - 4 PM EST\n\nWould you like to:\n- ✉️ Reply to these emails?\n- 📅 Schedule meetings with them?\n- 📝 Do something else?",
+
+  "relevantEmails": [
+    {
+      "id": "19b732f1bdd35008",
+      "threadId": "19b732f1bdd35008",
+      "subject": "Coffee Chat",
+      "snippet": "Hey Anupta,\r\n\r\nMy name is Bob and I am a third year computer science student. I was\r\ninspired by your LinkedIn profile and wanted to maybe have a 15 minute\r\ncoff",
+      "body": "Hey Anupta,\r\n\r\nMy name is Bob and I am a third year computer science student. I was\r\ninspired by your LinkedIn profile and wanted to maybe have a 15 minute\r\ncoffee chat with you whenever you are available to learn more about your\r\ncareer path, advices, and more.\r\n\r\nThank you,\r\nBob",
+      "from": {
+        "name": "Anupta Islam",
+        "email": "team@airthreads.ai"
+      },
+      "to": ["anuptaislam33@gmail.com"],
+      "receivedAt": "Wed, 31 Dec 2025 01:53:34 -0500",
+      "eventRelated": true,
+      "detectedMeeting": {
+        "type": "coffee_chat",
+        "confidence": 0.95,
+        "duration": 15,
+        "suggestedTitle": "Coffee Chat with Bob",
+        "proposedSlots": [],
+        "location": null,
+        "platform": null,
+        "reasoning": "Email explicitly requests a 15-minute coffee chat to learn about career path",
+        "flexibility": "whenever you are available"
+      }
+    },
+    {
+      "id": "19b731c4bb8acba5",
+      "threadId": "19b731c4bb8acba5",
+      "subject": "Request for coffee chat",
+      "snippet": "Hi Anupta,\n\nI hope this email finds you well! My name is Nayalash, and I'm reaching out to see if you'd be open to grabbing a coffee chat sometime this week",
+      "body": "Hi Anupta,\n\nI hope this email finds you well! My name is Nayalash, and I'm reaching out to see if you'd be open to grabbing a coffee chat sometime this week.\n\nI'd love to learn more about your experience and insights in your field. I believe a conversation with you would be incredibly valuable for my professional development, and I'd genuinely appreciate the opportunity to connect.\n\nWould you have any availability for a 20-30 minute coffee chat this week? I'm flexible with my schedule and happy to work around your availability. Some times that work well for me are:\n\n- Monday through Friday, anytime between 10 AM - 4 PM EST\n- I'm also open to early mornings or evenings if that works better for you\n\nPlease let me know what works best for you, or feel free to suggest an alternative time that suits your schedule better.\n\nThank you so much for considering this request. I look forward to hearing from you!\n\nBest regards,\nNayalash",
+      "from": {
+        "name": "anuptaislam33@gmail.com",
+        "email": "anuptaislam33@gmail.com"
+      },
+      "to": ["anuptaislam33@gmail.com"],
+      "receivedAt": "Tue, 30 Dec 2025 22:33:12 -0800",
+      "eventRelated": true,
+      "detectedMeeting": {
+        "type": "coffee_chat",
+        "confidence": 0.92,
+        "duration": 25,
+        "suggestedTitle": "Coffee Chat with Nayalash",
+        "proposedSlots": [
+          {
+            "dateTime": "2026-01-06T10:00:00-05:00",
+            "confidence": 0.8
+          },
+          {
+            "dateTime": "2026-01-06T14:00:00-05:00",
+            "confidence": 0.8
+          },
+          {
+            "dateTime": "2026-01-07T10:00:00-05:00",
+            "confidence": 0.8
+          },
+          {
+            "dateTime": "2026-01-07T14:00:00-05:00",
+            "confidence": 0.8
+          }
+        ],
+        "location": null,
+        "platform": null,
+        "reasoning": "Email requests 20-30 minute coffee chat with specific availability windows",
+        "flexibility": "Monday through Friday, anytime between 10 AM - 4 PM EST"
+      }
+    }
+  ]
+}
+```
+
+---
+
+## Example Response (Non-Meeting Query)
+
+### Request
+```json
+POST /agent
+{
+  "query": "what emails did I get today?",
+  "gmailHashID": "dd613a607733bd05",
+  "userIDHash": "77fa6ac2de309ef5"
+}
+```
+
+### Response
+```json
+{
+  "result": "Here are the emails you received today:\n\n1. **Sale on Sale 🛍️** - From Dell (dell@email.dell.com)\n   Promotional email about Boxing Day sales\n\n2. **Younger Season 4 is now here** - From Netflix (info@account.netflix.com)\n   New season announcement\n\n3. **How AI Labs Are Solving the Power Crisis** - From SemiAnalysis (semianalysis@substack.com)\n   Newsletter about AI datacenter energy solutions\n\nWould you like me to help with any of these emails?"
+}
+```
+
+**Note:** The `relevantEmails` key is NOT present for non-meeting queries.
+
+---
+
+## Field Descriptions
+
+### Top-Level Fields
+
+| Field | Type | Always Present? | Description |
+|-------|------|----------------|-------------|
+| `result` | string | Yes | Agent's natural language response with markdown formatting |
+| `relevantEmails` | array | No | Only present when query is meeting-related and meetings are detected |
+
+### Email Object Fields
+
+| Field | Type | Always Present? | Description |
+|-------|------|----------------|-------------|
+| `id` | string | Yes | Unique Gmail message ID |
+| `threadId` | string | Yes | Gmail thread ID (same as `id` for first message in thread) |
+| `subject` | string | Yes | Email subject line |
+| `snippet` | string | Yes | First 150 characters of email body |
+| `body` | string | Yes | Full email body content (plain text) |
+| `from.name` | string | Yes | Sender's display name |
+| `from.email` | string | Yes | Sender's email address |
+| `to` | array | Yes | Array of recipient email addresses |
+| `receivedAt` | string | Yes | Date/time email was received (Gmail format) |
+| `eventRelated` | boolean | Yes | Whether meeting detection identified this as meeting-related |
+| `detectedMeeting` | object | No | Only present if `eventRelated` is `true` |
+
+### Meeting Metadata Fields
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `type` | string | Meeting type: `coffee_chat`, `interview`, `sync`, `one_on_one`, `group_meeting`, `event`, `follow_up`, `reschedule`, `general_meeting` |
+| `confidence` | number | LLM confidence score (0.0 to 1.0) that this is meeting-related |
+| `duration` | number | Suggested meeting duration in minutes (explicit from email or estimated) |
+| `suggestedTitle` | string | Auto-generated calendar event title |
+| `proposedSlots` | array | Array of proposed time slots extracted from email (empty if none mentioned) |
+| `location` | string\|null | Physical location if mentioned in email |
+| `platform` | string\|null | Meeting platform: `zoom`, `google_meet`, `teams`, `in_person`, `phone` |
+| `reasoning` | string | LLM's explanation for why it detected this as a meeting |
+| `flexibility` | string\|null | Scheduling flexibility phrase from email (e.g., "this week", "anytime") |
+
+### Time Slot Fields
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `dateTime` | string\|null | ISO 8601 timestamp (e.g., "2026-01-06T14:00:00-05:00") or `null` if time is vague |
+| `confidence` | number | LLM confidence (0.0 to 1.0) that this is a valid proposed time |
+
+---
+
+## Frontend Integration Notes
+
+### Parsing the Response
+
+```javascript
+// Example parsing logic
+async function queryAgent(query) {
+  const response = await fetch('/agent', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      query,
+      gmailHashID: userSession.gmailHashID,
+      userIDHash: userSession.userIDHash
+    })
+  });
+
+  const data = await response.json();
+
+  // Display agent's text response
+  displayMessage(data.result);
+
+  // If meeting-related emails are present, show email cards
+  if (data.relevantEmails && data.relevantEmails.length > 0) {
+    displayEmailCards(data.relevantEmails);
+  }
+}
+```
+
+### Rendering Email Cards
+
+```jsx
+// React component example
+function EmailCard({ email }) {
+  const hasMeeting = email.eventRelated && email.detectedMeeting;
+
+  return (
+    <div className="email-card">
+      <div className="email-header">
+        <h3>{email.subject}</h3>
+        {hasMeeting && (
+          <span className="badge badge-indigo">
+            Meeting detected
+          </span>
+        )}
+      </div>
+
+      <div className="email-from">
+        <strong>{email.from.name}</strong>
+        <span className="email-address">{email.from.email}</span>
+      </div>
+
+      <p className="snippet">{email.snippet}</p>
+
+      {hasMeeting && (
+        <div className="meeting-info">
+          <p className="meeting-type">
+            Type: {email.detectedMeeting.type}
+          </p>
+          <p className="meeting-duration">
+            Duration: {email.detectedMeeting.duration} minutes
+          </p>
+
+          {email.detectedMeeting.proposedSlots.length > 0 && (
+            <div className="proposed-times">
+              <h4>Proposed times:</h4>
+              <ul>
+                {email.detectedMeeting.proposedSlots.map(slot => (
+                  <li key={slot.dateTime}>
+                    {new Date(slot.dateTime).toLocaleString()}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+
+          <button className="create-event-btn">
+            📅 Create Event
+          </button>
+        </div>
+      )}
+    </div>
+  );
+}
+```
+
+### Type Definitions (TypeScript)
+
+```typescript
+// types/agent.ts
+export interface AgentResponse {
+  result: string;
+  relevantEmails?: EmailWithMeeting[];
+}
+
+export interface EmailWithMeeting {
+  id: string;
+  threadId: string;
+  subject: string;
+  snippet: string;
+  body: string;
+  from: {
+    name: string;
+    email: string;
+  };
+  to: string[];
+  receivedAt: string;
+  eventRelated: boolean;
+  detectedMeeting?: MeetingMetadata;
+}
+
+export interface MeetingMetadata {
+  type: MeetingType;
+  confidence: number;
+  duration: number;
+  suggestedTitle: string;
+  proposedSlots: TimeSlot[];
+  location: string | null;
+  platform: MeetingPlatform | null;
+  reasoning: string;
+  flexibility: string | null;
+}
+
+export type MeetingType =
+  | "coffee_chat"
+  | "interview"
+  | "sync"
+  | "one_on_one"
+  | "group_meeting"
+  | "event"
+  | "follow_up"
+  | "reschedule"
+  | "general_meeting";
+
+export type MeetingPlatform =
+  | "zoom"
+  | "google_meet"
+  | "teams"
+  | "in_person"
+  | "phone";
+
+export interface TimeSlot {
+  dateTime: string | null;
+  confidence: number;
+}
+```
+
+---
+
+## Edge Cases
+
+### No Meetings Detected
+
+```json
+{
+  "result": "I checked your emails but didn't find any meeting requests. Most of your recent emails are promotional or newsletters.",
+  "relevantEmails": []
+}
+```
+
+### Vague Time References
+
+When an email says "sometime this week" without specific times:
+
+```json
+{
+  "detectedMeeting": {
+    "type": "coffee_chat",
+    "proposedSlots": [],  // Empty - no specific times mentioned
+    "flexibility": "sometime this week"
+  }
+}
+```
+
+### Multiple Time Slots
+
+When sender offers multiple options:
+
+```json
+{
+  "detectedMeeting": {
+    "proposedSlots": [
+      { "dateTime": "2026-01-06T14:00:00-05:00", "confidence": 0.9 },
+      { "dateTime": "2026-01-06T15:30:00-05:00", "confidence": 0.9 },
+      { "dateTime": "2026-01-07T10:00:00-05:00", "confidence": 0.9 }
+    ]
+  }
+}
+```
+
+---
+
+## Mock Data for Testing
+
+```javascript
+// mockAgentResponse.js
+export const mockMeetingResponse = {
+  result: "## 📧 Meeting Request Check:\n\n**Yes! You have a meeting request:**\n\n**\"Coffee Chat\"** - From Bob (team@airthreads.ai)\n- **Date received:** Wednesday, December 31, 2025 at 1:53 AM\n- **Request:** A 15-minute coffee chat to learn about your career path and get advice\n- **Availability:** He's flexible and available whenever works for you\n\nWould you like to:\n- ✉️ Reply to Bob's email?\n- 📅 Schedule a meeting with him?\n- 📝 Do something else?",
+
+  relevantEmails: [
+    {
+      id: "19b732f1bdd35008",
+      threadId: "19b732f1bdd35008",
+      subject: "Coffee Chat",
+      snippet: "Hey Anupta, My name is Bob and I am a third year computer science student. I was inspired by your LinkedIn profile and wanted to maybe have a 15 minute coff",
+      body: "Hey Anupta,\r\n\r\nMy name is Bob and I am a third year computer science student. I was\r\ninspired by your LinkedIn profile and wanted to maybe have a 15 minute\r\ncoffee chat with you whenever you are available to learn more about your\r\ncareer path, advices, and more.\r\n\r\nThank you,\r\nBob",
+      from: {
+        name: "Bob",
+        email: "team@airthreads.ai"
+      },
+      to: ["anuptaislam33@gmail.com"],
+      receivedAt: "Wed, 31 Dec 2025 01:53:34 -0500",
+      eventRelated: true,
+      detectedMeeting: {
+        type: "coffee_chat",
+        confidence: 0.95,
+        duration: 15,
+        suggestedTitle: "Coffee Chat with Bob",
+        proposedSlots: [],
+        location: null,
+        platform: null,
+        reasoning: "Email explicitly requests a 15-minute coffee chat to learn about career path",
+        flexibility: "whenever you are available"
+      }
+    }
+  ]
+};
+
+export const mockNonMeetingResponse = {
+  result: "Here are your recent emails:\n\n1. **Promotional Sale** - From Nike\n2. **Newsletter** - From TechCrunch\n3. **Shipping Update** - From Amazon\n\nNo meeting requests found."
+};
+```
+
+---
+
+**Last Updated:** December 31, 2025
+**Endpoint:** `POST /agent`
+**Backend Version:** Meeting Detection v1.0

@@ -1,27 +1,5 @@
-const MEETING_METADATA_DELIMITER = '---MEETING_METADATA---';
-
-export function parseMeetingMetadata(response) {
-  if (!response || typeof response !== 'string') {
-    return { textContent: response || '', meetingData: null };
-  }
-
-  const delimiterIndex = response.indexOf(MEETING_METADATA_DELIMITER);
-  
-  if (delimiterIndex === -1) {
-    return { textContent: response, meetingData: null };
-  }
-
-  const textContent = response.substring(0, delimiterIndex).trim();
-  const jsonString = response.substring(delimiterIndex + MEETING_METADATA_DELIMITER.length).trim();
-
-  try {
-    const meetingData = JSON.parse(jsonString);
-    return { textContent, meetingData };
-  } catch (error) {
-    console.error('Failed to parse meeting metadata JSON:', error);
-    return { textContent, meetingData: null };
-  }
-}
+// No longer using delimiter-based parsing
+// Backend now returns { result, relevantEmails } as separate JSON fields
 
 export function formatLocalDateTime(isoString) {
   if (!isoString) return '';
@@ -57,18 +35,24 @@ export function formatLocalDate(isoString) {
   }
 }
 
-export function formatLocalTime(isoString) {
-  if (!isoString) return '';
+export function formatLocalTime(slot) {
+  if (!slot) return '';
+  
+  const dateTimeString = typeof slot === 'string' ? slot : slot.dateTime;
+  if (!dateTimeString) return '';
   
   try {
-    const date = new Date(isoString);
-    return date.toLocaleTimeString(undefined, {
+    const date = new Date(dateTimeString);
+    return date.toLocaleString(undefined, {
+      weekday: 'short',
+      month: 'short',
+      day: 'numeric',
       hour: 'numeric',
       minute: '2-digit',
       hour12: true
     });
   } catch (error) {
-    return isoString;
+    return dateTimeString;
   }
 }
 
@@ -79,11 +63,15 @@ export function getMeetingTypeLabel(type) {
     interview: 'Interview',
     standup: 'Standup',
     one_on_one: '1:1 Meeting',
+    group_meeting: 'Group Meeting',
     team_meeting: 'Team Meeting',
     event: 'Event',
     workshop: 'Workshop',
     presentation: 'Presentation',
-    review: 'Review Meeting'
+    review: 'Review Meeting',
+    follow_up: 'Follow-up',
+    reschedule: 'Reschedule',
+    general_meeting: 'Meeting'
   };
   
   return labels[type] || type?.replace(/_/g, ' ') || 'Meeting';
@@ -94,9 +82,14 @@ export function getInitials(name) {
   return name.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2);
 }
 
-export function parseFromString(fromString) {
-  if (!fromString) return { name: 'Unknown', email: '' };
+export function parseFromField(from) {
+  if (!from) return { name: 'Unknown', email: '' };
   
+  if (typeof from === 'object' && from.name) {
+    return { name: from.name, email: from.email || '' };
+  }
+  
+  const fromString = String(from);
   const emailMatch = fromString.match(/<(.+)>/);
   if (emailMatch) {
     const email = emailMatch[1];
