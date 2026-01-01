@@ -2,7 +2,7 @@ import { useState } from 'react';
 import styles from './EmailCard.module.css';
 import { getInitials, parseFromField, getMeetingTypeLabel, formatLocalTime } from '../utils/meetingParser';
 
-function EmailCard({ email, onCreateEvent }) {
+function EmailCard({ email, onCreateEvent, onViewFullEmail }) {
   const [isExpanded, setIsExpanded] = useState(false);
 
   const fromInfo = parseFromField(email.from);
@@ -12,6 +12,13 @@ function EmailCard({ email, onCreateEvent }) {
     e.stopPropagation();
     if (onCreateEvent) {
       onCreateEvent(email);
+    }
+  };
+
+  const handleViewFull = (e) => {
+    e.stopPropagation();
+    if (onViewFullEmail) {
+      onViewFullEmail(email);
     }
   };
 
@@ -55,6 +62,17 @@ function EmailCard({ email, onCreateEvent }) {
             {email.body?.split('\n').map((line, i) => (
               <p key={i}>{line || <br />}</p>
             ))}
+          </div>
+
+          <div className={styles.emailActions}>
+            <button className={styles.viewFullBtn} onClick={handleViewFull}>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                <polyline points="15 3 21 3 21 9"></polyline>
+                <line x1="10" y1="14" x2="21" y2="3"></line>
+              </svg>
+              View full email
+            </button>
           </div>
 
           {hasMeeting && (

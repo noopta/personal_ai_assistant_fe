@@ -80,7 +80,8 @@
 
 .emailCardSubject {
   font-size: 13px;
-  color: #64748b;
+  font-weight: 500;
+  color: #0A2540;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -107,10 +108,59 @@
   line-height: 1.6;
   color: #334155;
   padding: 16px 0;
+  max-height: 180px;
+  overflow-y: auto;
+}
+
+.emailFullContent::-webkit-scrollbar {
+  width: 6px;
+}
+
+.emailFullContent::-webkit-scrollbar-track {
+  background: #f1f5f9;
+  border-radius: 3px;
+}
+
+.emailFullContent::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 3px;
+}
+
+.emailFullContent::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
 }
 
 .emailFullContent p {
   margin: 0 0 8px 0;
+}
+
+.emailActions {
+  display: flex;
+  justify-content: flex-end;
+  padding: 8px 0;
+  border-bottom: 1px solid #f1f5f9;
+  margin-bottom: 8px;
+}
+
+.viewFullBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  background: transparent;
+  border: 1px solid #e2e8f0;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 500;
+  color: #64748b;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.viewFullBtn:hover {
+  background: #f8fafc;
+  border-color: #cbd5e1;
+  color: #0A2540;
 }
 
 .smartAction {
@@ -153,7 +203,10 @@
 .confidence {
   font-size: 11px;
   font-weight: 400;
-  color: #94a3b8;
+  color: #6366f1;
+  background: #eef2ff;
+  padding: 2px 6px;
+  border-radius: 4px;
 }
 
 .smartActionDetails {
@@ -167,7 +220,8 @@
 
 .slots {
   font-size: 12px;
-  color: #94a3b8;
+  color: #6366f1;
+  font-weight: 500;
 }
 
 .createEventBtn {

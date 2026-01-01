@@ -507,3 +507,196 @@
   background: #6366f1;
   border-radius: 50%;
 }
+
+/* Side Panel Styles */
+.sidePanelOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(10, 37, 64, 0.3);
+  backdrop-filter: blur(2px);
+  z-index: 900;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.sidePanel {
+  width: 400px;
+  max-width: 90vw;
+  height: 100%;
+  background: #fff;
+  box-shadow: -8px 0 40px rgba(10, 37, 64, 0.15);
+  animation: slidePanelIn 0.25s ease-out;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+@keyframes slidePanelIn {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+.sidePanelHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
+  border-bottom: 1px solid #e2e8f0;
+  background: #fafbfc;
+}
+
+.sidePanelTitle {
+  font-size: 16px;
+  font-weight: 600;
+  color: #0A2540;
+  margin: 0;
+}
+
+.sidePanelClose {
+  width: 32px;
+  height: 32px;
+  border: none;
+  background: transparent;
+  color: #64748b;
+  cursor: pointer;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.sidePanelClose:hover {
+  background: #f1f5f9;
+  color: #0A2540;
+}
+
+.sidePanelContent {
+  flex: 1;
+  overflow-y: auto;
+  padding: 20px;
+}
+
+.panelMeta {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.panelAvatar {
+  width: 44px;
+  height: 44px;
+  min-width: 44px;
+  background: linear-gradient(135deg, #635BFF 0%, #7c6cf7 100%);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.panelMetaInfo {
+  flex: 1;
+  min-width: 0;
+}
+
+.panelFrom {
+  font-size: 15px;
+  font-weight: 600;
+  color: #0A2540;
+}
+
+.panelEmail {
+  font-size: 13px;
+  color: #64748b;
+  margin-top: 2px;
+}
+
+.panelSubjectRow {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+.panelSubject {
+  flex: 1;
+  font-size: 17px;
+  font-weight: 600;
+  color: #0A2540;
+  margin: 0;
+  line-height: 1.4;
+}
+
+.meetingBadgeLarge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  background: #eef2ff;
+  color: #6366f1;
+  font-size: 12px;
+  font-weight: 500;
+  border-radius: 6px;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.panelBody {
+  font-size: 14px;
+  line-height: 1.7;
+  color: #334155;
+}
+
+.panelBody p {
+  margin: 0 0 10px 0;
+}
+
+.panelActions {
+  margin-top: 24px;
+  padding-top: 16px;
+  border-top: 1px solid #e2e8f0;
+}
+
+.panelCreateEventBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  padding: 12px 20px;
+  background: linear-gradient(135deg, #6366f1 0%, #7c7df7 100%);
+  border: none;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #fff;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.panelCreateEventBtn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 16px rgba(99, 102, 241, 0.35);
+}
+
+@media (max-width: 540px) {
+  .sidePanel {
+    width: 100%;
+    max-width: 100%;
+  }
+}

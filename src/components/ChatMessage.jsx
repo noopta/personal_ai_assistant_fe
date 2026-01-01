@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import { vs } from 'react-syntax-highlighter/dist/esm/styles/prism';
@@ -6,9 +6,13 @@ import styles from './ChatMessage.module.css';
 import { useTheme } from '../contexts/ThemeContext';
 import Typewriter from './Typewriter';
 import EmailCard from './EmailCard';
+import CreateEventModal from './CreateEventModal';
+import { getInitials, parseFromField, getMeetingTypeLabel } from '../utils/meetingParser';
 
 function ChatMessage({ type, content, relevantEmails }) {
   const { isDark } = useTheme();
+  const [selectedEmailForEvent, setSelectedEmailForEvent] = useState(null);
+  const [sidePanelEmail, setSidePanelEmail] = useState(null);
 
   const components = {
     code({ node, inline, className, children, ...props }) {
@@ -78,45 +82,159 @@ function ChatMessage({ type, content, relevantEmails }) {
   };
 
   const handleCreateEvent = (email) => {
-    console.log('Create event for:', email);
+    setSelectedEmailForEvent(email);
+  };
+
+  const handleViewFullEmail = (email) => {
+    setSidePanelEmail(email);
+  };
+
+  const handleCloseModal = () => {
+    setSelectedEmailForEvent(null);
+  };
+
+  const handleCloseSidePanel = () => {
+    setSidePanelEmail(null);
+  };
+
+  const handleEventSubmit = (eventData) => {
+    console.log('📅 Create Event Payload:', JSON.stringify(eventData, null, 2));
+    console.log('Event Details:', {
+      title: eventData.title,
+      date: eventData.date,
+      time: eventData.time,
+      duration: eventData.duration,
+      location: eventData.location,
+      notes: eventData.notes,
+      sourceEmail: eventData.sourceEmail
+    });
+    setSelectedEmailForEvent(null);
+  };
+
+  const handleCreateEventFromPanel = (email) => {
+    setSidePanelEmail(null);
+    setSelectedEmailForEvent(email);
   };
 
   const hasEmails = relevantEmails?.length > 0;
   const meetingsDetected = relevantEmails?.filter(e => e.eventRelated && e.detectedMeeting)?.length || 0;
 
   if (type === 'assistant') {
+    const fromInfo = sidePanelEmail ? parseFromField(sidePanelEmail.from) : null;
+    const hasMeeting = sidePanelEmail?.eventRelated && sidePanelEmail?.detectedMeeting;
+
     return (
-      <div className={`${styles.message} ${styles[type]}`}>
-        <div className={styles.avatar}>
-          <svg viewBox="0 0 24 24" className={styles.avatarIcon}>
-            <path d="M12 2C13.1 2 14 2.9 14 4C14 5.1 13.1 6 12 6C10.9 6 10 5.1 10 4C10 2.9 10.9 2 12 2ZM21 9V7L15 1H5C3.89 1 3 1.89 3 3V19C3 20.1 3.9 21 5 21H11V19H5V3H13V9H21ZM17 12V15H20V17H17V20H15V17H12V15H15V12H17Z"/>
-          </svg>
+      <>
+        <div className={`${styles.message} ${styles[type]}`}>
+          <div className={styles.avatar}>
+            <svg viewBox="0 0 24 24" className={styles.avatarIcon}>
+              <path d="M12 2C13.1 2 14 2.9 14 4C14 5.1 13.1 6 12 6C10.9 6 10 5.1 10 4C10 2.9 10.9 2 12 2ZM21 9V7L15 1H5C3.89 1 3 1.89 3 3V19C3 20.1 3.9 21 5 21H11V19H5V3H13V9H21ZM17 12V15H20V17H17V20H15V17H12V15H15V12H17Z"/>
+            </svg>
+          </div>
+          <div className={styles.content}>
+            <Typewriter 
+              markdownText={content}
+              components={components}
+              speed={15}
+            />
+            
+            {hasEmails && (
+              <div className={styles.emailCards}>
+                {meetingsDetected > 0 && (
+                  <div className={styles.meetingSummary}>
+                    Found {meetingsDetected} meeting request{meetingsDetected > 1 ? 's' : ''} in {relevantEmails.length} email{relevantEmails.length > 1 ? 's' : ''}
+                  </div>
+                )}
+                {relevantEmails.map((email, idx) => (
+                  <EmailCard 
+                    key={email.id || idx}
+                    email={email}
+                    onCreateEvent={handleCreateEvent}
+                    onViewFullEmail={handleViewFullEmail}
+                  />
+                ))}
+              </div>
+            )}
+          </div>
         </div>
-        <div className={styles.content}>
-          <Typewriter 
-            markdownText={content}
-            components={components}
-            speed={15}
-          />
-          
-          {hasEmails && (
-            <div className={styles.emailCards}>
-              {meetingsDetected > 0 && (
-                <div className={styles.meetingSummary}>
-                  Found {meetingsDetected} meeting request{meetingsDetected > 1 ? 's' : ''} in {relevantEmails.length} email{relevantEmails.length > 1 ? 's' : ''}
+
+        {/* Side Panel for Full Email View */}
+        {sidePanelEmail && (
+          <div className={styles.sidePanelOverlay} onClick={handleCloseSidePanel}>
+            <div className={styles.sidePanel} onClick={(e) => e.stopPropagation()}>
+              <div className={styles.sidePanelHeader}>
+                <h3 className={styles.sidePanelTitle}>Email Details</h3>
+                <button className={styles.sidePanelClose} onClick={handleCloseSidePanel}>
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                  </svg>
+                </button>
+              </div>
+              
+              <div className={styles.sidePanelContent}>
+                <div className={styles.panelMeta}>
+                  <div className={styles.panelAvatar}>
+                    {getInitials(fromInfo?.name || '')}
+                  </div>
+                  <div className={styles.panelMetaInfo}>
+                    <div className={styles.panelFrom}>{fromInfo?.name}</div>
+                    <div className={styles.panelEmail}>{fromInfo?.email}</div>
+                  </div>
                 </div>
-              )}
-              {relevantEmails.map((email, idx) => (
-                <EmailCard 
-                  key={email.id || idx}
-                  email={email}
-                  onCreateEvent={handleCreateEvent}
-                />
-              ))}
+
+                <div className={styles.panelSubjectRow}>
+                  <h4 className={styles.panelSubject}>{sidePanelEmail.subject}</h4>
+                  {hasMeeting && (
+                    <div className={styles.meetingBadgeLarge}>
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                        <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                        <line x1="16" y1="2" x2="16" y2="6"></line>
+                        <line x1="8" y1="2" x2="8" y2="6"></line>
+                        <line x1="3" y1="10" x2="21" y2="10"></line>
+                      </svg>
+                      {getMeetingTypeLabel(sidePanelEmail.detectedMeeting?.type)}
+                    </div>
+                  )}
+                </div>
+
+                <div className={styles.panelBody}>
+                  {sidePanelEmail.body?.split('\n').map((line, i) => (
+                    <p key={i}>{line || <br />}</p>
+                  ))}
+                </div>
+
+                {hasMeeting && (
+                  <div className={styles.panelActions}>
+                    <button 
+                      className={styles.panelCreateEventBtn} 
+                      onClick={() => handleCreateEventFromPanel(sidePanelEmail)}
+                    >
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                        <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                        <line x1="16" y1="2" x2="16" y2="6"></line>
+                        <line x1="8" y1="2" x2="8" y2="6"></line>
+                        <line x1="3" y1="10" x2="21" y2="10"></line>
+                        <line x1="12" y1="14" x2="12" y2="18"></line>
+                        <line x1="10" y1="16" x2="14" y2="16"></line>
+                      </svg>
+                      Create Calendar Event
+                    </button>
+                  </div>
+                )}
+              </div>
             </div>
-          )}
-        </div>
-      </div>
+          </div>
+        )}
+
+        {/* Create Event Modal */}
+        <CreateEventModal
+          email={selectedEmailForEvent}
+          isOpen={!!selectedEmailForEvent}
+          onClose={handleCloseModal}
+          onSubmit={handleEventSubmit}
+        />
+      </>
     );
   }
 
