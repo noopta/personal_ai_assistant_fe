@@ -343,51 +343,66 @@
   box-shadow: 0 4px 12px rgba(99, 102, 241, 0.15);
 }
 
-.emailCardActions {
+.actionToolbar {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-start;
   padding-top: 12px;
   border-top: 1px solid #f1f5f9;
   margin-top: 12px;
 }
 
-.emailActionBtns {
+.actionGroup {
   display: flex;
-  gap: 8px;
+  align-items: center;
+  gap: 4px;
+  background: #f8fafc;
+  border-radius: 8px;
+  padding: 4px;
 }
 
-.replyBtn,
-.forwardBtn {
+.actionBtn {
   display: inline-flex;
   align-items: center;
-  gap: 5px;
-  padding: 7px 12px;
-  background: #f8fafc;
-  border: 1px solid #e2e8f0;
+  gap: 6px;
+  padding: 8px 12px;
+  background: transparent;
+  border: none;
   border-radius: 6px;
-  font-size: 12px;
+  font-size: 13px;
   font-weight: 500;
   color: #64748b;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all 0.15s ease;
 }
 
-.replyBtn:hover,
-.forwardBtn:hover {
-  background: #f1f5f9;
-  border-color: #cbd5e1;
+.actionBtn:hover {
+  background: #fff;
   color: #0A2540;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
 }
 
-.replyBtn:hover {
-  border-color: #93c5fd;
+.actionBtn:first-child:hover {
   color: #2563eb;
 }
 
-.forwardBtn:hover {
-  border-color: #a7f3d0;
+.actionBtn:nth-child(2):hover {
   color: #059669;
+}
+
+.actionBtn:last-child:hover {
+  color: #6366f1;
+}
+
+.actionBtn span {
+  display: inline;
+}
+
+.actionDivider {
+  width: 1px;
+  height: 20px;
+  background: #e2e8f0;
+  margin: 0 4px;
 }
 
 .panelActionRow {
@@ -396,12 +411,37 @@
   margin-bottom: 12px;
 }
 
-.panelActionRow .replyBtn,
-.panelActionRow .forwardBtn {
+.panelActionBtn {
   flex: 1;
+  display: flex;
+  align-items: center;
   justify-content: center;
+  gap: 6px;
   padding: 10px 16px;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
   font-size: 13px;
+  font-weight: 500;
+  color: #64748b;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.panelActionBtn:hover {
+  background: #f1f5f9;
+  border-color: #cbd5e1;
+  color: #0A2540;
+}
+
+.panelActionBtn:first-child:hover {
+  border-color: #93c5fd;
+  color: #2563eb;
+}
+
+.panelActionBtn:last-child:hover {
+  border-color: #a7f3d0;
+  color: #059669;
 }
 
 .inputArea {

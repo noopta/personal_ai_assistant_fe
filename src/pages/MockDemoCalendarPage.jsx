@@ -245,38 +245,42 @@ function MockDemoCalendarPage() {
               </div>
             )}
 
-            <div className={styles.emailCardActions}>
-              <button 
-                className={styles.viewFullBtn}
-                onClick={(e) => handleViewFullEmail(e, email)}
-              >
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
-                  <polyline points="15 3 21 3 21 9"></polyline>
-                  <line x1="10" y1="14" x2="21" y2="3"></line>
-                </svg>
-                View full email
-              </button>
-              <div className={styles.emailActionBtns}>
+            <div className={styles.actionToolbar}>
+              <div className={styles.actionGroup}>
                 <button 
-                  className={styles.replyBtn}
+                  className={styles.actionBtn}
                   onClick={(e) => { e.stopPropagation(); handleReply(email); }}
+                  title="Reply"
                 >
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                     <polyline points="9 17 4 12 9 7"></polyline>
                     <path d="M20 18v-2a4 4 0 0 0-4-4H4"></path>
                   </svg>
-                  Reply
+                  <span>Reply</span>
                 </button>
                 <button 
-                  className={styles.forwardBtn}
+                  className={styles.actionBtn}
                   onClick={(e) => { e.stopPropagation(); handleForward(email); }}
+                  title="Forward"
                 >
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                     <polyline points="15 17 20 12 15 7"></polyline>
                     <path d="M4 18v-2a4 4 0 0 1 4-4h12"></path>
                   </svg>
-                  Forward
+                  <span>Forward</span>
+                </button>
+                <div className={styles.actionDivider}></div>
+                <button 
+                  className={styles.actionBtn}
+                  onClick={(e) => handleViewFullEmail(e, email)}
+                  title="View full email"
+                >
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                    <polyline points="15 3 21 3 21 9"></polyline>
+                    <line x1="10" y1="14" x2="21" y2="3"></line>
+                  </svg>
+                  <span>Expand</span>
                 </button>
               </div>
             </div>
@@ -528,14 +532,14 @@ function MockDemoCalendarPage() {
 
             <div className={styles.panelActions}>
               <div className={styles.panelActionRow}>
-                <button className={styles.replyBtn} onClick={() => handleReply(sidePanelEmail)}>
+                <button className={styles.panelActionBtn} onClick={() => handleReply(sidePanelEmail)}>
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                     <polyline points="9 17 4 12 9 7"></polyline>
                     <path d="M20 18v-2a4 4 0 0 0-4-4H4"></path>
                   </svg>
                   Reply
                 </button>
-                <button className={styles.forwardBtn} onClick={() => handleForward(sidePanelEmail)}>
+                <button className={styles.panelActionBtn} onClick={() => handleForward(sidePanelEmail)}>
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                     <polyline points="15 17 20 12 15 7"></polyline>
                     <path d="M4 18v-2a4 4 0 0 1 4-4h12"></path>
