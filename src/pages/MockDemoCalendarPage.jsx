@@ -131,6 +131,20 @@ function MockDemoCalendarPage() {
     setTimeout(() => setShowSuccess(false), 3000);
   };
 
+  const handleReply = (email) => {
+    console.log('📧 Reply to:', email.from.email, 'Subject:', email.subject);
+    setSuccessMessage('Reply draft opened');
+    setShowSuccess(true);
+    setTimeout(() => setShowSuccess(false), 3000);
+  };
+
+  const handleForward = (email) => {
+    console.log('📤 Forward email:', email.subject);
+    setSuccessMessage('Forward draft opened');
+    setShowSuccess(true);
+    setTimeout(() => setShowSuccess(false), 3000);
+  };
+
   const formatSlotTime = (slot) => {
     if (!slot || !slot.dateTime) return '';
     const date = new Date(slot.dateTime);
@@ -231,17 +245,41 @@ function MockDemoCalendarPage() {
               </div>
             )}
 
-            <button 
-              className={styles.viewFullBtn}
-              onClick={(e) => handleViewFullEmail(e, email)}
-            >
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
-                <polyline points="15 3 21 3 21 9"></polyline>
-                <line x1="10" y1="14" x2="21" y2="3"></line>
-              </svg>
-              View full email
-            </button>
+            <div className={styles.emailCardActions}>
+              <button 
+                className={styles.viewFullBtn}
+                onClick={(e) => handleViewFullEmail(e, email)}
+              >
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                  <polyline points="15 3 21 3 21 9"></polyline>
+                  <line x1="10" y1="14" x2="21" y2="3"></line>
+                </svg>
+                View full email
+              </button>
+              <div className={styles.emailActionBtns}>
+                <button 
+                  className={styles.replyBtn}
+                  onClick={(e) => { e.stopPropagation(); handleReply(email); }}
+                >
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <polyline points="9 17 4 12 9 7"></polyline>
+                    <path d="M20 18v-2a4 4 0 0 0-4-4H4"></path>
+                  </svg>
+                  Reply
+                </button>
+                <button 
+                  className={styles.forwardBtn}
+                  onClick={(e) => { e.stopPropagation(); handleForward(email); }}
+                >
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <polyline points="15 17 20 12 15 7"></polyline>
+                    <path d="M4 18v-2a4 4 0 0 1 4-4h12"></path>
+                  </svg>
+                  Forward
+                </button>
+              </div>
+            </div>
           </div>
         )}
       </div>
@@ -488,8 +526,24 @@ function MockDemoCalendarPage() {
               ))}
             </div>
 
-            {sidePanelEmail.eventRelated && sidePanelEmail.detectedMeeting && (
-              <div className={styles.panelActions}>
+            <div className={styles.panelActions}>
+              <div className={styles.panelActionRow}>
+                <button className={styles.replyBtn} onClick={() => handleReply(sidePanelEmail)}>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <polyline points="9 17 4 12 9 7"></polyline>
+                    <path d="M20 18v-2a4 4 0 0 0-4-4H4"></path>
+                  </svg>
+                  Reply
+                </button>
+                <button className={styles.forwardBtn} onClick={() => handleForward(sidePanelEmail)}>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <polyline points="15 17 20 12 15 7"></polyline>
+                    <path d="M4 18v-2a4 4 0 0 1 4-4h12"></path>
+                  </svg>
+                  Forward
+                </button>
+              </div>
+              {sidePanelEmail.eventRelated && sidePanelEmail.detectedMeeting && (
                 <button className={styles.createEventBtn} onClick={() => handleCreateEvent(sidePanelEmail)}>
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                     <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
@@ -501,8 +555,8 @@ function MockDemoCalendarPage() {
                   </svg>
                   Create Event
                 </button>
-              </div>
-            )}
+              )}
+            </div>
           </div>
         </div>
       )}
