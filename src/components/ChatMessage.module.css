@@ -670,6 +670,47 @@
   margin-top: 24px;
   padding-top: 16px;
   border-top: 1px solid #e2e8f0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.panelActionRow {
+  display: flex;
+  gap: 10px;
+}
+
+.panelActionBtn {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 10px 16px;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #64748b;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.panelActionBtn:hover {
+  background: #f1f5f9;
+  border-color: #cbd5e1;
+  color: #0A2540;
+}
+
+.panelActionBtn:first-child:hover {
+  border-color: #93c5fd;
+  color: #2563eb;
+}
+
+.panelActionBtn:last-child:hover {
+  border-color: #a7f3d0;
+  color: #059669;
 }
 
 .panelCreateEventBtn {

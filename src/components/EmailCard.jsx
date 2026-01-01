@@ -2,7 +2,7 @@ import { useState } from 'react';
 import styles from './EmailCard.module.css';
 import { getInitials, parseFromField, getMeetingTypeLabel, formatLocalTime } from '../utils/meetingParser';
 
-function EmailCard({ email, onCreateEvent, onViewFullEmail }) {
+function EmailCard({ email, onCreateEvent, onViewFullEmail, onReply, onForward }) {
   const [isExpanded, setIsExpanded] = useState(false);
 
   const fromInfo = parseFromField(email.from);
@@ -19,6 +19,20 @@ function EmailCard({ email, onCreateEvent, onViewFullEmail }) {
     e.stopPropagation();
     if (onViewFullEmail) {
       onViewFullEmail(email);
+    }
+  };
+
+  const handleReply = (e) => {
+    e.stopPropagation();
+    if (onReply) {
+      onReply(email);
+    }
+  };
+
+  const handleForward = (e) => {
+    e.stopPropagation();
+    if (onForward) {
+      onForward(email);
     }
   };
 
@@ -64,15 +78,33 @@ function EmailCard({ email, onCreateEvent, onViewFullEmail }) {
             ))}
           </div>
 
-          <div className={styles.emailActions}>
-            <button className={styles.viewFullBtn} onClick={handleViewFull}>
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
-                <polyline points="15 3 21 3 21 9"></polyline>
-                <line x1="10" y1="14" x2="21" y2="3"></line>
-              </svg>
-              View full email
-            </button>
+          {/* Action Toolbar */}
+          <div className={styles.actionToolbar}>
+            <div className={styles.actionGroup}>
+              <button className={styles.actionBtn} onClick={handleReply} title="Reply">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <polyline points="9 17 4 12 9 7"></polyline>
+                  <path d="M20 18v-2a4 4 0 0 0-4-4H4"></path>
+                </svg>
+                <span>Reply</span>
+              </button>
+              <button className={styles.actionBtn} onClick={handleForward} title="Forward">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <polyline points="15 17 20 12 15 7"></polyline>
+                  <path d="M4 18v-2a4 4 0 0 1 4-4h12"></path>
+                </svg>
+                <span>Forward</span>
+              </button>
+              <div className={styles.actionDivider}></div>
+              <button className={styles.actionBtn} onClick={handleViewFull} title="View full email">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                  <polyline points="15 3 21 3 21 9"></polyline>
+                  <line x1="10" y1="14" x2="21" y2="3"></line>
+                </svg>
+                <span>Expand</span>
+              </button>
+            </div>
           </div>
 
           {hasMeeting && (

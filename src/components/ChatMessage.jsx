@@ -89,6 +89,16 @@ function ChatMessage({ type, content, relevantEmails }) {
     setSidePanelEmail(email);
   };
 
+  const handleReply = (email) => {
+    console.log('📧 Reply to:', email.from?.email || email.from, 'Subject:', email.subject);
+    // TODO: Connect to backend reply endpoint
+  };
+
+  const handleForward = (email) => {
+    console.log('📤 Forward email:', email.subject);
+    // TODO: Connect to backend forward endpoint
+  };
+
   const handleCloseModal = () => {
     setSelectedEmailForEvent(null);
   };
@@ -151,6 +161,8 @@ function ChatMessage({ type, content, relevantEmails }) {
                     email={email}
                     onCreateEvent={handleCreateEvent}
                     onViewFullEmail={handleViewFullEmail}
+                    onReply={handleReply}
+                    onForward={handleForward}
                   />
                 ))}
               </div>
@@ -204,8 +216,24 @@ function ChatMessage({ type, content, relevantEmails }) {
                   ))}
                 </div>
 
-                {hasMeeting && (
-                  <div className={styles.panelActions}>
+                <div className={styles.panelActions}>
+                  <div className={styles.panelActionRow}>
+                    <button className={styles.panelActionBtn} onClick={() => { handleReply(sidePanelEmail); handleCloseSidePanel(); }}>
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                        <polyline points="9 17 4 12 9 7"></polyline>
+                        <path d="M20 18v-2a4 4 0 0 0-4-4H4"></path>
+                      </svg>
+                      Reply
+                    </button>
+                    <button className={styles.panelActionBtn} onClick={() => { handleForward(sidePanelEmail); handleCloseSidePanel(); }}>
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                        <polyline points="15 17 20 12 15 7"></polyline>
+                        <path d="M4 18v-2a4 4 0 0 1 4-4h12"></path>
+                      </svg>
+                      Forward
+                    </button>
+                  </div>
+                  {hasMeeting && (
                     <button 
                       className={styles.panelCreateEventBtn} 
                       onClick={() => handleCreateEventFromPanel(sidePanelEmail)}
@@ -220,8 +248,8 @@ function ChatMessage({ type, content, relevantEmails }) {
                       </svg>
                       Create Calendar Event
                     </button>
-                  </div>
-                )}
+                  )}
+                </div>
               </div>
             </div>
           </div>
