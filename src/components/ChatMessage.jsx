@@ -142,7 +142,7 @@ function ChatMessage({ type, content, relevantEmails, onSendMessage }) {
     if (!onSendMessage || !replyContent.trim()) return;
 
     setIsReplying(true);
-    const message = `Reply to the email from ${replyEmail.from?.email || replyEmail.from} with subject "${replyEmail.subject}" with the following message: ${replyContent}`;
+    const message = `Reply to the email with ID ${replyEmail.id}${replyEmail.threadId ? ` (thread ID: ${replyEmail.threadId})` : ''} from ${replyEmail.from?.email || replyEmail.from} with subject "${replyEmail.subject}" with the following message: ${replyContent}`;
     
     try {
       await onSendMessage(message);
@@ -160,7 +160,7 @@ function ChatMessage({ type, content, relevantEmails, onSendMessage }) {
     if (!onSendMessage || !forwardTo.trim()) return;
 
     setIsForwarding(true);
-    const message = `Forward the email with subject "${forwardEmail.subject}" from ${forwardEmail.from?.email || forwardEmail.from} to ${forwardTo}${forwardContent ? ` with the following note: ${forwardContent}` : ''}`;
+    const message = `Forward the email with ID ${forwardEmail.id}${forwardEmail.threadId ? ` (thread ID: ${forwardEmail.threadId})` : ''} with subject "${forwardEmail.subject}" from ${forwardEmail.from?.email || forwardEmail.from} to ${forwardTo}${forwardContent ? ` with the following note: ${forwardContent}` : ''}`;
     
     try {
       await onSendMessage(message);
