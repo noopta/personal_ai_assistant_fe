@@ -503,19 +503,21 @@ function ProductPage() {
     }
   };
 
-  const handleSendMessage = async (message) => {
+  const handleSendMessage = async (message, options = {}) => {
     if (!message.trim()) return;
+
+    const { silent = false } = options;
 
     // Sanitize user input before processing
     const sanitizedMessage = sanitizeInput(message.trim());
 
-    // Add user message (use original message for display, sanitized for backend)
-    setMessages(prev => [...prev, {
-      type: 'user',
-      content: message.trim()
-    }]);
-
-
+    // Add user message only if not silent (for automated actions like create event, reply, forward)
+    if (!silent) {
+      setMessages(prev => [...prev, {
+        type: 'user',
+        content: message.trim()
+      }]);
+    }
 
     setIsLoading(true);
 

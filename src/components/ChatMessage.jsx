@@ -128,7 +128,7 @@ function ChatMessage({ type, content, relevantEmails, onSendMessage }) {
     const message = `Create an event in my calendar using the following information: Event Title = ${eventData.title} Time = ${eventData.time} date = ${eventData.date} duration = ${eventData.duration} attendees ${eventData.attendees || 'none'} location = ${eventData.location || 'not specified'} notes = ${eventData.notes || 'none'} if there is a conflict for another event already there then dont create the event and let me know that there is a time conflict`;
     
     try {
-      await onSendMessage(message);
+      await onSendMessage(message, { silent: true });
       setSelectedEmailForEvent(null);
     } catch (error) {
       console.error('Failed to create event:', error);
@@ -145,7 +145,7 @@ function ChatMessage({ type, content, relevantEmails, onSendMessage }) {
     const message = `Reply to the email with ID ${replyEmail.id}${replyEmail.threadId ? ` (thread ID: ${replyEmail.threadId})` : ''} from ${replyEmail.from?.email || replyEmail.from} with subject "${replyEmail.subject}" with the following message: ${replyContent}`;
     
     try {
-      await onSendMessage(message);
+      await onSendMessage(message, { silent: true });
       setReplyEmail(null);
       setReplyContent('');
     } catch (error) {
@@ -163,7 +163,7 @@ function ChatMessage({ type, content, relevantEmails, onSendMessage }) {
     const message = `Forward the email with ID ${forwardEmail.id}${forwardEmail.threadId ? ` (thread ID: ${forwardEmail.threadId})` : ''} with subject "${forwardEmail.subject}" from ${forwardEmail.from?.email || forwardEmail.from} to ${forwardTo}${forwardContent ? ` with the following note: ${forwardContent}` : ''}`;
     
     try {
-      await onSendMessage(message);
+      await onSendMessage(message, { silent: true });
       setForwardEmail(null);
       setForwardTo('');
       setForwardContent('');
