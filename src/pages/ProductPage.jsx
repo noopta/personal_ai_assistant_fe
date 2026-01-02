@@ -996,6 +996,7 @@ function ProductPage() {
               type={message.type}
               content={message.content}
               relevantEmails={message.relevantEmails}
+              onSendMessage={handleSendMessage}
             />
           ))}
           {isLoading && <AILoadingAnimation />}

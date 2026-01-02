@@ -9,10 +9,18 @@ import EmailCard from './EmailCard';
 import CreateEventModal from './CreateEventModal';
 import { getInitials, parseFromField, getMeetingTypeLabel } from '../utils/meetingParser';
 
-function ChatMessage({ type, content, relevantEmails }) {
+function ChatMessage({ type, content, relevantEmails, onSendMessage }) {
   const { isDark } = useTheme();
   const [selectedEmailForEvent, setSelectedEmailForEvent] = useState(null);
   const [sidePanelEmail, setSidePanelEmail] = useState(null);
+  const [isCreatingEvent, setIsCreatingEvent] = useState(false);
+  const [replyEmail, setReplyEmail] = useState(null);
+  const [forwardEmail, setForwardEmail] = useState(null);
+  const [replyContent, setReplyContent] = useState('');
+  const [forwardTo, setForwardTo] = useState('');
+  const [forwardContent, setForwardContent] = useState('');
+  const [isReplying, setIsReplying] = useState(false);
+  const [isForwarding, setIsForwarding] = useState(false);
 
   const components = {
     code({ node, inline, className, children, ...props }) {
@@ -90,13 +98,14 @@ function ChatMessage({ type, content, relevantEmails }) {
   };
 
   const handleReply = (email) => {
-    console.log('📧 Reply to:', email.from?.email || email.from, 'Subject:', email.subject);
-    // TODO: Connect to backend reply endpoint
+    setReplyEmail(email);
+    setReplyContent('');
   };
 
   const handleForward = (email) => {
-    console.log('📤 Forward email:', email.subject);
-    // TODO: Connect to backend forward endpoint
+    setForwardEmail(email);
+    setForwardTo('');
+    setForwardContent('');
   };
 
   const handleCloseModal = () => {
@@ -107,18 +116,62 @@ function ChatMessage({ type, content, relevantEmails }) {
     setSidePanelEmail(null);
   };
 
-  const handleEventSubmit = (eventData) => {
-    console.log('📅 Create Event Payload:', JSON.stringify(eventData, null, 2));
-    console.log('Event Details:', {
-      title: eventData.title,
-      date: eventData.date,
-      time: eventData.time,
-      duration: eventData.duration,
-      location: eventData.location,
-      notes: eventData.notes,
-      sourceEmail: eventData.sourceEmail
-    });
-    setSelectedEmailForEvent(null);
+  const handleEventSubmit = async (eventData) => {
+    if (!onSendMessage) {
+      console.log('📅 Create Event (no API):', eventData);
+      setSelectedEmailForEvent(null);
+      return;
+    }
+
+    setIsCreatingEvent(true);
+    
+    const message = `Create an event in my calendar using the following information: Event Title = ${eventData.title} Time = ${eventData.time} date = ${eventData.date} duration = ${eventData.duration} attendees ${eventData.attendees || 'none'} location = ${eventData.location || 'not specified'} notes = ${eventData.notes || 'none'} if there is a conflict for another event already there then dont create the event and let me know that there is a time conflict`;
+    
+    try {
+      await onSendMessage(message);
+      setSelectedEmailForEvent(null);
+    } catch (error) {
+      console.error('Failed to create event:', error);
+    } finally {
+      setIsCreatingEvent(false);
+    }
+  };
+
+  const handleReplySubmit = async (e) => {
+    e.preventDefault();
+    if (!onSendMessage || !replyContent.trim()) return;
+
+    setIsReplying(true);
+    const message = `Reply to the email from ${replyEmail.from?.email || replyEmail.from} with subject "${replyEmail.subject}" with the following message: ${replyContent}`;
+    
+    try {
+      await onSendMessage(message);
+      setReplyEmail(null);
+      setReplyContent('');
+    } catch (error) {
+      console.error('Failed to send reply:', error);
+    } finally {
+      setIsReplying(false);
+    }
+  };
+
+  const handleForwardSubmit = async (e) => {
+    e.preventDefault();
+    if (!onSendMessage || !forwardTo.trim()) return;
+
+    setIsForwarding(true);
+    const message = `Forward the email with subject "${forwardEmail.subject}" from ${forwardEmail.from?.email || forwardEmail.from} to ${forwardTo}${forwardContent ? ` with the following note: ${forwardContent}` : ''}`;
+    
+    try {
+      await onSendMessage(message);
+      setForwardEmail(null);
+      setForwardTo('');
+      setForwardContent('');
+    } catch (error) {
+      console.error('Failed to forward email:', error);
+    } finally {
+      setIsForwarding(false);
+    }
   };
 
   const handleCreateEventFromPanel = (email) => {
@@ -261,7 +314,142 @@ function ChatMessage({ type, content, relevantEmails }) {
           isOpen={!!selectedEmailForEvent}
           onClose={handleCloseModal}
           onSubmit={handleEventSubmit}
+          isLoading={isCreatingEvent}
         />
+
+        {/* Reply Modal */}
+        {replyEmail && (
+          <div className={styles.modalOverlay} onClick={() => setReplyEmail(null)}>
+            <div className={styles.modal} onClick={(e) => e.stopPropagation()}>
+              <div className={styles.modalHeader}>
+                <h3 className={styles.modalTitle}>Reply to Email</h3>
+                <button className={styles.modalClose} onClick={() => setReplyEmail(null)}>
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                  </svg>
+                </button>
+              </div>
+              <form onSubmit={handleReplySubmit} className={styles.modalBody}>
+                <div className={styles.emailContext}>
+                  <div className={styles.contextLabel}>To:</div>
+                  <div className={styles.contextValue}>{replyEmail.from?.email || replyEmail.from}</div>
+                </div>
+                <div className={styles.emailContext}>
+                  <div className={styles.contextLabel}>Subject:</div>
+                  <div className={styles.contextValue}>Re: {replyEmail.subject}</div>
+                </div>
+                <div className={styles.formGroup}>
+                  <label className={styles.formLabel}>Your Reply</label>
+                  <textarea
+                    className={styles.formTextarea}
+                    value={replyContent}
+                    onChange={(e) => setReplyContent(e.target.value)}
+                    placeholder="Write your reply..."
+                    rows={6}
+                    required
+                  />
+                </div>
+                <div className={styles.modalActions}>
+                  <button type="button" className={styles.cancelBtn} onClick={() => setReplyEmail(null)} disabled={isReplying}>
+                    Cancel
+                  </button>
+                  <button type="submit" className={styles.submitBtn} disabled={isReplying || !replyContent.trim()}>
+                    {isReplying ? (
+                      <>
+                        <svg className={styles.spinner} width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                          <circle cx="12" cy="12" r="10" strokeOpacity="0.25"></circle>
+                          <path d="M12 2a10 10 0 0 1 10 10" strokeLinecap="round"></path>
+                        </svg>
+                        Sending...
+                      </>
+                    ) : (
+                      <>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                          <polyline points="9 17 4 12 9 7"></polyline>
+                          <path d="M20 18v-2a4 4 0 0 0-4-4H4"></path>
+                        </svg>
+                        Send Reply
+                      </>
+                    )}
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        )}
+
+        {/* Forward Modal */}
+        {forwardEmail && (
+          <div className={styles.modalOverlay} onClick={() => setForwardEmail(null)}>
+            <div className={styles.modal} onClick={(e) => e.stopPropagation()}>
+              <div className={styles.modalHeader}>
+                <h3 className={styles.modalTitle}>Forward Email</h3>
+                <button className={styles.modalClose} onClick={() => setForwardEmail(null)}>
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                  </svg>
+                </button>
+              </div>
+              <form onSubmit={handleForwardSubmit} className={styles.modalBody}>
+                <div className={styles.emailContext}>
+                  <div className={styles.contextLabel}>Original from:</div>
+                  <div className={styles.contextValue}>{forwardEmail.from?.email || forwardEmail.from}</div>
+                </div>
+                <div className={styles.emailContext}>
+                  <div className={styles.contextLabel}>Subject:</div>
+                  <div className={styles.contextValue}>Fwd: {forwardEmail.subject}</div>
+                </div>
+                <div className={styles.formGroup}>
+                  <label className={styles.formLabel}>Forward to</label>
+                  <input
+                    type="email"
+                    className={styles.formInput}
+                    value={forwardTo}
+                    onChange={(e) => setForwardTo(e.target.value)}
+                    placeholder="Enter recipient email address"
+                    required
+                  />
+                </div>
+                <div className={styles.formGroup}>
+                  <label className={styles.formLabel}>Add a note (optional)</label>
+                  <textarea
+                    className={styles.formTextarea}
+                    value={forwardContent}
+                    onChange={(e) => setForwardContent(e.target.value)}
+                    placeholder="Add a message to include with the forwarded email..."
+                    rows={4}
+                  />
+                </div>
+                <div className={styles.modalActions}>
+                  <button type="button" className={styles.cancelBtn} onClick={() => setForwardEmail(null)} disabled={isForwarding}>
+                    Cancel
+                  </button>
+                  <button type="submit" className={styles.submitBtn} disabled={isForwarding || !forwardTo.trim()}>
+                    {isForwarding ? (
+                      <>
+                        <svg className={styles.spinner} width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                          <circle cx="12" cy="12" r="10" strokeOpacity="0.25"></circle>
+                          <path d="M12 2a10 10 0 0 1 10 10" strokeLinecap="round"></path>
+                        </svg>
+                        Forwarding...
+                      </>
+                    ) : (
+                      <>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                          <polyline points="15 17 20 12 15 7"></polyline>
+                          <path d="M4 18v-2a4 4 0 0 1 4-4h12"></path>
+                        </svg>
+                        Forward Email
+                      </>
+                    )}
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        )}
       </>
     );
   }

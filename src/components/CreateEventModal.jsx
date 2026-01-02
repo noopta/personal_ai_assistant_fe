@@ -2,12 +2,13 @@ import { useState, useEffect } from 'react';
 import styles from './CreateEventModal.module.css';
 import { getMeetingTypeLabel, formatLocalTime } from '../utils/meetingParser';
 
-function CreateEventModal({ email, isOpen, onClose, onSubmit }) {
+function CreateEventModal({ email, isOpen, onClose, onSubmit, isLoading }) {
   const [title, setTitle] = useState('');
   const [date, setDate] = useState('');
   const [time, setTime] = useState('');
   const [duration, setDuration] = useState('30');
   const [location, setLocation] = useState('');
+  const [attendees, setAttendees] = useState('');
   const [notes, setNotes] = useState('');
 
   useEffect(() => {
@@ -23,6 +24,9 @@ function CreateEventModal({ email, isOpen, onClose, onSubmit }) {
       
       // Set location/platform
       setLocation(meeting.location || meeting.platform || '');
+      
+      // Set attendee from email sender
+      setAttendees(email.from?.email || '');
       
       // Set date and time from first proposed slot
       if (meeting.proposedSlots?.length > 0) {
@@ -52,6 +56,7 @@ function CreateEventModal({ email, isOpen, onClose, onSubmit }) {
       time,
       duration: parseInt(duration),
       location,
+      attendees,
       notes,
       sourceEmail: {
         id: email.id,
@@ -62,6 +67,7 @@ function CreateEventModal({ email, isOpen, onClose, onSubmit }) {
     };
     
     onSubmit(eventData);
+    // Don't close modal here - let parent handle it after API response
   };
 
   if (!isOpen) return null;
@@ -200,6 +206,18 @@ function CreateEventModal({ email, isOpen, onClose, onSubmit }) {
             />
           </div>
 
+          {/* Attendees */}
+          <div className={styles.formGroup}>
+            <label className={styles.label}>Attendees</label>
+            <input
+              type="text"
+              className={styles.input}
+              value={attendees}
+              onChange={(e) => setAttendees(e.target.value)}
+              placeholder="Enter email addresses (comma separated)"
+            />
+          </div>
+
           {/* Notes */}
           <div className={styles.formGroup}>
             <label className={styles.label}>Notes</label>
@@ -214,19 +232,31 @@ function CreateEventModal({ email, isOpen, onClose, onSubmit }) {
 
           {/* Actions */}
           <div className={styles.modalActions}>
-            <button type="button" className={styles.cancelBtn} onClick={onClose}>
+            <button type="button" className={styles.cancelBtn} onClick={onClose} disabled={isLoading}>
               Cancel
             </button>
-            <button type="submit" className={styles.submitBtn}>
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
-                <line x1="16" y1="2" x2="16" y2="6"></line>
-                <line x1="8" y1="2" x2="8" y2="6"></line>
-                <line x1="3" y1="10" x2="21" y2="10"></line>
-                <line x1="12" y1="14" x2="12" y2="18"></line>
-                <line x1="10" y1="16" x2="14" y2="16"></line>
-              </svg>
-              Create Event
+            <button type="submit" className={styles.submitBtn} disabled={isLoading}>
+              {isLoading ? (
+                <>
+                  <svg className={styles.spinner} width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <circle cx="12" cy="12" r="10" strokeOpacity="0.25"></circle>
+                    <path d="M12 2a10 10 0 0 1 10 10" strokeLinecap="round"></path>
+                  </svg>
+                  Creating...
+                </>
+              ) : (
+                <>
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                    <line x1="16" y1="2" x2="16" y2="6"></line>
+                    <line x1="8" y1="2" x2="8" y2="6"></line>
+                    <line x1="3" y1="10" x2="21" y2="10"></line>
+                    <line x1="12" y1="14" x2="12" y2="18"></line>
+                    <line x1="10" y1="16" x2="14" y2="16"></line>
+                  </svg>
+                  Create Event
+                </>
+              )}
             </button>
           </div>
         </form>
