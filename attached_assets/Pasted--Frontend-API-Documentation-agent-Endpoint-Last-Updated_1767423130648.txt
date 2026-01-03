@@ -1,0 +1,658 @@
+# Frontend API Documentation - `/agent` Endpoint
+
+**Last Updated:** January 3, 2026
+
+---
+
+## Overview
+
+The `/agent` endpoint processes natural language queries through the MCP agent with automatic enhancement features including Meeting Detection and RAG Semantic Search.
+
+---
+
+## Endpoint
+
+**POST** `https://api.airthreads.ai:5001/agent`
+
+---
+
+## Request Format
+
+### Headers
+```json
+{
+  "Content-Type": "application/json"
+}
+```
+
+### Cookies (Required for Authentication)
+- `userIDHash` - User session identifier
+- `gmailHashID` - Gmail authentication token
+
+### Request Body
+```json
+{
+  "query": "what meeting emails did I get recently?"
+}
+```
+
+### Parameters
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `query` | string | ✅ Yes | Natural language query from the user |
+
+---
+
+## Response Format
+
+The response structure varies based on:
+1. Whether meeting detection was triggered
+2. Whether RAG semantic search was triggered
+3. The type of query
+
+### Response Type 1: Simple Text Response (No Enhancements)
+
+**When:** Query doesn't trigger meeting detection or RAG
+
+```json
+{
+  "result": "Here's the information you requested..."
+}
+```
+
+### Response Type 2: With Meeting Detection
+
+**When:** Query contains meeting-related keywords AND email keywords
+
+```json
+{
+  "result": "Here's your meeting information...",
+  "relevantEmails": [
+    {
+      "id": "abc123def456",
+      "subject": "Coffee chat next week?",
+      "from": "john@example.com",
+      "date": "2026-01-01T10:00:00Z",
+      "snippet": "Hey! Want to grab coffee and discuss the project?",
+      "labels": ["INBOX", "IMPORTANT"],
+      "detectedMeeting": {
+        "type": "coffee_chat",
+        "confidence": 0.95,
+        "participants": ["john@example.com"],
+        "proposedTimeSlots": ["next week"],
+        "location": null,
+        "isVirtual": false
+      },
+      "eventRelated": true
+    },
+    {
+      "id": "xyz789ghi012",
+      "subject": "Team sync - Q1 planning",
+      "from": "manager@company.com",
+      "date": "2026-01-02T14:00:00Z",
+      "snippet": "Let's sync up on Q1 goals. Meeting invite to follow.",
+      "labels": ["INBOX"],
+      "detectedMeeting": {
+        "type": "team_meeting",
+        "confidence": 0.88,
+        "participants": ["manager@company.com", "team@company.com"],
+        "proposedTimeSlots": [],
+        "location": null,
+        "isVirtual": true
+      },
+      "eventRelated": true
+    }
+  ]
+}
+```
+
+### Response Type 3: With RAG Semantic Search
+
+**When:** Query contains meeting + email keywords AND RAG is enabled
+
+```json
+{
+  "text": "Here's your meeting information...\n\n🚀 Fast Search Results (found in 856ms):\n- Coffee chat next week? (from: john@example.com, relevance: 95%)\n- Team sync - Q1 planning (from: manager@company.com, relevance: 87%)",
+  "ragResults": [
+    {
+      "id": "abc123def456",
+      "subject": "Coffee chat next week?",
+      "from": "john@example.com",
+      "date": "2026-01-01T10:00:00Z",
+      "snippet": "Hey! Want to grab coffee and discuss the project?",
+      "similarity": 0.95,
+      "detectedMeeting": {
+        "type": "coffee_chat",
+        "confidence": 0.95,
+        "participants": ["john@example.com"],
+        "proposedTimeSlots": ["next week"]
+      },
+      "eventRelated": true
+    }
+  ],
+  "ragQueryTime": 856
+}
+```
+
+### Response Type 4: RAG Indexing (First Time)
+
+**When:** First query triggers RAG indexing
+
+```json
+{
+  "text": "Here's your meeting information...\n\n💡 **Note:** Your emails are being indexed for faster future searches. This will take 1-2 minutes."
+}
+```
+
+---
+
+## Response Keys Documentation
+
+### Core Response Keys
+
+| Key | Type | Always Present | Description |
+|-----|------|----------------|-------------|
+| `result` | string | ✅ Yes (if no RAG) | Agent's text response to the query |
+| `text` | string | ⚠️ Only with RAG | Agent's text response (when RAG wraps response) |
+
+### Meeting Detection Keys
+
+| Key | Type | Present When | Description |
+|-----|------|--------------|-------------|
+| `relevantEmails` | array | Meeting query detected | Array of meeting-related emails with detection metadata |
+
+### RAG (Semantic Search) Keys
+
+| Key | Type | Present When | Description |
+|-----|------|--------------|-------------|
+| `ragResults` | array | RAG triggered + indexed | Array of semantically relevant emails |
+| `ragQueryTime` | number | RAG triggered + indexed | Query execution time in milliseconds |
+
+---
+
+## Email Object Structure
+
+### Standard Email Fields (from Gmail MCP)
+
+```typescript
+{
+  id: string;              // Gmail message ID
+  subject: string;         // Email subject line
+  from: string;            // Sender email address
+  date: string;            // ISO 8601 timestamp
+  snippet: string;         // Email preview text (160 chars)
+  labels: string[];        // Gmail labels (e.g., ["INBOX", "IMPORTANT"])
+}
+```
+
+### Meeting Detection Fields (added when detected)
+
+```typescript
+{
+  detectedMeeting: {
+    type: string;          // Meeting type: "coffee_chat" | "team_meeting" |
+                          //   "interview" | "call" | "lunch" | "dinner" |
+                          //   "conference" | "workshop" | "webinar" | "other"
+
+    confidence: number;    // 0.0-1.0, threshold is 0.75 (only >= 0.75 returned)
+
+    participants: string[]; // List of participant email addresses
+
+    proposedTimeSlots: string[]; // Natural language time references
+                                // e.g., ["next Tuesday at 2pm", "this Friday afternoon"]
+
+    location?: string;     // Meeting location (if mentioned)
+
+    isVirtual?: boolean;   // true if Zoom/Teams/Meet link detected
+  },
+
+  eventRelated: boolean;   // true = meeting email, false = not a meeting
+}
+```
+
+### RAG-Specific Fields (added in RAG results)
+
+```typescript
+{
+  similarity: number;      // 0.0-1.0, cosine similarity score
+                          // Minimum threshold is 0.65 for meeting emails
+}
+```
+
+---
+
+## Response Scenarios
+
+### Scenario 1: Calendar Query (No Emails)
+
+**Query:** "What's on my calendar today?"
+
+**Response:**
+```json
+{
+  "result": "Here are your events for today:\n- 10am: Team standup\n- 2pm: Client call..."
+}
+```
+
+### Scenario 2: Meeting Email Query (First Time - RAG Indexing)
+
+**Query:** "what meeting emails did I get?"
+
+**Response:**
+```json
+{
+  "text": "I found several meeting-related emails...\n\n💡 **Note:** Your emails are being indexed for faster future searches. This will take 1-2 minutes.",
+  "relevantEmails": [...]
+}
+```
+
+### Scenario 3: Meeting Email Query (RAG Ready)
+
+**Query:** "what meeting emails did I get?"
+
+**Response:**
+```json
+{
+  "text": "I found several meeting-related emails...\n\n🚀 Fast Search Results (found in 856ms):\n- Coffee chat next week? (from: john@example.com, relevance: 95%)\n- Team sync - Q1 planning (from: manager@company.com, relevance: 87%)",
+  "ragResults": [...],
+  "ragQueryTime": 856,
+  "relevantEmails": [...]
+}
+```
+
+### Scenario 4: Non-Meeting Email Query
+
+**Query:** "summarize my newsletters"
+
+**Response:**
+```json
+{
+  "result": "Here's a summary of your recent newsletters..."
+}
+```
+
+---
+
+## Feature Detection Logic
+
+### Meeting Detection Triggers
+
+Meeting detection runs when query contains:
+
+**Meeting Keywords:**
+- meeting, coffee, lunch, dinner, sync, call
+- interview, chat, event, calendar, 1:1, one-on-one
+
+**AND Email Keywords:**
+- email, message, inbox
+
+**Example Queries:**
+- ✅ "what meeting emails did I get"
+- ✅ "show me coffee chat emails"
+- ✅ "any lunch meeting messages"
+- ❌ "what's on my calendar" (no email keyword)
+- ❌ "read my emails" (no meeting keyword)
+
+### RAG Semantic Search Triggers
+
+RAG enhancement runs when:
+1. `RAG_ENABLED=true` in server config
+2. Query matches meeting + email keywords (same as above)
+3. User has been indexed (or triggers indexing)
+
+---
+
+## Error Responses
+
+### 400 Bad Request
+```json
+{
+  "error": "Missing query parameter"
+}
+```
+
+### 401 Unauthorized
+```json
+{
+  "error": "Authentication required - userIDHash missing"
+}
+```
+
+OR
+
+```json
+{
+  "error": "Gmail authentication required"
+}
+```
+
+### 408 Request Timeout
+```json
+{
+  "error": "Request timed out after 5.5 minutes"
+}
+```
+
+### 500 Internal Server Error
+```json
+{
+  "error": "Error message describing what went wrong"
+}
+```
+
+---
+
+## Frontend Implementation Guide
+
+### TypeScript Types
+
+```typescript
+// Base response type
+interface AgentResponse {
+  result?: string;        // Simple text response
+  text?: string;          // RAG-wrapped text response
+  relevantEmails?: Email[]; // Meeting detection results
+  ragResults?: Email[];   // RAG semantic search results
+  ragQueryTime?: number;  // RAG query time in ms
+  error?: string;         // Error message if present
+}
+
+// Email with all possible fields
+interface Email {
+  // Core fields (always present)
+  id: string;
+  subject: string;
+  from: string;
+  date: string;
+  snippet: string;
+  labels: string[];
+
+  // Meeting detection fields (when detected)
+  detectedMeeting?: {
+    type: MeetingType;
+    confidence: number;
+    participants: string[];
+    proposedTimeSlots: string[];
+    location?: string;
+    isVirtual?: boolean;
+  };
+  eventRelated?: boolean;
+
+  // RAG fields (in RAG results only)
+  similarity?: number;
+}
+
+type MeetingType =
+  | "coffee_chat"
+  | "team_meeting"
+  | "interview"
+  | "call"
+  | "lunch"
+  | "dinner"
+  | "conference"
+  | "workshop"
+  | "webinar"
+  | "other";
+```
+
+### Axios Example
+
+```typescript
+import axios from 'axios';
+
+interface AgentQueryParams {
+  query: string;
+}
+
+async function queryAgent(query: string): Promise<AgentResponse> {
+  try {
+    const response = await axios.post<AgentResponse>(
+      'https://api.airthreads.ai:5001/agent',
+      { query },
+      {
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        withCredentials: true, // Important: includes cookies
+        timeout: 120000 // 2 minute timeout
+      }
+    );
+
+    return response.data;
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      if (error.response?.status === 401) {
+        // Handle authentication error - redirect to login
+        throw new Error('Authentication required');
+      }
+      throw new Error(error.response?.data?.error || 'Request failed');
+    }
+    throw error;
+  }
+}
+
+// Usage
+const result = await queryAgent("what meeting emails did I get?");
+
+// Handle different response types
+if (result.error) {
+  console.error('Error:', result.error);
+} else if (result.ragResults) {
+  // RAG results present
+  console.log('RAG results:', result.ragResults);
+  console.log('Query time:', result.ragQueryTime, 'ms');
+  console.log('Text:', result.text);
+} else if (result.relevantEmails) {
+  // Meeting detection results
+  console.log('Meeting emails:', result.relevantEmails);
+  console.log('Result:', result.result);
+} else {
+  // Simple text response
+  console.log('Result:', result.result);
+}
+```
+
+### React Example
+
+```tsx
+import { useState } from 'react';
+import axios from 'axios';
+
+function AgentChat() {
+  const [query, setQuery] = useState('');
+  const [response, setResponse] = useState<AgentResponse | null>(null);
+  const [loading, setLoading] = useState(false);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
+
+    try {
+      const result = await axios.post(
+        'https://api.airthreads.ai:5001/agent',
+        { query },
+        { withCredentials: true }
+      );
+
+      setResponse(result.data);
+    } catch (error) {
+      console.error('Query failed:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <div>
+      <form onSubmit={handleSubmit}>
+        <input
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
+          placeholder="Ask anything..."
+        />
+        <button type="submit" disabled={loading}>
+          {loading ? 'Processing...' : 'Send'}
+        </button>
+      </form>
+
+      {response && (
+        <div>
+          {/* Display main text */}
+          <p>{response.text || response.result}</p>
+
+          {/* Display RAG results if present */}
+          {response.ragResults && (
+            <div className="rag-results">
+              <h3>Fast Search Results ({response.ragQueryTime}ms)</h3>
+              {response.ragResults.map((email) => (
+                <div key={email.id} className="email-card">
+                  <h4>{email.subject}</h4>
+                  <p>From: {email.from}</p>
+                  <p>Relevance: {(email.similarity! * 100).toFixed(0)}%</p>
+                  {email.detectedMeeting && (
+                    <span className="badge">
+                      {email.detectedMeeting.type}
+                    </span>
+                  )}
+                </div>
+              ))}
+            </div>
+          )}
+
+          {/* Display meeting emails if present */}
+          {response.relevantEmails && (
+            <div className="meeting-emails">
+              <h3>Meeting Emails</h3>
+              {response.relevantEmails.map((email) => (
+                <div key={email.id} className="email-card">
+                  <h4>{email.subject}</h4>
+                  <p>From: {email.from}</p>
+                  {email.detectedMeeting && (
+                    <div className="meeting-info">
+                      <span>Type: {email.detectedMeeting.type}</span>
+                      <span>Confidence: {(email.detectedMeeting.confidence * 100).toFixed(0)}%</span>
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+      )}
+    </div>
+  );
+}
+```
+
+---
+
+## UI/UX Recommendations
+
+### Display Priority
+
+1. **Main Text Response** - Always show `result` or `text`
+2. **RAG Fast Results** - Highlight these as "instant results" if present
+3. **Meeting Emails** - Show in expandable section if present
+
+### Performance Indicators
+
+- Show RAG query time: "Found in 856ms" ✨
+- Show indexing status: "Indexing your emails (1-2 min)..." ⏳
+- Show meeting confidence: Display only if >= 75%
+
+### Email Card Design
+
+```
+┌─────────────────────────────────────────┐
+│ ☕ Coffee Chat                          │
+│ Coffee chat next week?                  │
+│ From: john@example.com                  │
+│ Jan 1, 2026 • Relevance: 95%           │
+│ ────────────────────────────────────   │
+│ "Hey! Want to grab coffee and..."     │
+└─────────────────────────────────────────┘
+```
+
+### Empty States
+
+- **No RAG results:** Show normal meeting detection results
+- **Indexing:** Show spinner + "Indexing... try again in 2 minutes"
+- **No meetings:** Show "No meeting emails found"
+
+---
+
+## Performance Metrics
+
+| Metric | Without RAG | With RAG (First) | With RAG (Indexed) |
+|--------|-------------|------------------|---------------------|
+| Query Time | 11-77s | 120s (indexing) | 2-3s ⚡ |
+| Meeting Detection | Yes | Yes | Yes |
+| Semantic Search | No | No | Yes ✨ |
+| Results Quality | Good | Good | Excellent |
+
+---
+
+## Testing Checklist
+
+### Test Queries
+
+- [ ] "what meeting emails did I get?" - Should trigger RAG + meeting detection
+- [ ] "show me coffee chat emails" - Should trigger RAG + meeting detection
+- [ ] "what's on my calendar today?" - Should NOT trigger RAG (no email keyword)
+- [ ] "read my emails" - Should NOT trigger RAG (no meeting keyword)
+- [ ] "summarize my newsletters" - Should NOT trigger meeting detection or RAG
+
+### Test Scenarios
+
+- [ ] First-time user (RAG indexing)
+- [ ] Indexed user (RAG fast results)
+- [ ] Query with 0 results
+- [ ] Query with 10+ results
+- [ ] Timeout handling
+- [ ] Authentication error handling
+
+---
+
+## Additional Endpoints
+
+### Check User Session
+
+**GET** `https://api.airthreads.ai:5001/user/session`
+
+**Response:**
+```json
+{
+  "authenticated": true,
+  "userIDHash": "abc123...",
+  "gmailHashID": "xyz789...",
+  "timestamp": 1704278400.123
+}
+```
+
+### Logout
+
+**POST** `https://api.airthreads.ai:5001/logout`
+
+**Response:**
+```json
+{
+  "success": true,
+  "message": "Logged out successfully"
+}
+```
+
+---
+
+## Support & Documentation
+
+- **API Status:** Check `/health` endpoint
+- **Server Logs:** `sudo journalctl -u python-mcp -f`
+- **RAG Status:** Look for `🚀 Initializing RAG system` in logs
+- **Meeting Detection:** Confidence threshold is 0.75 (75%)
+- **RAG Similarity:** Minimum threshold is 0.65 (65%)
+
+---
+
+**Last Updated:** January 3, 2026
+**Documentation Location:** `/home/ubuntu/mcp/FRONTEND_API_DOCUMENTATION.md`

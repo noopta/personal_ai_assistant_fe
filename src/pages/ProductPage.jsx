@@ -692,9 +692,13 @@ function ProductPage() {
         throw new Error(data.error);
       }
 
-      // Extract the text directly from results field
-      const aiMessage = data.result || 'No response received';
-      const relevantEmails = data.relevantEmails || null;
+      // Extract the text from either 'result' (simple) or 'text' (RAG-wrapped)
+      const aiMessage = data.text || data.result || 'No response received';
+      
+      // Get emails from relevantEmails (meeting detection) or ragResults (semantic search)
+      // Prefer ragResults if available as they include similarity scores
+      const relevantEmails = data.ragResults || data.relevantEmails || null;
+      const ragQueryTime = data.ragQueryTime || null;
       
       // Debug: Log email structure to verify meeting detection data
       if (relevantEmails?.length > 0) {
@@ -702,13 +706,17 @@ function ProductPage() {
         console.log('📧 Total emails:', relevantEmails.length);
         console.log('📅 Emails with eventRelated:', relevantEmails.filter(e => e.eventRelated).length);
         console.log('📅 Emails with detectedMeeting:', relevantEmails.filter(e => e.detectedMeeting).length);
+        if (ragQueryTime) {
+          console.log('⚡ RAG query time:', ragQueryTime, 'ms');
+        }
       }
 
       // Add AI response with optional email data
       setMessages(prev => [...prev, {
         type: 'assistant',
         content: aiMessage,
-        relevantEmails: relevantEmails
+        relevantEmails: relevantEmails,
+        ragQueryTime: ragQueryTime
       }]);
 
     } catch (error) {
