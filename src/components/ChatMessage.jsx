@@ -196,7 +196,7 @@ function ChatMessage({ type, content, relevantEmails, onSendMessage }) {
           </div>
           <div className={styles.content}>
             <Typewriter 
-              markdownText={content}
+              markdownText={content || ''}
               components={components}
               speed={15}
             />

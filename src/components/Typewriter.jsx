@@ -7,21 +7,30 @@ const Typewriter = ({ markdownText, speed = 15, components, ...markdownProps }) 
   const [done, setDone] = useState(false);
   const intervalRef = useRef();
   const { isDark } = useTheme();
+  
+  // Ensure markdownText is a valid string
+  const text = markdownText || '';
 
   useEffect(() => {
+    if (!text) {
+      setDisplayed('');
+      setDone(true);
+      return;
+    }
+    
     setDisplayed('');
     setDone(false);
     let i = 0;
     intervalRef.current = setInterval(() => {
-      setDisplayed(markdownText.slice(0, i + 1));
+      setDisplayed(text.slice(0, i + 1));
       i++;
-      if (i === markdownText.length) {
+      if (i === text.length) {
         clearInterval(intervalRef.current);
         setDone(true);
       }
     }, speed);
     return () => clearInterval(intervalRef.current);
-  }, [markdownText, speed]);
+  }, [text, speed]);
 
   const cursorColor = isDark ? 'var(--accent-secondary)' : 'var(--accent-primary)';
 

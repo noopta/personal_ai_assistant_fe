@@ -687,13 +687,17 @@ function ProductPage() {
 
       const data = await response.json();
       secureLog('Response data received');
+      
+      // Debug: Log full response structure
+      console.log('🔍 Full agent response:', JSON.stringify(data, null, 2));
 
       if (data.error) {
         throw new Error(data.error);
       }
 
-      // Extract the text from either 'result' (simple) or 'text' (RAG-wrapped)
+      // Extract the text from either 'text' (RAG-wrapped) or 'result' (simple)
       const aiMessage = data.text || data.result || 'No response received';
+      console.log('📝 Extracted AI message:', aiMessage);
       
       // Get emails from relevantEmails (meeting detection) or ragResults (semantic search)
       // Prefer ragResults if available as they include similarity scores

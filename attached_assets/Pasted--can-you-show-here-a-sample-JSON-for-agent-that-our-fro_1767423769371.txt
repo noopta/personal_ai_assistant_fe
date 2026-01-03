@@ -1,0 +1,179 @@
+> can you show here a sample JSON for /agent that our front end would need to parse dont make documents just show here 
+
+● Sure! Here are the actual JSON response samples your frontend needs to handle:
+
+  Sample 1: Simple Query (No Enhancements)
+
+  Query: "What's on my calendar today?"
+  {
+    "result": "Here are your events for today:\n- 10am: Team standup\n- 2pm: Client call with Acme Corp\n- 4pm: 1:1 with manager"
+  }
+
+  Sample 2: Meeting Detection Only (No RAG)
+
+  Query: "what meeting emails did I get?"
+  {
+    "result": "I found 3 meeting-related emails in your inbox from the past week.",
+    "relevantEmails": [
+      {
+        "id": "18d4f2a3b5c6d7e8",
+        "subject": "Coffee chat next week?",
+        "from": "john@example.com",
+        "date": "2026-01-01T10:00:00Z",
+        "snippet": "Hey! Want to grab coffee and discuss the project?",
+        "labels": ["INBOX", "IMPORTANT"],
+        "detectedMeeting": {
+          "type": "coffee_chat",
+          "confidence": 0.95,
+          "participants": ["john@example.com"],
+          "proposedTimeSlots": ["next week"],
+          "location": null,
+          "isVirtual": false
+        },
+        "eventRelated": true
+      },
+      {
+        "id": "29e5g3b4c6d8e9f0",
+        "subject": "Team sync - Q1 planning",
+        "from": "manager@company.com",
+        "date": "2026-01-02T14:00:00Z",
+        "snippet": "Let's sync up on Q1 goals. Meeting invite to follow.",
+        "labels": ["INBOX"],
+        "detectedMeeting": {
+          "type": "team_meeting",
+          "confidence": 0.88,
+          "participants": ["manager@company.com", "team@company.com"],
+          "proposedTimeSlots": [],
+          "location": null,
+          "isVirtual": true
+        },
+        "eventRelated": true
+      }
+    ]
+  }
+
+  Sample 3: RAG Indexing (First Time)
+
+  Query: "what meeting emails did I get?"
+  {
+    "text": "I found several meeting-related emails in your inbox.\n\n💡 **Note:** Your emails are being indexed for faster future searches. This will take 1-2 minutes."
+  }
+
+  Sample 4: RAG Results (After Indexing)
+
+  Query: "what meeting emails did I get?"
+  {
+    "text": "I found 5 meeting-related emails.\n\n🚀 **Fast Search Results** (found in 856ms):\n- Coffee chat next week? (from: john@example.com, relevance: 95%)\n- Team sync - Q1 planning (from: manager@company.com, relevance: 
+  87%)\n- Interview: Senior Engineer role (from: hr@techcorp.com, relevance: 82%)\n- Lunch meeting request (from: client@acme.com, relevance: 78%)\n- Weekly standup update (from: pm@company.com, relevance: 72%)",
+    "ragResults": [
+      {
+        "id": "18d4f2a3b5c6d7e8",
+        "subject": "Coffee chat next week?",
+        "from": "john@example.com",
+        "date": "2026-01-01T10:00:00Z",
+        "snippet": "Hey! Want to grab coffee and discuss the project?",
+        "labels": ["INBOX", "IMPORTANT"],
+        "similarity": 0.95,
+        "detectedMeeting": {
+          "type": "coffee_chat",
+          "confidence": 0.95,
+          "participants": ["john@example.com"],
+          "proposedTimeSlots": ["next week"]
+        },
+        "eventRelated": true
+      },
+      {
+        "id": "29e5g3b4c6d8e9f0",
+        "subject": "Team sync - Q1 planning",
+        "from": "manager@company.com",
+        "date": "2026-01-02T14:00:00Z",
+        "snippet": "Let's sync up on Q1 goals. Meeting invite to follow.",
+        "labels": ["INBOX"],
+        "similarity": 0.87,
+        "detectedMeeting": {
+          "type": "team_meeting",
+          "confidence": 0.88,
+          "participants": ["manager@company.com"]
+        },
+        "eventRelated": true
+      }
+    ],
+    "ragQueryTime": 856
+  }
+
+  Sample 5: RAG + Meeting Detection (Both)
+
+  Query: "show me coffee chat emails"
+  {
+    "text": "Here are your coffee chat emails.\n\n🚀 **Fast Search Results** (found in 742ms):\n- Coffee chat next week? (from: john@example.com, relevance: 95%)",
+    "ragResults": [
+      {
+        "id": "18d4f2a3b5c6d7e8",
+        "subject": "Coffee chat next week?",
+        "from": "john@example.com",
+        "date": "2026-01-01T10:00:00Z",
+        "snippet": "Hey! Want to grab coffee and discuss the project?",
+        "similarity": 0.95,
+        "detectedMeeting": {
+          "type": "coffee_chat",
+          "confidence": 0.95,
+          "participants": ["john@example.com"],
+          "proposedTimeSlots": ["next week"]
+        },
+        "eventRelated": true
+      }
+    ],
+    "ragQueryTime": 742,
+    "relevantEmails": [
+      {
+        "id": "18d4f2a3b5c6d7e8",
+        "subject": "Coffee chat next week?",
+        "from": "john@example.com",
+        "date": "2026-01-01T10:00:00Z",
+        "snippet": "Hey! Want to grab coffee and discuss the project?",
+        "labels": ["INBOX", "IMPORTANT"],
+        "detectedMeeting": {
+          "type": "coffee_chat",
+          "confidence": 0.95,
+          "participants": ["john@example.com"],
+          "proposedTimeSlots": ["next week"]
+        },
+        "eventRelated": true
+      }
+    ]
+  }
+
+  Sample 6: Error Response (401)
+
+  {
+    "error": "Gmail authentication required"
+  }
+
+  Sample 7: Error Response (500)
+
+  {
+    "error": "Agent execution failed: Connection timeout"
+  }
+
+  ---
+  Frontend Parsing Logic
+
+  // Check response type
+  if (response.error) {
+    // Handle error
+    showError(response.error);
+
+  } else if (response.ragResults) {
+    // RAG results present - prioritize these
+    displayText(response.text);
+    displayRAGResults(response.ragResults, response.ragQueryTime);
+
+  } else if (response.relevantEmails) {
+    // Meeting detection only
+    displayText(response.result);
+    displayMeetingEmails(response.relevantEmails);
+
+  } else {
+    // Simple text response
+    displayText(response.result || response.text);
+  }
