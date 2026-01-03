@@ -695,14 +695,45 @@ function ProductPage() {
         throw new Error(data.error);
       }
 
-      // Extract the text from either 'text' (RAG-wrapped) or 'result' (simple)
-      const aiMessage = data.text || data.result || 'No response received';
-      console.log('📝 Extracted AI message:', aiMessage);
+      // Handle nested response structure from backend
+      // Response can be: { result: string } OR { result: { text: [{text: string}], ragResults: [], ragQueryTime: number } }
+      let aiMessage = 'No response received';
+      let relevantEmails = null;
+      let ragQueryTime = null;
+
+      if (typeof data.result === 'object' && data.result !== null) {
+        // Nested structure: result is an object with text array
+        if (Array.isArray(data.result.text) && data.result.text.length > 0) {
+          // Extract text from the array of text objects
+          aiMessage = data.result.text.map(t => t.text || t).join('\n');
+        } else if (typeof data.result.text === 'string') {
+          aiMessage = data.result.text;
+        }
+        relevantEmails = data.result.ragResults?.length > 0 ? data.result.ragResults : 
+                        (data.result.relevantEmails || null);
+        ragQueryTime = data.result.ragQueryTime || null;
+      } else if (typeof data.result === 'string') {
+        // Simple structure: result is a string
+        aiMessage = data.result;
+        relevantEmails = data.ragResults?.length > 0 ? data.ragResults : 
+                        (data.relevantEmails || null);
+        ragQueryTime = data.ragQueryTime || null;
+      } else if (data.text) {
+        // Alternative: text field at root level
+        if (Array.isArray(data.text)) {
+          aiMessage = data.text.map(t => t.text || t).join('\n');
+        } else {
+          aiMessage = data.text;
+        }
+        relevantEmails = data.ragResults?.length > 0 ? data.ragResults : 
+                        (data.relevantEmails || null);
+        ragQueryTime = data.ragQueryTime || null;
+      }
+
+      // Clean up meeting metadata from the message if present
+      aiMessage = aiMessage.replace(/\n*---MEETING_METADATA---\n*\{.*\}$/s, '').trim();
       
-      // Get emails from relevantEmails (meeting detection) or ragResults (semantic search)
-      // Prefer ragResults if available as they include similarity scores
-      const relevantEmails = data.ragResults || data.relevantEmails || null;
-      const ragQueryTime = data.ragQueryTime || null;
+      console.log('📝 Extracted AI message:', aiMessage);
       
       // Debug: Log email structure to verify meeting detection data
       if (relevantEmails?.length > 0) {
