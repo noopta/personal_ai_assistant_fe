@@ -15,7 +15,6 @@ import MockDemoFullPage from './pages/MockDemoFullPage';
 import MockDemoChatFullPage from './pages/MockDemoChatFullPage';
 import MockDemoMeetingPage from './pages/MockDemoMeetingPage';
 import MockDemoInlinePage from './pages/MockDemoInlinePage';
-import RAGDemoPage from './pages/RAGDemoPage';
 import OAuth2CallbackPage from './pages/OAuth2CallbackPage';
 import FeedbackDashboard from './pages/FeedbackDashboard';
 import { ThemeProvider } from './contexts/ThemeContext';
@@ -60,7 +59,6 @@ function App() {
                     <Route path="/mock-demo-chat-full" element={<MockDemoChatFullPage />} />
                     <Route path="/mock-demo-meeting" element={<MockDemoMeetingPage />} />
                     <Route path="/mock-demo-inline" element={<MockDemoInlinePage />} />
-                    <Route path="/rag-demo" element={<RAGDemoPage />} />
                   </Routes>
                 </main>
                 <MadeInCanada />
