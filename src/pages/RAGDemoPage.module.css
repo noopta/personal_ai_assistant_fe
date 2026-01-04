@@ -62,6 +62,8 @@
   padding: 0 1rem 1rem;
   display: flex;
   flex-direction: column;
+  height: calc(100vh - 280px);
+  min-height: 500px;
 }
 
 .messagesArea {
@@ -71,8 +73,7 @@
   box-shadow: 0 4px 20px rgba(10, 37, 64, 0.08);
   padding: 1.5rem;
   overflow-y: auto;
-  max-height: calc(100vh - 350px);
-  min-height: 400px;
+  overflow-x: hidden;
 }
 
 .dark .messagesArea {
@@ -408,16 +409,19 @@
   }
 
   .header {
-    padding: 1.5rem 1rem;
+    padding: 1rem;
   }
 
   .title {
     font-size: 1.5rem;
   }
 
+  .chatContainer {
+    height: calc(100vh - 240px);
+    min-height: 400px;
+  }
+
   .messagesArea {
-    max-height: calc(100vh - 320px);
-    min-height: 300px;
     padding: 1rem;
   }
 

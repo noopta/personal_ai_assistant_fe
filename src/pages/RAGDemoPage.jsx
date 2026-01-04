@@ -13,12 +13,19 @@ function RAGDemoPage() {
   const inputRef = useRef(null);
   const { isDark } = useTheme();
 
+  const messagesAreaRef = useRef(null);
+
   const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+    if (messagesAreaRef.current) {
+      messagesAreaRef.current.scrollTop = messagesAreaRef.current.scrollHeight;
+    }
   };
 
   useEffect(() => {
-    scrollToBottom();
+    const lastMessage = messages[messages.length - 1];
+    if (lastMessage?.role === 'user' || (lastMessage?.role === 'assistant' && !lastMessage?.isStreaming)) {
+      scrollToBottom();
+    }
   }, [messages]);
 
   const sendMessage = async () => {
@@ -148,7 +155,7 @@ function RAGDemoPage() {
       </div>
 
       <div className={styles.chatContainer}>
-        <div className={styles.messagesArea}>
+        <div className={styles.messagesArea} ref={messagesAreaRef}>
           {messages.length === 0 && (
             <div className={styles.emptyState}>
               <div className={styles.emptyIcon}>
