@@ -15,6 +15,9 @@ function DemosPage() {
   const [notification, setNotification] = useState(null);
   const [replyContent, setReplyContent] = useState({ to: '', subject: '', message: '' });
   const [eventContent, setEventContent] = useState({ title: '', attendees: '', date: '', time: '10:00', duration: '30', notes: '' });
+  const [emailDisplayMode, setEmailDisplayMode] = useState('inline'); // 'inline' or 'sidepanel'
+  const [expandedMessageIdx, setExpandedMessageIdx] = useState(null);
+  const [sidePanelEmails, setSidePanelEmails] = useState(null);
 
   const getEmailId = (email, index) => email.id || email.messageId || `email-${index}`;
   const messagesEndRef = useRef(null);
@@ -225,6 +228,25 @@ function DemosPage() {
     setSelectedEmailId(selectedEmailId === emailId ? null : emailId);
   };
 
+  const handleExpandEmails = (idx, emails) => {
+    if (emailDisplayMode === 'inline') {
+      setExpandedMessageIdx(expandedMessageIdx === idx ? null : idx);
+    } else {
+      if (sidePanelEmails && expandedMessageIdx === idx) {
+        setSidePanelEmails(null);
+        setExpandedMessageIdx(null);
+      } else {
+        setSidePanelEmails(emails);
+        setExpandedMessageIdx(idx);
+      }
+    }
+  };
+
+  const closeSidePanel = () => {
+    setSidePanelEmails(null);
+    setExpandedMessageIdx(null);
+  };
+
   const handleReply = (email) => {
     setReplyContent({
       to: email.from?.email || '',
@@ -296,6 +318,39 @@ function DemosPage() {
           <h1 className={styles.title}>Demo</h1>
           <p className={styles.subtitle}>Real-time streaming chat with semantic search</p>
         </div>
+        <div className={styles.viewModeToggle}>
+          <span className={styles.viewModeLabel}>Email View:</span>
+          <button 
+            className={`${styles.viewModeBtn} ${emailDisplayMode === 'inline' ? styles.active : ''}`}
+            onClick={() => { 
+              setEmailDisplayMode('inline'); 
+              setSidePanelEmails(null); 
+              setExpandedMessageIdx(null);
+            }}
+            title="Expand emails inline within the chat"
+          >
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <line x1="3" y1="12" x2="21" y2="12"></line>
+              <line x1="3" y1="6" x2="21" y2="6"></line>
+              <line x1="3" y1="18" x2="21" y2="18"></line>
+            </svg>
+            Inline
+          </button>
+          <button 
+            className={`${styles.viewModeBtn} ${emailDisplayMode === 'sidepanel' ? styles.active : ''}`}
+            onClick={() => { 
+              setEmailDisplayMode('sidepanel'); 
+              setExpandedMessageIdx(null);
+            }}
+            title="Open emails in a side panel"
+          >
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+              <line x1="15" y1="3" x2="15" y2="21"></line>
+            </svg>
+            Side Panel
+          </button>
+        </div>
       </div>
 
       <div className={styles.chatContainer}>
@@ -344,111 +399,139 @@ function DemosPage() {
               </div>
 
               {msg.relevantEmails && msg.relevantEmails.length > 0 && (
-                <div className={styles.emailCards}>
-                  {msg.relevantEmails.map((email, i) => {
-                    const emailId = getEmailId(email, i);
-                    const isSelected = selectedEmailId === emailId;
-                    const isMeeting = email.eventRelated === true;
-                    return (
-                      <div key={emailId} className={`${styles.emailCard} ${isSelected ? styles.emailCardSelected : ''}`}>
-                        {isMeeting && (
-                          <div className={styles.cardHeader}>
-                            <span className={styles.eventBadge}>
-                              {email.eventType?.replace(/_/g, ' ') || 'meeting'}
-                            </span>
-                            <span className={styles.confidence}>
-                              {Math.round((email.confidence || 0.8) * 100)}%
-                            </span>
-                          </div>
-                        )}
-                        <h4 className={styles.cardSubject}>{email.subject}</h4>
-                        <p className={styles.cardFrom}>
-                          From: {email.from?.name || email.from?.email || 'Unknown'}
-                        </p>
-                        <p className={styles.cardDate}>
-                          {email.date ? new Date(email.date).toLocaleDateString('en-US', {
-                            month: 'short',
-                            day: 'numeric',
-                            year: 'numeric'
-                          }) : ''}
-                        </p>
-                        {email.snippet && (
-                          <p className={styles.cardSnippet}>{email.snippet}</p>
-                        )}
-                        <div className={styles.cardActions}>
-                          <button 
-                            className={styles.cardActionBtn}
-                            onClick={() => handleViewEmail(emailId)}
-                          >
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                              <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
-                              <circle cx="12" cy="12" r="3"></circle>
-                            </svg>
-                            View
-                          </button>
-                          <button 
-                            className={styles.cardActionBtn}
-                            onClick={() => handleReply(email)}
-                          >
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                              <polyline points="9 17 4 12 9 7"></polyline>
-                              <path d="M20 18v-2a4 4 0 0 0-4-4H4"></path>
-                            </svg>
-                            Reply
-                          </button>
-                          <button 
-                            className={styles.cardActionBtn}
-                            onClick={() => handleForward(email)}
-                          >
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                              <polyline points="15 17 20 12 15 7"></polyline>
-                              <path d="M4 18v-2a4 4 0 0 1 4-4h12"></path>
-                            </svg>
-                            Forward
-                          </button>
-                          {isMeeting && (
-                            <button 
-                              className={`${styles.cardActionBtn} ${styles.cardActionBtnPrimary}`}
-                              onClick={() => handleCreateEvent(email)}
-                            >
-                              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
-                                <line x1="16" y1="2" x2="16" y2="6"></line>
-                                <line x1="8" y1="2" x2="8" y2="6"></line>
-                                <line x1="3" y1="10" x2="21" y2="10"></line>
-                                <line x1="12" y1="14" x2="12" y2="18"></line>
-                                <line x1="10" y1="16" x2="14" y2="16"></line>
-                              </svg>
-                              Create Event
-                            </button>
-                          )}
-                        </div>
+                <div className={styles.emailResultsContainer}>
+                  <button 
+                    className={`${styles.emailSummaryBtn} ${expandedMessageIdx === idx ? styles.expanded : ''}`}
+                    onClick={() => handleExpandEmails(idx, msg.relevantEmails)}
+                  >
+                    <div className={styles.summaryLeft}>
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                        <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                        <polyline points="22,6 12,13 2,6"></polyline>
+                      </svg>
+                      <span className={styles.emailCount}>{msg.relevantEmails.length} email{msg.relevantEmails.length !== 1 ? 's' : ''} found</span>
+                      {msg.relevantEmails.filter(e => e.eventRelated).length > 0 && (
+                        <span className={styles.meetingCount}>
+                          {msg.relevantEmails.filter(e => e.eventRelated).length} meeting{msg.relevantEmails.filter(e => e.eventRelated).length !== 1 ? 's' : ''}
+                        </span>
+                      )}
+                    </div>
+                    <svg 
+                      width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"
+                      className={`${styles.chevron} ${expandedMessageIdx === idx ? styles.chevronUp : ''}`}
+                    >
+                      <polyline points="6 9 12 15 18 9"></polyline>
+                    </svg>
+                  </button>
 
-                        {isSelected && (
-                          <div className={styles.emailPanel}>
-                            <div className={styles.emailPanelHeader}>
-                              <h3>{email.subject}</h3>
-                              <button className={styles.closeBtn} onClick={() => setSelectedEmailId(null)}>
-                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                                  <line x1="18" y1="6" x2="6" y2="18"></line>
-                                  <line x1="6" y1="6" x2="18" y2="18"></line>
+                  {emailDisplayMode === 'inline' && expandedMessageIdx === idx && (
+                    <div className={styles.emailCards}>
+                      {msg.relevantEmails.map((email, i) => {
+                        const emailId = getEmailId(email, i);
+                        const isSelected = selectedEmailId === emailId;
+                        const isMeeting = email.eventRelated === true;
+                        return (
+                          <div key={emailId} className={`${styles.emailCard} ${isSelected ? styles.emailCardSelected : ''}`}>
+                            {isMeeting && (
+                              <div className={styles.cardHeader}>
+                                <span className={styles.eventBadge}>
+                                  {email.eventType?.replace(/_/g, ' ') || 'meeting'}
+                                </span>
+                                <span className={styles.confidence}>
+                                  {Math.round((email.confidence || 0.8) * 100)}%
+                                </span>
+                              </div>
+                            )}
+                            <h4 className={styles.cardSubject}>{email.subject}</h4>
+                            <p className={styles.cardFrom}>
+                              From: {email.from?.name || email.from?.email || 'Unknown'}
+                            </p>
+                            <p className={styles.cardDate}>
+                              {email.date ? new Date(email.date).toLocaleDateString('en-US', {
+                                month: 'short',
+                                day: 'numeric',
+                                year: 'numeric'
+                              }) : ''}
+                            </p>
+                            {email.snippet && (
+                              <p className={styles.cardSnippet}>{email.snippet}</p>
+                            )}
+                            <div className={styles.cardActions}>
+                              <button 
+                                className={styles.cardActionBtn}
+                                onClick={() => handleViewEmail(emailId)}
+                              >
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                                  <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                                  <circle cx="12" cy="12" r="3"></circle>
                                 </svg>
+                                View
                               </button>
+                              <button 
+                                className={styles.cardActionBtn}
+                                onClick={() => handleReply(email)}
+                              >
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                                  <polyline points="9 17 4 12 9 7"></polyline>
+                                  <path d="M20 18v-2a4 4 0 0 0-4-4H4"></path>
+                                </svg>
+                                Reply
+                              </button>
+                              <button 
+                                className={styles.cardActionBtn}
+                                onClick={() => handleForward(email)}
+                              >
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                                  <polyline points="15 17 20 12 15 7"></polyline>
+                                  <path d="M4 18v-2a4 4 0 0 1 4-4h12"></path>
+                                </svg>
+                                Forward
+                              </button>
+                              {isMeeting && (
+                                <button 
+                                  className={`${styles.cardActionBtn} ${styles.cardActionBtnPrimary}`}
+                                  onClick={() => handleCreateEvent(email)}
+                                >
+                                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                                    <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                                    <line x1="16" y1="2" x2="16" y2="6"></line>
+                                    <line x1="8" y1="2" x2="8" y2="6"></line>
+                                    <line x1="3" y1="10" x2="21" y2="10"></line>
+                                    <line x1="12" y1="14" x2="12" y2="18"></line>
+                                    <line x1="10" y1="16" x2="14" y2="16"></line>
+                                  </svg>
+                                  Create Event
+                                </button>
+                              )}
                             </div>
-                            <div className={styles.emailPanelMeta}>
-                              <p><strong>From:</strong> {email.from?.name || 'Unknown'} &lt;{email.from?.email}&gt;</p>
-                              <p><strong>Date:</strong> {email.date ? new Date(email.date).toLocaleString() : 'Unknown'}</p>
-                            </div>
-                            <div className={styles.emailPanelBody}>
-                              {email.snippet?.split('\n').map((line, idx) => (
-                                <p key={idx}>{line || <br />}</p>
-                              ))}
-                            </div>
+
+                            {isSelected && (
+                              <div className={styles.emailPanel}>
+                                <div className={styles.emailPanelHeader}>
+                                  <h3>{email.subject}</h3>
+                                  <button className={styles.closeBtn} onClick={() => setSelectedEmailId(null)}>
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                                      <line x1="18" y1="6" x2="6" y2="18"></line>
+                                      <line x1="6" y1="6" x2="18" y2="18"></line>
+                                    </svg>
+                                  </button>
+                                </div>
+                                <div className={styles.emailPanelMeta}>
+                                  <p><strong>From:</strong> {email.from?.name || 'Unknown'} &lt;{email.from?.email}&gt;</p>
+                                  <p><strong>Date:</strong> {email.date ? new Date(email.date).toLocaleString() : 'Unknown'}</p>
+                                </div>
+                                <div className={styles.emailPanelBody}>
+                                  {email.snippet?.split('\n').map((line, lineIdx) => (
+                                    <p key={lineIdx}>{line || <br />}</p>
+                                  ))}
+                                </div>
+                              </div>
+                            )}
                           </div>
-                        )}
-                      </div>
-                    );
-                  })}
+                        );
+                      })}
+                    </div>
+                  )}
                 </div>
               )}
             </div>
@@ -501,6 +584,125 @@ function DemosPage() {
       <div className={styles.footer}>
         <p>Sample data • 1000 emails • Developer testing only</p>
       </div>
+
+      {emailDisplayMode === 'sidepanel' && sidePanelEmails && (
+        <div className={styles.sidePanel}>
+          <div className={styles.sidePanelHeader}>
+            <h3>{sidePanelEmails.length} Email{sidePanelEmails.length !== 1 ? 's' : ''}</h3>
+            <button className={styles.closeBtn} onClick={closeSidePanel}>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <line x1="18" y1="6" x2="6" y2="18"></line>
+                <line x1="6" y1="6" x2="18" y2="18"></line>
+              </svg>
+            </button>
+          </div>
+          <div className={styles.sidePanelContent}>
+            {sidePanelEmails.map((email, i) => {
+              const emailId = getEmailId(email, i);
+              const isSelected = selectedEmailId === emailId;
+              const isMeeting = email.eventRelated === true;
+              return (
+                <div key={emailId} className={`${styles.sidePanelCard} ${isSelected ? styles.sidePanelCardSelected : ''}`}>
+                  {isMeeting && (
+                    <div className={styles.cardHeader}>
+                      <span className={styles.eventBadge}>
+                        {email.eventType?.replace(/_/g, ' ') || 'meeting'}
+                      </span>
+                      <span className={styles.confidence}>
+                        {Math.round((email.confidence || 0.8) * 100)}%
+                      </span>
+                    </div>
+                  )}
+                  <h4 className={styles.cardSubject}>{email.subject}</h4>
+                  <p className={styles.cardFrom}>
+                    From: {email.from?.name || email.from?.email || 'Unknown'}
+                  </p>
+                  <p className={styles.cardDate}>
+                    {email.date ? new Date(email.date).toLocaleDateString('en-US', {
+                      month: 'short',
+                      day: 'numeric',
+                      year: 'numeric'
+                    }) : ''}
+                  </p>
+                  {email.snippet && (
+                    <p className={styles.cardSnippet}>{email.snippet}</p>
+                  )}
+                  <div className={styles.cardActions}>
+                    <button 
+                      className={styles.cardActionBtn}
+                      onClick={() => handleViewEmail(emailId)}
+                    >
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                        <circle cx="12" cy="12" r="3"></circle>
+                      </svg>
+                      View
+                    </button>
+                    <button 
+                      className={styles.cardActionBtn}
+                      onClick={() => handleReply(email)}
+                    >
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                        <polyline points="9 17 4 12 9 7"></polyline>
+                        <path d="M20 18v-2a4 4 0 0 0-4-4H4"></path>
+                      </svg>
+                      Reply
+                    </button>
+                    <button 
+                      className={styles.cardActionBtn}
+                      onClick={() => handleForward(email)}
+                    >
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                        <polyline points="15 17 20 12 15 7"></polyline>
+                        <path d="M4 18v-2a4 4 0 0 1 4-4h12"></path>
+                      </svg>
+                      Forward
+                    </button>
+                    {isMeeting && (
+                      <button 
+                        className={`${styles.cardActionBtn} ${styles.cardActionBtnPrimary}`}
+                        onClick={() => handleCreateEvent(email)}
+                      >
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                          <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                          <line x1="16" y1="2" x2="16" y2="6"></line>
+                          <line x1="8" y1="2" x2="8" y2="6"></line>
+                          <line x1="3" y1="10" x2="21" y2="10"></line>
+                          <line x1="12" y1="14" x2="12" y2="18"></line>
+                          <line x1="10" y1="16" x2="14" y2="16"></line>
+                        </svg>
+                        Create Event
+                      </button>
+                    )}
+                  </div>
+                  {isSelected && (
+                    <div className={styles.emailPanel}>
+                      <div className={styles.emailPanelHeader}>
+                        <h3>{email.subject}</h3>
+                        <button className={styles.closeBtn} onClick={() => setSelectedEmailId(null)}>
+                          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                            <line x1="18" y1="6" x2="6" y2="18"></line>
+                            <line x1="6" y1="6" x2="18" y2="18"></line>
+                          </svg>
+                        </button>
+                      </div>
+                      <div className={styles.emailPanelMeta}>
+                        <p><strong>From:</strong> {email.from?.name || 'Unknown'} &lt;{email.from?.email}&gt;</p>
+                        <p><strong>Date:</strong> {email.date ? new Date(email.date).toLocaleString() : 'Unknown'}</p>
+                      </div>
+                      <div className={styles.emailPanelBody}>
+                        {email.snippet?.split('\n').map((line, lineIdx) => (
+                          <p key={lineIdx}>{line || <br />}</p>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      )}
 
       {replyModal.open && (
         <div className={styles.modalOverlay} onClick={handleCloseReplyModal}>
