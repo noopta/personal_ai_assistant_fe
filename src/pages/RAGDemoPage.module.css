@@ -155,11 +155,14 @@
   color: #f1f5f9;
 }
 
+.messageWrapper {
+  margin-bottom: 1rem;
+  animation: fadeIn 0.3s ease-out;
+}
+
 .message {
   display: flex;
   gap: 0.75rem;
-  margin-bottom: 1rem;
-  animation: fadeIn 0.3s ease-out;
 }
 
 @keyframes fadeIn {
@@ -401,6 +404,112 @@
 
 .dark .footer {
   color: #64748b;
+}
+
+.emailCards {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-top: 1rem;
+  width: 100%;
+}
+
+.emailCard {
+  background: white;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 1rem;
+  transition: all 0.2s;
+}
+
+.emailCard:hover {
+  border-color: #635BFF;
+  box-shadow: 0 4px 12px rgba(99, 91, 255, 0.1);
+}
+
+.dark .emailCard {
+  background: rgba(30, 41, 59, 0.8);
+  border-color: rgba(100, 116, 139, 0.3);
+}
+
+.dark .emailCard:hover {
+  border-color: #635BFF;
+  box-shadow: 0 4px 12px rgba(99, 91, 255, 0.2);
+}
+
+.cardHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.5rem;
+}
+
+.eventBadge {
+  display: inline-block;
+  padding: 0.25rem 0.5rem;
+  background: linear-gradient(135deg, #818cf8, #635BFF);
+  color: white;
+  border-radius: 6px;
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: capitalize;
+}
+
+.confidence {
+  font-size: 0.75rem;
+  color: #64748b;
+  font-weight: 500;
+}
+
+.dark .confidence {
+  color: #94a3b8;
+}
+
+.cardSubject {
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: #0A2540;
+  margin: 0 0 0.5rem;
+  line-height: 1.4;
+}
+
+.dark .cardSubject {
+  color: #f1f5f9;
+}
+
+.cardFrom {
+  font-size: 0.8125rem;
+  color: #475569;
+  margin: 0 0 0.25rem;
+}
+
+.dark .cardFrom {
+  color: #94a3b8;
+}
+
+.cardDate {
+  font-size: 0.75rem;
+  color: #64748b;
+  margin: 0;
+}
+
+.dark .cardDate {
+  color: #64748b;
+}
+
+.cardSnippet {
+  font-size: 0.8125rem;
+  color: #64748b;
+  margin: 0.5rem 0 0;
+  line-height: 1.5;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.dark .cardSnippet {
+  color: #94a3b8;
 }
 
 @media (max-width: 640px) {

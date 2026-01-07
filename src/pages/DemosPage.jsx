@@ -92,6 +92,16 @@ function DemosPage() {
                 setMetadata(data);
               } else if (data.status === 'complete') {
                 setTiming(data.timing);
+                if (data.meeting_emails?.length > 0) {
+                  setMessages(prev => {
+                    const updated = [...prev];
+                    updated[updated.length - 1] = { 
+                      ...updated[updated.length - 1],
+                      meetingEmails: data.meeting_emails
+                    };
+                    return updated;
+                  });
+                }
               }
             } catch (e) {
               console.log('Parse error for line:', line);
@@ -180,25 +190,55 @@ function DemosPage() {
           )}
 
           {messages.map((msg, idx) => (
-            <div 
-              key={idx} 
-              className={`${styles.message} ${styles[msg.role]}`}
-            >
-              {msg.role === 'assistant' && (
-                <div className={styles.avatar}>
-                  <svg viewBox="0 0 24 24" className={styles.avatarIcon}>
-                    <path d="M12 2C13.1 2 14 2.9 14 4C14 5.1 13.1 6 12 6C10.9 6 10 5.1 10 4C10 2.9 10.9 2 12 2ZM21 9V7L15 1H5C3.89 1 3 1.89 3 3V19C3 20.1 3.9 21 5 21H11V19H5V3H13V9H21ZM17 12V15H20V17H17V20H15V17H12V15H15V12H17Z" fill="currentColor"/>
-                  </svg>
+            <div key={idx} className={styles.messageWrapper}>
+              <div className={`${styles.message} ${styles[msg.role]}`}>
+                {msg.role === 'assistant' && (
+                  <div className={styles.avatar}>
+                    <svg viewBox="0 0 24 24" className={styles.avatarIcon}>
+                      <path d="M12 2C13.1 2 14 2.9 14 4C14 5.1 13.1 6 12 6C10.9 6 10 5.1 10 4C10 2.9 10.9 2 12 2ZM21 9V7L15 1H5C3.89 1 3 1.89 3 3V19C3 20.1 3.9 21 5 21H11V19H5V3H13V9H21ZM17 12V15H20V17H17V20H15V17H12V15H15V12H17Z" fill="currentColor"/>
+                    </svg>
+                  </div>
+                )}
+                <div className={styles.messageContent}>
+                  {msg.role === 'assistant' ? (
+                    <ReactMarkdown>{msg.content}</ReactMarkdown>
+                  ) : (
+                    msg.content
+                  )}
+                  {msg.isStreaming && <span className={styles.cursor}>▋</span>}
+                </div>
+              </div>
+
+              {msg.meetingEmails && msg.meetingEmails.length > 0 && (
+                <div className={styles.emailCards}>
+                  {msg.meetingEmails.map((email, i) => (
+                    <div key={i} className={styles.emailCard}>
+                      <div className={styles.cardHeader}>
+                        <span className={styles.eventBadge}>
+                          {email.eventType?.replace(/_/g, ' ') || 'meeting'}
+                        </span>
+                        <span className={styles.confidence}>
+                          {Math.round((email.confidence || 0.8) * 100)}%
+                        </span>
+                      </div>
+                      <h4 className={styles.cardSubject}>{email.subject}</h4>
+                      <p className={styles.cardFrom}>
+                        From: {email.from?.name || email.from?.email || 'Unknown'}
+                      </p>
+                      <p className={styles.cardDate}>
+                        {email.date ? new Date(email.date).toLocaleDateString('en-US', {
+                          month: 'short',
+                          day: 'numeric',
+                          year: 'numeric'
+                        }) : ''}
+                      </p>
+                      {email.snippet && (
+                        <p className={styles.cardSnippet}>{email.snippet}</p>
+                      )}
+                    </div>
+                  ))}
                 </div>
               )}
-              <div className={styles.messageContent}>
-                {msg.role === 'assistant' ? (
-                  <ReactMarkdown>{msg.content}</ReactMarkdown>
-                ) : (
-                  msg.content
-                )}
-                {msg.isStreaming && <span className={styles.cursor}>▋</span>}
-              </div>
             </div>
           ))}
           <div ref={messagesEndRef} />
