@@ -8,6 +8,7 @@ import Typewriter from './Typewriter';
 import EmailCard from './EmailCard';
 import CreateEventModal from './CreateEventModal';
 import { getInitials, parseFromField, getMeetingTypeLabel } from '../utils/meetingParser';
+import logger from '../utils/logger';
 
 function ChatMessage({ type, content, relevantEmails, onSendMessage }) {
   const { isDark } = useTheme();
@@ -118,7 +119,7 @@ function ChatMessage({ type, content, relevantEmails, onSendMessage }) {
 
   const handleEventSubmit = async (eventData) => {
     if (!onSendMessage) {
-      console.log('📅 Create Event (no API):', eventData);
+      logger.log('📅 Create Event (no API):', eventData);
       setSelectedEmailForEvent(null);
       return;
     }
@@ -131,7 +132,7 @@ function ChatMessage({ type, content, relevantEmails, onSendMessage }) {
       await onSendMessage(message, { silent: true });
       setSelectedEmailForEvent(null);
     } catch (error) {
-      console.error('Failed to create event:', error);
+      logger.error('Failed to create event:', error);
     } finally {
       setIsCreatingEvent(false);
     }
@@ -149,7 +150,7 @@ function ChatMessage({ type, content, relevantEmails, onSendMessage }) {
       setReplyEmail(null);
       setReplyContent('');
     } catch (error) {
-      console.error('Failed to send reply:', error);
+      logger.error('Failed to send reply:', error);
     } finally {
       setIsReplying(false);
     }
@@ -168,7 +169,7 @@ function ChatMessage({ type, content, relevantEmails, onSendMessage }) {
       setForwardTo('');
       setForwardContent('');
     } catch (error) {
-      console.error('Failed to forward email:', error);
+      logger.error('Failed to forward email:', error);
     } finally {
       setIsForwarding(false);
     }

@@ -2,6 +2,7 @@ import { useState, useRef, useEffect } from 'react';
 import styles from './RAGDemoPage.module.css';
 import { useTheme } from '../contexts/ThemeContext';
 import ReactMarkdown from 'react-markdown';
+import logger from '../utils/logger';
 
 function DemosPage() {
   const [messages, setMessages] = useState([]);
@@ -102,11 +103,11 @@ function DemosPage() {
               } else if (data.query || data.intent) {
                 setMetadata(data);
               } else if (data.status === 'complete') {
-                console.log('Complete event received:', data);
+                logger.log('Complete event received:', data);
                 setTiming(data.timing);
                 const emails = data.relevant_emails || data.meeting_emails;
                 if (emails?.length > 0) {
-                  console.log('Setting relevant emails:', emails.length);
+                  logger.log('Setting relevant emails:', emails.length);
                   setMessages(prev => {
                     const updated = [...prev];
                     updated[updated.length - 1] = { 
@@ -118,14 +119,14 @@ function DemosPage() {
                 }
               }
             } catch (e) {
-              console.log('Parse error for line:', line);
+              logger.log('Parse error for line:', line);
             }
           } else if (line.trim().startsWith('{')) {
             try {
               const data = JSON.parse(line.trim());
               const emails = data.relevant_emails || data.meeting_emails;
               if (data.status === 'complete' && emails?.length > 0) {
-                console.log('Complete event (raw JSON):', data);
+                logger.log('Complete event (raw JSON):', data);
                 setTiming(data.timing);
                 setMessages(prev => {
                   const updated = [...prev];
@@ -149,7 +150,7 @@ function DemosPage() {
             const data = JSON.parse(line.slice(6));
             const emails = data.relevant_emails || data.meeting_emails;
             if (data.status === 'complete' && emails?.length > 0) {
-              console.log('Complete event (from buffer):', data);
+              logger.log('Complete event (from buffer):', data);
               setTiming(data.timing);
               setMessages(prev => {
                 const updated = [...prev];
@@ -166,7 +167,7 @@ function DemosPage() {
             const data = JSON.parse(line);
             const emails = data.relevant_emails || data.meeting_emails;
             if (data.status === 'complete' && emails?.length > 0) {
-              console.log('Complete event (raw from buffer):', data);
+              logger.log('Complete event (raw from buffer):', data);
               setTiming(data.timing);
               setMessages(prev => {
                 const updated = [...prev];
@@ -193,7 +194,7 @@ function DemosPage() {
       });
 
     } catch (error) {
-      console.error('Stream error:', error);
+      logger.error('Stream error:', error);
       setMessages(prev => {
         const lastMessage = prev[prev.length - 1];
         if (lastMessage?.role === 'assistant' && lastMessage?.isStreaming) {

@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import styles from './MockDemoCalendarPage.module.css';
+import logger from '../utils/logger';
 
 // Mock data matching backend /agent response format
 const mockEmails = [
@@ -132,14 +133,14 @@ function MockDemoCalendarPage() {
   };
 
   const handleReply = (email) => {
-    console.log('📧 Reply to:', email.from.email, 'Subject:', email.subject);
+    logger.log('📧 Reply to:', email.from.email, 'Subject:', email.subject);
     setSuccessMessage('Reply draft opened');
     setShowSuccess(true);
     setTimeout(() => setShowSuccess(false), 3000);
   };
 
   const handleForward = (email) => {
-    console.log('📤 Forward email:', email.subject);
+    logger.log('📤 Forward email:', email.subject);
     setSuccessMessage('Forward draft opened');
     setShowSuccess(true);
     setTimeout(() => setShowSuccess(false), 3000);

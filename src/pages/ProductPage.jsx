@@ -11,6 +11,7 @@ import Vapi from '@vapi-ai/web';
 import VapiWidget from './VapiWidget.tsx';
 import { sanitizeInput, validateUrlParam, secureLog, getEnvVar, loggedFetch } from '../utils/securityUtils';
 import { GmailIcon, GoogleCalendarIcon } from '../components/icons';
+import logger from '../utils/logger';
 // Meeting metadata now comes as separate relevantEmails field in JSON response
 
 function ProductPage() {
@@ -689,7 +690,7 @@ function ProductPage() {
       secureLog('Response data received');
       
       // Debug: Log full response structure
-      console.log('🔍 Full agent response:', JSON.stringify(data, null, 2));
+      logger.log('🔍 Full agent response:', JSON.stringify(data, null, 2));
 
       if (data.error) {
         throw new Error(data.error);
@@ -733,16 +734,16 @@ function ProductPage() {
       // Clean up meeting metadata from the message if present
       aiMessage = aiMessage.replace(/\n*---MEETING_METADATA---\n*\{.*\}$/s, '').trim();
       
-      console.log('📝 Extracted AI message:', aiMessage);
+      logger.log('📝 Extracted AI message:', aiMessage);
       
       // Debug: Log email structure to verify meeting detection data
       if (relevantEmails?.length > 0) {
-        console.log('🔍 Email data structure:', JSON.stringify(relevantEmails[0], null, 2));
-        console.log('📧 Total emails:', relevantEmails.length);
-        console.log('📅 Emails with eventRelated:', relevantEmails.filter(e => e.eventRelated).length);
-        console.log('📅 Emails with detectedMeeting:', relevantEmails.filter(e => e.detectedMeeting).length);
+        logger.log('🔍 Email data structure:', JSON.stringify(relevantEmails[0], null, 2));
+        logger.log('📧 Total emails:', relevantEmails.length);
+        logger.log('📅 Emails with eventRelated:', relevantEmails.filter(e => e.eventRelated).length);
+        logger.log('📅 Emails with detectedMeeting:', relevantEmails.filter(e => e.detectedMeeting).length);
         if (ragQueryTime) {
-          console.log('⚡ RAG query time:', ragQueryTime, 'ms');
+          logger.log('⚡ RAG query time:', ragQueryTime, 'ms');
         }
       }
 

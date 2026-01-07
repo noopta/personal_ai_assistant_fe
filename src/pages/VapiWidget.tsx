@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Vapi from '@vapi-ai/web';
+import logger from '../utils/logger';
 
 interface TranscriptMessage {
   role: string;
@@ -28,23 +29,23 @@ const VapiWidget: React.FC<VapiWidgetProps> = ({
 
     // Event listeners
     vapiInstance.on('call-start', () => {
-      console.log('Call started');
+      logger.log('Call started');
       setIsConnected(true);
     });
 
     vapiInstance.on('call-end', () => {
-      console.log('Call ended');
+      logger.log('Call ended');
       setIsConnected(false);
       setIsSpeaking(false);
     });
 
     vapiInstance.on('speech-start', () => {
-      console.log('Assistant started speaking');
+      logger.log('Assistant started speaking');
       setIsSpeaking(true);
     });
 
     vapiInstance.on('speech-end', () => {
-      console.log('Assistant stopped speaking');
+      logger.log('Assistant stopped speaking');
       setIsSpeaking(false);
     });
 
@@ -58,7 +59,7 @@ const VapiWidget: React.FC<VapiWidgetProps> = ({
     });
 
     vapiInstance.on('error', (error) => {
-      console.error('Vapi error:', error);
+      logger.error('Vapi error:', error);
     });
 
     return () => {

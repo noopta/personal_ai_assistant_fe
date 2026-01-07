@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import styles from './FeedbackDashboard.module.css';
+import logger from '../utils/logger';
 
 const PYTHON_SERVER_URL = 'https://api.airthreads.ai:5001';
 
@@ -54,7 +55,7 @@ function FeedbackDashboard() {
       setFeedback(data.feedback || []);
       setLastUpdated(new Date());
     } catch (err) {
-      console.error('Failed to fetch feedback:', err);
+      logger.error('Failed to fetch feedback:', err);
       setError(err.message);
     } finally {
       setLoading(false);
