@@ -1,0 +1,56 @@
+ ok perfect. here's one more thing. I think we should return the relevant emails always - regardless of
+ if theyre a meeting related email or not. Again, the ones related to the text streamed response not all
+ emails always. The difference is for the meeting related ones on our front end, we will add a badge to 
+the meeting related emails and no badge for non meeting related emails. So for example if someone asks 
+about their bills we should still show the card on our front end for the relevant results found, but for
+ a meeting related email it should be different. that brings me to my next thought, which is in our JSON
+ response we can send back how we currently are, but instead of meeting_emails we can call it 
+relevant_emails, and add a key indiciating if its meeting related or not based on the pre-processing 
+we've already done. Does that make sense? dont make acny changes uet 
+
+● Yes, that makes perfect sense! Let me break down what you're asking for:
+
+  Current Behavior:
+
+  - meeting_emails array only contains emails with Event nodes (meeting-related)
+  - Non-meeting emails mentioned in the response are NOT returned as cards
+
+  Desired Behavior:
+
+  - Rename meeting_emails → relevant_emails
+  - Include ALL emails mentioned in the streamed response (both meeting and non-meeting)
+  - Add a boolean field like isMeeting: true/false or keep eventRelated: true/false
+  - Frontend will:
+    - Show badge for eventRelated: true emails
+    - Show plain card for eventRelated: false emails
+
+  Example Response:
+
+  {
+    "complete": true,
+    "relevant_emails": [
+      {
+        "id": "msg_sample_1",
+        "subject": "Weekly Standup",
+        "from": {...},
+        "eventRelated": true,        // ← Has badge
+        "eventType": "standup",
+        "confidence": 0.9
+      },
+      {
+        "id": "msg_sample_5",
+        "subject": "Your bill is ready",
+        "from": {...},
+        "eventRelated": false,       // ← No badge
+        "eventType": null,
+        "confidence": null
+      }
+    ]
+  }
+
+  This way:
+  - Bills query → returns bill email cards (no badges)
+  - Meetings query → returns meeting email cards (with badges)
+  - Mixed query → returns both types with appropriate badges
+
+  Should I proceed with this implementation?

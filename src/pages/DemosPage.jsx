@@ -9,10 +9,14 @@ function DemosPage() {
   const [isStreaming, setIsStreaming] = useState(false);
   const [metadata, setMetadata] = useState(null);
   const [timing, setTiming] = useState(null);
-  const [selectedEmail, setSelectedEmail] = useState(null);
+  const [selectedEmailId, setSelectedEmailId] = useState(null);
   const [replyModal, setReplyModal] = useState({ open: false, email: null, mode: 'reply' });
   const [eventModal, setEventModal] = useState({ open: false, email: null });
   const [notification, setNotification] = useState(null);
+  const [replyContent, setReplyContent] = useState({ to: '', subject: '', message: '' });
+  const [eventContent, setEventContent] = useState({ title: '', attendees: '', date: '', time: '10:00', duration: '30', notes: '' });
+
+  const getEmailId = (email, index) => email.id || email.messageId || `email-${index}`;
   const messagesEndRef = useRef(null);
   const inputRef = useRef(null);
   const { isDark } = useTheme();
@@ -213,36 +217,64 @@ function DemosPage() {
     setTimeout(() => setNotification(null), 3000);
   };
 
-  const handleViewEmail = (email) => {
-    setSelectedEmail(selectedEmail?.id === email.id ? null : email);
+  const handleViewEmail = (emailId) => {
+    setSelectedEmailId(selectedEmailId === emailId ? null : emailId);
   };
 
   const handleReply = (email) => {
+    setReplyContent({
+      to: email.from?.email || '',
+      subject: `Re: ${email.subject || ''}`,
+      message: ''
+    });
     setReplyModal({ open: true, email, mode: 'reply' });
-    setSelectedEmail(null);
+    setSelectedEmailId(null);
   };
 
   const handleForward = (email) => {
+    setReplyContent({
+      to: '',
+      subject: `Fwd: ${email.subject || ''}`,
+      message: `\n\n---------- Forwarded message ----------\n${email.snippet || ''}`
+    });
     setReplyModal({ open: true, email, mode: 'forward' });
-    setSelectedEmail(null);
+    setSelectedEmailId(null);
   };
 
   const handleCreateEvent = (email) => {
+    setEventContent({
+      title: email.subject || '',
+      attendees: email.from?.email || '',
+      date: new Date().toISOString().split('T')[0],
+      time: '10:00',
+      duration: '30',
+      notes: email.snippet || ''
+    });
     setEventModal({ open: true, email });
-    setSelectedEmail(null);
+    setSelectedEmailId(null);
+  };
+
+  const handleCloseReplyModal = () => {
+    setReplyModal({ open: false, email: null, mode: 'reply' });
+    setReplyContent({ to: '', subject: '', message: '' });
+  };
+
+  const handleCloseEventModal = () => {
+    setEventModal({ open: false, email: null });
+    setEventContent({ title: '', attendees: '', date: '', time: '10:00', duration: '30', notes: '' });
   };
 
   const handleReplySubmit = (e) => {
     e.preventDefault();
     const mode = replyModal.mode === 'reply' ? 'Reply' : 'Forward';
     showNotification(`${mode} sent successfully! (Demo)`, 'success');
-    setReplyModal({ open: false, email: null, mode: 'reply' });
+    handleCloseReplyModal();
   };
 
   const handleEventSubmit = (e) => {
     e.preventDefault();
     showNotification('Calendar event created successfully! (Demo)', 'success');
-    setEventModal({ open: false, email: null });
+    handleCloseEventModal();
   };
 
   const exampleQueries = [
@@ -309,101 +341,105 @@ function DemosPage() {
 
               {msg.meetingEmails && msg.meetingEmails.length > 0 && (
                 <div className={styles.emailCards}>
-                  {msg.meetingEmails.map((email, i) => (
-                    <div key={i} className={`${styles.emailCard} ${selectedEmail?.id === email.id ? styles.emailCardSelected : ''}`}>
-                      <div className={styles.cardHeader}>
-                        <span className={styles.eventBadge}>
-                          {email.eventType?.replace(/_/g, ' ') || 'meeting'}
-                        </span>
-                        <span className={styles.confidence}>
-                          {Math.round((email.confidence || 0.8) * 100)}%
-                        </span>
-                      </div>
-                      <h4 className={styles.cardSubject}>{email.subject}</h4>
-                      <p className={styles.cardFrom}>
-                        From: {email.from?.name || email.from?.email || 'Unknown'}
-                      </p>
-                      <p className={styles.cardDate}>
-                        {email.date ? new Date(email.date).toLocaleDateString('en-US', {
-                          month: 'short',
-                          day: 'numeric',
-                          year: 'numeric'
-                        }) : ''}
-                      </p>
-                      {email.snippet && (
-                        <p className={styles.cardSnippet}>{email.snippet}</p>
-                      )}
-                      <div className={styles.cardActions}>
-                        <button 
-                          className={styles.cardActionBtn}
-                          onClick={() => handleViewEmail(email)}
-                        >
-                          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
-                            <circle cx="12" cy="12" r="3"></circle>
-                          </svg>
-                          View
-                        </button>
-                        <button 
-                          className={styles.cardActionBtn}
-                          onClick={() => handleReply(email)}
-                        >
-                          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                            <polyline points="9 17 4 12 9 7"></polyline>
-                            <path d="M20 18v-2a4 4 0 0 0-4-4H4"></path>
-                          </svg>
-                          Reply
-                        </button>
-                        <button 
-                          className={styles.cardActionBtn}
-                          onClick={() => handleForward(email)}
-                        >
-                          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                            <polyline points="15 17 20 12 15 7"></polyline>
-                            <path d="M4 18v-2a4 4 0 0 1 4-4h12"></path>
-                          </svg>
-                          Forward
-                        </button>
-                        <button 
-                          className={`${styles.cardActionBtn} ${styles.cardActionBtnPrimary}`}
-                          onClick={() => handleCreateEvent(email)}
-                        >
-                          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
-                            <line x1="16" y1="2" x2="16" y2="6"></line>
-                            <line x1="8" y1="2" x2="8" y2="6"></line>
-                            <line x1="3" y1="10" x2="21" y2="10"></line>
-                            <line x1="12" y1="14" x2="12" y2="18"></line>
-                            <line x1="10" y1="16" x2="14" y2="16"></line>
-                          </svg>
-                          Create Event
-                        </button>
-                      </div>
-
-                      {selectedEmail?.id === email.id && (
-                        <div className={styles.emailPanel}>
-                          <div className={styles.emailPanelHeader}>
-                            <h3>{email.subject}</h3>
-                            <button className={styles.closeBtn} onClick={() => setSelectedEmail(null)}>
-                              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                                <line x1="18" y1="6" x2="6" y2="18"></line>
-                                <line x1="6" y1="6" x2="18" y2="18"></line>
-                              </svg>
-                            </button>
-                          </div>
-                          <div className={styles.emailPanelMeta}>
-                            <p><strong>From:</strong> {email.from?.name || 'Unknown'} &lt;{email.from?.email}&gt;</p>
-                            <p><strong>Date:</strong> {email.date ? new Date(email.date).toLocaleString() : 'Unknown'}</p>
-                          </div>
-                          <div className={styles.emailPanelBody}>
-                            {email.snippet?.split('\n').map((line, idx) => (
-                              <p key={idx}>{line || <br />}</p>
-                            ))}
-                          </div>
+                  {msg.meetingEmails.map((email, i) => {
+                    const emailId = getEmailId(email, i);
+                    const isSelected = selectedEmailId === emailId;
+                    return (
+                      <div key={emailId} className={`${styles.emailCard} ${isSelected ? styles.emailCardSelected : ''}`}>
+                        <div className={styles.cardHeader}>
+                          <span className={styles.eventBadge}>
+                            {email.eventType?.replace(/_/g, ' ') || 'meeting'}
+                          </span>
+                          <span className={styles.confidence}>
+                            {Math.round((email.confidence || 0.8) * 100)}%
+                          </span>
                         </div>
-                      )}
-                    </div>
-                  ))}
+                        <h4 className={styles.cardSubject}>{email.subject}</h4>
+                        <p className={styles.cardFrom}>
+                          From: {email.from?.name || email.from?.email || 'Unknown'}
+                        </p>
+                        <p className={styles.cardDate}>
+                          {email.date ? new Date(email.date).toLocaleDateString('en-US', {
+                            month: 'short',
+                            day: 'numeric',
+                            year: 'numeric'
+                          }) : ''}
+                        </p>
+                        {email.snippet && (
+                          <p className={styles.cardSnippet}>{email.snippet}</p>
+                        )}
+                        <div className={styles.cardActions}>
+                          <button 
+                            className={styles.cardActionBtn}
+                            onClick={() => handleViewEmail(emailId)}
+                          >
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                              <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                              <circle cx="12" cy="12" r="3"></circle>
+                            </svg>
+                            View
+                          </button>
+                          <button 
+                            className={styles.cardActionBtn}
+                            onClick={() => handleReply(email)}
+                          >
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                              <polyline points="9 17 4 12 9 7"></polyline>
+                              <path d="M20 18v-2a4 4 0 0 0-4-4H4"></path>
+                            </svg>
+                            Reply
+                          </button>
+                          <button 
+                            className={styles.cardActionBtn}
+                            onClick={() => handleForward(email)}
+                          >
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                              <polyline points="15 17 20 12 15 7"></polyline>
+                              <path d="M4 18v-2a4 4 0 0 1 4-4h12"></path>
+                            </svg>
+                            Forward
+                          </button>
+                          <button 
+                            className={`${styles.cardActionBtn} ${styles.cardActionBtnPrimary}`}
+                            onClick={() => handleCreateEvent(email)}
+                          >
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                              <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                              <line x1="16" y1="2" x2="16" y2="6"></line>
+                              <line x1="8" y1="2" x2="8" y2="6"></line>
+                              <line x1="3" y1="10" x2="21" y2="10"></line>
+                              <line x1="12" y1="14" x2="12" y2="18"></line>
+                              <line x1="10" y1="16" x2="14" y2="16"></line>
+                            </svg>
+                            Create Event
+                          </button>
+                        </div>
+
+                        {isSelected && (
+                          <div className={styles.emailPanel}>
+                            <div className={styles.emailPanelHeader}>
+                              <h3>{email.subject}</h3>
+                              <button className={styles.closeBtn} onClick={() => setSelectedEmailId(null)}>
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                                  <line x1="18" y1="6" x2="6" y2="18"></line>
+                                  <line x1="6" y1="6" x2="18" y2="18"></line>
+                                </svg>
+                              </button>
+                            </div>
+                            <div className={styles.emailPanelMeta}>
+                              <p><strong>From:</strong> {email.from?.name || 'Unknown'} &lt;{email.from?.email}&gt;</p>
+                              <p><strong>Date:</strong> {email.date ? new Date(email.date).toLocaleString() : 'Unknown'}</p>
+                            </div>
+                            <div className={styles.emailPanelBody}>
+                              {email.snippet?.split('\n').map((line, idx) => (
+                                <p key={idx}>{line || <br />}</p>
+                              ))}
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                    );
+                  })}
                 </div>
               )}
             </div>
@@ -458,11 +494,11 @@ function DemosPage() {
       </div>
 
       {replyModal.open && (
-        <div className={styles.modalOverlay} onClick={() => setReplyModal({ open: false, email: null, mode: 'reply' })}>
+        <div className={styles.modalOverlay} onClick={handleCloseReplyModal}>
           <div className={styles.modal} onClick={e => e.stopPropagation()}>
             <div className={styles.modalHeader}>
               <h3>{replyModal.mode === 'reply' ? 'Reply' : 'Forward'}</h3>
-              <button className={styles.closeBtn} onClick={() => setReplyModal({ open: false, email: null, mode: 'reply' })}>
+              <button className={styles.closeBtn} onClick={handleCloseReplyModal}>
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                   <line x1="18" y1="6" x2="6" y2="18"></line>
                   <line x1="6" y1="6" x2="18" y2="18"></line>
@@ -475,7 +511,8 @@ function DemosPage() {
                   <label>To:</label>
                   <input 
                     type="email" 
-                    defaultValue={replyModal.mode === 'reply' ? replyModal.email?.from?.email : ''} 
+                    value={replyContent.to}
+                    onChange={(e) => setReplyContent(prev => ({ ...prev, to: e.target.value }))}
                     placeholder={replyModal.mode === 'forward' ? 'Enter recipient email' : ''}
                     className={styles.modalInput}
                   />
@@ -484,7 +521,8 @@ function DemosPage() {
                   <label>Subject:</label>
                   <input 
                     type="text" 
-                    defaultValue={`${replyModal.mode === 'reply' ? 'Re' : 'Fwd'}: ${replyModal.email?.subject || ''}`}
+                    value={replyContent.subject}
+                    onChange={(e) => setReplyContent(prev => ({ ...prev, subject: e.target.value }))}
                     className={styles.modalInput}
                   />
                 </div>
@@ -492,14 +530,15 @@ function DemosPage() {
                   <label>Message:</label>
                   <textarea 
                     rows={6}
-                    defaultValue={replyModal.mode === 'reply' ? '' : `\n\n---------- Forwarded message ----------\n${replyModal.email?.snippet || ''}`}
+                    value={replyContent.message}
+                    onChange={(e) => setReplyContent(prev => ({ ...prev, message: e.target.value }))}
                     placeholder="Type your message..."
                     className={styles.modalTextarea}
                   />
                 </div>
               </div>
               <div className={styles.modalFooter}>
-                <button type="button" className={styles.modalCancelBtn} onClick={() => setReplyModal({ open: false, email: null, mode: 'reply' })}>
+                <button type="button" className={styles.modalCancelBtn} onClick={handleCloseReplyModal}>
                   Cancel
                 </button>
                 <button type="submit" className={styles.modalSubmitBtn}>
@@ -512,11 +551,11 @@ function DemosPage() {
       )}
 
       {eventModal.open && (
-        <div className={styles.modalOverlay} onClick={() => setEventModal({ open: false, email: null })}>
+        <div className={styles.modalOverlay} onClick={handleCloseEventModal}>
           <div className={styles.modal} onClick={e => e.stopPropagation()}>
             <div className={styles.modalHeader}>
               <h3>Create Calendar Event</h3>
-              <button className={styles.closeBtn} onClick={() => setEventModal({ open: false, email: null })}>
+              <button className={styles.closeBtn} onClick={handleCloseEventModal}>
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                   <line x1="18" y1="6" x2="6" y2="18"></line>
                   <line x1="6" y1="6" x2="18" y2="18"></line>
@@ -529,7 +568,8 @@ function DemosPage() {
                   <label>Event Title:</label>
                   <input 
                     type="text" 
-                    defaultValue={eventModal.email?.subject || ''}
+                    value={eventContent.title}
+                    onChange={(e) => setEventContent(prev => ({ ...prev, title: e.target.value }))}
                     className={styles.modalInput}
                   />
                 </div>
@@ -537,7 +577,8 @@ function DemosPage() {
                   <label>Attendees:</label>
                   <input 
                     type="text" 
-                    defaultValue={eventModal.email?.from?.email || ''}
+                    value={eventContent.attendees}
+                    onChange={(e) => setEventContent(prev => ({ ...prev, attendees: e.target.value }))}
                     className={styles.modalInput}
                   />
                 </div>
@@ -546,7 +587,8 @@ function DemosPage() {
                     <label>Date:</label>
                     <input 
                       type="date" 
-                      defaultValue={new Date().toISOString().split('T')[0]}
+                      value={eventContent.date}
+                      onChange={(e) => setEventContent(prev => ({ ...prev, date: e.target.value }))}
                       className={styles.modalInput}
                     />
                   </div>
@@ -554,14 +596,19 @@ function DemosPage() {
                     <label>Time:</label>
                     <input 
                       type="time" 
-                      defaultValue="10:00"
+                      value={eventContent.time}
+                      onChange={(e) => setEventContent(prev => ({ ...prev, time: e.target.value }))}
                       className={styles.modalInput}
                     />
                   </div>
                 </div>
                 <div className={styles.formGroup}>
                   <label>Duration:</label>
-                  <select defaultValue="30" className={styles.modalInput}>
+                  <select 
+                    value={eventContent.duration}
+                    onChange={(e) => setEventContent(prev => ({ ...prev, duration: e.target.value }))}
+                    className={styles.modalInput}
+                  >
                     <option value="15">15 minutes</option>
                     <option value="30">30 minutes</option>
                     <option value="60">1 hour</option>
@@ -572,13 +619,14 @@ function DemosPage() {
                   <label>Notes:</label>
                   <textarea 
                     rows={3}
-                    defaultValue={eventModal.email?.snippet || ''}
+                    value={eventContent.notes}
+                    onChange={(e) => setEventContent(prev => ({ ...prev, notes: e.target.value }))}
                     className={styles.modalTextarea}
                   />
                 </div>
               </div>
               <div className={styles.modalFooter}>
-                <button type="button" className={styles.modalCancelBtn} onClick={() => setEventModal({ open: false, email: null })}>
+                <button type="button" className={styles.modalCancelBtn} onClick={handleCloseEventModal}>
                   Cancel
                 </button>
                 <button type="submit" className={styles.modalSubmitBtn}>
