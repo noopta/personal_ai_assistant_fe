@@ -101,13 +101,14 @@ function DemosPage() {
               } else if (data.status === 'complete') {
                 console.log('Complete event received:', data);
                 setTiming(data.timing);
-                if (data.meeting_emails?.length > 0) {
-                  console.log('Setting meeting emails:', data.meeting_emails.length);
+                const emails = data.relevant_emails || data.meeting_emails;
+                if (emails?.length > 0) {
+                  console.log('Setting relevant emails:', emails.length);
                   setMessages(prev => {
                     const updated = [...prev];
                     updated[updated.length - 1] = { 
                       ...updated[updated.length - 1],
-                      meetingEmails: data.meeting_emails
+                      relevantEmails: emails
                     };
                     return updated;
                   });
@@ -119,14 +120,15 @@ function DemosPage() {
           } else if (line.trim().startsWith('{')) {
             try {
               const data = JSON.parse(line.trim());
-              if (data.status === 'complete' && data.meeting_emails?.length > 0) {
+              const emails = data.relevant_emails || data.meeting_emails;
+              if (data.status === 'complete' && emails?.length > 0) {
                 console.log('Complete event (raw JSON):', data);
                 setTiming(data.timing);
                 setMessages(prev => {
                   const updated = [...prev];
                   updated[updated.length - 1] = { 
                     ...updated[updated.length - 1],
-                    meetingEmails: data.meeting_emails
+                    relevantEmails: emails
                   };
                   return updated;
                 });
@@ -142,14 +144,15 @@ function DemosPage() {
         if (line.startsWith('data: ')) {
           try {
             const data = JSON.parse(line.slice(6));
-            if (data.status === 'complete' && data.meeting_emails?.length > 0) {
+            const emails = data.relevant_emails || data.meeting_emails;
+            if (data.status === 'complete' && emails?.length > 0) {
               console.log('Complete event (from buffer):', data);
               setTiming(data.timing);
               setMessages(prev => {
                 const updated = [...prev];
                 updated[updated.length - 1] = { 
                   ...updated[updated.length - 1],
-                  meetingEmails: data.meeting_emails
+                  relevantEmails: emails
                 };
                 return updated;
               });
@@ -158,14 +161,15 @@ function DemosPage() {
         } else if (line.startsWith('{')) {
           try {
             const data = JSON.parse(line);
-            if (data.status === 'complete' && data.meeting_emails?.length > 0) {
+            const emails = data.relevant_emails || data.meeting_emails;
+            if (data.status === 'complete' && emails?.length > 0) {
               console.log('Complete event (raw from buffer):', data);
               setTiming(data.timing);
               setMessages(prev => {
                 const updated = [...prev];
                 updated[updated.length - 1] = { 
                   ...updated[updated.length - 1],
-                  meetingEmails: data.meeting_emails
+                  relevantEmails: emails
                 };
                 return updated;
               });
@@ -339,21 +343,24 @@ function DemosPage() {
                 </div>
               </div>
 
-              {msg.meetingEmails && msg.meetingEmails.length > 0 && (
+              {msg.relevantEmails && msg.relevantEmails.length > 0 && (
                 <div className={styles.emailCards}>
-                  {msg.meetingEmails.map((email, i) => {
+                  {msg.relevantEmails.map((email, i) => {
                     const emailId = getEmailId(email, i);
                     const isSelected = selectedEmailId === emailId;
+                    const isMeeting = email.eventRelated === true;
                     return (
                       <div key={emailId} className={`${styles.emailCard} ${isSelected ? styles.emailCardSelected : ''}`}>
-                        <div className={styles.cardHeader}>
-                          <span className={styles.eventBadge}>
-                            {email.eventType?.replace(/_/g, ' ') || 'meeting'}
-                          </span>
-                          <span className={styles.confidence}>
-                            {Math.round((email.confidence || 0.8) * 100)}%
-                          </span>
-                        </div>
+                        {isMeeting && (
+                          <div className={styles.cardHeader}>
+                            <span className={styles.eventBadge}>
+                              {email.eventType?.replace(/_/g, ' ') || 'meeting'}
+                            </span>
+                            <span className={styles.confidence}>
+                              {Math.round((email.confidence || 0.8) * 100)}%
+                            </span>
+                          </div>
+                        )}
                         <h4 className={styles.cardSubject}>{email.subject}</h4>
                         <p className={styles.cardFrom}>
                           From: {email.from?.name || email.from?.email || 'Unknown'}
@@ -399,20 +406,22 @@ function DemosPage() {
                             </svg>
                             Forward
                           </button>
-                          <button 
-                            className={`${styles.cardActionBtn} ${styles.cardActionBtnPrimary}`}
-                            onClick={() => handleCreateEvent(email)}
-                          >
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                              <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
-                              <line x1="16" y1="2" x2="16" y2="6"></line>
-                              <line x1="8" y1="2" x2="8" y2="6"></line>
-                              <line x1="3" y1="10" x2="21" y2="10"></line>
-                              <line x1="12" y1="14" x2="12" y2="18"></line>
-                              <line x1="10" y1="16" x2="14" y2="16"></line>
-                            </svg>
-                            Create Event
-                          </button>
+                          {isMeeting && (
+                            <button 
+                              className={`${styles.cardActionBtn} ${styles.cardActionBtnPrimary}`}
+                              onClick={() => handleCreateEvent(email)}
+                            >
+                              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                                <line x1="16" y1="2" x2="16" y2="6"></line>
+                                <line x1="8" y1="2" x2="8" y2="6"></line>
+                                <line x1="3" y1="10" x2="21" y2="10"></line>
+                                <line x1="12" y1="14" x2="12" y2="18"></line>
+                                <line x1="10" y1="16" x2="14" y2="16"></line>
+                              </svg>
+                              Create Event
+                            </button>
+                          )}
                         </div>
 
                         {isSelected && (
