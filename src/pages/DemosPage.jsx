@@ -112,8 +112,9 @@ function DemosPage() {
 
       setMessages(prev => {
         const updated = [...prev];
+        const lastMsg = updated[updated.length - 1];
         updated[updated.length - 1] = { 
-          role: 'assistant', 
+          ...lastMsg,
           content: assistantContent,
           isStreaming: false 
         };
