@@ -129,6 +129,43 @@ function DemosPage() {
         }
       }
 
+      if (buffer.trim()) {
+        const line = buffer.trim();
+        if (line.startsWith('data: ')) {
+          try {
+            const data = JSON.parse(line.slice(6));
+            if (data.status === 'complete' && data.meeting_emails?.length > 0) {
+              console.log('Complete event (from buffer):', data);
+              setTiming(data.timing);
+              setMessages(prev => {
+                const updated = [...prev];
+                updated[updated.length - 1] = { 
+                  ...updated[updated.length - 1],
+                  meetingEmails: data.meeting_emails
+                };
+                return updated;
+              });
+            }
+          } catch (e) {}
+        } else if (line.startsWith('{')) {
+          try {
+            const data = JSON.parse(line);
+            if (data.status === 'complete' && data.meeting_emails?.length > 0) {
+              console.log('Complete event (raw from buffer):', data);
+              setTiming(data.timing);
+              setMessages(prev => {
+                const updated = [...prev];
+                updated[updated.length - 1] = { 
+                  ...updated[updated.length - 1],
+                  meetingEmails: data.meeting_emails
+                };
+                return updated;
+              });
+            }
+          } catch (e) {}
+        }
+      }
+
       setMessages(prev => {
         const updated = [...prev];
         const lastMsg = updated[updated.length - 1];
