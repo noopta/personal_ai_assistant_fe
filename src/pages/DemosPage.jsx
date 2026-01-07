@@ -91,8 +91,10 @@ function DemosPage() {
               } else if (data.query || data.intent) {
                 setMetadata(data);
               } else if (data.status === 'complete') {
+                console.log('Complete event received:', data);
                 setTiming(data.timing);
                 if (data.meeting_emails?.length > 0) {
+                  console.log('Setting meeting emails:', data.meeting_emails.length);
                   setMessages(prev => {
                     const updated = [...prev];
                     updated[updated.length - 1] = { 
@@ -105,6 +107,23 @@ function DemosPage() {
               }
             } catch (e) {
               console.log('Parse error for line:', line);
+            }
+          } else if (line.trim().startsWith('{')) {
+            try {
+              const data = JSON.parse(line.trim());
+              if (data.status === 'complete' && data.meeting_emails?.length > 0) {
+                console.log('Complete event (raw JSON):', data);
+                setTiming(data.timing);
+                setMessages(prev => {
+                  const updated = [...prev];
+                  updated[updated.length - 1] = { 
+                    ...updated[updated.length - 1],
+                    meetingEmails: data.meeting_emails
+                  };
+                  return updated;
+                });
+              }
+            } catch (e) {
             }
           }
         }
