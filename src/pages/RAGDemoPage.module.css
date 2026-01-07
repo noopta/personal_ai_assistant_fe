@@ -512,6 +512,398 @@
   color: #94a3b8;
 }
 
+.emailCardSelected {
+  border-color: #635BFF;
+  box-shadow: 0 4px 12px rgba(99, 91, 255, 0.15);
+}
+
+.cardActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.75rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid #e2e8f0;
+}
+
+.dark .cardActions {
+  border-top-color: rgba(100, 116, 139, 0.3);
+}
+
+.cardActionBtn {
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+  padding: 0.375rem 0.75rem;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 6px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: #475569;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.cardActionBtn:hover {
+  background: #e2e8f0;
+  color: #0A2540;
+}
+
+.dark .cardActionBtn {
+  background: rgba(51, 65, 85, 0.5);
+  border-color: rgba(100, 116, 139, 0.3);
+  color: #94a3b8;
+}
+
+.dark .cardActionBtn:hover {
+  background: rgba(71, 85, 105, 0.6);
+  color: #f1f5f9;
+}
+
+.cardActionBtnPrimary {
+  background: linear-gradient(135deg, #635BFF, #8b5cf6);
+  border-color: transparent;
+  color: white;
+}
+
+.cardActionBtnPrimary:hover {
+  background: linear-gradient(135deg, #5046e5, #7c3aed);
+  color: white;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(99, 91, 255, 0.3);
+}
+
+.dark .cardActionBtnPrimary {
+  background: linear-gradient(135deg, #635BFF, #8b5cf6);
+  color: white;
+}
+
+.emailPanel {
+  margin-top: 1rem;
+  padding: 1rem;
+  background: #f8fafc;
+  border-radius: 8px;
+  border: 1px solid #e2e8f0;
+}
+
+.dark .emailPanel {
+  background: rgba(15, 23, 42, 0.5);
+  border-color: rgba(100, 116, 139, 0.3);
+}
+
+.emailPanelHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 0.75rem;
+}
+
+.emailPanelHeader h3 {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #0A2540;
+}
+
+.dark .emailPanelHeader h3 {
+  color: #f1f5f9;
+}
+
+.closeBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  background: transparent;
+  border: none;
+  border-radius: 6px;
+  color: #64748b;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.closeBtn:hover {
+  background: #e2e8f0;
+  color: #0A2540;
+}
+
+.dark .closeBtn:hover {
+  background: rgba(71, 85, 105, 0.5);
+  color: #f1f5f9;
+}
+
+.emailPanelMeta {
+  margin-bottom: 0.75rem;
+}
+
+.emailPanelMeta p {
+  margin: 0 0 0.25rem;
+  font-size: 0.8125rem;
+  color: #475569;
+}
+
+.dark .emailPanelMeta p {
+  color: #94a3b8;
+}
+
+.emailPanelBody {
+  font-size: 0.875rem;
+  line-height: 1.6;
+  color: #334155;
+}
+
+.emailPanelBody p {
+  margin: 0 0 0.5rem;
+}
+
+.dark .emailPanelBody {
+  color: #cbd5e1;
+}
+
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(10, 37, 64, 0.5);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 1rem;
+}
+
+.modal {
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 20px 60px rgba(10, 37, 64, 0.25);
+  width: 100%;
+  max-width: 500px;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.dark .modal {
+  background: #1e293b;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+}
+
+.modalHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 1.25rem;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.dark .modalHeader {
+  border-bottom-color: rgba(100, 116, 139, 0.3);
+}
+
+.modalHeader h3 {
+  margin: 0;
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #0A2540;
+}
+
+.dark .modalHeader h3 {
+  color: #f1f5f9;
+}
+
+.modalBody {
+  padding: 1.25rem;
+}
+
+.formGroup {
+  margin-bottom: 1rem;
+}
+
+.formGroup:last-child {
+  margin-bottom: 0;
+}
+
+.formGroup label {
+  display: block;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: #475569;
+  margin-bottom: 0.375rem;
+}
+
+.dark .formGroup label {
+  color: #94a3b8;
+}
+
+.formRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.modalInput {
+  width: 100%;
+  padding: 0.625rem 0.75rem;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  font-size: 0.875rem;
+  background: #f8fafc;
+  color: #0A2540;
+  transition: all 0.2s;
+}
+
+.modalInput:focus {
+  outline: none;
+  border-color: #635BFF;
+  background: white;
+  box-shadow: 0 0 0 3px rgba(99, 91, 255, 0.1);
+}
+
+.dark .modalInput {
+  background: rgba(15, 23, 42, 0.5);
+  border-color: rgba(100, 116, 139, 0.3);
+  color: #f1f5f9;
+}
+
+.dark .modalInput:focus {
+  background: rgba(15, 23, 42, 0.8);
+  border-color: #635BFF;
+}
+
+.modalTextarea {
+  width: 100%;
+  padding: 0.625rem 0.75rem;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  font-size: 0.875rem;
+  background: #f8fafc;
+  color: #0A2540;
+  resize: vertical;
+  font-family: inherit;
+  transition: all 0.2s;
+}
+
+.modalTextarea:focus {
+  outline: none;
+  border-color: #635BFF;
+  background: white;
+  box-shadow: 0 0 0 3px rgba(99, 91, 255, 0.1);
+}
+
+.dark .modalTextarea {
+  background: rgba(15, 23, 42, 0.5);
+  border-color: rgba(100, 116, 139, 0.3);
+  color: #f1f5f9;
+}
+
+.dark .modalTextarea:focus {
+  background: rgba(15, 23, 42, 0.8);
+  border-color: #635BFF;
+}
+
+.modalFooter {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.75rem;
+  padding: 1rem 1.25rem;
+  border-top: 1px solid #e2e8f0;
+}
+
+.dark .modalFooter {
+  border-top-color: rgba(100, 116, 139, 0.3);
+}
+
+.modalCancelBtn {
+  padding: 0.625rem 1rem;
+  background: transparent;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #475569;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.modalCancelBtn:hover {
+  background: #f1f5f9;
+  color: #0A2540;
+}
+
+.dark .modalCancelBtn {
+  border-color: rgba(100, 116, 139, 0.3);
+  color: #94a3b8;
+}
+
+.dark .modalCancelBtn:hover {
+  background: rgba(71, 85, 105, 0.3);
+  color: #f1f5f9;
+}
+
+.modalSubmitBtn {
+  padding: 0.625rem 1.25rem;
+  background: linear-gradient(135deg, #635BFF, #8b5cf6);
+  border: none;
+  border-radius: 8px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: white;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.modalSubmitBtn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(99, 91, 255, 0.4);
+}
+
+.notification {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1rem 1.25rem;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 8px 30px rgba(10, 37, 64, 0.15);
+  font-size: 0.9375rem;
+  font-weight: 500;
+  color: #0A2540;
+  z-index: 1100;
+  animation: slideIn 0.3s ease-out;
+}
+
+.notification.success {
+  border-left: 4px solid #10b981;
+}
+
+.notification.success svg {
+  color: #10b981;
+}
+
+.dark .notification {
+  background: #1e293b;
+  color: #f1f5f9;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateX(100px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
 @media (max-width: 640px) {
   .container {
     padding-top: 70px;

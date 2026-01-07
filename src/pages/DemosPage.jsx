@@ -9,6 +9,10 @@ function DemosPage() {
   const [isStreaming, setIsStreaming] = useState(false);
   const [metadata, setMetadata] = useState(null);
   const [timing, setTiming] = useState(null);
+  const [selectedEmail, setSelectedEmail] = useState(null);
+  const [replyModal, setReplyModal] = useState({ open: false, email: null, mode: 'reply' });
+  const [eventModal, setEventModal] = useState({ open: false, email: null });
+  const [notification, setNotification] = useState(null);
   const messagesEndRef = useRef(null);
   const inputRef = useRef(null);
   const { isDark } = useTheme();
@@ -204,6 +208,43 @@ function DemosPage() {
     }
   };
 
+  const showNotification = (message, type = 'success') => {
+    setNotification({ message, type });
+    setTimeout(() => setNotification(null), 3000);
+  };
+
+  const handleViewEmail = (email) => {
+    setSelectedEmail(selectedEmail?.id === email.id ? null : email);
+  };
+
+  const handleReply = (email) => {
+    setReplyModal({ open: true, email, mode: 'reply' });
+    setSelectedEmail(null);
+  };
+
+  const handleForward = (email) => {
+    setReplyModal({ open: true, email, mode: 'forward' });
+    setSelectedEmail(null);
+  };
+
+  const handleCreateEvent = (email) => {
+    setEventModal({ open: true, email });
+    setSelectedEmail(null);
+  };
+
+  const handleReplySubmit = (e) => {
+    e.preventDefault();
+    const mode = replyModal.mode === 'reply' ? 'Reply' : 'Forward';
+    showNotification(`${mode} sent successfully! (Demo)`, 'success');
+    setReplyModal({ open: false, email: null, mode: 'reply' });
+  };
+
+  const handleEventSubmit = (e) => {
+    e.preventDefault();
+    showNotification('Calendar event created successfully! (Demo)', 'success');
+    setEventModal({ open: false, email: null });
+  };
+
   const exampleQueries = [
     "whats my oldest email",
     "show me recent meetings",
@@ -269,7 +310,7 @@ function DemosPage() {
               {msg.meetingEmails && msg.meetingEmails.length > 0 && (
                 <div className={styles.emailCards}>
                   {msg.meetingEmails.map((email, i) => (
-                    <div key={i} className={styles.emailCard}>
+                    <div key={i} className={`${styles.emailCard} ${selectedEmail?.id === email.id ? styles.emailCardSelected : ''}`}>
                       <div className={styles.cardHeader}>
                         <span className={styles.eventBadge}>
                           {email.eventType?.replace(/_/g, ' ') || 'meeting'}
@@ -291,6 +332,75 @@ function DemosPage() {
                       </p>
                       {email.snippet && (
                         <p className={styles.cardSnippet}>{email.snippet}</p>
+                      )}
+                      <div className={styles.cardActions}>
+                        <button 
+                          className={styles.cardActionBtn}
+                          onClick={() => handleViewEmail(email)}
+                        >
+                          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                            <circle cx="12" cy="12" r="3"></circle>
+                          </svg>
+                          View
+                        </button>
+                        <button 
+                          className={styles.cardActionBtn}
+                          onClick={() => handleReply(email)}
+                        >
+                          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                            <polyline points="9 17 4 12 9 7"></polyline>
+                            <path d="M20 18v-2a4 4 0 0 0-4-4H4"></path>
+                          </svg>
+                          Reply
+                        </button>
+                        <button 
+                          className={styles.cardActionBtn}
+                          onClick={() => handleForward(email)}
+                        >
+                          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                            <polyline points="15 17 20 12 15 7"></polyline>
+                            <path d="M4 18v-2a4 4 0 0 1 4-4h12"></path>
+                          </svg>
+                          Forward
+                        </button>
+                        <button 
+                          className={`${styles.cardActionBtn} ${styles.cardActionBtnPrimary}`}
+                          onClick={() => handleCreateEvent(email)}
+                        >
+                          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                            <line x1="16" y1="2" x2="16" y2="6"></line>
+                            <line x1="8" y1="2" x2="8" y2="6"></line>
+                            <line x1="3" y1="10" x2="21" y2="10"></line>
+                            <line x1="12" y1="14" x2="12" y2="18"></line>
+                            <line x1="10" y1="16" x2="14" y2="16"></line>
+                          </svg>
+                          Create Event
+                        </button>
+                      </div>
+
+                      {selectedEmail?.id === email.id && (
+                        <div className={styles.emailPanel}>
+                          <div className={styles.emailPanelHeader}>
+                            <h3>{email.subject}</h3>
+                            <button className={styles.closeBtn} onClick={() => setSelectedEmail(null)}>
+                              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                                <line x1="18" y1="6" x2="6" y2="18"></line>
+                                <line x1="6" y1="6" x2="18" y2="18"></line>
+                              </svg>
+                            </button>
+                          </div>
+                          <div className={styles.emailPanelMeta}>
+                            <p><strong>From:</strong> {email.from?.name || 'Unknown'} &lt;{email.from?.email}&gt;</p>
+                            <p><strong>Date:</strong> {email.date ? new Date(email.date).toLocaleString() : 'Unknown'}</p>
+                          </div>
+                          <div className={styles.emailPanelBody}>
+                            {email.snippet?.split('\n').map((line, idx) => (
+                              <p key={idx}>{line || <br />}</p>
+                            ))}
+                          </div>
+                        </div>
                       )}
                     </div>
                   ))}
@@ -346,6 +456,149 @@ function DemosPage() {
       <div className={styles.footer}>
         <p>Sample data • 1000 emails • Developer testing only</p>
       </div>
+
+      {replyModal.open && (
+        <div className={styles.modalOverlay} onClick={() => setReplyModal({ open: false, email: null, mode: 'reply' })}>
+          <div className={styles.modal} onClick={e => e.stopPropagation()}>
+            <div className={styles.modalHeader}>
+              <h3>{replyModal.mode === 'reply' ? 'Reply' : 'Forward'}</h3>
+              <button className={styles.closeBtn} onClick={() => setReplyModal({ open: false, email: null, mode: 'reply' })}>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <line x1="18" y1="6" x2="6" y2="18"></line>
+                  <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+              </button>
+            </div>
+            <form onSubmit={handleReplySubmit}>
+              <div className={styles.modalBody}>
+                <div className={styles.formGroup}>
+                  <label>To:</label>
+                  <input 
+                    type="email" 
+                    defaultValue={replyModal.mode === 'reply' ? replyModal.email?.from?.email : ''} 
+                    placeholder={replyModal.mode === 'forward' ? 'Enter recipient email' : ''}
+                    className={styles.modalInput}
+                  />
+                </div>
+                <div className={styles.formGroup}>
+                  <label>Subject:</label>
+                  <input 
+                    type="text" 
+                    defaultValue={`${replyModal.mode === 'reply' ? 'Re' : 'Fwd'}: ${replyModal.email?.subject || ''}`}
+                    className={styles.modalInput}
+                  />
+                </div>
+                <div className={styles.formGroup}>
+                  <label>Message:</label>
+                  <textarea 
+                    rows={6}
+                    defaultValue={replyModal.mode === 'reply' ? '' : `\n\n---------- Forwarded message ----------\n${replyModal.email?.snippet || ''}`}
+                    placeholder="Type your message..."
+                    className={styles.modalTextarea}
+                  />
+                </div>
+              </div>
+              <div className={styles.modalFooter}>
+                <button type="button" className={styles.modalCancelBtn} onClick={() => setReplyModal({ open: false, email: null, mode: 'reply' })}>
+                  Cancel
+                </button>
+                <button type="submit" className={styles.modalSubmitBtn}>
+                  Send {replyModal.mode === 'reply' ? 'Reply' : 'Forward'}
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {eventModal.open && (
+        <div className={styles.modalOverlay} onClick={() => setEventModal({ open: false, email: null })}>
+          <div className={styles.modal} onClick={e => e.stopPropagation()}>
+            <div className={styles.modalHeader}>
+              <h3>Create Calendar Event</h3>
+              <button className={styles.closeBtn} onClick={() => setEventModal({ open: false, email: null })}>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <line x1="18" y1="6" x2="6" y2="18"></line>
+                  <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+              </button>
+            </div>
+            <form onSubmit={handleEventSubmit}>
+              <div className={styles.modalBody}>
+                <div className={styles.formGroup}>
+                  <label>Event Title:</label>
+                  <input 
+                    type="text" 
+                    defaultValue={eventModal.email?.subject || ''}
+                    className={styles.modalInput}
+                  />
+                </div>
+                <div className={styles.formGroup}>
+                  <label>Attendees:</label>
+                  <input 
+                    type="text" 
+                    defaultValue={eventModal.email?.from?.email || ''}
+                    className={styles.modalInput}
+                  />
+                </div>
+                <div className={styles.formRow}>
+                  <div className={styles.formGroup}>
+                    <label>Date:</label>
+                    <input 
+                      type="date" 
+                      defaultValue={new Date().toISOString().split('T')[0]}
+                      className={styles.modalInput}
+                    />
+                  </div>
+                  <div className={styles.formGroup}>
+                    <label>Time:</label>
+                    <input 
+                      type="time" 
+                      defaultValue="10:00"
+                      className={styles.modalInput}
+                    />
+                  </div>
+                </div>
+                <div className={styles.formGroup}>
+                  <label>Duration:</label>
+                  <select defaultValue="30" className={styles.modalInput}>
+                    <option value="15">15 minutes</option>
+                    <option value="30">30 minutes</option>
+                    <option value="60">1 hour</option>
+                    <option value="90">1.5 hours</option>
+                  </select>
+                </div>
+                <div className={styles.formGroup}>
+                  <label>Notes:</label>
+                  <textarea 
+                    rows={3}
+                    defaultValue={eventModal.email?.snippet || ''}
+                    className={styles.modalTextarea}
+                  />
+                </div>
+              </div>
+              <div className={styles.modalFooter}>
+                <button type="button" className={styles.modalCancelBtn} onClick={() => setEventModal({ open: false, email: null })}>
+                  Cancel
+                </button>
+                <button type="submit" className={styles.modalSubmitBtn}>
+                  Create Event
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {notification && (
+        <div className={`${styles.notification} ${styles[notification.type]}`}>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+            <polyline points="22 4 12 14.01 9 11.01"></polyline>
+          </svg>
+          {notification.message}
+        </div>
+      )}
     </div>
   );
 }
