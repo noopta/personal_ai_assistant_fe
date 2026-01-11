@@ -86,7 +86,7 @@ function EmailDashboardDemo4() {
               style={{
                 '--x': `${cluster.x}%`,
                 '--y': `${cluster.y}%`,
-                '--size': `${cluster.size}px`,
+                '--size': `${cluster.size + 20}px`,
                 '--color': cluster.color,
                 '--delay': `${i * 0.1}s`,
               }}
@@ -95,6 +95,7 @@ function EmailDashboardDemo4() {
               onClick={() => setActiveCluster(cluster)}
             >
               <span className={styles.bubbleIcon}>{cluster.icon}</span>
+              <span className={styles.bubbleLabel}>{cluster.label}</span>
               <span className={styles.bubbleCount}>{cluster.total}</span>
               {cluster.unreadCount > 0 && (
                 <span className={styles.bubbleUnread}>{cluster.unreadCount}</span>
