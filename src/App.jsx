@@ -17,6 +17,8 @@ import MockDemoMeetingPage from './pages/MockDemoMeetingPage';
 import MockDemoInlinePage from './pages/MockDemoInlinePage';
 import EmailDashboardDemo1 from './pages/EmailDashboardDemo1';
 import EmailDashboardDemo2 from './pages/EmailDashboardDemo2';
+import EmailDashboardDemo3 from './pages/EmailDashboardDemo3';
+import EmailDashboardDemo4 from './pages/EmailDashboardDemo4';
 import OAuth2CallbackPage from './pages/OAuth2CallbackPage';
 import FeedbackDashboard from './pages/FeedbackDashboard';
 import { ThemeProvider } from './contexts/ThemeContext';
@@ -63,6 +65,8 @@ function App() {
                     <Route path="/mock-demo-inline" element={<MockDemoInlinePage />} />
                     <Route path="/email-dashboard-1" element={<EmailDashboardDemo1 />} />
                     <Route path="/email-dashboard-2" element={<EmailDashboardDemo2 />} />
+                    <Route path="/email-dashboard-3" element={<EmailDashboardDemo3 />} />
+                    <Route path="/email-dashboard-4" element={<EmailDashboardDemo4 />} />
                   </Routes>
                 </main>
                 <MadeInCanada />
