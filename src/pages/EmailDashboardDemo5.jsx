@@ -3,21 +3,19 @@ import { mockEmails, emailCategories } from '../data/mockEmailData';
 import styles from './EmailDashboardDemo5.module.css';
 
 const VIEW_MODES = [
-  { id: 'classic', label: 'Classic', icon: '☰' },
-  { id: 'clusters', label: 'Clusters', icon: '○' },
-  { id: 'timeline', label: 'Timeline', icon: '📅' },
-  { id: 'matrix', label: 'Matrix', icon: '▦' },
-  { id: 'orbit', label: 'Orbit', icon: '◎' },
-  { id: 'cards', label: 'Cards', icon: '▢' },
+  { id: 'classic', label: 'Classic' },
+  { id: 'clusters', label: 'Clusters' },
+  { id: 'timeline', label: 'Timeline' },
+  { id: 'cards', label: 'Cards' },
 ];
 
 const SIDEBAR_CATEGORIES = [
-  { id: 'all', label: 'All Mail', icon: '📥' },
-  { id: 'work', label: 'Work', icon: '💼' },
-  { id: 'personal', label: 'Personal', icon: '👤' },
-  { id: 'finance', label: 'Finance', icon: '💰' },
-  { id: 'urgent', label: 'Urgent', icon: '🔴' },
-  { id: 'social', label: 'Social', icon: '👥' },
+  { id: 'all', label: 'All Mail' },
+  { id: 'work', label: 'Work' },
+  { id: 'personal', label: 'Personal' },
+  { id: 'finance', label: 'Finance' },
+  { id: 'urgent', label: 'Urgent' },
+  { id: 'social', label: 'Social' },
 ];
 
 const CATEGORY_MAPPING = {
@@ -202,7 +200,6 @@ export default function EmailDashboardDemo5() {
               className={`${styles.navItem} ${selectedCategory === cat.id ? styles.active : ''}`}
               onClick={() => setSelectedCategory(cat.id)}
             >
-              <span className={styles.navIcon}>{cat.icon}</span>
               <span className={styles.navLabel}>{cat.label}</span>
               {categoryCounts[cat.id] > 0 && (
                 <span className={styles.navCount}>{categoryCounts[cat.id]}</span>
@@ -221,8 +218,7 @@ export default function EmailDashboardDemo5() {
                 className={`${styles.viewMode} ${viewMode === mode.id ? styles.active : ''}`}
                 onClick={() => setViewMode(mode.id)}
               >
-                <span className={styles.viewIcon}>{mode.icon}</span>
-                <span>{mode.label}</span>
+                {mode.label}
               </button>
             ))}
           </div>
@@ -234,7 +230,9 @@ export default function EmailDashboardDemo5() {
 
         <div className={styles.toolbar}>
           <div className={styles.searchBox}>
-            <span className={styles.searchIcon}>🔍</span>
+            <svg className={styles.searchIcon} width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+            </svg>
             <input
               type="text"
               placeholder="Search emails..."
@@ -244,8 +242,17 @@ export default function EmailDashboardDemo5() {
             />
           </div>
           <div className={styles.toolbarActions}>
-            <button className={styles.toolbarBtn}>⚙️</button>
-            <button className={styles.toolbarBtn}>🔄</button>
+            <button className={styles.toolbarBtn}>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <path d="M4 4h16v16H4z" strokeLinecap="round" strokeLinejoin="round"/>
+                <path d="M9 9h6v6H9z"/>
+              </svg>
+            </button>
+            <button className={styles.toolbarBtn}>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <path d="M21 12a9 9 0 11-6.219-8.56"/>
+              </svg>
+            </button>
           </div>
         </div>
 
@@ -319,25 +326,31 @@ export default function EmailDashboardDemo5() {
               </div>
               <div className={styles.detailActions}>
                 <button className={styles.actionBtn}>
-                  <span>↩️</span> Reply
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="m9 10-5 5v4h4l5-5"/><path d="M12.5 6.5 17 2l5 5-4.5 4.5"/></svg>
+                  Reply
                 </button>
                 <button className={styles.actionBtn}>
-                  <span>↪️</span> Forward
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="m15 10 5 5v4h-4l-5-5"/><path d="M11.5 6.5 7 2 2 7l4.5 4.5"/></svg>
+                  Forward
                 </button>
                 <button className={styles.actionBtn} onClick={(e) => archiveEmail(e, selectedEmail.id)}>
-                  <span>📦</span> Archive
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="2" y="4" width="20" height="5" rx="2"/><path d="M4 9v9a2 2 0 002 2h12a2 2 0 002-2V9"/><path d="M10 13h4"/></svg>
+                  Archive
                 </button>
                 <button className={styles.actionBtn}>
-                  <span>🗑️</span> Delete
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg>
+                  Delete
                 </button>
                 <button 
                   className={`${styles.actionBtn} ${starredEmails.has(selectedEmail.id) ? styles.starred : ''}`}
                   onClick={(e) => toggleStar(e, selectedEmail.id)}
                 >
-                  <span>{starredEmails.has(selectedEmail.id) ? '★' : '☆'}</span> Star
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill={starredEmails.has(selectedEmail.id) ? "currentColor" : "none"} stroke="currentColor" strokeWidth="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                  Star
                 </button>
                 <button className={styles.actionBtn}>
-                  <span>🏷️</span> Label
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M12 2H2v10l9.29 9.29c.94.94 2.48.94 3.42 0l6.58-6.58c.94-.94.94-2.48 0-3.42L12 2Z"/><path d="M7 7h.01"/></svg>
+                  Label
                 </button>
               </div>
             </div>
@@ -346,37 +359,63 @@ export default function EmailDashboardDemo5() {
       </main>
 
       <aside className={`${styles.aiPanel} ${aiPanelOpen ? styles.open : ''}`}>
-        <button 
-          className={styles.aiToggle}
-          onClick={() => setAiPanelOpen(!aiPanelOpen)}
-        >
-          {aiPanelOpen ? '→' : '←'}
-          <span className={styles.aiToggleLabel}>AI Assistant</span>
-          <span className={styles.aiToggleIcon}>✨</span>
-        </button>
+        <div className={styles.aiHeader} onClick={() => setAiPanelOpen(!aiPanelOpen)}>
+          <div className={styles.aiHeaderIcon}>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <path d="M12 2a2 2 0 0 1 2 2c0 .74-.4 1.39-1 1.73V7h1a7 7 0 0 1 7 7h1a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1h-1v1a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-1H2a1 1 0 0 1-1-1v-3a1 1 0 0 1 1-1h1a7 7 0 0 1 7-7h1V5.73c-.6-.34-1-.99-1-1.73a2 2 0 0 1 2-2z"/>
+              <circle cx="7.5" cy="14.5" r="1.5" fill="currentColor"/>
+              <circle cx="16.5" cy="14.5" r="1.5" fill="currentColor"/>
+            </svg>
+          </div>
+          <div className={styles.aiHeaderText}>
+            <div className={styles.aiTitle}>AI Assistant</div>
+            <div className={styles.aiSubtitle}>Ask anything about your emails</div>
+          </div>
+          <div className={styles.aiExpandIcon}>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              {aiPanelOpen ? <path d="m9 18 6-6-6-6"/> : <path d="m15 18-6-6 6-6"/>}
+            </svg>
+          </div>
+        </div>
+
+        <form className={styles.aiInputForm} onSubmit={handleAiSubmit}>
+          <input
+            type="text"
+            placeholder="Ask AI to help..."
+            value={aiInput}
+            onChange={(e) => setAiInput(e.target.value)}
+            className={styles.aiInput}
+            onClick={() => !aiPanelOpen && setAiPanelOpen(true)}
+          />
+          <button type="submit" className={styles.aiSendBtn} disabled={aiLoading}>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <path d="m22 2-7 20-4-9-9-4 20-7Z"/><path d="M22 2 11 13"/>
+            </svg>
+          </button>
+        </form>
 
         {aiPanelOpen && (
           <div className={styles.aiContent}>
-            <div className={styles.aiHeader}>
-              <div className={styles.aiHeaderIcon}>✨</div>
-              <div>
-                <div className={styles.aiTitle}>AI Assistant</div>
-                <div className={styles.aiSubtitle}>Command your inbox</div>
-              </div>
-            </div>
-
             <div className={styles.aiMessages}>
               {aiMessages.map((msg, i) => (
                 <div key={i} className={`${styles.aiMessage} ${styles[msg.role]}`}>
                   {msg.role === 'assistant' && (
-                    <div className={styles.aiMessageAvatar}>✨</div>
+                    <div className={styles.aiMessageAvatar}>
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                        <circle cx="12" cy="12" r="10"/>
+                      </svg>
+                    </div>
                   )}
                   <div className={styles.aiMessageContent}>{msg.content}</div>
                 </div>
               ))}
               {aiLoading && (
                 <div className={`${styles.aiMessage} ${styles.assistant}`}>
-                  <div className={styles.aiMessageAvatar}>✨</div>
+                  <div className={styles.aiMessageAvatar}>
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                      <circle cx="12" cy="12" r="10"/>
+                    </svg>
+                  </div>
                   <div className={styles.aiMessageContent}>
                     <span className={styles.typingIndicator}>
                       <span></span><span></span><span></span>
@@ -387,21 +426,9 @@ export default function EmailDashboardDemo5() {
               <div ref={chatEndRef} />
             </div>
 
-            <form className={styles.aiInputForm} onSubmit={handleAiSubmit}>
-              <input
-                type="text"
-                placeholder="Ask AI to help..."
-                value={aiInput}
-                onChange={(e) => setAiInput(e.target.value)}
-                className={styles.aiInput}
-              />
-              <button type="submit" className={styles.aiSendBtn} disabled={aiLoading}>
-                ➤
-              </button>
-            </form>
-
             <div className={styles.aiSuggestions}>
-              Try: "Show urgent emails" or "Summarize inbox"
+              <button className={styles.suggestionBtn} onClick={() => setAiInput('Show me urgent emails')}>Show urgent emails</button>
+              <button className={styles.suggestionBtn} onClick={() => setAiInput('Summarize my inbox')}>Summarize inbox</button>
             </div>
           </div>
         )}
