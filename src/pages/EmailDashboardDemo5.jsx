@@ -111,9 +111,22 @@ export default function EmailDashboardDemo5() {
           search: searchQuery || undefined,
         });
 
-        setEmails(data.emails || []);
-        setBackendPagination(data.pagination || {});
-        setBackendCategoryCounts(data.categoryCounts || {});
+        console.log('Backend response:', data); // Debug log
+
+        // Ensure we have arrays and objects, not null/undefined
+        const safeEmails = Array.isArray(data?.emails) ? data.emails : [];
+        const safePagination = data?.pagination && typeof data.pagination === 'object' ? data.pagination : {
+          currentPage: 1,
+          totalPages: 1,
+          hasNextPage: false,
+          hasPrevPage: false,
+          totalCount: 0
+        };
+        const safeCategoryCounts = data?.categoryCounts && typeof data.categoryCounts === 'object' ? data.categoryCounts : {};
+
+        setEmails(safeEmails);
+        setBackendPagination(safePagination);
+        setBackendCategoryCounts(safeCategoryCounts);
       } catch (err) {
         console.error('Failed to fetch emails:', err);
         setError(err.message || 'Failed to load emails');
@@ -707,7 +720,7 @@ export default function EmailDashboardDemo5() {
               )}
 
               {/* Email List */}
-              {!loading && !error && paginatedEmails.map(email => {
+              {!loading && !error && paginatedEmails.filter(email => email && email.id).map(email => {
                 const senderName = getSenderName(email);
                 return (
                   <button
@@ -877,9 +890,11 @@ export default function EmailDashboardDemo5() {
                       </div>
                     </div>
                     <div className={styles.threadMessageContent}>
-                      {selectedEmail.body?.split('\n').map((line, i) => (
-                        <p key={i}>{line || <br />}</p>
-                      ))}
+                      {(selectedEmail.body || selectedEmail.snippet || 'No content available')
+                        .split('\n')
+                        .map((line, i) => (
+                          <p key={i}>{line || <br />}</p>
+                        ))}
                     </div>
                   </div>
 
@@ -910,7 +925,7 @@ export default function EmailDashboardDemo5() {
                         </div>
                       </div>
                       <div className={styles.threadMessageContent}>
-                        <p>{reply.body}</p>
+                        <p>{reply.body || reply.snippet || ''}</p>
                       </div>
                     </div>
                     );
