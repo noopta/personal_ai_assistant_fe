@@ -14,6 +14,25 @@ const generateMockEmails = () => {
 
   const urgencyLevels = ['high', 'medium', 'low'];
 
+  // Thread reply templates for generating conversations
+  const replyTemplates = {
+    meetings: [
+      { body: 'That time works perfectly for me! Looking forward to it.' },
+      { body: 'Just confirming - is this in-person or virtual?' },
+      { body: 'Can we push this back by 30 minutes? Running a bit behind.' },
+    ],
+    personal: [
+      { body: 'Sounds great! Count me in.' },
+      { body: 'Thanks for thinking of me! Let me check my schedule.' },
+      { body: 'Absolutely! What time works best for you?' },
+    ],
+    interviews: [
+      { body: 'Thank you for the opportunity! I\'m excited to speak with the team.' },
+      { body: 'I\'ve reviewed the materials. Looking forward to our conversation.' },
+      { body: 'Quick question - should I prepare anything specific for this interview?' },
+    ],
+  };
+
   const emailTemplates = [
     { category: 'urgent', subject: 'ACTION REQUIRED: Your account security', from: 'security@bank.com', urgency: 'high', snippet: 'We detected unusual activity on your account. Please verify your identity immediately to prevent...' },
     { category: 'urgent', subject: 'Payment Failed - Immediate Action Needed', from: 'billing@netflix.com', urgency: 'high', snippet: 'Your payment method was declined. Update your billing information to continue your subscription...' },
@@ -70,22 +89,127 @@ const generateMockEmails = () => {
   const emails = [];
   const now = new Date();
 
+  // Add a test thread at the top for easy testing
+  const testThreadId = 'test-thread-1';
+  const testThread = [
+    {
+      id: 'test-email-1',
+      threadId: testThreadId,
+      category: 'meetings',
+      subject: 'Project Kickoff Meeting - Next Tuesday',
+      from: 'sarah.johnson@company.com',
+      urgency: 'high',
+      snippet: 'Hi team! I wanted to schedule our project kickoff meeting for next Tuesday at 2 PM. Please let me know if this works for everyone.',
+      body: 'Hi team!\n\nI wanted to schedule our project kickoff meeting for next Tuesday at 2 PM. We\'ll be discussing:\n\n- Project timeline and milestones\n- Team roles and responsibilities\n- Initial requirements gathering\n\nPlease let me know if this works for everyone. The meeting will be in Conference Room B.\n\nBest regards,\nSarah',
+      receivedAt: new Date(now - 2 * 60 * 60 * 1000).toISOString(), // 2 hours ago
+      isRead: false,
+      isStarred: false,
+      hasAttachment: false,
+      categoryMeta: categories.meetings,
+      replies: [
+        {
+          id: 'test-email-2',
+          from: 'alex.chen@company.com',
+          body: 'Perfect timing! I\'ll be there. Looking forward to getting started on this project.',
+          receivedAt: new Date(now - 1.5 * 60 * 60 * 1000).toISOString(),
+          isRead: true,
+        },
+        {
+          id: 'test-email-3',
+          from: 'mike.rodriguez@company.com',
+          body: 'Tuesday at 2 PM works for me. Should I prepare anything beforehand?',
+          receivedAt: new Date(now - 1 * 60 * 60 * 1000).toISOString(),
+          isRead: true,
+        },
+        {
+          id: 'test-email-4',
+          from: 'sarah.johnson@company.com',
+          body: 'Great! @Mike - just review the project brief I sent last week. See you all on Tuesday!',
+          receivedAt: new Date(now - 0.5 * 60 * 60 * 1000).toISOString(),
+          isRead: false,
+        }
+      ],
+      replyCount: 3
+    }
+  ];
+  
+  emails.push(...testThread);
+
   for (let i = 0; i < 300; i++) {
     const template = emailTemplates[i % emailTemplates.length];
     const daysAgo = Math.floor(Math.random() * 30);
     const hoursAgo = Math.floor(Math.random() * 24);
     const date = new Date(now - (daysAgo * 24 + hoursAgo) * 60 * 60 * 1000);
     
-    emails.push({
+    // Determine if this email is part of a thread (30% chance)
+    const hasThread = Math.random() > 0.7;
+    const threadId = hasThread ? `thread-${Math.floor(i / 3)}` : `thread-${i}`;
+    
+    // Generate full email body based on snippet
+    const bodyLines = [
+      template.snippet,
+      '',
+      'Best regards,',
+      template.from.split('@')[0].split('.').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ')
+    ];
+    
+    const email = {
       id: `email-${i}`,
+      threadId,
       ...template,
+      body: bodyLines.join('\n'),
       receivedAt: date.toISOString(),
       isRead: Math.random() > 0.3,
       isStarred: Math.random() > 0.85,
       hasAttachment: Math.random() > 0.8,
       categoryMeta: categories[template.category],
-    });
+      replies: [], // Will be populated later
+    };
+    
+    emails.push(email);
   }
+
+  // Create thread relationships - add replies to some emails
+  const emailsByThread = {};
+  emails.forEach(email => {
+    if (!emailsByThread[email.threadId]) {
+      emailsByThread[email.threadId] = [];
+    }
+    emailsByThread[email.threadId].push(email);
+  });
+
+  // For threads with multiple emails, create reply relationships
+  Object.keys(emailsByThread).forEach(threadId => {
+    const threadEmails = emailsByThread[threadId].sort((a, b) => 
+      new Date(a.receivedAt) - new Date(b.receivedAt)
+    );
+    
+    if (threadEmails.length > 1) {
+      // First email is the original, rest are replies
+      for (let i = 1; i < threadEmails.length; i++) {
+        const replyEmail = threadEmails[i];
+        const originalEmail = threadEmails[0];
+        
+        // Get appropriate reply template
+        const replies = replyTemplates[originalEmail.category] || replyTemplates.personal;
+        const replyTemplate = replies[Math.floor(Math.random() * replies.length)];
+        
+        // Add this as a reply to the original email
+        const reply = {
+          id: replyEmail.id,
+          from: replyEmail.from,
+          body: replyTemplate.body,
+          receivedAt: replyEmail.receivedAt,
+          isRead: replyEmail.isRead,
+        };
+        
+        originalEmail.replies.push(reply);
+      }
+      
+      // Update reply count for original email
+      threadEmails[0].replyCount = threadEmails.length - 1;
+    }
+  });
 
   return emails.sort((a, b) => new Date(b.receivedAt) - new Date(a.receivedAt));
 };

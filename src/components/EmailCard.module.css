@@ -101,6 +101,8 @@
 .emailCardBody {
   padding: 0 16px 16px;
   border-top: 1px solid #f1f5f9;
+  animation: emailExpandIn 200ms ease-out;
+  transform-origin: top;
 }
 
 .emailFullContent {
@@ -132,6 +134,17 @@
 
 .emailFullContent p {
   margin: 0 0 8px 0;
+}
+
+@keyframes emailExpandIn {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 /* Action Toolbar - Clean horizontal layout */

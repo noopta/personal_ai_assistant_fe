@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import { useState } from 'react';
 import Navigation from './components/Navigation';
 import LandingPage from './pages/LandingPage';
@@ -29,9 +29,50 @@ import FeedbackButton from './components/FeedbackButton';
 import FeedbackModal from './components/FeedbackModal';
 import './App.css';
 
-function App() {
+function AppContent() {
   const [isFeedbackOpen, setIsFeedbackOpen] = useState(false);
+  const location = useLocation();
+  const isEmailDashboard5 = location.pathname === '/email-dashboard-5';
 
+  return (
+    <>
+      <Navigation />
+      <main>
+        <Routes>
+          <Route path="/" element={<LandingPage />} />
+          <Route path="/product" element={<ProductPage />} />
+          <Route path="/integrations" element={<IntegrationsPage />} />
+          <Route path="/about" element={<AboutPage />} />
+          <Route path="/demos" element={<DemosPage />} />
+          <Route path="/privacy" element={<PrivacyPolicyPage />} />
+          <Route path="/terms" element={<TermsOfServicePage />} />
+          <Route path="/mock-demo" element={<MockDemoPage />} />
+          <Route path="/mock-demo-alt" element={<MockDemoAltPage />} />
+          <Route path="/mock-demo-calendar" element={<MockDemoCalendarPage />} />
+          <Route path="/mock-demo-full" element={<MockDemoFullPage />} />
+          <Route path="/mock-demo-chat-full" element={<MockDemoChatFullPage />} />
+          <Route path="/mock-demo-meeting" element={<MockDemoMeetingPage />} />
+          <Route path="/mock-demo-inline" element={<MockDemoInlinePage />} />
+          <Route path="/email-dashboard-1" element={<EmailDashboardDemo1 />} />
+          <Route path="/email-dashboard-2" element={<EmailDashboardDemo2 />} />
+          <Route path="/email-dashboard-3" element={<EmailDashboardDemo3 />} />
+          <Route path="/email-dashboard-4" element={<EmailDashboardDemo4 />} />
+          <Route path="/email-dashboard-5" element={<EmailDashboardDemo5 />} />
+        </Routes>
+      </main>
+      <MadeInCanada />
+      {!isEmailDashboard5 && (
+        <FeedbackButton onClick={() => setIsFeedbackOpen(true)} />
+      )}
+      <FeedbackModal 
+        isOpen={isFeedbackOpen} 
+        onClose={() => setIsFeedbackOpen(false)} 
+      />
+    </>
+  );
+}
+
+function App() {
   return (
     <ThemeProvider>
       <Router>
@@ -45,40 +86,7 @@ function App() {
             <Route path="/hidden-feedback" element={<FeedbackDashboard />} />
             
             {/* Regular routes with navigation */}
-            <Route path="/*" element={
-              <>
-                <Navigation />
-                <main>
-                  <Routes>
-                    <Route path="/" element={<LandingPage />} />
-                    <Route path="/product" element={<ProductPage />} />
-                    <Route path="/integrations" element={<IntegrationsPage />} />
-                    <Route path="/about" element={<AboutPage />} />
-                    <Route path="/demos" element={<DemosPage />} />
-                    <Route path="/privacy" element={<PrivacyPolicyPage />} />
-                    <Route path="/terms" element={<TermsOfServicePage />} />
-                    <Route path="/mock-demo" element={<MockDemoPage />} />
-                    <Route path="/mock-demo-alt" element={<MockDemoAltPage />} />
-                    <Route path="/mock-demo-calendar" element={<MockDemoCalendarPage />} />
-                    <Route path="/mock-demo-full" element={<MockDemoFullPage />} />
-                    <Route path="/mock-demo-chat-full" element={<MockDemoChatFullPage />} />
-                    <Route path="/mock-demo-meeting" element={<MockDemoMeetingPage />} />
-                    <Route path="/mock-demo-inline" element={<MockDemoInlinePage />} />
-                    <Route path="/email-dashboard-1" element={<EmailDashboardDemo1 />} />
-                    <Route path="/email-dashboard-2" element={<EmailDashboardDemo2 />} />
-                    <Route path="/email-dashboard-3" element={<EmailDashboardDemo3 />} />
-                    <Route path="/email-dashboard-4" element={<EmailDashboardDemo4 />} />
-                    <Route path="/email-dashboard-5" element={<EmailDashboardDemo5 />} />
-                  </Routes>
-                </main>
-                <MadeInCanada />
-                <FeedbackButton onClick={() => setIsFeedbackOpen(true)} />
-                <FeedbackModal 
-                  isOpen={isFeedbackOpen} 
-                  onClose={() => setIsFeedbackOpen(false)} 
-                />
-              </>
-            } />
+            <Route path="/*" element={<AppContent />} />
           </Routes>
         </div>
       </Router>
