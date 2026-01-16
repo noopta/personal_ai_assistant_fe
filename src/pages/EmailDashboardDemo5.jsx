@@ -184,6 +184,11 @@ export default function EmailDashboardDemo5() {
   };
 
   const getSenderName = (email) => {
+    // Backend now returns from as object: { email, name }
+    if (typeof email.from === 'object' && email.from !== null) {
+      return email.from.name || email.from.email?.split('@')[0] || 'Unknown';
+    }
+    // Fallback for old string format
     const fromField = email.from || '';
     const name = fromField.split('@')[0].replace(/[._-]/g, ' ');
     return name.split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
@@ -879,17 +884,22 @@ export default function EmailDashboardDemo5() {
                   </div>
 
                   {/* Thread Replies */}
-                  {selectedEmail.replies?.map((reply, idx) => (
+                  {selectedEmail.replies?.map((reply, idx) => {
+                    // Handle reply.from which might be string or object
+                    const replyEmail = { from: reply.from };
+                    const replySenderName = getSenderName(replyEmail);
+                    
+                    return (
                     <div key={reply.id} className={styles.threadMessage}>
                       <div className={styles.threadMessageHeader}>
                         <div 
                           className={styles.threadAvatar}
-                          style={{ background: getAvatarColor(getSenderName({ from: reply.from })) }}
+                          style={{ background: getAvatarColor(replySenderName) }}
                         >
-                          {getInitials(getSenderName({ from: reply.from }))}
+                          {getInitials(replySenderName)}
                         </div>
                         <div className={styles.threadMessageInfo}>
-                          <div className={styles.threadSender}>{getSenderName({ from: reply.from })}</div>
+                          <div className={styles.threadSender}>{replySenderName}</div>
                           <div className={styles.threadTime}>{new Date(reply.receivedAt).toLocaleString('en-US', { 
                             month: 'short', 
                             day: 'numeric', 
@@ -903,7 +913,8 @@ export default function EmailDashboardDemo5() {
                         <p>{reply.body}</p>
                       </div>
                     </div>
-                  ))}
+                    );
+                  })}
                 </div>
               </div>
 
