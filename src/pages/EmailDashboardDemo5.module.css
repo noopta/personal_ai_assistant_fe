@@ -1651,6 +1651,19 @@
   }
 }
 
+.streamingCursor {
+  display: inline-block;
+  color: #6366f1;
+  font-weight: 300;
+  animation: blink 0.8s infinite;
+  margin-left: 2px;
+}
+
+@keyframes blink {
+  0%, 50% { opacity: 1; }
+  51%, 100% { opacity: 0; }
+}
+
 @keyframes slideInEmailDetail {
   0% {
     opacity: 0;

@@ -3,6 +3,7 @@ import { emailCategories } from '../data/mockEmailData';
 import { useTheme } from '../contexts/ThemeContext';
 import styles from './EmailDashboardDemo5.module.css';
 import * as emailApi from '../services/emailApi';
+import ReactMarkdown from 'react-markdown';
 
 const SIDEBAR_CATEGORIES = [
   { id: 'all', label: 'All Mail' },
@@ -469,47 +470,111 @@ export default function EmailDashboardDemo5() {
     setAiInput('');
     setAiLoading(true);
 
-    // Simulate API delay
-    setTimeout(() => {
-      try {
-        // Try real API first, fallback to simulation
-        fetch(`${process.env.REACT_APP_AGENT_API_URL || ''}/agent-rag-demo`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          credentials: 'include',
-          body: JSON.stringify({ query: userMessage, context: emailContext }),
-        })
-          .then(response => {
-            if (response.ok) {
-              return response.json();
-            }
-            throw new Error('API not available');
-          })
-          .then(data => {
-            setAiMessages(prev => [...prev, { 
-              role: 'assistant', 
-              content: data.response || data.message || simulateAIResponse(userMessage)
-            }]);
-            setAiLoading(false);
-          })
-          .catch(() => {
-            // Fallback to simulation
-            const simulatedResponse = simulateAIResponse(userMessage);
-            setAiMessages(prev => [...prev, { 
-              role: 'assistant', 
-              content: simulatedResponse
-            }]);
-            setAiLoading(false);
-          });
-      } catch {
-        const simulatedResponse = simulateAIResponse(userMessage);
-        setAiMessages(prev => [...prev, { 
-          role: 'assistant', 
-          content: simulatedResponse
-        }]);
-        setAiLoading(false);
+    try {
+      const response = await fetch(`${process.env.REACT_APP_AGENT_API_URL || 'https://api.airthreads.ai:5001'}/agent-rag-demo`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify({ query: userMessage, context: emailContext }),
+      });
+
+      if (!response.ok) {
+        throw new Error('API not available');
       }
-    }, 500);
+
+      const reader = response.body.getReader();
+      const decoder = new TextDecoder();
+
+      let assistantContent = '';
+      setAiMessages(prev => [...prev, { role: 'assistant', content: '', isStreaming: true }]);
+
+      let buffer = '';
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+
+        buffer += decoder.decode(value, { stream: true });
+        const lines = buffer.split('\n');
+        buffer = lines.pop() || '';
+
+        for (const line of lines) {
+          if (line.startsWith('event: metadata') || line.startsWith('event: complete')) {
+            continue;
+          } else if (line.startsWith('data: ')) {
+            try {
+              const data = JSON.parse(line.slice(6));
+
+              if (data.token) {
+                assistantContent += data.token;
+                setAiMessages(prev => {
+                  const updated = [...prev];
+                  updated[updated.length - 1] = { 
+                    role: 'assistant', 
+                    content: assistantContent,
+                    isStreaming: true 
+                  };
+                  return updated;
+                });
+              } else if (data.status === 'complete') {
+                const emails = data.relevant_emails || data.meeting_emails;
+                if (emails?.length > 0) {
+                  setAiMessages(prev => {
+                    const updated = [...prev];
+                    updated[updated.length - 1] = { 
+                      ...updated[updated.length - 1],
+                      relevantEmails: emails
+                    };
+                    return updated;
+                  });
+                }
+              }
+            } catch (parseError) {
+              // Skip unparseable lines
+            }
+          }
+        }
+      }
+
+      // Handle any remaining buffer content
+      if (buffer.trim()) {
+        const line = buffer.trim();
+        if (line.startsWith('data: ')) {
+          try {
+            const data = JSON.parse(line.slice(6));
+            if (data.token) {
+              assistantContent += data.token;
+            }
+          } catch (e) {}
+        }
+      }
+
+      // Mark streaming as complete
+      setAiMessages(prev => {
+        const updated = [...prev];
+        const lastMsg = updated[updated.length - 1];
+        updated[updated.length - 1] = { 
+          ...lastMsg,
+          content: assistantContent || lastMsg.content,
+          isStreaming: false 
+        };
+        return updated;
+      });
+
+    } catch (error) {
+      // Fallback to simulation if API fails
+      const simulatedResponse = simulateAIResponse(userMessage);
+      setAiMessages(prev => {
+        // Remove any streaming message that might have been added
+        const filtered = prev.filter(m => !m.isStreaming);
+        return [...filtered, { 
+          role: 'assistant', 
+          content: simulatedResponse,
+          isStreaming: false
+        }];
+      });
+    } finally {
+      setAiLoading(false);
+    }
   };
 
 
@@ -1112,7 +1177,10 @@ export default function EmailDashboardDemo5() {
                             <span>Context update</span>
                           </div>
                         )}
-                        <div className={styles.aiMessageText}>{msg.content}</div>
+                        <div className={styles.aiMessageText}>
+                          <ReactMarkdown>{msg.content}</ReactMarkdown>
+                          {msg.isStreaming && <span className={styles.streamingCursor}>|</span>}
+                        </div>
                       </div>
                     </div>
                   ))}

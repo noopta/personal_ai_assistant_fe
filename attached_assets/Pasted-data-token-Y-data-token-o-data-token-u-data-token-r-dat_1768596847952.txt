@@ -1,0 +1,281 @@
+data: {"token": "Y"}
+
+data: {"token": "o"}
+
+data: {"token": "u"}
+
+data: {"token": "r"}
+
+data: {"token": " "}
+
+data: {"token": "*"}
+
+data: {"token": "*"}
+
+data: {"token": "n"}
+
+data: {"token": "e"}
+
+data: {"token": "w"}
+
+data: {"token": "e"}
+
+data: {"token": "s"}
+
+data: {"token": "t"}
+
+data: {"token": " "}
+
+data: {"token": "e"}
+
+data: {"token": "m"}
+
+data: {"token": "a"}
+
+data: {"token": "i"}
+
+data: {"token": "l"}
+
+data: {"token": "*"}
+
+data: {"token": "*"}
+
+data: {"token": " "}
+
+data: {"token": "i"}
+
+data: {"token": "s"}
+
+data: {"token": " "}
+
+data: {"token": "f"}
+
+data: {"token": "r"}
+
+data: {"token": "o"}
+
+data: {"token": "m"}
+
+data: {"token": " "}
+
+data: {"token": "*"}
+
+data: {"token": "*"}
+
+data: {"token": "m"}
+
+data: {"token": "e"}
+
+data: {"token": "s"}
+
+data: {"token": "s"}
+
+data: {"token": "a"}
+
+data: {"token": "g"}
+
+data: {"token": "e"}
+
+data: {"token": "@"}
+
+data: {"token": "a"}
+
+data: {"token": "d"}
+
+data: {"token": "o"}
+
+data: {"token": "b"}
+
+data: {"token": "e"}
+
+data: {"token": "."}
+
+data: {"token": "c"}
+
+data: {"token": "o"}
+
+data: {"token": "m"}
+
+data: {"token": "*"}
+
+data: {"token": "*"}
+
+data: {"token": " "}
+
+data: {"token": "o"}
+
+data: {"token": "n"}
+
+data: {"token": " "}
+
+data: {"token": "*"}
+
+data: {"token": "*"}
+
+data: {"token": "2"}
+
+data: {"token": "0"}
+
+data: {"token": "2"}
+
+data: {"token": "6"}
+
+data: {"token": "-"}
+
+data: {"token": "0"}
+
+data: {"token": "1"}
+
+data: {"token": "-"}
+
+data: {"token": "0"}
+
+data: {"token": "7"}
+
+data: {"token": " "}
+
+data: {"token": "0"}
+
+data: {"token": "0"}
+
+data: {"token": ":"}
+
+data: {"token": "0"}
+
+data: {"token": "0"}
+
+data: {"token": ":"}
+
+data: {"token": "0"}
+
+data: {"token": "0"}
+
+data: {"token": "*"}
+
+data: {"token": "*"}
+
+data: {"token": ":"}
+
+data: {"token": "\n"}
+
+data: {"token": "\n"}
+
+data: {"token": "*"}
+
+data: {"token": "*"}
+
+data: {"token": "S"}
+
+data: {"token": "u"}
+
+data: {"token": "b"}
+
+data: {"token": "j"}
+
+data: {"token": "e"}
+
+data: {"token": "c"}
+
+data: {"token": "t"}
+
+data: {"token": ":"}
+
+data: {"token": "*"}
+
+data: {"token": "*"}
+
+data: {"token": " "}
+
+data: {"token": "A"}
+
+data: {"token": "d"}
+
+data: {"token": "o"}
+
+data: {"token": "b"}
+
+data: {"token": "e"}
+
+data: {"token": " "}
+
+data: {"token": "C"}
+
+data: {"token": "r"}
+
+data: {"token": "e"}
+
+data: {"token": "a"}
+
+data: {"token": "t"}
+
+data: {"token": "i"}
+
+data: {"token": "v"}
+
+data: {"token": "e"}
+
+data: {"token": " "}
+
+data: {"token": "C"}
+
+data: {"token": "l"}
+
+data: {"token": "o"}
+
+data: {"token": "u"}
+
+data: {"token": "d"}
+
+data: {"token": " "}
+
+data: {"token": "-"}
+
+data: {"token": " "}
+
+data: {"token": "P"}
+
+data: {"token": "a"}
+
+data: {"token": "y"}
+
+data: {"token": "m"}
+
+data: {"token": "e"}
+
+data: {"token": "n"}
+
+data: {"token": "t"}
+
+data: {"token": " "}
+
+data: {"token": "R"}
+
+data: {"token": "e"}
+
+data: {"token": "c"}
+
+data: {"token": "e"}
+
+data: {"token": "i"}
+
+data: {"token": "p"}
+
+data: {"token": "t"}
+
+data: {"token": " "}
+
+data: {"token": "$"}
+
+data: {"token": "5"}
+
+data: {"token": "4"}
+
+data: {"token": "."}
+
+data: {"token": "9"}
+
+data: {"token": "9"}
+
+event: complete
+data: {"status": "complete", "relevant_emails": [], "timing": {"first_token": 0.06736373901367188, "total": 0.06919574737548828, "tokens": 139}, "metadata": {"query": "what is my last email", "intent": {"temporal": "newest", "sort_order": "desc", "query_type": "find_emails", "event_types": [], "people": [], "topics": []}, "result_count": 1070, "candidate_count": 1070, "relevant_emails_count": 0, "meetings_count": 0}}
+
