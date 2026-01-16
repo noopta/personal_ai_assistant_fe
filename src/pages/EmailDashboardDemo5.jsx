@@ -1,7 +1,8 @@
 import React, { useState, useMemo, useRef, useEffect } from 'react';
-import { mockEmails, emailCategories } from '../data/mockEmailData';
+import { emailCategories } from '../data/mockEmailData';
 import { useTheme } from '../contexts/ThemeContext';
 import styles from './EmailDashboardDemo5.module.css';
+import * as emailApi from '../services/emailApi';
 
 const SIDEBAR_CATEGORIES = [
   { id: 'all', label: 'All Mail' },
@@ -14,11 +15,11 @@ const SIDEBAR_CATEGORIES = [
 
 const CATEGORY_MAPPING = {
   all: null,
-  work: ['meetings', 'interviews'],
-  personal: ['personal', 'social'],
-  finance: ['bills', 'receipts'],
-  urgent: ['urgent'],
-  social: ['social', 'newsletters', 'promotional'],
+  work: 'meetings',          // Backend uses single category
+  personal: 'personal',
+  finance: 'bills',
+  urgent: 'urgent',
+  social: 'social',
 };
 
 const EMAILS_PER_PAGE = 20;
@@ -29,6 +30,19 @@ export default function EmailDashboardDemo5() {
   const [selectedEmail, setSelectedEmail] = useState(null);
   const [isEmailDetailClosing, setIsEmailDetailClosing] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
+  
+  // Backend state
+  const [emails, setEmails] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [backendPagination, setBackendPagination] = useState({
+    currentPage: 1,
+    totalPages: 1,
+    hasNextPage: false,
+    hasPrevPage: false,
+    totalCount: 0
+  });
+  const [backendCategoryCounts, setBackendCategoryCounts] = useState({});
   
   // Pagination state
   const [emailPage, setEmailPage] = useState(1);
@@ -78,57 +92,84 @@ export default function EmailDashboardDemo5() {
   const emailListRef = useRef(null);
   const integrationsMenuRef = useRef(null);
 
-  const filteredEmails = useMemo(() => {
-    let emails = mockEmails.filter(e => !archivedEmails.has(e.id));
-    
-    if (selectedCategory !== 'all') {
-      const cats = CATEGORY_MAPPING[selectedCategory];
-      if (cats) {
-        emails = emails.filter(e => cats.includes(e.category));
+  // Fetch emails from backend
+  useEffect(() => {
+    const fetchEmailsFromBackend = async () => {
+      setLoading(true);
+      setError(null);
+      
+      try {
+        // Map frontend category to backend category
+        const backendCategory = selectedCategory !== 'all' 
+          ? CATEGORY_MAPPING[selectedCategory]
+          : undefined;
+
+        const data = await emailApi.fetchEmails({
+          page: emailPage,
+          per_page: EMAILS_PER_PAGE,
+          category: backendCategory,
+          search: searchQuery || undefined,
+        });
+
+        setEmails(data.emails || []);
+        setBackendPagination(data.pagination || {});
+        setBackendCategoryCounts(data.categoryCounts || {});
+      } catch (err) {
+        console.error('Failed to fetch emails:', err);
+        setError(err.message || 'Failed to load emails');
+        setEmails([]);
+      } finally {
+        setLoading(false);
       }
-    }
-    
-    if (searchQuery) {
-      const q = searchQuery.toLowerCase();
-      emails = emails.filter(e => 
-        e.subject.toLowerCase().includes(q) ||
-        (e.from || '').toLowerCase().includes(q) ||
-        (e.snippet || '').toLowerCase().includes(q)
-      );
-    }
-    
-    return emails;
-  }, [selectedCategory, searchQuery, archivedEmails]);
+    };
 
-  const paginatedEmails = useMemo(() => {
-    const start = (emailPage - 1) * EMAILS_PER_PAGE;
-    const end = start + EMAILS_PER_PAGE;
-    return filteredEmails.slice(start, end);
-  }, [filteredEmails, emailPage]);
-
-  const totalEmailPages = useMemo(() => {
-    return Math.ceil(filteredEmails.length / EMAILS_PER_PAGE);
-  }, [filteredEmails.length]);
+    fetchEmailsFromBackend();
+  }, [selectedCategory, searchQuery, emailPage]);
 
   // Reset to page 1 when filters change
   useEffect(() => {
-    setEmailPage(1);
+    if (emailPage !== 1) {
+      setEmailPage(1);
+    }
   }, [selectedCategory, searchQuery]);
 
-  const categoryCounts = useMemo(() => {
-    const counts = { all: mockEmails.filter(e => !archivedEmails.has(e.id)).length };
-    Object.keys(CATEGORY_MAPPING).forEach(cat => {
-      if (cat !== 'all') {
-        const cats = CATEGORY_MAPPING[cat];
-        counts[cat] = mockEmails.filter(e => !archivedEmails.has(e.id) && cats?.includes(e.category)).length;
+  // Load custom filters on mount
+  useEffect(() => {
+    const loadCustomFilters = async () => {
+      try {
+        const filters = await emailApi.fetchCustomFilters();
+        setCustomFilters(filters.filters || filters || []);
+      } catch (err) {
+        console.error('Failed to load custom filters:', err);
       }
-    });
-    return counts;
-  }, [archivedEmails]);
+    };
+
+    loadCustomFilters();
+  }, []);
+
+  // Computed values from backend data
+  const filteredEmails = useMemo(() => {
+    return emails.filter(e => !archivedEmails.has(e.id));
+  }, [emails, archivedEmails]);
+
+  const categoryCounts = useMemo(() => {
+    // Use backend counts, but map to frontend categories
+    return {
+      all: backendCategoryCounts.all || 0,
+      work: backendCategoryCounts.meetings || 0,
+      personal: backendCategoryCounts.personal || 0,
+      finance: backendCategoryCounts.bills || 0,
+      urgent: backendCategoryCounts.urgent || 0,
+      social: backendCategoryCounts.social || 0,
+    };
+  }, [backendCategoryCounts]);
 
   const unreadCount = useMemo(() => {
     return filteredEmails.filter(e => !e.isRead).length;
   }, [filteredEmails]);
+
+  const totalEmailPages = backendPagination.totalPages || 1;
+  const paginatedEmails = filteredEmails;
 
   const formatTime = (dateString) => {
     if (!dateString) return '';
@@ -171,14 +212,43 @@ export default function EmailDashboardDemo5() {
     return dots;
   };
 
-  const toggleStar = (e, emailId) => {
+  const toggleStar = async (e, emailId) => {
     e.stopPropagation();
+    
+    const isCurrentlyStarred = starredEmails.has(emailId);
+    const newStarredStatus = !isCurrentlyStarred;
+    
+    // Optimistic update
     setStarredEmails(prev => {
       const next = new Set(prev);
-      if (next.has(emailId)) next.delete(emailId);
-      else next.add(emailId);
+      if (newStarredStatus) {
+        next.add(emailId);
+      } else {
+        next.delete(emailId);
+      }
       return next;
     });
+    
+    // Update backend
+    try {
+      await emailApi.updateEmailStarStatus(emailId, newStarredStatus);
+      // Also update the email in local state
+      setEmails(prev => prev.map(email => 
+        email.id === emailId ? { ...email, isStarred: newStarredStatus } : email
+      ));
+    } catch (err) {
+      console.error('Failed to update star status:', err);
+      // Revert on error
+      setStarredEmails(prev => {
+        const next = new Set(prev);
+        if (isCurrentlyStarred) {
+          next.add(emailId);
+        } else {
+          next.delete(emailId);
+        }
+        return next;
+      });
+    }
   };
 
   // Drag and Drop handlers
@@ -290,24 +360,41 @@ export default function EmailDashboardDemo5() {
   };
 
   // Custom Filter handlers
-  const handleAddFilter = () => {
+  const handleAddFilter = async () => {
     if (newFilterName.trim() && newFilterCriteria.trim()) {
-      const newFilter = {
-        id: `filter-${Date.now()}`,
-        name: newFilterName.trim(),
-        criteria: newFilterCriteria.trim()
-      };
-      setCustomFilters(prev => [...prev, newFilter]);
-      setNewFilterName('');
-      setNewFilterCriteria('');
-      setShowFilterModal(false);
+      try {
+        const result = await emailApi.createCustomFilter(
+          newFilterName.trim(),
+          newFilterCriteria.trim()
+        );
+        
+        const newFilter = result.filter || {
+          id: result.id || `filter-${Date.now()}`,
+          name: newFilterName.trim(),
+          criteria: newFilterCriteria.trim()
+        };
+        
+        setCustomFilters(prev => [...prev, newFilter]);
+        setNewFilterName('');
+        setNewFilterCriteria('');
+        setShowFilterModal(false);
+      } catch (err) {
+        console.error('Failed to create filter:', err);
+        alert('Failed to create filter: ' + err.message);
+      }
     }
   };
 
-  const handleDeleteFilter = (filterId) => {
-    setCustomFilters(prev => prev.filter(f => f.id !== filterId));
-    if (selectedCategory === filterId) {
-      setSelectedCategory('all');
+  const handleDeleteFilter = async (filterId) => {
+    try {
+      await emailApi.deleteCustomFilter(filterId);
+      setCustomFilters(prev => prev.filter(f => f.id !== filterId));
+      if (selectedCategory === filterId) {
+        setSelectedCategory('all');
+      }
+    } catch (err) {
+      console.error('Failed to delete filter:', err);
+      alert('Failed to delete filter: ' + err.message);
     }
   };
 
@@ -581,7 +668,41 @@ export default function EmailDashboardDemo5() {
           {/* Email List */}
           <div className={styles.emailList} ref={emailListRef}>
             <div className={styles.emailListContent}>
-              {paginatedEmails.map(email => {
+              {/* Loading State */}
+              {loading && (
+                <div className={styles.loadingState}>
+                  <div className={styles.loadingSpinner}></div>
+                  <p>Loading emails...</p>
+                </div>
+              )}
+
+              {/* Error State */}
+              {error && !loading && (
+                <div className={styles.errorState}>
+                  <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <circle cx="12" cy="12" r="10"/>
+                    <line x1="12" y1="8" x2="12" y2="12"/>
+                    <line x1="12" y1="16" x2="12.01" y2="16"/>
+                  </svg>
+                  <p>{error}</p>
+                  <button onClick={() => window.location.reload()}>Retry</button>
+                </div>
+              )}
+
+              {/* Empty State */}
+              {!loading && !error && paginatedEmails.length === 0 && (
+                <div className={styles.emptyState}>
+                  <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+                    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                    <polyline points="22,6 12,13 2,6"/>
+                  </svg>
+                  <p>No emails found</p>
+                  <span>Try adjusting your filters or search query</span>
+                </div>
+              )}
+
+              {/* Email List */}
+              {!loading && !error && paginatedEmails.map(email => {
                 const senderName = getSenderName(email);
                 return (
                   <button

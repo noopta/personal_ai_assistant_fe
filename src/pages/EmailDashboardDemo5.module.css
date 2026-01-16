@@ -357,6 +357,7 @@
   height: 100%;
   overflow: hidden;
   position: relative;
+  transition: flex 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .emailListContent {
@@ -370,6 +371,98 @@
   min-height: 0;
   width: 100%;
   box-sizing: border-box;
+}
+
+/* Loading State */
+.loadingState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 80px 20px;
+  color: #64748b;
+  gap: 16px;
+}
+
+.loadingSpinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid #e2e8f0;
+  border-top-color: #6366f1;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Error State */
+.errorState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 80px 20px;
+  color: #ef4444;
+  gap: 16px;
+  text-align: center;
+}
+
+.errorState svg {
+  color: #ef4444;
+  opacity: 0.5;
+}
+
+.errorState p {
+  font-size: 16px;
+  font-weight: 500;
+  max-width: 400px;
+}
+
+.errorState button {
+  margin-top: 8px;
+  padding: 8px 24px;
+  background: #ef4444;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  transition: background 0.2s;
+}
+
+.errorState button:hover {
+  background: #dc2626;
+}
+
+/* Empty State */
+.emptyState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 80px 20px;
+  color: #94a3b8;
+  gap: 12px;
+  text-align: center;
+}
+
+.emptyState svg {
+  opacity: 0.3;
+  margin-bottom: 8px;
+}
+
+.emptyState p {
+  font-size: 18px;
+  font-weight: 600;
+  color: #64748b;
+}
+
+.emptyState span {
+  font-size: 14px;
+  color: #94a3b8;
 }
 
 .emailListFooter {
@@ -729,21 +822,25 @@
   flex-direction: column;
   height: 100%;
   overflow: hidden;
-  animation: slideInEmailDetail 240ms ease-out;
+  animation: slideInEmailDetail 300ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .emailDetail.emailDetailClosing {
-  animation: slideOutEmailDetail 300ms ease-in forwards;
+  animation: slideOutEmailDetail 300ms cubic-bezier(0.4, 0, 0.2, 1) forwards;
 }
 
 @keyframes slideOutEmailDetail {
-  from {
+  0% {
     transform: translateX(0);
     opacity: 1;
+    max-width: 600px;
+    width: 50%;
   }
-  to {
+  100% {
     transform: translateX(100%);
     opacity: 0;
+    max-width: 0;
+    width: 0;
   }
 }
 
@@ -1555,13 +1652,17 @@
 }
 
 @keyframes slideInEmailDetail {
-  from {
+  0% {
     opacity: 0;
-    transform: translateX(16px);
+    transform: translateX(100%);
+    max-width: 0;
+    width: 0;
   }
-  to {
+  100% {
     opacity: 1;
     transform: translateX(0);
+    max-width: 600px;
+    width: 50%;
   }
 }
 
