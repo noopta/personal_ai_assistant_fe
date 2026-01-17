@@ -304,6 +304,14 @@ export default function EmailDashboardDemo5() {
       skipNextAutoScrollRef.current = true;
       setEmailContext(prev => [...prev, draggedEmail]);
       
+      // Debug: Log email being added to context
+      console.log('✅ Email added to context:', {
+        id: draggedEmail.id,
+        subject: draggedEmail.subject,
+        from: draggedEmail.from,
+        snippet: draggedEmail.snippet?.substring(0, 50) + '...'
+      });
+      
       // Add a message about the email being added to context
       setAiMessages(prev => [...prev, {
         role: 'assistant',
@@ -469,6 +477,15 @@ export default function EmailDashboardDemo5() {
     setAiMessages(prev => [...prev, { role: 'user', content: userMessage }]);
     setAiInput('');
     setAiLoading(true);
+
+    // Debug: Log email context being sent
+    if (emailContext.length > 0) {
+      console.log('📧 Sending email context to AI:', emailContext.map(e => ({
+        id: e.id,
+        subject: e.subject,
+        from: e.from
+      })));
+    }
 
     try {
       const response = await fetch(`${process.env.REACT_APP_AGENT_API_URL || 'https://api.airthreads.ai:5001'}/agent-rag-demo`, {

@@ -1613,6 +1613,47 @@
   word-break: break-word;
   overflow-wrap: anywhere;
   max-width: 100%;
+  overflow-x: hidden;
+}
+
+/* ReactMarkdown content overflow fixes */
+.aiMessageText p {
+  margin: 0 0 8px 0;
+  word-wrap: break-word;
+  overflow-wrap: anywhere;
+}
+
+.aiMessageText p:last-child {
+  margin-bottom: 0;
+}
+
+.aiMessageText code {
+  word-break: break-all;
+  overflow-wrap: anywhere;
+}
+
+.aiMessageText pre {
+  white-space: pre-wrap;
+  word-break: break-word;
+  overflow-x: auto;
+  max-width: 100%;
+}
+
+.aiMessageText a {
+  word-break: break-all;
+  overflow-wrap: anywhere;
+}
+
+.aiMessageText ul,
+.aiMessageText ol {
+  margin: 8px 0;
+  padding-left: 20px;
+}
+
+.aiMessageText li {
+  margin: 4px 0;
+  word-break: break-word;
+  overflow-wrap: anywhere;
 }
 
 .container.dark .aiMessageContent {
