@@ -1204,7 +1204,11 @@ export default function EmailDashboardDemo5() {
                             {msg.relevantEmails.map((email, emailIdx) => {
                               const isMeeting = email.eventRelated === true;
                               return (
-                                <div key={email.id || emailIdx} className={styles.relevantEmailCard}>
+                                <div 
+                                  key={email.id || emailIdx} 
+                                  className={styles.relevantEmailCard}
+                                  onClick={() => setSelectedEmail(email)}
+                                >
                                   {isMeeting && (
                                     <div className={styles.emailCardHeader}>
                                       <span className={styles.eventBadge}>
