@@ -100,17 +100,29 @@ export default function EmailDashboardDemo5() {
       setError(null);
       
       try {
-        // Map frontend category to backend category
-        const backendCategory = selectedCategory !== 'all' 
-          ? CATEGORY_MAPPING[selectedCategory]
-          : undefined;
+        let data;
+        
+        // Check if selected category is a custom filter (not in predefined categories)
+        const predefinedCategories = ['all', 'work', 'personal', 'finance', 'urgent', 'social'];
+        const isCustomFilter = !predefinedCategories.includes(selectedCategory);
+        
+        if (isCustomFilter) {
+          // Use custom filter API
+          console.log('🎯 Applying custom filter:', selectedCategory);
+          data = await emailApi.applyCustomFilter(selectedCategory, emailPage, EMAILS_PER_PAGE);
+        } else {
+          // Use regular category filter
+          const backendCategory = selectedCategory !== 'all' 
+            ? CATEGORY_MAPPING[selectedCategory]
+            : undefined;
 
-        const data = await emailApi.fetchEmails({
-          page: emailPage,
-          per_page: EMAILS_PER_PAGE,
-          category: backendCategory,
-          search: searchQuery || undefined,
-        });
+          data = await emailApi.fetchEmails({
+            page: emailPage,
+            per_page: EMAILS_PER_PAGE,
+            category: backendCategory,
+            search: searchQuery || undefined,
+          });
+        }
 
         console.log('Backend response:', data); // Debug log
 
