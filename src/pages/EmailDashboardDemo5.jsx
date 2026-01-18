@@ -1,9 +1,10 @@
 import React, { useState, useMemo, useRef, useEffect } from 'react';
-import { emailCategories } from '../data/mockEmailData';
 import { useTheme } from '../contexts/ThemeContext';
 import styles from './EmailDashboardDemo5.module.css';
 import * as emailApi from '../services/emailApi';
 import ReactMarkdown from 'react-markdown';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
 
 const SIDEBAR_CATEGORIES = [
   { id: 'all', label: 'All Mail' },
@@ -67,17 +68,16 @@ export default function EmailDashboardDemo5() {
   const [starredEmails, setStarredEmails] = useState(new Set());
   const [archivedEmails, setArchivedEmails] = useState(new Set());
   
-  // Reply/Forward/Calendar modals
+  // Reply/Forward modals & Calendar panel
   const [replyModalOpen, setReplyModalOpen] = useState(false);
   const [forwardModalOpen, setForwardModalOpen] = useState(false);
-  const [calendarModalOpen, setCalendarModalOpen] = useState(false);
+  const [calendarPanelOpen, setCalendarPanelOpen] = useState(false);
   const [integrationsMenuOpen, setIntegrationsMenuOpen] = useState(false);
   const [replyContent, setReplyContent] = useState('');
   const [forwardTo, setForwardTo] = useState('');
   const [forwardNote, setForwardNote] = useState('');
   const [eventTitle, setEventTitle] = useState('');
-  const [eventDate, setEventDate] = useState('');
-  const [eventTime, setEventTime] = useState('');
+  const [eventDateTime, setEventDateTime] = useState(new Date());
   const [eventNotes, setEventNotes] = useState('');
   
   // Custom Filters
@@ -126,15 +126,32 @@ export default function EmailDashboardDemo5() {
 
         console.log('Backend response:', data); // Debug log
 
+        // Handle different response structures
+        // Custom filter endpoints return: { results: [], count: N, filter_id: "..." }
+        // Regular email endpoints return: { emails: [], pagination: {...}, categoryCounts: {...} }
+        const isFilterResponse = isCustomFilter && data?.results;
+        
         // Ensure we have arrays and objects, not null/undefined
-        const safeEmails = Array.isArray(data?.emails) ? data.emails : [];
-        const safePagination = data?.pagination && typeof data.pagination === 'object' ? data.pagination : {
-          currentPage: 1,
-          totalPages: 1,
-          hasNextPage: false,
-          hasPrevPage: false,
-          totalCount: 0
-        };
+        const safeEmails = isFilterResponse 
+          ? (Array.isArray(data.results) ? data.results : [])
+          : (Array.isArray(data?.emails) ? data.emails : []);
+          
+        const safePagination = isFilterResponse
+          ? {
+              currentPage: emailPage,
+              totalPages: Math.ceil((data.count || 0) / EMAILS_PER_PAGE),
+              hasNextPage: (data.count || 0) > (emailPage * EMAILS_PER_PAGE),
+              hasPrevPage: emailPage > 1,
+              totalCount: data.count || 0
+            }
+          : (data?.pagination && typeof data.pagination === 'object' ? data.pagination : {
+              currentPage: 1,
+              totalPages: 1,
+              hasNextPage: false,
+              hasPrevPage: false,
+              totalCount: 0
+            });
+            
         const safeCategoryCounts = data?.categoryCounts && typeof data.categoryCounts === 'object' ? data.categoryCounts : {};
 
         setEmails(safeEmails);
@@ -263,10 +280,6 @@ export default function EmailDashboardDemo5() {
     // Update backend
     try {
       await emailApi.updateEmailStarStatus(emailId, newStarredStatus);
-      // Also update the email in local state
-      setEmails(prev => prev.map(email => 
-        email.id === emailId ? { ...email, isStarred: newStarredStatus } : email
-      ));
     } catch (err) {
       console.error('Failed to update star status:', err);
       // Revert on error
@@ -280,6 +293,11 @@ export default function EmailDashboardDemo5() {
         return next;
       });
     }
+    
+    // Update the email in local state
+    setEmails(prev => prev.map(email => 
+      email.id === emailId ? { ...email, isStarred: newStarredStatus } : email
+    ));
   };
 
   // Drag and Drop handlers
@@ -371,10 +389,9 @@ export default function EmailDashboardDemo5() {
 
   const handleOpenCalendarEvent = () => {
     setEventTitle(selectedEmail?.subject || '');
-    setEventDate('');
-    setEventTime('');
+    setEventDateTime(new Date()); // Set to current date/time
     setEventNotes('');
-    setCalendarModalOpen(true);
+    setCalendarPanelOpen(true);
   };
 
   const handleSendReply = () => {
@@ -393,9 +410,13 @@ export default function EmailDashboardDemo5() {
   };
 
   const handleCreateCalendarEvent = () => {
-    console.log('Creating event:', { eventTitle, eventDate, eventTime, eventNotes });
+    console.log('Creating event:', { 
+      eventTitle, 
+      eventDateTime: eventDateTime.toISOString(), 
+      eventNotes 
+    });
     // TODO: Backend integration
-    setCalendarModalOpen(false);
+    setCalendarPanelOpen(false);
   };
 
   // Custom Filter handlers
@@ -1409,73 +1430,87 @@ export default function EmailDashboardDemo5() {
         </div>
       )}
 
-      {/* Calendar Event Modal */}
-      {calendarModalOpen && (
-        <div className={styles.modalOverlay} onClick={() => setCalendarModalOpen(false)}>
-          <div className={styles.modal} onClick={(e) => e.stopPropagation()}>
-            <div className={styles.modalHeader}>
-              <h3>Create Calendar Event</h3>
-              <button className={styles.modalCloseBtn} onClick={() => setCalendarModalOpen(false)}>
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <line x1="18" y1="6" x2="6" y2="18"/>
-                  <line x1="6" y1="6" x2="18" y2="18"/>
-                </svg>
-              </button>
+      {/* Calendar Side Panel */}
+      {calendarPanelOpen && (
+        <div className={styles.calendarPanel}>
+          <div className={styles.calendarPanelHeader}>
+            <h3>Add to Calendar</h3>
+            <button 
+              className={styles.calendarPanelCloseBtn} 
+              onClick={() => setCalendarPanelOpen(false)}
+              aria-label="Close calendar"
+            >
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <line x1="18" y1="6" x2="6" y2="18"/>
+                <line x1="6" y1="6" x2="18" y2="18"/>
+              </svg>
+            </button>
+          </div>
+          
+          <div className={styles.calendarPanelContent}>
+            {/* Event Title */}
+            <div className={styles.calendarFormGroup}>
+              <label className={styles.calendarLabel}>Event Title</label>
+              <input
+                type="text"
+                className={styles.calendarInput}
+                value={eventTitle}
+                onChange={(e) => setEventTitle(e.target.value)}
+                placeholder="Meeting with..."
+              />
             </div>
-            <div className={styles.modalBody}>
-              <div className={styles.formGroup}>
-                <label>Event Title:</label>
-                <input
-                  type="text"
-                  className={styles.input}
-                  value={eventTitle}
-                  onChange={(e) => setEventTitle(e.target.value)}
-                  placeholder="Meeting with..."
-                />
-              </div>
-              <div className={styles.formRow}>
-                <div className={styles.formGroup}>
-                  <label>Date:</label>
-                  <input
-                    type="date"
-                    className={styles.input}
-                    value={eventDate}
-                    onChange={(e) => setEventDate(e.target.value)}
-                  />
-                </div>
-                <div className={styles.formGroup}>
-                  <label>Time:</label>
-                  <input
-                    type="time"
-                    className={styles.input}
-                    value={eventTime}
-                    onChange={(e) => setEventTime(e.target.value)}
-                  />
-                </div>
-              </div>
-              <div className={styles.formGroup}>
-                <label>Notes (optional):</label>
-                <textarea
-                  className={styles.textarea}
-                  rows={4}
-                  value={eventNotes}
-                  onChange={(e) => setEventNotes(e.target.value)}
-                  placeholder="Meeting agenda, location, etc..."
+
+            {/* Calendar Date Picker */}
+            <div className={styles.calendarFormGroup}>
+              <label className={styles.calendarLabel}>Date & Time</label>
+              <div className={styles.calendarPickerContainer}>
+                <DatePicker
+                  selected={eventDateTime}
+                  onChange={(date) => setEventDateTime(date)}
+                  showTimeSelect
+                  timeFormat="h:mm aa"
+                  timeIntervals={15}
+                  dateFormat="MMMM d, yyyy h:mm aa"
+                  inline
+                  minDate={new Date()}
+                  calendarClassName={styles.inlineCalendar}
                 />
               </div>
             </div>
-            <div className={styles.modalFooter}>
-              <button className={styles.secondaryBtn} onClick={() => setCalendarModalOpen(false)}>
-                Cancel
-              </button>
-              <button 
-                className={styles.primaryBtn} 
-                onClick={handleCreateCalendarEvent}
-                disabled={!eventTitle.trim() || !eventDate || !eventTime}
-              >
-                Create Event
-              </button>
+
+            {/* Event Notes */}
+            <div className={styles.calendarFormGroup}>
+              <label className={styles.calendarLabel}>Notes (optional)</label>
+              <textarea
+                className={styles.calendarTextarea}
+                rows={3}
+                value={eventNotes}
+                onChange={(e) => setEventNotes(e.target.value)}
+                placeholder="Add location, meeting link, or notes..."
+              />
             </div>
+          </div>
+
+          {/* Footer Actions */}
+          <div className={styles.calendarPanelFooter}>
+            <button 
+              className={styles.calendarCancelBtn} 
+              onClick={() => setCalendarPanelOpen(false)}
+            >
+              Cancel
+            </button>
+            <button 
+              className={styles.calendarSaveBtn} 
+              onClick={handleCreateCalendarEvent}
+              disabled={!eventTitle.trim() || !eventDateTime}
+            >
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/>
+                <polyline points="17 21 17 13 7 13 7 21"/>
+                <polyline points="7 3 7 8 15 8"/>
+              </svg>
+              Save Event
+            </button>
           </div>
         </div>
       )}

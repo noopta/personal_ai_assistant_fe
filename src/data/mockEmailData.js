@@ -146,17 +146,34 @@ const generateMockEmails = () => {
     const threadId = hasThread ? `thread-${Math.floor(i / 3)}` : `thread-${i}`;
     
     // Generate full email body based on snippet
+    // Generate sender name for email body
+    const senderName = template.from.split('@')[0]
+      .split('.')
+      .map(w => w.charAt(0).toUpperCase() + w.slice(1))
+      .join(' ');
+    
     const bodyLines = [
       template.snippet,
       '',
       'Best regards,',
-      template.from.split('@')[0].split('.').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ')
+      senderName
     ];
+    
+    // Convert from string to object to match backend format
+    const fromEmail = template.from;
+    const fromName = fromEmail.split('@')[0]
+      .split('.')
+      .map(w => w.charAt(0).toUpperCase() + w.slice(1))
+      .join(' ');
     
     const email = {
       id: `email-${i}`,
       threadId,
       ...template,
+      from: {
+        email: fromEmail,
+        name: fromName
+      },
       body: bodyLines.join('\n'),
       receivedAt: date.toISOString(),
       isRead: Math.random() > 0.3,
@@ -197,7 +214,7 @@ const generateMockEmails = () => {
         // Add this as a reply to the original email
         const reply = {
           id: replyEmail.id,
-          from: replyEmail.from,
+          from: replyEmail.from, // Already an object from above
           body: replyTemplate.body,
           receivedAt: replyEmail.receivedAt,
           isRead: replyEmail.isRead,
