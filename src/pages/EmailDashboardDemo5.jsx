@@ -1,4 +1,5 @@
 import React, { useState, useMemo, useRef, useEffect } from 'react';
+import { emailCategories, mockEmails, getEmailsByCategory, getCategoryCounts } from '../data/mockEmailData';
 import { useTheme } from '../contexts/ThemeContext';
 import styles from './EmailDashboardDemo5.module.css';
 import * as emailApi from '../services/emailApi';
@@ -79,6 +80,15 @@ export default function EmailDashboardDemo5() {
   const [eventTitle, setEventTitle] = useState('');
   const [eventDateTime, setEventDateTime] = useState(new Date());
   const [eventNotes, setEventNotes] = useState('');
+  const [selectedCalendarDate, setSelectedCalendarDate] = useState(new Date());
+  
+  // Mock schedule data for demo
+  const mockSchedule = [
+    { time: '9:00 AM', title: 'Team Standup', color: '#1a73e8' },
+    { time: '11:30 AM', title: 'Product Review', color: '#e37400' },
+    { time: '2:00 PM', title: 'Client Meeting', color: '#d50000' },
+    { time: '4:00 PM', title: 'Design Review', color: '#0b8043' },
+  ];
   
   // Custom Filters
   const [customFilters, setCustomFilters] = useState([]);
@@ -93,9 +103,56 @@ export default function EmailDashboardDemo5() {
   const emailListRef = useRef(null);
   const integrationsMenuRef = useRef(null);
 
-  // Fetch emails from backend
+  // ===== LOCAL DEVELOPMENT MODE =====
+  // Set to true for local testing with mock data, false for production
+  const USE_MOCK_DATA = false;
+
+  // Fetch emails (from mock data or backend)
   useEffect(() => {
-    const fetchEmailsFromBackend = async () => {
+    if (USE_MOCK_DATA) {
+      // LOCAL DEVELOPMENT: Use mock data
+      setLoading(true);
+      
+      // Simulate network delay for realistic testing
+      setTimeout(() => {
+        let filteredEmails = [...mockEmails];
+        
+        // Filter by category
+        if (selectedCategory !== 'all') {
+          filteredEmails = filteredEmails.filter(email => 
+            email.category === selectedCategory
+          );
+        }
+        
+        // Filter by search query
+        if (searchQuery) {
+          const query = searchQuery.toLowerCase();
+          filteredEmails = filteredEmails.filter(email =>
+            email.subject.toLowerCase().includes(query) ||
+            email.snippet.toLowerCase().includes(query) ||
+            (email.from?.name?.toLowerCase().includes(query)) ||
+            (email.from?.email?.toLowerCase().includes(query))
+          );
+        }
+        
+        // Calculate counts
+        const counts = getCategoryCounts(mockEmails);
+        
+        setEmails(filteredEmails);
+        setBackendCategoryCounts(counts);
+        setBackendPagination({
+          currentPage: 1,
+          totalPages: 1,
+          hasNextPage: false,
+          hasPrevPage: false,
+          totalCount: filteredEmails.length
+        });
+        setLoading(false);
+      }, 300); // 300ms simulated delay
+      
+    } else {
+      // PRODUCTION: Fetch from backend
+      const fetchEmailsFromBackend = async () => {
       setLoading(true);
       setError(null);
       
@@ -164,10 +221,11 @@ export default function EmailDashboardDemo5() {
       } finally {
         setLoading(false);
       }
-    };
+      };
 
-    fetchEmailsFromBackend();
-  }, [selectedCategory, searchQuery, emailPage]);
+      fetchEmailsFromBackend();
+    }
+  }, [selectedCategory, searchQuery, emailPage, USE_MOCK_DATA]);
 
   // Reset to page 1 when filters change
   useEffect(() => {
@@ -178,17 +236,25 @@ export default function EmailDashboardDemo5() {
 
   // Load custom filters on mount
   useEffect(() => {
-    const loadCustomFilters = async () => {
-      try {
-        const filters = await emailApi.fetchCustomFilters();
-        setCustomFilters(filters.filters || filters || []);
-      } catch (err) {
-        console.error('Failed to load custom filters:', err);
-      }
-    };
+    if (USE_MOCK_DATA) {
+      // LOCAL DEVELOPMENT: Use empty filters or predefined mock filters
+      setCustomFilters([
+        // Example: { id: 'filter-1', name: 'Tech Updates', criteria: 'tech, coding, engineering' }
+      ]);
+    } else {
+      // PRODUCTION: Fetch from backend
+      const loadCustomFilters = async () => {
+        try {
+          const filters = await emailApi.fetchCustomFilters();
+          setCustomFilters(filters.filters || filters || []);
+        } catch (err) {
+          console.error('Failed to load custom filters:', err);
+        }
+      };
 
-    loadCustomFilters();
-  }, []);
+      loadCustomFilters();
+    }
+  }, [USE_MOCK_DATA]);
 
   // Computed values from backend data
   const filteredEmails = useMemo(() => {
@@ -277,21 +343,23 @@ export default function EmailDashboardDemo5() {
       return next;
     });
     
-    // Update backend
-    try {
-      await emailApi.updateEmailStarStatus(emailId, newStarredStatus);
-    } catch (err) {
-      console.error('Failed to update star status:', err);
-      // Revert on error
-      setStarredEmails(prev => {
-        const next = new Set(prev);
-        if (isCurrentlyStarred) {
-          next.add(emailId);
-        } else {
-          next.delete(emailId);
-        }
-        return next;
-      });
+    // Update backend (only in production mode)
+    if (!USE_MOCK_DATA) {
+      try {
+        await emailApi.updateEmailStarStatus(emailId, newStarredStatus);
+      } catch (err) {
+        console.error('Failed to update star status:', err);
+        // Revert on error
+        setStarredEmails(prev => {
+          const next = new Set(prev);
+          if (isCurrentlyStarred) {
+            next.add(emailId);
+          } else {
+            next.delete(emailId);
+          }
+          return next;
+        });
+      }
     }
     
     // Update the email in local state
@@ -422,14 +490,10 @@ export default function EmailDashboardDemo5() {
   // Custom Filter handlers
   const handleAddFilter = async () => {
     if (newFilterName.trim() && newFilterCriteria.trim()) {
-      try {
-        const result = await emailApi.createCustomFilter(
-          newFilterName.trim(),
-          newFilterCriteria.trim()
-        );
-        
-        const newFilter = result.filter || {
-          id: result.id || `filter-${Date.now()}`,
+      if (USE_MOCK_DATA) {
+        // LOCAL DEVELOPMENT: Create filter locally
+        const newFilter = {
+          id: `filter-${Date.now()}`,
           name: newFilterName.trim(),
           criteria: newFilterCriteria.trim()
         };
@@ -438,23 +502,51 @@ export default function EmailDashboardDemo5() {
         setNewFilterName('');
         setNewFilterCriteria('');
         setShowFilterModal(false);
-      } catch (err) {
-        console.error('Failed to create filter:', err);
-        alert('Failed to create filter: ' + err.message);
+      } else {
+        // PRODUCTION: Create via backend
+        try {
+          const result = await emailApi.createCustomFilter(
+            newFilterName.trim(),
+            newFilterCriteria.trim()
+          );
+          
+          const newFilter = result.filter || {
+            id: result.id || `filter-${Date.now()}`,
+            name: newFilterName.trim(),
+            criteria: newFilterCriteria.trim()
+          };
+          
+          setCustomFilters(prev => [...prev, newFilter]);
+          setNewFilterName('');
+          setNewFilterCriteria('');
+          setShowFilterModal(false);
+        } catch (err) {
+          console.error('Failed to create filter:', err);
+          alert('Failed to create filter: ' + err.message);
+        }
       }
     }
   };
 
   const handleDeleteFilter = async (filterId) => {
-    try {
-      await emailApi.deleteCustomFilter(filterId);
+    if (USE_MOCK_DATA) {
+      // LOCAL DEVELOPMENT: Delete filter locally
       setCustomFilters(prev => prev.filter(f => f.id !== filterId));
       if (selectedCategory === filterId) {
         setSelectedCategory('all');
       }
-    } catch (err) {
-      console.error('Failed to delete filter:', err);
-      alert('Failed to delete filter: ' + err.message);
+    } else {
+      // PRODUCTION: Delete via backend
+      try {
+        await emailApi.deleteCustomFilter(filterId);
+        setCustomFilters(prev => prev.filter(f => f.id !== filterId));
+        if (selectedCategory === filterId) {
+          setSelectedCategory('all');
+        }
+      } catch (err) {
+        console.error('Failed to delete filter:', err);
+        alert('Failed to delete filter: ' + err.message);
+      }
     }
   };
 
@@ -1430,17 +1522,26 @@ export default function EmailDashboardDemo5() {
         </div>
       )}
 
-      {/* Calendar Side Panel */}
+      {/* Gmail-Style Calendar Side Panel */}
       {calendarPanelOpen && (
         <div className={styles.calendarPanel}>
+          {/* Header */}
           <div className={styles.calendarPanelHeader}>
-            <h3>Add to Calendar</h3>
+            <div className={styles.calendarHeaderLeft}>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+                <line x1="16" y1="2" x2="16" y2="6"/>
+                <line x1="8" y1="2" x2="8" y2="6"/>
+                <line x1="3" y1="10" x2="21" y2="10"/>
+              </svg>
+              <span>Calendar</span>
+            </div>
             <button 
               className={styles.calendarPanelCloseBtn} 
               onClick={() => setCalendarPanelOpen(false)}
-              aria-label="Close calendar"
+              aria-label="Close"
             >
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <line x1="18" y1="6" x2="6" y2="18"/>
                 <line x1="6" y1="6" x2="18" y2="18"/>
               </svg>
@@ -1448,68 +1549,131 @@ export default function EmailDashboardDemo5() {
           </div>
           
           <div className={styles.calendarPanelContent}>
-            {/* Event Title */}
-            <div className={styles.calendarFormGroup}>
-              <label className={styles.calendarLabel}>Event Title</label>
-              <input
-                type="text"
-                className={styles.calendarInput}
-                value={eventTitle}
-                onChange={(e) => setEventTitle(e.target.value)}
-                placeholder="Meeting with..."
-              />
-            </div>
-
-            {/* Calendar Date Picker */}
-            <div className={styles.calendarFormGroup}>
-              <label className={styles.calendarLabel}>Date & Time</label>
-              <div className={styles.calendarPickerContainer}>
+            {/* Mini Calendar */}
+            <div className={styles.miniCalendarSection}>
+              <div className={styles.miniCalendarWrapper}>
                 <DatePicker
-                  selected={eventDateTime}
-                  onChange={(date) => setEventDateTime(date)}
-                  showTimeSelect
-                  timeFormat="h:mm aa"
-                  timeIntervals={15}
-                  dateFormat="MMMM d, yyyy h:mm aa"
+                  selected={selectedCalendarDate}
+                  onChange={(date) => setSelectedCalendarDate(date)}
                   inline
-                  minDate={new Date()}
-                  calendarClassName={styles.inlineCalendar}
+                  calendarClassName={styles.miniCalendar}
                 />
               </div>
             </div>
 
-            {/* Event Notes */}
-            <div className={styles.calendarFormGroup}>
-              <label className={styles.calendarLabel}>Notes (optional)</label>
-              <textarea
-                className={styles.calendarTextarea}
-                rows={3}
-                value={eventNotes}
-                onChange={(e) => setEventNotes(e.target.value)}
-                placeholder="Add location, meeting link, or notes..."
+            {/* Today's Schedule */}
+            <div className={styles.scheduleSection}>
+              <div className={styles.scheduleHeader}>
+                <h3>{selectedCalendarDate.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' })}</h3>
+              </div>
+              <div className={styles.scheduleList}>
+                {mockSchedule.map((event, idx) => (
+                  <div key={idx} className={styles.scheduleItem}>
+                    <div className={styles.scheduleTime}>{event.time}</div>
+                    <div className={styles.scheduleEvent}>
+                      <div className={styles.scheduleEventBar} style={{ backgroundColor: event.color }} />
+                      <div className={styles.scheduleEventTitle}>{event.title}</div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Divider */}
+            <div className={styles.calendarDivider}>
+              <span>Create New Event</span>
+            </div>
+
+            {/* Create Event Form */}
+            {/* Event Title */}
+            <div className={styles.calendarInputWrapper}>
+              <input
+                type="text"
+                className={styles.calendarTitleInput}
+                value={eventTitle}
+                onChange={(e) => setEventTitle(e.target.value)}
+                placeholder="Add event title"
               />
             </div>
+
+            {/* Date & Time Section */}
+            <div className={styles.calendarSection}>
+              <div className={styles.calendarSectionIcon}>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <circle cx="12" cy="12" r="10"/>
+                  <polyline points="12 6 12 12 16 14"/>
+                </svg>
+              </div>
+              <div className={styles.calendarSectionContent}>
+                <div className={styles.calendarDateTimeRow}>
+                  <input
+                    type="date"
+                    className={styles.calendarDateInput}
+                    value={eventDateTime.toISOString().split('T')[0]}
+                    onChange={(e) => {
+                      const newDate = new Date(e.target.value);
+                      newDate.setHours(eventDateTime.getHours(), eventDateTime.getMinutes());
+                      setEventDateTime(newDate);
+                    }}
+                    min={new Date().toISOString().split('T')[0]}
+                  />
+                  <input
+                    type="time"
+                    className={styles.calendarTimeInput}
+                    value={eventDateTime.toTimeString().slice(0, 5)}
+                    onChange={(e) => {
+                      const [hours, minutes] = e.target.value.split(':');
+                      const newDate = new Date(eventDateTime);
+                      newDate.setHours(parseInt(hours), parseInt(minutes));
+                      setEventDateTime(newDate);
+                    }}
+                  />
+                </div>
+              </div>
+            </div>
+
+            {/* Notes Section */}
+            <div className={styles.calendarSection}>
+              <div className={styles.calendarSectionIcon}>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                  <polyline points="14 2 14 8 20 8"/>
+                  <line x1="16" y1="13" x2="8" y2="13"/>
+                  <line x1="16" y1="17" x2="8" y2="17"/>
+                  <line x1="10" y1="9" x2="8" y2="9"/>
+                </svg>
+              </div>
+              <div className={styles.calendarSectionContent}>
+                <textarea
+                  className={styles.calendarNotesTextarea}
+                  rows={3}
+                  value={eventNotes}
+                  onChange={(e) => setEventNotes(e.target.value)}
+                  placeholder="Add description or location"
+                />
+              </div>
+            </div>
+
+            {/* Email Context Info */}
+            {selectedEmail && (
+              <div className={styles.calendarEmailInfo}>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                  <polyline points="22,6 12,13 2,6"/>
+                </svg>
+                <span>From email: {selectedEmail.subject}</span>
+              </div>
+            )}
           </div>
 
           {/* Footer Actions */}
           <div className={styles.calendarPanelFooter}>
             <button 
-              className={styles.calendarCancelBtn} 
-              onClick={() => setCalendarPanelOpen(false)}
-            >
-              Cancel
-            </button>
-            <button 
               className={styles.calendarSaveBtn} 
               onClick={handleCreateCalendarEvent}
               disabled={!eventTitle.trim() || !eventDateTime}
             >
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/>
-                <polyline points="17 21 17 13 7 13 7 21"/>
-                <polyline points="7 3 7 8 15 8"/>
-              </svg>
-              Save Event
+              Save
             </button>
           </div>
         </div>
