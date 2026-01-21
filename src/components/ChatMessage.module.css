@@ -480,11 +480,186 @@
 }
 
 /* Email Cards Container */
-.emailCards {
+/* Email Results Container */
+.emailResultsContainer {
   margin-top: 16px;
+}
+
+/* Email Summary Card */
+.emailSummaryCard {
+  background: rgba(99, 102, 241, 0.08);
+  border: 1px solid rgba(99, 102, 241, 0.2);
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 12px;
+}
+
+.container.dark .emailSummaryCard {
+  background: rgba(99, 102, 241, 0.12);
+  border-color: rgba(99, 102, 241, 0.3);
+}
+
+.summaryHeader {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.summaryIcon {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  background: rgba(99, 102, 241, 0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.summaryIcon svg {
+  color: #6366f1;
+}
+
+.container.dark .summaryIcon {
+  background: rgba(99, 102, 241, 0.2);
+}
+
+.container.dark .summaryIcon svg {
+  color: #818cf8;
+}
+
+.summaryInfo {
+  flex: 1;
+}
+
+.summaryTitle {
+  font-size: 15px;
+  font-weight: 600;
+  color: #1e293b;
+  margin-bottom: 4px;
+}
+
+.container.dark .summaryTitle {
+  color: #f1f5f9;
+}
+
+.summarySubtitle {
+  font-size: 13px;
+  color: #64748b;
+}
+
+.container.dark .summarySubtitle {
+  color: #94a3b8;
+}
+
+.summaryActions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.viewInInboxBtn,
+.expandToggleBtn {
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  border: none;
+  outline: none;
+}
+
+.viewInInboxBtn {
+  background: #6366f1;
+  color: white;
+}
+
+.viewInInboxBtn:hover {
+  background: #4f46e5;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+}
+
+.expandToggleBtn {
+  background: rgba(100, 116, 139, 0.1);
+  color: #475569;
+  border: 1px solid rgba(100, 116, 139, 0.2);
+}
+
+.expandToggleBtn:hover {
+  background: rgba(100, 116, 139, 0.15);
+  border-color: rgba(100, 116, 139, 0.3);
+}
+
+.container.dark .expandToggleBtn {
+  background: rgba(148, 163, 184, 0.1);
+  color: #cbd5e1;
+  border-color: rgba(148, 163, 184, 0.2);
+}
+
+.container.dark .expandToggleBtn:hover {
+  background: rgba(148, 163, 184, 0.15);
+  border-color: rgba(148, 163, 184, 0.3);
+}
+
+/* Email Cards Container */
+.emailCards {
+  margin-top: 12px;
   display: flex;
   flex-direction: column;
   gap: 8px;
+  animation: slideDown 0.3s ease;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Show More Button */
+.showMoreBtn {
+  width: 100%;
+  padding: 12px;
+  background: rgba(100, 116, 139, 0.08);
+  border: 1px dashed rgba(100, 116, 139, 0.3);
+  border-radius: 8px;
+  color: #475569;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  margin-top: 8px;
+}
+
+.showMoreBtn:hover {
+  background: rgba(100, 116, 139, 0.12);
+  border-color: rgba(100, 116, 139, 0.4);
+}
+
+.container.dark .showMoreBtn {
+  background: rgba(148, 163, 184, 0.08);
+  border-color: rgba(148, 163, 184, 0.2);
+  color: #cbd5e1;
+}
+
+.container.dark .showMoreBtn:hover {
+  background: rgba(148, 163, 184, 0.12);
+  border-color: rgba(148, 163, 184, 0.3);
 }
 
 .meetingSummary {

@@ -10,7 +10,7 @@ import CreateEventModal from './CreateEventModal';
 import { getInitials, parseFromField, getMeetingTypeLabel } from '../utils/meetingParser';
 import logger from '../utils/logger';
 
-function ChatMessage({ type, content, relevantEmails, onSendMessage }) {
+function ChatMessage({ type, content, relevantEmails, onSendMessage, onViewInInbox }) {
   const { isDark } = useTheme();
   const [selectedEmailForEvent, setSelectedEmailForEvent] = useState(null);
   const [sidePanelEmail, setSidePanelEmail] = useState(null);
@@ -22,6 +22,11 @@ function ChatMessage({ type, content, relevantEmails, onSendMessage }) {
   const [forwardContent, setForwardContent] = useState('');
   const [isReplying, setIsReplying] = useState(false);
   const [isForwarding, setIsForwarding] = useState(false);
+  
+  // Email list display states
+  const [emailListExpanded, setEmailListExpanded] = useState(false);
+  const [showAllEmails, setShowAllEmails] = useState(false);
+  const INITIAL_DISPLAY_COUNT = 5;
 
   const components = {
     code({ node, inline, className, children, ...props }) {
@@ -182,6 +187,14 @@ function ChatMessage({ type, content, relevantEmails, onSendMessage }) {
 
   const hasEmails = relevantEmails?.length > 0;
   const meetingsDetected = relevantEmails?.filter(e => e.eventRelated && e.detectedMeeting)?.length || 0;
+  const displayEmails = showAllEmails ? relevantEmails : relevantEmails?.slice(0, INITIAL_DISPLAY_COUNT);
+  const hasMoreEmails = relevantEmails?.length > INITIAL_DISPLAY_COUNT;
+
+  const handleViewInInbox = () => {
+    if (onViewInInbox && relevantEmails) {
+      onViewInInbox(relevantEmails);
+    }
+  };
 
   if (type === 'assistant') {
     const fromInfo = sidePanelEmail ? parseFromField(sidePanelEmail.from) : null;
@@ -203,22 +216,104 @@ function ChatMessage({ type, content, relevantEmails, onSendMessage }) {
             />
             
             {hasEmails && (
-              <div className={styles.emailCards}>
-                {meetingsDetected > 0 && (
-                  <div className={styles.meetingSummary}>
-                    Found {meetingsDetected} meeting request{meetingsDetected > 1 ? 's' : ''} in {relevantEmails.length} email{relevantEmails.length > 1 ? 's' : ''}
+              <div className={styles.emailResultsContainer}>
+                {/* Compact Summary Card */}
+                <div className={styles.emailSummaryCard}>
+                  <div className={styles.summaryHeader}>
+                    <div className={styles.summaryIcon}>
+                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                        <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                        <polyline points="22,6 12,13 2,6"/>
+                      </svg>
+                    </div>
+                    <div className={styles.summaryInfo}>
+                      <div className={styles.summaryTitle}>
+                        Found {relevantEmails.length} email{relevantEmails.length !== 1 ? 's' : ''}
+                      </div>
+                      {meetingsDetected > 0 && (
+                        <div className={styles.summarySubtitle}>
+                          {meetingsDetected} meeting request{meetingsDetected > 1 ? 's' : ''} detected
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                  
+                  <div className={styles.summaryActions}>
+                    {onViewInInbox && (
+                      <button 
+                        className={styles.viewInInboxBtn}
+                        onClick={handleViewInInbox}
+                        title="Open in main inbox"
+                      >
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                          <polyline points="9 11 12 14 22 4"/>
+                          <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/>
+                        </svg>
+                        View in Inbox
+                      </button>
+                    )}
+                    <button 
+                      className={styles.expandToggleBtn}
+                      onClick={() => setEmailListExpanded(!emailListExpanded)}
+                    >
+                      {emailListExpanded ? (
+                        <>
+                          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                            <polyline points="18 15 12 9 6 15"/>
+                          </svg>
+                          Collapse
+                        </>
+                      ) : (
+                        <>
+                          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                            <polyline points="6 9 12 15 18 9"/>
+                          </svg>
+                          Expand
+                        </>
+                      )}
+                    </button>
+                  </div>
+                </div>
+
+                {/* Expandable Email Cards */}
+                {emailListExpanded && (
+                  <div className={styles.emailCards}>
+                    {displayEmails.map((email, idx) => (
+                      <EmailCard 
+                        key={email.id || idx}
+                        email={email}
+                        onCreateEvent={handleCreateEvent}
+                        onViewFullEmail={handleViewFullEmail}
+                        onReply={handleReply}
+                        onForward={handleForward}
+                      />
+                    ))}
+                    
+                    {/* Show More/Less Button */}
+                    {hasMoreEmails && (
+                      <button 
+                        className={styles.showMoreBtn}
+                        onClick={() => setShowAllEmails(!showAllEmails)}
+                      >
+                        {showAllEmails ? (
+                          <>
+                            Show Less
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                              <polyline points="18 15 12 9 6 15"/>
+                            </svg>
+                          </>
+                        ) : (
+                          <>
+                            Show {relevantEmails.length - INITIAL_DISPLAY_COUNT} More
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                              <polyline points="6 9 12 15 18 9"/>
+                            </svg>
+                          </>
+                        )}
+                      </button>
+                    )}
                   </div>
                 )}
-                {relevantEmails.map((email, idx) => (
-                  <EmailCard 
-                    key={email.id || idx}
-                    email={email}
-                    onCreateEvent={handleCreateEvent}
-                    onViewFullEmail={handleViewFullEmail}
-                    onReply={handleReply}
-                    onForward={handleForward}
-                  />
-                ))}
               </div>
             )}
           </div>
