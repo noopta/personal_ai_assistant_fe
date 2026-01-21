@@ -95,6 +95,14 @@ export default function EmailDashboardDemo5() {
   const [showFilterModal, setShowFilterModal] = useState(false);
   const [newFilterName, setNewFilterName] = useState('');
   const [newFilterCriteria, setNewFilterCriteria] = useState('');
+  
+  // AI email results display state
+  const [expandedEmailMessages, setExpandedEmailMessages] = useState(new Set());
+  const [showAllEmailsForMessage, setShowAllEmailsForMessage] = useState(new Set());
+  const [aiFilteredEmails, setAiFilteredEmails] = useState(null);
+  const [aiFilterLabel, setAiFilterLabel] = useState('');
+  const EMAILS_DISPLAY_LIMIT = 3;
+  
   const chatEndRef = useRef(null);
   const skipNextAutoScrollRef = useRef(false);
   const hasMountedRef = useRef(false);
@@ -258,8 +266,13 @@ export default function EmailDashboardDemo5() {
 
   // Computed values from backend data
   const filteredEmails = useMemo(() => {
+    // If AI has filtered emails, use those instead
+    if (aiFilteredEmails && aiFilteredEmails.length > 0) {
+      return aiFilteredEmails.filter(e => !archivedEmails.has(e.id));
+    }
+    // Otherwise use regular email list
     return emails.filter(e => !archivedEmails.has(e.id));
-  }, [emails, archivedEmails]);
+  }, [emails, archivedEmails, aiFilteredEmails]);
 
   const categoryCounts = useMemo(() => {
     // Use backend counts, but map to frontend categories
@@ -453,6 +466,23 @@ export default function EmailDashboardDemo5() {
     setForwardTo('');
     setForwardNote('');
     setForwardModalOpen(true);
+  };
+
+  // Handler to load AI chat results into main inbox
+  const handleViewEmailsInInbox = (emails, label = 'AI Results') => {
+    setAiFilteredEmails(emails);
+    setAiFilterLabel(label);
+    setSelectedEmail(null); // Close email detail panel
+    // Scroll to top of email list
+    if (emailListRef.current) {
+      emailListRef.current.scrollTop = 0;
+    }
+  };
+
+  // Clear AI filter and return to normal view
+  const handleClearAiFilter = () => {
+    setAiFilteredEmails(null);
+    setAiFilterLabel('');
   };
 
   const handleOpenCalendarEvent = () => {
@@ -928,6 +958,29 @@ export default function EmailDashboardDemo5() {
           {/* Email List */}
           <div className={styles.emailList} ref={emailListRef}>
             <div className={styles.emailListContent}>
+              {/* AI Filter Active Banner */}
+              {aiFilteredEmails && aiFilteredEmails.length > 0 && (
+                <div className={styles.aiFilterBanner}>
+                  <div className={styles.aiFilterInfo}>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                      <circle cx="12" cy="12" r="10"/>
+                      <path d="M12 6v6l4 2"/>
+                    </svg>
+                    <span>Showing <strong>{aiFilterLabel}</strong> from AI Assistant</span>
+                  </div>
+                  <button 
+                    className={styles.clearAiFilterBtn}
+                    onClick={handleClearAiFilter}
+                  >
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                      <line x1="18" y1="6" x2="6" y2="18"/>
+                      <line x1="6" y1="6" x2="18" y2="18"/>
+                    </svg>
+                    Clear Filter
+                  </button>
+                </div>
+              )}
+
               {/* Loading State */}
               {loading && (
                 <div className={styles.loadingState}>
@@ -1384,57 +1437,148 @@ export default function EmailDashboardDemo5() {
                       {/* Render relevant emails if present */}
                       {msg.relevantEmails && msg.relevantEmails.length > 0 && (
                         <div className={styles.relevantEmailsContainer}>
-                          <div className={styles.emailsHeader}>
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                              <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
-                              <polyline points="22,6 12,13 2,6"/>
-                            </svg>
-                            <span>{msg.relevantEmails.length} email{msg.relevantEmails.length !== 1 ? 's' : ''} found</span>
-                            {msg.relevantEmails.filter(e => e.eventRelated).length > 0 && (
-                              <span className={styles.meetingBadge}>
-                                {msg.relevantEmails.filter(e => e.eventRelated).length} meeting{msg.relevantEmails.filter(e => e.eventRelated).length !== 1 ? 's' : ''}
-                              </span>
-                            )}
+                          {/* Compact Summary Card */}
+                          <div className={styles.emailResultsSummary}>
+                            <div className={styles.summaryLeft}>
+                              <div className={styles.summaryIcon}>
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                                  <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                                  <polyline points="22,6 12,13 2,6"/>
+                                </svg>
+                              </div>
+                              <div className={styles.summaryText}>
+                                <span className={styles.summaryCount}>{msg.relevantEmails.length} email{msg.relevantEmails.length !== 1 ? 's' : ''} found</span>
+                                {msg.relevantEmails.filter(e => e.eventRelated).length > 0 && (
+                                  <span className={styles.summaryMeetings}>
+                                    {msg.relevantEmails.filter(e => e.eventRelated).length} meeting{msg.relevantEmails.filter(e => e.eventRelated).length !== 1 ? 's' : ''}
+                                  </span>
+                                )}
+                              </div>
+                            </div>
+                            <div className={styles.summaryActions}>
+                              <button 
+                                className={styles.viewInInboxButton}
+                                onClick={() => handleViewEmailsInInbox(msg.relevantEmails, `${msg.relevantEmails.length} AI Results`)}
+                                title="Open in main inbox"
+                              >
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                                  <polyline points="9 11 12 14 22 4"/>
+                                  <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/>
+                                </svg>
+                                View in Inbox
+                              </button>
+                              <button 
+                                className={styles.expandToggle}
+                                onClick={() => {
+                                  setExpandedEmailMessages(prev => {
+                                    const newSet = new Set(prev);
+                                    if (newSet.has(i)) {
+                                      newSet.delete(i);
+                                    } else {
+                                      newSet.add(i);
+                                    }
+                                    return newSet;
+                                  });
+                                }}
+                              >
+                                {expandedEmailMessages.has(i) ? (
+                                  <>
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                                      <polyline points="18 15 12 9 6 15"/>
+                                    </svg>
+                                    Collapse
+                                  </>
+                                ) : (
+                                  <>
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                                      <polyline points="6 9 12 15 18 9"/>
+                                    </svg>
+                                    Expand
+                                  </>
+                                )}
+                              </button>
+                            </div>
                           </div>
-                          <div className={styles.emailCardsGrid}>
-                            {msg.relevantEmails.map((email, emailIdx) => {
-                              const isMeeting = email.eventRelated === true;
-                              return (
-                                <div 
-                                  key={email.id || emailIdx} 
-                                  className={styles.relevantEmailCard}
-                                  onClick={() => setSelectedEmail(email)}
+
+                          {/* Collapsible Email Cards Grid */}
+                          {expandedEmailMessages.has(i) && (
+                            <div className={styles.emailCardsGrid}>
+                              {(showAllEmailsForMessage.has(i) 
+                                ? msg.relevantEmails 
+                                : msg.relevantEmails.slice(0, EMAILS_DISPLAY_LIMIT)
+                              ).map((email, emailIdx) => {
+                                const isMeeting = email.eventRelated === true;
+                                return (
+                                  <div 
+                                    key={email.id || emailIdx} 
+                                    className={styles.relevantEmailCard}
+                                    onClick={() => setSelectedEmail(email)}
+                                  >
+                                    {isMeeting && (
+                                      <div className={styles.emailCardHeader}>
+                                        <span className={styles.eventBadge}>
+                                          {email.eventType?.replace(/_/g, ' ') || 'meeting'}
+                                        </span>
+                                        <span className={styles.confidenceBadge}>
+                                          {Math.round((email.confidence || 0.8) * 100)}%
+                                        </span>
+                                      </div>
+                                    )}
+                                    <h4 className={styles.emailCardSubject}>{email.subject}</h4>
+                                    <p className={styles.emailCardFrom}>
+                                      From: {email.from?.name || email.from?.email || 'Unknown'}
+                                    </p>
+                                    <p className={styles.emailCardDate}>
+                                      {email.date ? new Date(email.date).toLocaleDateString('en-US', {
+                                        month: 'short',
+                                        day: 'numeric',
+                                        year: 'numeric',
+                                        hour: 'numeric',
+                                        minute: '2-digit'
+                                      }) : ''}
+                                    </p>
+                                    {email.snippet && (
+                                      <p className={styles.emailCardSnippet}>{email.snippet}</p>
+                                    )}
+                                  </div>
+                                );
+                              })}
+                              
+                              {/* Show More/Less Button */}
+                              {msg.relevantEmails.length > EMAILS_DISPLAY_LIMIT && (
+                                <button 
+                                  className={styles.showMoreEmailsBtn}
+                                  onClick={() => {
+                                    setShowAllEmailsForMessage(prev => {
+                                      const newSet = new Set(prev);
+                                      if (newSet.has(i)) {
+                                        newSet.delete(i);
+                                      } else {
+                                        newSet.add(i);
+                                      }
+                                      return newSet;
+                                    });
+                                  }}
                                 >
-                                  {isMeeting && (
-                                    <div className={styles.emailCardHeader}>
-                                      <span className={styles.eventBadge}>
-                                        {email.eventType?.replace(/_/g, ' ') || 'meeting'}
-                                      </span>
-                                      <span className={styles.confidenceBadge}>
-                                        {Math.round((email.confidence || 0.8) * 100)}%
-                                      </span>
-                                    </div>
+                                  {showAllEmailsForMessage.has(i) ? (
+                                    <>
+                                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                                        <polyline points="18 15 12 9 6 15"/>
+                                      </svg>
+                                      Show Less
+                                    </>
+                                  ) : (
+                                    <>
+                                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                                        <polyline points="6 9 12 15 18 9"/>
+                                      </svg>
+                                      Show {msg.relevantEmails.length - EMAILS_DISPLAY_LIMIT} More
+                                    </>
                                   )}
-                                  <h4 className={styles.emailCardSubject}>{email.subject}</h4>
-                                  <p className={styles.emailCardFrom}>
-                                    From: {email.from?.name || email.from?.email || 'Unknown'}
-                                  </p>
-                                  <p className={styles.emailCardDate}>
-                                    {email.date ? new Date(email.date).toLocaleDateString('en-US', {
-                                      month: 'short',
-                                      day: 'numeric',
-                                      year: 'numeric',
-                                      hour: 'numeric',
-                                      minute: '2-digit'
-                                    }) : ''}
-                                  </p>
-                                  {email.snippet && (
-                                    <p className={styles.emailCardSnippet}>{email.snippet}</p>
-                                  )}
-                                </div>
-                              );
-                            })}
-                          </div>
+                                </button>
+                              )}
+                            </div>
+                          )}
                         </div>
                       )}
                     </div>

@@ -373,6 +373,102 @@
   box-sizing: border-box;
 }
 
+/* AI Filter Active Banner */
+.aiFilterBanner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
+  background: linear-gradient(135deg, rgba(99, 102, 241, 0.12), rgba(139, 92, 246, 0.08));
+  border: 1px solid rgba(99, 102, 241, 0.25);
+  border-radius: 10px;
+  margin-bottom: 12px;
+  animation: slideDown 0.3s ease-out;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.container.dark .aiFilterBanner {
+  background: linear-gradient(135deg, rgba(99, 102, 241, 0.15), rgba(139, 92, 246, 0.12));
+  border-color: rgba(129, 140, 248, 0.3);
+}
+
+.aiFilterInfo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex: 1;
+  min-width: 200px;
+}
+
+.aiFilterInfo svg {
+  color: #6366f1;
+  flex-shrink: 0;
+}
+
+.container.dark .aiFilterInfo svg {
+  color: #818cf8;
+}
+
+.aiFilterInfo span {
+  font-size: 0.875rem;
+  color: #475569;
+  line-height: 1.4;
+}
+
+.container.dark .aiFilterInfo span {
+  color: #cbd5e1;
+}
+
+.aiFilterInfo strong {
+  font-weight: 600;
+  color: #1e293b;
+}
+
+.container.dark .aiFilterInfo strong {
+  color: #f1f5f9;
+}
+
+.clearAiFilterBtn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  background: rgba(255, 255, 255, 0.9);
+  border: 1px solid rgba(100, 116, 139, 0.2);
+  border-radius: 6px;
+  color: #475569;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+}
+
+.clearAiFilterBtn:hover {
+  background: white;
+  border-color: rgba(100, 116, 139, 0.3);
+  color: #1e293b;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.container.dark .clearAiFilterBtn {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(148, 163, 184, 0.25);
+  color: #cbd5e1;
+}
+
+.container.dark .clearAiFilterBtn:hover {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: rgba(148, 163, 184, 0.35);
+  color: #f1f5f9;
+}
+
+.clearAiFilterBtn svg {
+  flex-shrink: 0;
+}
+
 /* Loading State */
 .loadingState {
   display: flex;
@@ -2442,6 +2538,162 @@
   max-width: 85%;
 }
 
+/* Email Results Summary Card */
+.emailResultsSummary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 14px;
+  background: rgba(99, 102, 241, 0.08);
+  border: 1px solid rgba(99, 102, 241, 0.2);
+  border-radius: 10px;
+  margin-bottom: 12px;
+  transition: all 0.2s ease;
+}
+
+.emailResultsSummary:hover {
+  background: rgba(99, 102, 241, 0.12);
+  border-color: rgba(99, 102, 241, 0.3);
+}
+
+.container.dark .emailResultsSummary {
+  background: rgba(99, 102, 241, 0.12);
+  border-color: rgba(129, 140, 248, 0.25);
+}
+
+.container.dark .emailResultsSummary:hover {
+  background: rgba(99, 102, 241, 0.15);
+  border-color: rgba(129, 140, 248, 0.35);
+}
+
+.summaryLeft {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex: 1;
+  min-width: 0;
+}
+
+.summaryActions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.summaryIcon {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  background: rgba(99, 102, 241, 0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.summaryIcon svg {
+  color: #4f46e5;
+}
+
+.container.dark .summaryIcon {
+  background: rgba(99, 102, 241, 0.2);
+}
+
+.container.dark .summaryIcon svg {
+  color: #a5b4fc;
+}
+
+.summaryText {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.summaryCount {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #4f46e5;
+}
+
+.container.dark .summaryCount {
+  color: #a5b4fc;
+}
+
+.summaryMeetings {
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: #64748b;
+}
+
+.container.dark .summaryMeetings {
+  color: #94a3b8;
+}
+
+.viewInInboxButton {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  background: #6366f1;
+  border: none;
+  border-radius: 6px;
+  color: white;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+}
+
+.viewInInboxButton:hover {
+  background: #4f46e5;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(99, 102, 241, 0.3);
+}
+
+.viewInInboxButton svg {
+  flex-shrink: 0;
+}
+
+.expandToggle {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  background: rgba(255, 255, 255, 0.6);
+  border: 1px solid rgba(99, 102, 241, 0.2);
+  border-radius: 6px;
+  color: #4f46e5;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+}
+
+.expandToggle:hover {
+  background: rgba(255, 255, 255, 0.9);
+  border-color: rgba(99, 102, 241, 0.3);
+  transform: translateY(-1px);
+}
+
+.container.dark .expandToggle {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(129, 140, 248, 0.25);
+  color: #a5b4fc;
+}
+
+.container.dark .expandToggle:hover {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(129, 140, 248, 0.35);
+}
+
+.expandToggle svg {
+  flex-shrink: 0;
+}
+
+/* Deprecated - kept for backwards compatibility */
 .emailsHeader {
   display: flex;
   align-items: center;
@@ -2483,6 +2735,57 @@
   display: flex;
   flex-direction: column;
   gap: 12px;
+  animation: slideDown 0.3s ease-out;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Show More Emails Button */
+.showMoreEmailsBtn {
+  width: 100%;
+  padding: 10px 12px;
+  margin-top: 4px;
+  background: rgba(100, 116, 139, 0.06);
+  border: 1px dashed rgba(100, 116, 139, 0.25);
+  border-radius: 8px;
+  color: #475569;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+.showMoreEmailsBtn:hover {
+  background: rgba(100, 116, 139, 0.1);
+  border-color: rgba(100, 116, 139, 0.35);
+}
+
+.container.dark .showMoreEmailsBtn {
+  background: rgba(148, 163, 184, 0.06);
+  border-color: rgba(148, 163, 184, 0.2);
+  color: #cbd5e1;
+}
+
+.container.dark .showMoreEmailsBtn:hover {
+  background: rgba(148, 163, 184, 0.1);
+  border-color: rgba(148, 163, 184, 0.3);
+}
+
+.showMoreEmailsBtn svg {
+  flex-shrink: 0;
 }
 
 .relevantEmailCard {
