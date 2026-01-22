@@ -2543,13 +2543,13 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 16px 18px;
+  padding: 14px 16px;
   background: rgba(99, 102, 241, 0.08);
   border: 1px solid rgba(99, 102, 241, 0.2);
   border-radius: 12px;
   margin-bottom: 16px;
   transition: all 0.2s ease;
-  gap: 16px;
+  gap: 12px;
   flex-wrap: wrap;
 }
 
@@ -2571,23 +2571,23 @@
 .summaryLeft {
   display: flex;
   align-items: center;
-  gap: 14px;
+  gap: 12px;
   flex: 1;
-  min-width: 200px;
+  min-width: 180px;
 }
 
 .summaryActions {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
   flex-shrink: 0;
   flex-wrap: wrap;
 }
 
 .summaryIcon {
-  width: 40px;
-  height: 40px;
-  border-radius: 10px;
+  width: 36px;
+  height: 36px;
+  border-radius: 9px;
   background: rgba(99, 102, 241, 0.15);
   display: flex;
   align-items: center;
@@ -2597,8 +2597,8 @@
 
 .summaryIcon svg {
   color: #4f46e5;
-  width: 18px;
-  height: 18px;
+  width: 16px;
+  height: 16px;
 }
 
 .container.dark .summaryIcon {
@@ -2612,7 +2612,7 @@
 .summaryText {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 3px;
   flex: 1;
   min-width: 0;
 }
@@ -2642,13 +2642,13 @@
 .viewInInboxButton {
   display: flex;
   align-items: center;
-  gap: 7px;
-  padding: 9px 16px;
+  gap: 6px;
+  padding: 8px 12px;
   background: #6366f1;
   border: none;
   border-radius: 8px;
   color: white;
-  font-size: 0.875rem;
+  font-size: 0.8125rem;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.2s ease;
@@ -2664,20 +2664,20 @@
 
 .viewInInboxButton svg {
   flex-shrink: 0;
-  width: 15px;
-  height: 15px;
+  width: 13px;
+  height: 13px;
 }
 
 .expandToggle {
   display: flex;
   align-items: center;
-  gap: 7px;
-  padding: 9px 16px;
+  gap: 6px;
+  padding: 8px 12px;
   background: rgba(255, 255, 255, 0.7);
   border: 1px solid rgba(99, 102, 241, 0.2);
   border-radius: 8px;
   color: #4f46e5;
-  font-size: 0.875rem;
+  font-size: 0.8125rem;
   font-weight: 500;
   cursor: pointer;
   transition: all 0.2s ease;
@@ -2705,8 +2705,8 @@
 
 .expandToggle svg {
   flex-shrink: 0;
-  width: 15px;
-  height: 15px;
+  width: 13px;
+  height: 13px;
 }
 
 /* Deprecated - kept for backwards compatibility */

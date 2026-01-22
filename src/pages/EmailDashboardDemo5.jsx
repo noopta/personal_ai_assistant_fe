@@ -116,7 +116,7 @@ export default function EmailDashboardDemo5() {
   const USE_MOCK_DATA = false;
   
   // Set to true to use mock AI responses (no backend call), false for real AI
-  const USE_MOCK_AI = true;
+  const USE_MOCK_AI = false;
 
   // Fetch emails (from mock data or backend)
   useEffect(() => {
