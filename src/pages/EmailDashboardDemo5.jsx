@@ -238,11 +238,15 @@ export default function EmailDashboardDemo5() {
     }
   }, [selectedCategory, searchQuery, emailPage, USE_MOCK_DATA]);
 
-  // Reset to page 1 when filters change
+  // Reset to page 1 and clear AI filter when filters change
   useEffect(() => {
     if (emailPage !== 1) {
       setEmailPage(1);
     }
+    // Clear AI filter when user manually changes category or searches
+    setAiFilteredEmails(null);
+    setAiFilterLabel('');
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedCategory, searchQuery]);
 
   // Load custom filters on mount
@@ -1632,7 +1636,7 @@ export default function EmailDashboardDemo5() {
                       )}
                     </div>
                   ))}
-                  {aiLoading && (
+                  {aiLoading && !aiMessages.some(msg => msg.isStreaming) && (
                     <div className={styles.aiMessage + ' ' + styles.assistant}>
                       <div className={styles.aiMessageAvatar}>
                         <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
