@@ -727,7 +727,7 @@ export default function EmailDashboardDemo5() {
     }
 
     try {
-      const response = await fetch(`${process.env.REACT_APP_AGENT_API_URL || 'https://api.airthreads.ai:5001'}/agent-rag-demo', {
+      const response = await fetch(`${process.env.REACT_APP_AGENT_API_URL || 'https://api.airthreads.ai:5001'}/agent-rag-demo`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         credentials: 'include',
