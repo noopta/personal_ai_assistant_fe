@@ -113,10 +113,10 @@ export default function EmailDashboardDemo5() {
 
   // ===== LOCAL DEVELOPMENT MODE =====
   // Set to true for local testing with mock data, false for production
-  const USE_MOCK_DATA = false;
+  const USE_MOCK_DATA = true;
   
   // Set to true to use mock AI responses (no backend call), false for real AI
-  const USE_MOCK_AI = false;
+  const USE_MOCK_AI = true;
 
   // Fetch emails (from mock data or backend)
   useEffect(() => {
@@ -707,17 +707,53 @@ export default function EmailDashboardDemo5() {
 
     // ===== MOCK AI MODE =====
     if (USE_MOCK_AI) {
-      // Simulate typing delay
-      setTimeout(() => {
-        const mockResponse = simulateAIResponse(userMessage);
-        setAiMessages(prev => [...prev, { 
-          role: 'assistant', 
-          content: mockResponse.content,
-          relevantEmails: mockResponse.emails,
-          isStreaming: false
-        }]);
-        setAiLoading(false);
-      }, 800);
+      // Simulate streaming behavior
+      const mockResponse = simulateAIResponse(userMessage);
+      const fullContent = mockResponse.content;
+      
+      // Add initial streaming message
+      setAiMessages(prev => [...prev, { 
+        role: 'assistant', 
+        content: '',
+        isStreaming: true
+      }]);
+      setAiLoading(false); // Hide 3-dot indicator immediately
+      
+      // Simulate streaming tokens
+      let currentContent = '';
+      const words = fullContent.split(' ');
+      let wordIndex = 0;
+      
+      const streamInterval = setInterval(() => {
+        if (wordIndex < words.length) {
+          currentContent += (wordIndex > 0 ? ' ' : '') + words[wordIndex];
+          wordIndex++;
+          
+          setAiMessages(prev => {
+            const updated = [...prev];
+            updated[updated.length - 1] = {
+              role: 'assistant',
+              content: currentContent,
+              isStreaming: true
+            };
+            return updated;
+          });
+        } else {
+          clearInterval(streamInterval);
+          // Mark as complete and add emails
+          setAiMessages(prev => {
+            const updated = [...prev];
+            updated[updated.length - 1] = {
+              role: 'assistant',
+              content: fullContent,
+              relevantEmails: mockResponse.emails,
+              isStreaming: false
+            };
+            return updated;
+          });
+        }
+      }, 50); // Stream one word every 50ms
+      
       return;
     }
 
@@ -747,6 +783,7 @@ export default function EmailDashboardDemo5() {
 
       let assistantContent = '';
       setAiMessages(prev => [...prev, { role: 'assistant', content: '', isStreaming: true }]);
+      setAiLoading(false); // Hide 3-dot indicator as soon as streaming starts
 
       let buffer = '';
       while (true) {

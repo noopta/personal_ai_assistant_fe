@@ -493,6 +493,17 @@
   to { transform: rotate(360deg); }
 }
 
+@keyframes emailFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 /* Error State */
 .errorState {
   display: flex;
@@ -579,11 +590,26 @@
   text-align: left;
   width: 100%;
   flex-shrink: 0;
+  animation: emailFadeIn 0.4s ease-out forwards;
+  opacity: 0;
 }
 
 .emailRow:active {
   cursor: grabbing;
 }
+
+/* Stagger animation for email list */
+.emailRow:nth-child(1) { animation-delay: 0ms; }
+.emailRow:nth-child(2) { animation-delay: 30ms; }
+.emailRow:nth-child(3) { animation-delay: 60ms; }
+.emailRow:nth-child(4) { animation-delay: 90ms; }
+.emailRow:nth-child(5) { animation-delay: 120ms; }
+.emailRow:nth-child(6) { animation-delay: 150ms; }
+.emailRow:nth-child(7) { animation-delay: 180ms; }
+.emailRow:nth-child(8) { animation-delay: 210ms; }
+.emailRow:nth-child(9) { animation-delay: 240ms; }
+.emailRow:nth-child(10) { animation-delay: 270ms; }
+.emailRow:nth-child(n+11) { animation-delay: 300ms; }
 
 .container.dark .emailRow {
   background: rgba(30, 41, 59, 0.9);
@@ -910,38 +936,41 @@
 .emailDetail {
   width: 50%;
   max-width: 600px;
-  background: rgba(255, 255, 255, 0.95);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
+  background: rgba(255, 255, 255, 0.98);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
   border-left: 1px solid rgba(226, 232, 240, 0.8);
   display: flex;
   flex-direction: column;
   height: 100%;
   overflow: hidden;
-  animation: slideInEmailDetail 300ms cubic-bezier(0.4, 0, 0.2, 1);
+  animation: slideInEmailDetail 300ms cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform;
+  backface-visibility: hidden;
+  transform: translateZ(0);
 }
 
 .emailDetail.emailDetailClosing {
-  animation: slideOutEmailDetail 300ms cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  animation: slideOutEmailDetail 300ms cubic-bezier(0.7, 0, 0.84, 0) forwards;
+  will-change: transform;
+  backface-visibility: hidden;
+}
+
+.emailDetail.emailDetailClosing .detailBody {
+  overflow: hidden;
 }
 
 @keyframes slideOutEmailDetail {
   0% {
-    transform: translateX(0);
-    opacity: 1;
-    max-width: 600px;
-    width: 50%;
+    transform: translate3d(0, 0, 0);
   }
   100% {
-    transform: translateX(100%);
-    opacity: 0;
-    max-width: 0;
-    width: 0;
+    transform: translate3d(100%, 0, 0);
   }
 }
 
 .container.dark .emailDetail {
-  background: rgba(30, 41, 59, 0.95);
+  background: rgba(30, 41, 59, 0.98);
   border-left-color: rgba(51, 65, 85, 0.8);
 }
 
@@ -1806,16 +1835,10 @@
 
 @keyframes slideInEmailDetail {
   0% {
-    opacity: 0;
-    transform: translateX(100%);
-    max-width: 0;
-    width: 0;
+    transform: translate3d(100%, 0, 0);
   }
   100% {
-    opacity: 1;
-    transform: translateX(0);
-    max-width: 600px;
-    width: 50%;
+    transform: translate3d(0, 0, 0);
   }
 }
 
@@ -2551,6 +2574,8 @@
   transition: all 0.2s ease;
   gap: 12px;
   flex-wrap: wrap;
+  animation: emailFadeIn 0.3s ease-out forwards;
+  opacity: 0;
 }
 
 .emailResultsSummary:hover {
@@ -2811,6 +2836,8 @@
   padding: 16px;
   transition: all 0.2s ease;
   cursor: pointer;
+  animation: emailFadeIn 0.4s ease-out forwards;
+  opacity: 0;
 }
 
 .relevantEmailCard:hover {
@@ -2818,6 +2845,14 @@
   box-shadow: 0 4px 12px rgba(99, 102, 241, 0.1);
   transform: translateY(-1px);
 }
+
+/* Stagger animation for AI email cards */
+.relevantEmailCard:nth-child(1) { animation-delay: 0ms; }
+.relevantEmailCard:nth-child(2) { animation-delay: 40ms; }
+.relevantEmailCard:nth-child(3) { animation-delay: 80ms; }
+.relevantEmailCard:nth-child(4) { animation-delay: 120ms; }
+.relevantEmailCard:nth-child(5) { animation-delay: 160ms; }
+.relevantEmailCard:nth-child(n+6) { animation-delay: 200ms; }
 
 .container.dark .relevantEmailCard {
   background: rgba(30, 41, 59, 0.8);
