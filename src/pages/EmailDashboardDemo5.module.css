@@ -2543,12 +2543,14 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 12px 14px;
+  padding: 16px 18px;
   background: rgba(99, 102, 241, 0.08);
   border: 1px solid rgba(99, 102, 241, 0.2);
-  border-radius: 10px;
-  margin-bottom: 12px;
+  border-radius: 12px;
+  margin-bottom: 16px;
   transition: all 0.2s ease;
+  gap: 16px;
+  flex-wrap: wrap;
 }
 
 .emailResultsSummary:hover {
@@ -2569,22 +2571,23 @@
 .summaryLeft {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 14px;
   flex: 1;
-  min-width: 0;
+  min-width: 200px;
 }
 
 .summaryActions {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 8px;
   flex-shrink: 0;
+  flex-wrap: wrap;
 }
 
 .summaryIcon {
-  width: 32px;
-  height: 32px;
-  border-radius: 8px;
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
   background: rgba(99, 102, 241, 0.15);
   display: flex;
   align-items: center;
@@ -2594,6 +2597,8 @@
 
 .summaryIcon svg {
   color: #4f46e5;
+  width: 18px;
+  height: 18px;
 }
 
 .container.dark .summaryIcon {
@@ -2607,13 +2612,16 @@
 .summaryText {
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: 4px;
+  flex: 1;
+  min-width: 0;
 }
 
 .summaryCount {
-  font-size: 0.875rem;
+  font-size: 0.9375rem;
   font-weight: 600;
   color: #4f46e5;
+  line-height: 1.4;
 }
 
 .container.dark .summaryCount {
@@ -2621,9 +2629,10 @@
 }
 
 .summaryMeetings {
-  font-size: 0.75rem;
+  font-size: 0.8125rem;
   font-weight: 500;
   color: #64748b;
+  line-height: 1.4;
 }
 
 .container.dark .summaryMeetings {
@@ -2633,64 +2642,71 @@
 .viewInInboxButton {
   display: flex;
   align-items: center;
-  gap: 6px;
-  padding: 6px 12px;
+  gap: 7px;
+  padding: 9px 16px;
   background: #6366f1;
   border: none;
-  border-radius: 6px;
+  border-radius: 8px;
   color: white;
-  font-size: 0.8125rem;
-  font-weight: 500;
+  font-size: 0.875rem;
+  font-weight: 600;
   cursor: pointer;
   transition: all 0.2s ease;
   flex-shrink: 0;
+  white-space: nowrap;
 }
 
 .viewInInboxButton:hover {
   background: #4f46e5;
   transform: translateY(-1px);
-  box-shadow: 0 2px 8px rgba(99, 102, 241, 0.3);
+  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
 }
 
 .viewInInboxButton svg {
   flex-shrink: 0;
+  width: 15px;
+  height: 15px;
 }
 
 .expandToggle {
   display: flex;
   align-items: center;
-  gap: 6px;
-  padding: 6px 12px;
-  background: rgba(255, 255, 255, 0.6);
+  gap: 7px;
+  padding: 9px 16px;
+  background: rgba(255, 255, 255, 0.7);
   border: 1px solid rgba(99, 102, 241, 0.2);
-  border-radius: 6px;
+  border-radius: 8px;
   color: #4f46e5;
-  font-size: 0.8125rem;
+  font-size: 0.875rem;
   font-weight: 500;
   cursor: pointer;
   transition: all 0.2s ease;
   flex-shrink: 0;
+  white-space: nowrap;
 }
 
 .expandToggle:hover {
-  background: rgba(255, 255, 255, 0.9);
+  background: white;
   border-color: rgba(99, 102, 241, 0.3);
   transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
 }
 
 .container.dark .expandToggle {
-  background: rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.1);
   border-color: rgba(129, 140, 248, 0.25);
   color: #a5b4fc;
 }
 
 .container.dark .expandToggle:hover {
-  background: rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.15);
   border-color: rgba(129, 140, 248, 0.35);
 }
 
 .expandToggle svg {
   flex-shrink: 0;
+  width: 15px;
+  height: 15px;
 }
 
 /* Deprecated - kept for backwards compatibility */

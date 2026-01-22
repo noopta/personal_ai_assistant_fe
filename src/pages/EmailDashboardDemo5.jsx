@@ -114,6 +114,9 @@ export default function EmailDashboardDemo5() {
   // ===== LOCAL DEVELOPMENT MODE =====
   // Set to true for local testing with mock data, false for production
   const USE_MOCK_DATA = false;
+  
+  // Set to true to use mock AI responses (no backend call), false for real AI
+  const USE_MOCK_AI = true;
 
   // Fetch emails (from mock data or backend)
   useEffect(() => {
@@ -298,11 +301,11 @@ export default function EmailDashboardDemo5() {
     const date = new Date(dateString);
     const now = new Date();
     const diffMins = Math.floor((now - date) / (1000 * 60));
-    if (diffMins < 60) return `${diffMins}m`;
+    if (diffMins < 60) return diffMins + 'm';
     const diffHours = Math.floor(diffMins / 60);
-    if (diffHours < 24) return `${diffHours}h`;
+    if (diffHours < 24) return diffHours + 'h';
     const diffDays = Math.floor(diffHours / 24);
-    return `${diffDays}d`;
+    return diffDays + 'd';
   };
 
   const getSenderName = (email) => {
@@ -427,7 +430,7 @@ export default function EmailDashboardDemo5() {
       setAiMessages(prev => [...prev, {
         role: 'assistant',
         variant: 'context',
-        content: `Added "${draggedEmail.subject}" to context. You can now ask questions about this email.`
+        content: 'Added "' + draggedEmail.subject + '" to context. You can now ask questions about this email.'
       }]);
     }
     
@@ -442,7 +445,7 @@ export default function EmailDashboardDemo5() {
       setAiMessages(prev => [...prev, {
         role: 'assistant',
         variant: 'context',
-        content: `Removed "${removedEmail.subject}" from context.`
+        content: 'Removed "' + removedEmail.subject + '" from context.'
       }]);
     }
   };
@@ -558,7 +561,7 @@ export default function EmailDashboardDemo5() {
       if (USE_MOCK_DATA) {
         // LOCAL DEVELOPMENT: Create filter locally
         const newFilter = {
-          id: `filter-${Date.now()}`,
+          id: 'filter-' + Date.now(),
           name: newFilterName.trim(),
           criteria: newFilterCriteria.trim()
         };
@@ -576,7 +579,7 @@ export default function EmailDashboardDemo5() {
           );
           
           const newFilter = result.filter || {
-            id: result.id || `filter-${Date.now()}`,
+            id: result.id || ('filter-' + Date.now()),
             name: newFilterName.trim(),
             criteria: newFilterCriteria.trim()
           };
@@ -615,48 +618,78 @@ export default function EmailDashboardDemo5() {
     }
   };
 
+  // Mock email data for testing UI
+  const getMockEmailResults = () => {
+    return [
+      {
+        id: 'mock-1',
+        subject: 'Quick sync about Titan',
+        from: { name: 'Mike Moore', email: 'mike@company.com' },
+        snippet: 'Hey, Can we do a quick 15-min sync about Titan? I have some questions about dependencies.',
+        date: new Date().toISOString(),
+        eventRelated: true,
+        detectedMeeting: { type: 'sync', confidence: 0.85 }
+      },
+      {
+        id: 'mock-2',
+        subject: 'Quick sync about Catalyst',
+        from: { name: 'John Thompson', email: 'john@company.com' },
+        snippet: 'Hey, Can we do a quick 15-min sync about Catalyst? I have some questions about technical approach.',
+        date: new Date().toISOString(),
+        eventRelated: true,
+        detectedMeeting: { type: 'sync', confidence: 0.82 }
+      },
+      {
+        id: 'mock-3',
+        subject: '1:1 meeting Friday',
+        from: { name: 'Sarah', email: 'sarah@company.com' },
+        snippet: "This is test email #91. Let's schedule a time to meet. Does next week work for you? Looking forward to catching up!",
+        date: new Date().toISOString(),
+        eventRelated: true,
+        detectedMeeting: { type: 'one_on_one', confidence: 0.90 }
+      },
+      {
+        id: 'mock-4',
+        subject: 'Project Nova - Milestone reached',
+        from: { name: 'David Thomas', email: 'david@company.com' },
+        snippet: "Great news! We've reached the MVP milestone for Nova. Next steps: Start marketing campaign",
+        date: new Date().toISOString(),
+        eventRelated: false
+      },
+      {
+        id: 'mock-5',
+        subject: 'Reminder: Task due soon',
+        from: { name: 'John', email: 'john@company.com' },
+        snippet: 'This is test email #84. This is a regular email with some content. Best regards',
+        date: new Date().toISOString(),
+        eventRelated: false
+      }
+    ];
+  };
+
   // Simulate AI response based on context
   const simulateAIResponse = (query) => {
     const lowerQuery = query.toLowerCase();
     
-    if (emailContext.length > 0) {
-      const contextSubjects = emailContext.map(e => e.subject).join(', ');
-      
-      if (lowerQuery.includes('summarize') || lowerQuery.includes('summary')) {
-        return `Based on the ${emailContext.length} email(s) in context:\n\n${emailContext.map((e, i) => `${i + 1}. "${e.subject}" - ${e.snippet}`).join('\n\n')}`;
-      }
-      
-      if (lowerQuery.includes('urgent') || lowerQuery.includes('important')) {
-        const urgent = emailContext.filter(e => e.urgency === 'high');
-        return urgent.length > 0 
-          ? `Found ${urgent.length} urgent email(s) in context: ${urgent.map(e => e.subject).join(', ')}`
-          : `None of the ${emailContext.length} email(s) in context are marked as urgent.`;
-      }
-      
-      if (lowerQuery.includes('from') || lowerQuery.includes('sender')) {
-        const senders = [...new Set(emailContext.map(e => getSenderName(e)))];
-        return `The emails in context are from: ${senders.join(', ')}`;
-      }
-      
-      return `I can see ${emailContext.length} email(s) in context: ${contextSubjects}. What would you like to know about them?`;
+    // Generate mock response with email results
+    const mockEmails = getMockEmailResults();
+    const meetingCount = mockEmails.filter(e => e.eventRelated).length;
+    
+    let response = {
+      content: '',
+      emails: mockEmails
+    };
+    
+    if (lowerQuery.includes('meeting') || lowerQuery.includes('sync')) {
+      response.content = 'I found **' + mockEmails.length + ' emails** related to your query. There are **' + meetingCount + ' meeting requests** that need your attention. Would you like me to help schedule these?';
+    } else if (lowerQuery.includes('urgent') || lowerQuery.includes('important')) {
+      response.content = 'I found **' + mockEmails.length + ' urgent emails** that require your attention. ' + meetingCount + ' of these contain meeting requests.';
+    } else {
+      const meetingText = meetingCount > 0 ? ("Including " + meetingCount + " meeting requests.") : "";
+      response.content = "I found **" + mockEmails.length + " relevant emails** for you. " + meetingText + " You can view them below or click 'View in Inbox' to see them in your main list.";
     }
     
-    // Default responses without context
-    if (lowerQuery.includes('urgent')) {
-      const urgent = filteredEmails.filter(e => e.urgency === 'high');
-      return `You have ${urgent.length} urgent email(s). ${urgent.slice(0, 3).map(e => e.subject).join(', ')}`;
-    }
-    
-    if (lowerQuery.includes('unread')) {
-      return `You have ${unreadCount} unread email(s) in your inbox.`;
-    }
-    
-    if (lowerQuery.includes('work')) {
-      const work = filteredEmails.filter(e => ['meetings', 'interviews'].includes(e.category));
-      return `You have ${work.length} work-related email(s).`;
-    }
-    
-    return "I'm here to help! Try asking about your emails, or drag emails into this chat to add them to context.";
+    return response;
   };
 
   const handleAiSubmit = async (e) => {
@@ -668,6 +701,22 @@ export default function EmailDashboardDemo5() {
     setAiInput('');
     setAiLoading(true);
 
+    // ===== MOCK AI MODE =====
+    if (USE_MOCK_AI) {
+      // Simulate typing delay
+      setTimeout(() => {
+        const mockResponse = simulateAIResponse(userMessage);
+        setAiMessages(prev => [...prev, { 
+          role: 'assistant', 
+          content: mockResponse.content,
+          relevantEmails: mockResponse.emails,
+          isStreaming: false
+        }]);
+        setAiLoading(false);
+      }, 800);
+      return;
+    }
+
     // Debug: Log email context being sent
     if (emailContext.length > 0) {
       console.log('📧 Sending email context to AI:', emailContext.map(e => ({
@@ -678,7 +727,7 @@ export default function EmailDashboardDemo5() {
     }
 
     try {
-      const response = await fetch(`${process.env.REACT_APP_AGENT_API_URL || 'https://api.airthreads.ai:5001'}/agent-rag-demo`, {
+      const response = await fetch(`${process.env.REACT_APP_AGENT_API_URL || 'https://api.airthreads.ai:5001'}/agent-rag-demo', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         credentials: 'include',
@@ -802,7 +851,7 @@ export default function EmailDashboardDemo5() {
     }
     // Scroll within the chat messages container only (not the whole page)
     if (chatEndRef.current && aiChatAreaRef.current) {
-      const messagesContainer = aiChatAreaRef.current.querySelector(`.${styles.aiMessages}`);
+      const messagesContainer = aiChatAreaRef.current.querySelector('.' + styles.aiMessages);
       if (messagesContainer) {
         messagesContainer.scrollTop = messagesContainer.scrollHeight;
       }
@@ -827,7 +876,7 @@ export default function EmailDashboardDemo5() {
   }, [integrationsMenuOpen]);
 
   return (
-    <div className={`${styles.container} ${isDark ? styles.dark : ''}`} data-theme={theme}>
+    <div className={styles.container + (isDark ? ' ' + styles.dark : '')} data-theme={theme}>
       {/* Left Sidebar */}
       <aside className={styles.sidebar}>
         <div className={styles.logo}>
@@ -847,7 +896,7 @@ export default function EmailDashboardDemo5() {
           {SIDEBAR_CATEGORIES.map(cat => (
             <button
               key={cat.id}
-              className={`${styles.navItem} ${selectedCategory === cat.id ? styles.active : ''}`}
+              className={styles.navItem + (selectedCategory === cat.id ? ' ' + styles.active : '')}
               onClick={() => setSelectedCategory(cat.id)}
             >
               <span className={styles.navLabel}>{cat.label}</span>
@@ -881,7 +930,7 @@ export default function EmailDashboardDemo5() {
               customFilters.map(filter => (
                 <div key={filter.id} className={styles.customFilterItem}>
                   <button
-                    className={`${styles.filterBtn} ${selectedCategory === filter.id ? styles.active : ''}`}
+                    className={styles.filterBtn + (selectedCategory === filter.id ? ' ' + styles.active : '')}
                     onClick={() => setSelectedCategory(filter.id)}
                   >
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -1020,7 +1069,7 @@ export default function EmailDashboardDemo5() {
                 return (
                   <button
                     key={email.id}
-                    className={`${styles.emailRow} ${selectedEmail?.id === email.id ? styles.selected : ''} ${!email.isRead ? styles.unread : ''}`}
+                    className={styles.emailRow + (selectedEmail?.id === email.id ? ' ' + styles.selected : '') + (!email.isRead ? ' ' + styles.unread : '')}
                     onClick={() => setSelectedEmail(email)}
                     draggable
                     onDragStart={(e) => handleDragStart(e, email)}
@@ -1057,7 +1106,7 @@ export default function EmailDashboardDemo5() {
                     </div>
                     <div className={styles.emailActions}>
                       <span 
-                        className={`${styles.starBtn} ${starredEmails.has(email.id) ? styles.starred : ''}`}
+                        className={styles.starBtn + (starredEmails.has(email.id) ? ' ' + styles.starred : '')}
                         onClick={(e) => toggleStar(e, email.id)}
                         role="button"
                         tabIndex={0}
@@ -1108,7 +1157,7 @@ export default function EmailDashboardDemo5() {
 
           {/* Email Detail Panel */}
           {selectedEmail && (
-            <div className={`${styles.emailDetail} ${isEmailDetailClosing ? styles.emailDetailClosing : ''}`}>
+            <div className={styles.emailDetail + (isEmailDetailClosing ? ' ' + styles.emailDetailClosing : '')}>
               <div className={styles.detailHeader}>
                 <div className={styles.detailHeaderLeft}>
                   <div 
@@ -1157,7 +1206,7 @@ export default function EmailDashboardDemo5() {
                   </div>
                   <p className={styles.aiSummaryText}>
                     {selectedEmail.replyCount > 0 
-                      ? `Thread with ${selectedEmail.replyCount} ${selectedEmail.replyCount === 1 ? 'reply' : 'replies'}. ${selectedEmail.urgency === 'high' ? 'Requires immediate attention.' : 'Active conversation.'}`
+                      ? ('Thread with ' + selectedEmail.replyCount + ' ' + (selectedEmail.replyCount === 1 ? 'reply' : 'replies') + '. ' + (selectedEmail.urgency === 'high' ? 'Requires immediate attention.' : 'Active conversation.'))
                       : 'This email requires immediate attention. Consider responding soon.'
                     }
                   </p>
@@ -1286,7 +1335,7 @@ export default function EmailDashboardDemo5() {
                       </button>
                       
                       <button 
-                        className={`${styles.integrationItem} ${styles.disabled}`}
+                        className={styles.integrationItem + ' ' + styles.disabled}
                         disabled
                       >
                         <div className={styles.integrationIcon} style={{ background: 'linear-gradient(135deg, #000, #2d2d2d)' }}>
@@ -1304,7 +1353,7 @@ export default function EmailDashboardDemo5() {
                       </button>
                       
                       <button 
-                        className={`${styles.integrationItem} ${styles.disabled}`}
+                        className={styles.integrationItem + ' ' + styles.disabled}
                         disabled
                       >
                         <div className={styles.integrationIcon} style={{ background: 'linear-gradient(135deg, #2ca01c, #8cc63e)' }}>
@@ -1332,7 +1381,7 @@ export default function EmailDashboardDemo5() {
 
       {/* AI Panel - Sidebar Mode */}
       <aside 
-        className={`${styles.aiPanel} ${styles.aiPanelSidebar} ${aiPanelCollapsed ? styles.collapsed : ''}`}
+        className={styles.aiPanel + ' ' + styles.aiPanelSidebar + (aiPanelCollapsed ? ' ' + styles.collapsed : '')}
         ref={aiPanelRef}
       >
           <div className={styles.aiHeader}>
@@ -1400,7 +1449,7 @@ export default function EmailDashboardDemo5() {
               )}
 
               <div 
-                className={`${styles.aiContent} ${isDraggingOverChat ? styles.dragOver : ''}`}
+                className={styles.aiContent + (isDraggingOverChat ? ' ' + styles.dragOver : '')}
                 ref={aiChatAreaRef}
                 onDragOver={handleDragOver}
                 onDragLeave={handleDragLeave}
@@ -1409,7 +1458,7 @@ export default function EmailDashboardDemo5() {
                 <div className={styles.aiMessages}>
                   {aiMessages.map((msg, i) => (
                     <div key={i}>
-                      <div className={`${styles.aiMessage} ${styles[msg.role]} ${msg.variant ? styles[msg.variant] : ''}`}>
+                      <div className={styles.aiMessage + ' ' + styles[msg.role] + ' ' + (msg.variant ? styles[msg.variant] : '')}>
                         {msg.role === 'assistant' && msg.variant !== 'context' && (
                           <div className={styles.aiMessageAvatar}>
                             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
@@ -1458,7 +1507,7 @@ export default function EmailDashboardDemo5() {
                             <div className={styles.summaryActions}>
                               <button 
                                 className={styles.viewInInboxButton}
-                                onClick={() => handleViewEmailsInInbox(msg.relevantEmails, `${msg.relevantEmails.length} AI Results`)}
+                                onClick={() => handleViewEmailsInInbox(msg.relevantEmails, msg.relevantEmails.length + ' AI Results')}
                                 title="Open in main inbox"
                               >
                                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -1584,7 +1633,7 @@ export default function EmailDashboardDemo5() {
                     </div>
                   ))}
                   {aiLoading && (
-                    <div className={`${styles.aiMessage} ${styles.assistant}`}>
+                    <div className={styles.aiMessage + ' ' + styles.assistant}>
                       <div className={styles.aiMessageAvatar}>
                         <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
                           <circle cx="12" cy="12" r="10"/>
@@ -1619,7 +1668,7 @@ export default function EmailDashboardDemo5() {
                 </form>
                 <div className={styles.aiHint}>
                   {emailContext.length > 0 
-                    ? `Ask about ${emailContext.length} email(s) in context`
+                    ? ('Ask about ' + emailContext.length + ' email(s) in context')
                     : 'Drag emails here to add to context'
                   }
                 </div>
