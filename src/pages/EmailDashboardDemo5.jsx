@@ -767,7 +767,10 @@ export default function EmailDashboardDemo5() {
     }
 
     try {
-      const response = await fetch(`${process.env.REACT_APP_AGENT_API_URL || 'https://api.airthreads.ai:5001'}/agent-rag-demo`, {
+      const apiUrl = `${process.env.REACT_APP_AGENT_API_URL || 'https://api.airthreads.ai:5001'}/agent-rag-demo`;
+      console.log('🤖 Calling AI API:', apiUrl);
+      
+      const response = await fetch(apiUrl, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         credentials: 'include',
@@ -775,7 +778,9 @@ export default function EmailDashboardDemo5() {
       });
 
       if (!response.ok) {
-        throw new Error('API not available');
+        const errorText = await response.text();
+        console.error('❌ AI API Response Error:', response.status, errorText);
+        throw new Error(`AI API returned ${response.status}: ${errorText || 'Unknown error'}`);
       }
 
       const reader = response.body.getReader();
@@ -858,15 +863,17 @@ export default function EmailDashboardDemo5() {
       });
 
     } catch (error) {
-      // Fallback to simulation if API fails
-      const simulatedResponse = simulateAIResponse(userMessage);
+      console.error('❌ AI API Error:', error);
+      
+      // Show error message to user
       setAiMessages(prev => {
         // Remove any streaming message that might have been added
         const filtered = prev.filter(m => !m.isStreaming);
         return [...filtered, { 
           role: 'assistant', 
-          content: simulatedResponse,
-          isStreaming: false
+          content: '⚠️ Unable to connect to AI service. Please check your backend connection and try again.\n\nError: ' + (error.message || 'Unknown error'),
+          isStreaming: false,
+          isError: true
         }];
       });
     } finally {
